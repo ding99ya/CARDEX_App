@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "scripts": {
+    "build": "npm install --force && npm run build"
+  }
+}
