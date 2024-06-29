@@ -13,9 +13,6 @@ const PresaleUserModel = require("./models/PresaleUserModel.js");
 const path = require("path");
 const axios = require("axios");
 const { PrivyClient } = require("@privy-io/server-auth");
-// const {
-//   default: InviteCode,
-// } = require("../client/src/components/InviteCode.jsx");
 
 require("dotenv").config();
 
