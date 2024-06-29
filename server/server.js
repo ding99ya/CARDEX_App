@@ -28,7 +28,7 @@ mongoose.connect(process.env.MONGO_URL);
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "https://cardex-app.vercel.app", credentials: true }));
 
 app.get("/test", (req, res) => {
   res.send("testtesttest!");
