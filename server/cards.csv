@@ -1,0 +1,16 @@
+name,photo,uniqueId,price,lastPrice,trend,category
+pokemon1,https://cardsimage.s3.amazonaws.com/pokemon/pokemon1.jpg,1,0.005,0.002,0.00,pokemon
+pokemon2,https://cardsimage.s3.amazonaws.com/pokemon/pokemon2.jpg,2,0.005,0.002,0.00,pokemon
+pokemon3,https://cardsimage.s3.amazonaws.com/pokemon/pokemon3.jpg,3,0.005,0.002,0.00,pokemon
+pokemon4,https://cardsimage.s3.amazonaws.com/pokemon/pokemon4.jpg,4,0.005,0.002,0.00,pokemon
+pokemon5,https://cardsimage.s3.amazonaws.com/pokemon/pokemon5.jpg,5,0.005,0.002,0.00,pokemon
+basketball1,https://cardsimage.s3.amazonaws.com/basketball/basketball1.jpg,6,0.005,0.002,0.00,basketball
+basketball2,https://cardsimage.s3.amazonaws.com/basketball/basketball2.jpg,7,0.005,0.002,0.00,basketball
+basketball3,https://cardsimage.s3.amazonaws.com/basketball/basketball3.jpg,8,0.005,0.002,0.00,basketball
+basketball4,https://cardsimage.s3.amazonaws.com/basketball/basketball4.jpg,9,0.005,0.002,0.00,basketball
+basketball5,https://cardsimage.s3.amazonaws.com/basketball/basketball5.jpg,10,0.005,0.002,0.00,basketball
+baseball1,https://cardsimage.s3.amazonaws.com/baseball/baseball1.jpg,11,0.005,0.002,0.00,baseball
+baseball2,https://cardsimage.s3.amazonaws.com/baseball/baseball2.jpg,12,0.005,0.002,0.00,baseball
+baseball3,https://cardsimage.s3.amazonaws.com/baseball/baseball3.jpg,13,0.005,0.002,0.00,baseball
+baseball4,https://cardsimage.s3.amazonaws.com/baseball/baseball4.jpg,14,0.005,0.002,0.00,baseball
+baseball5,https://cardsimage.s3.amazonaws.com/baseball/baseball5.jpg,15,0.005,0.002,0.00,baseball
