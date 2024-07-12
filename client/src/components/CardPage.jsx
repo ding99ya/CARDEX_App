@@ -173,6 +173,8 @@ function CardPage({ category }) {
       },
     ]);
 
+    window.scrollTo(0, 0);
+
     // Fetch cards array and render the cards name, image...etc
     const fetchData = async () => {
       try {
@@ -289,82 +291,137 @@ function CardPage({ category }) {
     }
   }
 
+  const sortUpArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-black"
+    >
+      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
+    </svg>
+  );
+
+  const sortDownArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-black"
+    >
+      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
+    </svg>
+  );
+
+  const upArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-green-500"
+    >
+      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
+    </svg>
+  );
+
+  const downArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-red-500"
+    >
+      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
+    </svg>
+  );
+
   return (
-    <div className="mx-auto mt-8">
-      <div className="flex items-center justify-end mb-8 space-x-2">
-        <p className="text-xl font-semibold">Sort Items By</p>
-        <div className="flex divide-x divide-gray-300 rounded-x1 overflow-hidden pr-10">
+    <div className="min-h-screen mx-auto bg-gray-100">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-end mb-2 space-x-2 lg:space-y-0 lg:space-x-4 p-2 lg:px-0 lg:ml-0 ml-10">
+        <p className="text-base mt-4 font-semibold lg:mt-0">Sort by</p>
+        <div className="flex flex-wrap items-center rounded-x1 overflow-hidden pr-10 mt-4 lg:mt-0">
           {[
             { label: "Latest", sortKey: "ipoTime", ascending: false },
-            { label: "Price High to Low", sortKey: "price", ascending: false },
-            { label: "Price Low to High", sortKey: "price", ascending: true },
-            { label: "Trend High to Low", sortKey: "trend", ascending: false },
-            { label: "Trend Low to High", sortKey: "trend", ascending: true },
+            { label: "Price", sortKey: "price", ascending: false },
+            { label: "Price", sortKey: "price", ascending: true },
+            { label: "Trend", sortKey: "trend", ascending: false },
+            { label: "Trend", sortKey: "trend", ascending: true },
             // { label: "Remove Sort", sortKey: "none" },
           ].map((button, index) => (
             <button
               key={index}
-              className={`px-6 py-2 transition duration-200 ease-in-out text-lg ${
+              className={`flex items-center px-2 py-1 ml-1 mr-1 mb-1 text-base rounded-full font-helvetica-neue text-black ${
                 selectedSort === button.sortKey + button.ascending
-                  ? "bg-blue-500 text-white hover:bg-blue-600"
-                  : "bg-transparent text-gray-700 hover:bg-gray-200"
+                  ? "bg-gray-300"
+                  : "bg-white hover:bg-gray-200"
               }`}
               onClick={() => sortCards(button.sortKey, button.ascending)}
-              style={{
-                borderTopLeftRadius: index === 0 ? "0.75rem" : "0",
-                borderBottomLeftRadius: index === 0 ? "0.75rem" : "0",
-                borderTopRightRadius: index === 4 ? "0.75rem" : "0",
-                borderBottomRightRadius: index === 4 ? "0.75rem" : "0",
-              }}
             >
-              {button.label}
+              <span className="flex items-center">
+                {button.label}
+                {button.label !== "Latest" &&
+                  (button.ascending ? sortUpArrow : sortDownArrow)}
+              </span>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 px-10">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-6">
         {cards.map((card, index) => (
           <div
             key={card.uniqueId}
             id={`card${card.uniqueId}`}
             onClick={() => handleCardClick(card)}
-            className="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden border-2 border-black transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 hover:scale-105"
+            className="cursor-pointer bg-white mt-4 mb-4 ml-4 mr-4 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+            style={{
+              borderTopLeftRadius: "1.25rem",
+              borderBottomLeftRadius: "1.25rem",
+              borderTopRightRadius: "1.25rem",
+              borderBottomRightRadius: "1.25rem",
+            }}
           >
-            <div className="p-6 text-center">
-              <h3 className="font-semibold text-xl md:text-2xl text-gray-800">
-                {card.name}
-              </h3>
+            <div className="flex justify-center items-center relative">
+              <img
+                src={card.photo}
+                alt={card.name}
+                className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
+                style={{ zIndex: 10, aspectRatio: "2 / 3" }}
+              />
             </div>
-            <img
-              src={card.photo}
-              alt={card.name}
-              className="w-full h-64 object-contain mb-2"
-            />
-            <div className="p-4 text-center w-full">
+            <div className="p-2 text-left px-6">
+              <span
+                className="w-full font-helvetica-neue text-sm font-bold"
+                style={{
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 2,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  width: "100%",
+                  whiteSpace: "normal",
+                }}
+              >
+                {card.name}
+              </span>
+            </div>
+
+            <div className="p-2 text-center w-full">
               <div className="flex justify-between w-full px-4">
-                <span className="text-lg font-semibold text-gray-600">
-                  Price:
-                </span>
-                <span className="text-lg font-semibold text-gray-600">
-                  {card.price} ETH
-                </span>
+                <span className="text-sm font-helvetica">Price:</span>
+                <span className="text-sm font-helvetica">{card.price} ETH</span>
               </div>
-              <div className="flex justify-end items-center w-full px-4 mt-2">
-                <span className="text-lg font-semibold">{card.trend}%</span>
+              <div className="flex justify-end items-center w-full px-4 mt-1">
+                <span className="text-sm font-helvetica">{card.trend}%</span>
                 {card.trend > 0 ? (
-                  <span className="text-green-500 ml-2">&#x21E7;</span> // Up arrow
+                  <span className="ml-2">{upArrow}</span>
                 ) : (
-                  <span className="text-red-500 ml-2">&#x21E9;</span> // Down arrow
+                  <span className="ml-2">{downArrow}</span>
                 )}
               </div>
-              <div className="flex justify-between w-full px-4 mt-2">
-                <span className="text-lg font-semibold text-gray-600">
-                  Shares:
-                </span>
-                <span className="text-lg font-semibold text-gray-600">
-                  {card.shares}
-                </span>
+              <div className="flex justify-between w-full px-4 mt-1">
+                <span className="text-sm font-helvetica">Holders:</span>
+                <span className="text-sm font-helvetica">{card.shares}</span>
               </div>
             </div>
           </div>

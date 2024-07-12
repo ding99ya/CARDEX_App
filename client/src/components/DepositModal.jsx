@@ -25,25 +25,16 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress }) => {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-lg"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
           <div className="flex flex-col justify-start text-center mt-4 p-4 px-8">
-            <div className="text-left mb-2">DEPOSIT</div>
-            <p className="text-left mt-8 mb-4">
-              You can bridge ETH to Base on&nbsp;
-              <a
-                href="https://bridge.base.org/deposit"
-                className="text-blue-600"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                official bridge here.
-              </a>
-            </p>
-            <div className="flex items-left space-x-2">
-              <span>{embeddedWalletAddress}</span>
-              <span
+            <div className="text-left text-xl font-bold mb-2">DEPOSIT</div>
+
+            <div className="flex flex-col items-start space-y-2 mt-4">
+              <p>Transfer ETH on Base network to </p>
+              <p>{embeddedWalletAddress}</p>
+              {/* <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setDepositHover(true)}
                 onMouseLeave={() => setDepositHover(false)}
@@ -60,11 +51,25 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress }) => {
                     Copied
                   </span>
                 )}
-              </span>
+              </span> */}
+              <p className="text-left text-base mb-4">
+                You can bridge ETH to Base on&nbsp;
+                <a
+                  href="https://bridge.base.org/deposit"
+                  className="text-blue-600"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  official bridge here.
+                </a>
+              </p>
             </div>
           </div>
-          <div className="flex p-4">
-            <button className="bg-white text-purple-800" onClick={onClose}>
+          <div className="flex p-4 px-8">
+            <button
+              className="w-1/3 py-4 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
+              onClick={onClose}
+            >
               <span className="font-semibold">CANCEL</span>
             </button>
           </div>

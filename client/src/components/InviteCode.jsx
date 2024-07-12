@@ -33,7 +33,7 @@ const InviteCode = () => {
         `/api/users/${embeddedWalletAddress.toString()}`
       );
       if (response.data.invited && response.data.username.length > 0) {
-        navigate("/homepage");
+        navigate("/market");
       } else if (response.data.invited && response.data.username.length === 0) {
         navigate("/login/username");
       } else if (!response.data.invited) {
@@ -98,7 +98,7 @@ const InviteCode = () => {
           setIsValidCode(true);
         } else {
           setIsValidCode(false);
-          showNotification("Invite code has reach use limit today!");
+          showNotification("Invite code has reached use limit today!");
         }
       }
     } catch (error) {
@@ -150,17 +150,16 @@ const InviteCode = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen bg-blue-200">
-      <div className="bg-white p-10 rounded-lg shadow-xl text-center">
-        <h1 className="text-4xl mb-4 font-bold">GOT AN INVITE CODE?</h1>
-        <p className="mb-12">
-          CARDEX is currently in Beta, using invite code to start your
-          collectible trading journey
+    <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
+      <div className="bg-white p-6 mx-10 rounded-lg shadow-xl text-center">
+        {/* <h1 className="text-4xl mb-4 font-bold">GOT AN INVITE CODE?</h1> */}
+        <p className="mb-8 font-helvetica-neue font-semibold text-xl">
+          CARDEX is in Beta, using invite code to start your collectible trading
         </p>
-        <div className="flex justify-between items-center mt-12 mb-2">
-          <span className="w-3/5">
+        <div className="flex justify-between items-center mt-4 mb-8">
+          <span className="sm:w-3/5 mx-auto">
             <input
-              className="border border-black w-full"
+              className="text-base border-2 border-black bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
               type="string"
               value={inviteCode}
               onChange={handleInviteCodeChange}
@@ -170,10 +169,10 @@ const InviteCode = () => {
         </div>
         <button
           onClick={handleInviteCodeInput}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
           type="button"
         >
-          CONTINUE
+          Continue
         </button>
         <p className="underline cursor-pointer" onClick={handleLogout}>
           login

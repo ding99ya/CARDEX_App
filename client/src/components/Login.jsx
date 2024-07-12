@@ -17,7 +17,7 @@ const Login = () => {
       );
 
       if (response.data.invited && response.data.username.length > 0) {
-        navigate("/homepage");
+        navigate("/market");
       } else if (response.data.invited && response.data.username.length === 0) {
         navigate("/login/username");
       } else if (!response.data.invited) {
@@ -54,22 +54,23 @@ const Login = () => {
 
   if (ready && !authenticated) {
     return (
-      <div className="flex justify-center items-center h-screen bg-blue-200">
-        <div className="bg-white p-10 rounded-lg shadow-xl text-center">
-          <h1 className="text-4xl mb-4 font-bold">CARDEX</h1>
-          <p className="mb-8">RWA EXPERIMENTATION FOR YOUR COLLECTIBLE</p>
+      <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
+        <div className="bg-white p-10 rounded-lg shadow-xl text-center z-10">
+          <h4 className="text-4xl mb-4 font-helvetica-neue font-semibold">
+            Welcome to CARDEX
+          </h4>
+          <p className="mb-8 font-helvetica-neue text-lg">
+            RWA Experimentation for Physical Collectible
+          </p>
           <button
             onClick={handleLogin}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
             type="button"
           >
             Sign In
           </button>
           <div className="mt-4">
-            <a
-              href="/privacy-policy"
-              className="text-blue-600 hover:text-blue-800 text-sm"
-            >
+            <a href="/privacy-policy" className="text-black underline text-sm">
               Privacy Policy
             </a>
           </div>

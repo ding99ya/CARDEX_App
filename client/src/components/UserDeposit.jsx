@@ -10,12 +10,20 @@ const UserDeposit = () => {
   const { ready, authenticated, login, user } = usePrivy();
 
   const [embeddedWalletAddress, setEmbeddedWalletAddress] = useState("");
+  const [shortAddress, setShortAddress] = useState("");
   const [depositHover, setDepositHover] = useState(false);
   const [depositCopied, setDepositCopied] = useState(false);
 
   useEffect(() => {
     if (ready && authenticated) {
       setEmbeddedWalletAddress(user.wallet.address);
+      setShortAddress(
+        !!user.wallet.address
+          ? `${user.wallet.address.slice(0, 10)}...${user.wallet.address.slice(
+              -8
+            )}`
+          : "0x0"
+      );
     }
   }, [ready, authenticated, user]);
 
@@ -27,18 +35,17 @@ const UserDeposit = () => {
   };
 
   const handleContinue = () => {
-    navigate("/homepage");
+    navigate("/market");
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-blue-200">
-      <div className="bg-white p-10 rounded-lg shadow-xl text-center">
-        <div className="flex flex-col justify-start text-center mt-4 p-4 px-8">
-          <div className="text-left mb-2">DEPOSIT ETH</div>
-          <p className="text-left mt-8 mb-4">
+    <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
+      <div className="bg-white p-10 mx-10 rounded-lg shadow-xl text-center">
+        <div className="p-4 px-8">
+          <p className="font-helvetica-neue font-semibold text-lg mt-4 mb-4">
             We suggest deposit some ETH to start trading collectible shares
           </p>
-          <p className="text-left mt-8 mb-4">
+          <p className="text-left mt-2 mb-4">
             You can bridge ETH to Base on&nbsp;
             <a
               href="https://bridge.base.org/deposit"
@@ -49,8 +56,8 @@ const UserDeposit = () => {
               official bridge here.
             </a>
           </p>
-          <div className="flex items-left space-x-2">
-            <span>{embeddedWalletAddress}</span>
+          <div className="flex items-left">
+            <span className="text-sm">{shortAddress}</span>
             <span
               className="relative cursor-pointer"
               onMouseEnter={() => setDepositHover(true)}
@@ -73,10 +80,10 @@ const UserDeposit = () => {
         </div>
         <button
           onClick={handleContinue}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
           type="button"
         >
-          CONTINUE
+          Continue
         </button>
       </div>
     </div>

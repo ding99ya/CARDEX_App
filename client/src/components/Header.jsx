@@ -1,47 +1,169 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "../index.css";
 
 function Header() {
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow w-full">
-      <div className="max-w-full w-full py-6 px-0 sm:px-0 lg:px-8 flex items-center justify-between">
-        <h1 className="text-6xl font-bold text-gray-900">
-          <Link to="/" className="text-gray-900 hover:text-gray-700">
-            CARDEX
-          </Link>
-        </h1>
+  const location = useLocation();
+  const [selectedButton, setSelectedButton] = useState("MARKET");
 
-        <nav>
-          <ul className="flex items-center space-x-10 ml-auto mr-10">
-            <li>
-              <Link
-                to="/Market"
-                className="px-10 py-4 bg-blue-600 text-white rounded-full text-2xl leading-loose transition-colors hover:bg-blue-700"
+  useEffect(() => {
+    const storedSelectedButton = localStorage.getItem("selectedButton");
+    console.log(location.pathname);
+
+    if (
+      location.pathname === "/" ||
+      location.pathname === "/market" ||
+      location.pathname === "/Market"
+    ) {
+      setSelectedButton("MARKET");
+    } else if (storedSelectedButton) {
+      setSelectedButton(storedSelectedButton);
+    }
+  }, []);
+
+  const handleButtonClick = (buttonText) => {
+    setSelectedButton(buttonText);
+    localStorage.setItem("selectedButton", buttonText);
+  };
+
+  return (
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white w-full hidden lg:block">
+        <div className="max-w-full w-full py-6 px-0 sm:px-0 lg:px-16 flex items-center justify-between">
+          <h1 className="text-6xl font-bold text-gray-900">
+            <Link
+              to="/"
+              className="ml-8 text-gray-900 hover:text-gray-700"
+              onClick={() => handleButtonClick("MARKET")}
+            >
+              CARDEX
+            </Link>
+          </h1>
+
+          <nav>
+            <ul className="flex items-center space-x-10 ml-auto mr-10">
+              <li>
+                <Link
+                  to="/Market"
+                  onClick={() => handleButtonClick("MARKET")}
+                  className={`text-black font-bold rounded-full px-8 py-3 border-2 border-black font-helvetica-neue ${
+                    selectedButton === "MARKET"
+                      ? "bg-black text-white"
+                      : "bg-white hover:bg-gray-200"
+                  }`}
+                >
+                  MARKET
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Leaderboard"
+                  onClick={() => handleButtonClick("LEADERBOARD")}
+                  className={`text-black font-bold rounded-full px-8 py-3 border-2 border-black font-helvetica-neue ${
+                    selectedButton === "LEADERBOARD"
+                      ? "bg-black text-white"
+                      : "bg-white hover:bg-gray-200"
+                  }`}
+                >
+                  LEADERBOARD
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Profile"
+                  onClick={() => handleButtonClick("PROFILE")}
+                  className={`text-black font-bold rounded-full px-8 py-3 border-2 border-black font-helvetica-neue ${
+                    selectedButton === "PROFILE"
+                      ? "bg-black text-white"
+                      : "bg-white hover:bg-gray-200"
+                  }`}
+                >
+                  PROFILE
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <footer className="fixed bottom-0 left-0 right-0 z-50 bg-white w-full lg:hidden">
+        <div className="max-w-full w-full">
+          <nav>
+            <ul className="flex justify-between w-full">
+              <li
+                className={`flex-1 flex flex-col items-center px-4 py-6 border-t-4 ${
+                  selectedButton === "MARKET"
+                    ? "border-black"
+                    : "border-transparent"
+                }`}
               >
-                MARKET
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/Leaderboard"
-                className="px-10 py-4 bg-blue-600 text-white rounded-full text-2xl leading-loose transition-colors hover:bg-blue-700"
+                <Link
+                  to="/Market"
+                  onClick={() => handleButtonClick("MARKET")}
+                  className="flex flex-col items-center w-full h-full text-black font-bold"
+                >
+                  <span
+                    className={` ${
+                      selectedButton === "MARKET"
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    MARKET
+                  </span>
+                </Link>
+              </li>
+              <li
+                className={`flex-1 flex flex-col items-center px-4 py-6 border-t-4 ${
+                  selectedButton === "LEADERBOARD"
+                    ? "border-black"
+                    : "border-transparent"
+                }`}
               >
-                LEADERBOARD
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/Profile"
-                className="px-10 py-4 bg-blue-600 text-white rounded-full text-2xl leading-loose transition-colors hover:bg-blue-700"
+                <Link
+                  to="/Leaderboard"
+                  onClick={() => handleButtonClick("LEADERBOARD")}
+                  className="flex flex-col items-center w-full h-full text-black font-bold"
+                >
+                  <span
+                    className={` ${
+                      selectedButton === "LEADERBOARD"
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    LEADERBOARD
+                  </span>
+                </Link>
+              </li>
+              <li
+                className={`flex-1 flex flex-col items-center px-4 py-6 border-t-4 ${
+                  selectedButton === "PROFILE"
+                    ? "border-black"
+                    : "border-transparent"
+                }`}
               >
-                PROFILE
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+                <Link
+                  to="/Profile"
+                  onClick={() => handleButtonClick("PROFILE")}
+                  className="flex flex-col items-center w-full h-full text-black font-bold"
+                >
+                  <span
+                    className={` ${
+                      selectedButton === "PROFILE"
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    PROFILE
+                  </span>
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </>
   );
 }
 

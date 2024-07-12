@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CardPage from "./CardPage";
 import PresaleCardPage from "./PresaleCardPage";
-import HomePage from "./HomePage";
+import Market from "./Market.jsx";
 import Login from "./Login";
 import InviteCode from "./InviteCode";
 import Username from "./Username.jsx";
@@ -16,7 +16,6 @@ import CardDetailPage from "./CardDetailPage";
 import PresaleCardDetailPage from "./PresaleCardDetailPage";
 import LeaderboardUser from "./LeaderboardUser";
 import ProtectedRoute from "./ProtectedRoute";
-import Price from "./CardPage";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -35,15 +34,15 @@ function App() {
             index
             element={
               <ProtectedRoute>
-                <HomePage />
+                <Market />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/homepage"
+            path="/market"
             element={
               <ProtectedRoute>
-                <HomePage />
+                <Market />
               </ProtectedRoute>
             }
           />
@@ -83,7 +82,7 @@ function App() {
             path="/market"
             element={
               <ProtectedRoute>
-                <HomePage />
+                <Market />
               </ProtectedRoute>
             }
           />
@@ -132,14 +131,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <LeaderboardUser />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/price"
-            element={
-              <ProtectedRoute>
-                <Price />
               </ProtectedRoute>
             }
           />

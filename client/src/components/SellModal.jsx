@@ -67,16 +67,18 @@ const SellModal = ({
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-lg"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
-          <div className="flex flex-col justify-center text-center mt-12 p-4 px-8">
-            <div className="text-left mb-2">Sell {cardName}</div>
-            <div className="flex justify-between items-center mt-12 mb-2">
-              <span>Sell Amount</span>
+          <div className="flex flex-col justify-center text-center mt-6 p-4 px-8">
+            <div className="text-left text-xl font-bold mb-2">
+              Sell {cardName}
+            </div>
+            <div className="flex justify-between items-center mt-6 mb-4">
+              <span className="text-base">Sell Amount</span>
               <span className="w-1/5">
                 <input
-                  className="border border-black w-full appearance-none"
+                  className="text-base border-2 border-black bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
                   type="number"
                   value={number}
                   min={0}
@@ -88,24 +90,27 @@ const SellModal = ({
               </span>
             </div>
             <div className="flex justify-between">
-              <span>Total Profit: </span>
-              <span>{profit} ETH</span>
+              <span className="text-base">Total Profit: </span>
+              <span className="text-base font-semibold">{profit} ETH</span>
             </div>
           </div>
-          <div className="flex p-4">
+          <div className="flex justify-between space-x-2 p-4 items-stretch mb-2">
             <button
-              // className="w-full my-2 py-4 border border-purple-800 bg-purple-800 text-white"
-              className={classNames("w-full my-2 py-4 border font-semibold", {
-                "border-purple-800 bg-purple-800 text-white": !(
-                  isNaN(number) ||
-                  !(number <= shareHolders && number <= userShares) ||
-                  number === 0
-                ),
-                "border-gray-400 bg-gray-400 text-gray-700":
-                  isNaN(number) ||
-                  !(number <= shareHolders && number <= userShares) ||
-                  number === 0,
-              })}
+              className={classNames(
+                "w-2/3 py-4 font-semibold rounded-full flex items-center justify-center",
+                {
+                  "border border-black bg-white text-black hover:bg-black hover:text-white":
+                    !(
+                      isNaN(number) ||
+                      !(number <= shareHolders && number <= userShares) ||
+                      number === 0
+                    ),
+                  "border border-black bg-gray-200 text-black":
+                    isNaN(number) ||
+                    !(number <= shareHolders && number <= userShares) ||
+                    number === 0,
+                }
+              )}
               disabled={
                 isNaN(number) ||
                 !(number <= shareHolders && number <= userShares) ||
@@ -116,7 +121,7 @@ const SellModal = ({
               <span className="font-semibold">SELL</span>
             </button>
             <button
-              className="bg-white text-purple-800"
+              className="w-1/3 py-4 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
               onClick={completeClose}
             >
               <span className="font-semibold">CANCEL</span>

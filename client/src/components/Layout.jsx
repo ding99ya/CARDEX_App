@@ -8,15 +8,15 @@ function Layout() {
     <div className="pl-0 pr-0 pt-4 pb-4 flex flex-col min-h-screen">
       <Header />
 
-      <main className="flex-grow pt-24 overflow-auto">
+      <main className="flex-grow pb-16 lg:pb-0 lg:pt-24 overflow-auto">
         <Outlet />
       </main>
 
-      <footer>
+      {/* <footer>
         <div className="px-6 py-6">
           <p>&copy; CARDEX. All rights reserved.</p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }

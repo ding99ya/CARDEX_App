@@ -24,10 +24,10 @@ const Leaderboard = mongoose.model("leaderboard", leaderboardSchema);
 
 // Function to create experimental data and push it to the collection
 const createLeaderboard = async () => {
-  const exampleDID1 = "clvoc7dzr00ftne36qf962c4u";
+  const exampleDID1 = "did:privy:clvoc7dzr00ftne36qf962c4u";
   const exampleWalletAddress1 = "0xaB6144cD2f8b54F71cB7f91F7b8e56917B721c65";
   const exampleUserName1 = "DING99YA";
-  const exampleDID2 = "clvjy5dj7000b11gxs0lbm4q3";
+  const exampleDID2 = "did:privy:clvjy5dj7000b11gxs0lbm4q3";
   const exampleWalletAddress2 = "0x0e2A4ae795BD9AA5c35c6278025020A7ceb92fE8";
   const exampleUserName2 = "FENGHU428";
 

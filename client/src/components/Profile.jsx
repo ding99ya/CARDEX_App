@@ -6,6 +6,7 @@ import { Contract, providers, BigNumber } from "ethers";
 import axios from "axios";
 import CopyIcon from "./Copy-Icon.jpg";
 import ETHSymbol from "./ETHSymbol.png";
+import Wallet from "./Wallet.jpg";
 import TwitterLogo from "./TwitterLogo.png";
 import DepositModal from "./DepositModal.jsx";
 import WithdrawModal from "./WithdrawModal.jsx";
@@ -32,9 +33,7 @@ function Profile() {
     linkTwitter,
     unlinkTwitter,
   } = usePrivy();
-  const { wallets } = useWallets();
-  const wallet = wallets[0];
-  const embeddedWalletAddress = wallet === undefined ? 0 : wallet.address;
+  const embeddedWalletAddress = user ? user.wallet.address : 0;
   const shortAddress = !!embeddedWalletAddress
     ? `${embeddedWalletAddress.slice(0, 6)}...${embeddedWalletAddress.slice(
         -4
@@ -128,11 +127,24 @@ function Profile() {
 
           const userCardIds = inventory.map((card) => card.uniqueId.toString());
 
+          const sharesMap = inventory.reduce((map, item) => {
+            map[item.uniqueId] = item.shares;
+            return map;
+          }, {});
+
           const multiCardsResponse = await axios.post(`/api/cards/multiple`, {
             uniqueIds: userCardIds,
           });
 
-          setUserCards(multiCardsResponse.data);
+          const fetchedUserCards = multiCardsResponse.data.map((item) => ({
+            ...item,
+            shares:
+              sharesMap[item.uniqueId] !== undefined
+                ? sharesMap[item.uniqueId]
+                : item.shares,
+          }));
+
+          setUserCards(fetchedUserCards);
 
           // Create a lookup object for cards
           const cardLookup = multiCardsResponse.data.reduce((acc, card) => {
@@ -269,13 +281,37 @@ function Profile() {
     }
   };
 
+  const upArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-green-500"
+    >
+      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
+    </svg>
+  );
+
+  const downArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-red-500"
+    >
+      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
+    </svg>
+  );
+
   return (
-    <div className="flex">
-      <div className="w-1/4 p-4 border-r border-gray-300 fixed h-full">
+    <div className="flex flex-col lg:flex-row px-8 lg:px-0 min-h-screen bg-gray-100">
+      <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col items-left">
-            <div className="flex items-left space-x-2">
-              <span className="text-gray-600">{currentUsername}</span>
+            <div className="flex items-left space-x-2 mb-2">
+              <span className="text-3xl text-black font-helvetica-neue font-semibold">
+                {currentUsername}
+              </span>
               <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setTwitterHover(true)}
@@ -300,7 +336,7 @@ function Profile() {
               </span>
             </div>
             <div className="flex items-left space-x-2">
-              <span className="text-gray-600">{shortAddress}</span>
+              <span className="text-black font-semibold">{shortAddress}</span>
               <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setHover(true)}
@@ -321,27 +357,100 @@ function Profile() {
               </span>
             </div>
           </div>
-          <button
+          <span
             onClick={exportWallet}
-            className="items-right bg-blue-500 text-white font-bold py-2 px-4 rounded"
+            className="cursor-pointer self-end items-right text-black font-semibold"
+            style={{ textDecoration: "underline" }}
           >
-            EXPORT KEY
-          </button>
+            Export Key
+          </span>
         </div>
         <div className="mt-6">
-          <div className="mb-4">
-            <div className="flex items-left text-lg">
-              Inventory Total Worth: {totalWorth} ETH
+          <div className="mb-4 border border-black rounded-3xl bg-white">
+            {/* <div className="flex items-left text-xl font-semibold">
+              Inventory Worth: {totalWorth} ETH
               <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
+            </div> */}
+            <div className="flex justify-between w-full mt-4 mx-4">
+              <span className="text-base font-semibold text-gray-500">
+                Invite Code:
+              </span>
+              <span className="text-base font-semibold text-gray-500 pr-8">
+                {currentInviteCode}
+              </span>
             </div>
-            <div className="text-lg">Your Invite Code: {currentInviteCode}</div>
-            <div className="text-lg">Total Papers: {currentUserPaperPoint}</div>
-            <div className="flex items-left text-lg">
+            <div className="flex justify-between w-full mt-2 mx-4">
+              <span className="text-base font-semibold text-gray-500">
+                Paper Points:
+              </span>
+              <span className="text-base font-semibold text-gray-500 pr-8">
+                {currentUserPaperPoint} Pts
+              </span>
+            </div>
+            <div className="flex justify-between w-full mt-2 mx-4">
+              <span className="text-base font-semibold text-gray-500">
+                Inventory Worth:
+              </span>
+              <span className="text-base font-semibold text-gray-500 pr-8">
+                {totalWorth} ETH
+              </span>
+            </div>
+            <div className="flex justify-center my-2 mx-4">
+              <button
+                onClick={() => claim()}
+                className="w-full bg-white text-black border-2 border-black font-semibold py-2 px-4 mt-2 mb-2 rounded-full hover:bg-black hover:text-white transition duration-300"
+              >
+                Claim for All
+              </button>
+            </div>
+            {/* <div className="text-lg">Your Invite Code: {currentInviteCode}</div>
+            <div className="text-lg">Total Papers: {currentUserPaperPoint}</div> */}
+            {/* <div className="flex items-left text-lg">
               Wallet Balance: {userETHBalance} ETH
               <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
+            </div> */}
+          </div>
+          <div className="flex flex-col items-left border border-black rounded-3xl bg-white">
+            <div className="flex items-left space-x-2 mb-2 mx-4">
+              <span className="relative mt-2">
+                <img src={Wallet} alt="Wallet" className="w-10 h-10" />
+              </span>
+              <span className="text-xl text-black font-semibold mt-4">
+                Wallet
+              </span>
+            </div>
+            <div className="flex justify-between w-full mx-4">
+              <span className="text-base font-semibold text-gray-500">
+                Balance:
+              </span>
+              <span className="text-base font-semibold text-gray-500 pr-8">
+                {userETHBalance} ETH
+              </span>
+            </div>
+            <div className="flex justify-between items-center space-x-2 mt-4 mx-4">
+              <button
+                onClick={() => setOpenDepositModal(true)}
+                className="w-1/2 bg-white text-black font-semibold items-center border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
+              >
+                Deposit
+              </button>
+              <button
+                onClick={() => setOpenWithdrawModal(true)}
+                className="w-1/2 bg-white text-black font-semibold items-center border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
+              >
+                Withdraw
+              </button>
+            </div>
+            <div className="flex justify-center my-4 mx-4">
+              <button
+                onClick={handleLogout}
+                className="w-full bg-red-500 text-white font-semibold px-4 py-2 rounded-full"
+              >
+                LOG OUT
+              </button>
             </div>
           </div>
-          <div className="flex space-x-2">
+          {/* <div className="flex space-x-2">
             <button
               onClick={() => setOpenDepositModal(true)}
               className="px-4 py-2 bg-blue-500 text-white rounded"
@@ -354,85 +463,100 @@ function Profile() {
             >
               Withdraw
             </button>
-          </div>
+          </div> */}
         </div>
-        <div className="flex justify-center mt-4">
+        {/* <div className="flex justify-center mt-4">
           <button
             onClick={handleLogout}
             className="items-center w-1/4 bg-blue-500 text-white font-bold py-2 px-4 rounded"
           >
             LOG OUT
           </button>
-        </div>
+        </div> */}
       </div>
-      <div className="ml-[25%] w-3/4 p-4">
+      <div className="w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
         {userCards.length === 0 ? (
           // overflow-y-auto
           <div className="flex flex-col items-center">
-            <p className="text-lg">No Collectible Yet</p>
-            <p className="text-gray-600">
+            <p className="text-lg mt-6">Empty Collectible Inventory</p>
+            {/* <p className="text-gray-600">
               You don’t have any collectibles yet.
-            </p>
+            </p> */}
           </div>
         ) : (
           <div>
-            <div className="bg-blue-500 text-white flex justify-between items-center p-4 rounded-t-lg">
+            {/* <div className="bg-white text-black flex justify-between items-center p-4 rounded-t-2xl">
               <span className="font-semibold text-xl">
                 Inventory Worth: {totalWorth} ETH
               </span>
-              {/* <span className="text-lg">TOTAL WORTH 0 ETH</span> */}
               <button
                 onClick={() => claim()}
-                className="bg-white text-blue-500 font-semibold py-2 px-4 rounded-lg hover:bg-gray-200 transition duration-300"
+                className="bg-white text-black border-1 border-black font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
               >
                 Claim for All
               </button>
-            </div>
+            </div> */}
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:px-4">
               {userCards.map((item) =>
                 item.category !== "presale" ? (
                   <div
-                    className="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden border-2 border-black transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 hover:scale-105"
+                    className="cursor-pointer bg-white mt-4 mb-2 ml-2 mr-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
+                    style={{
+                      borderTopLeftRadius: "1.25rem",
+                      borderBottomLeftRadius: "1.25rem",
+                      borderTopRightRadius: "1.25rem",
+                      borderBottomRightRadius: "1.25rem",
+                    }}
                   >
-                    <div className="p-6 text-center">
-                      <h3 className="font-semibold text-xl md:text-2xl text-gray-800">
-                        {item.name}
-                      </h3>
-                    </div>
-                    <div className="aspect-w-3 aspect-h-2 mb-4">
+                    <div className="flex justify-center items-center relative">
                       <img
                         src={item.photo}
                         alt={item.name}
-                        className="w-full h-full object-contain mb-2"
+                        className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
+                        style={{ zIndex: 10, aspectRatio: "2 / 3" }}
                       />
                     </div>
-                    <div className="p-4 text-center w-full">
+                    <div className="p-2 text-left px-6">
+                      <span
+                        className="w-full font-helvetica-neue text-sm font-bold"
+                        style={{
+                          display: "-webkit-box",
+                          WebkitBoxOrient: "vertical",
+                          WebkitLineClamp: 2,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          width: "100%",
+                          whiteSpace: "normal",
+                        }}
+                      >
+                        {item.name}
+                      </span>
+                    </div>
+                    <div className="p-2 text-center w-full">
                       <div className="flex justify-between w-full px-4">
-                        <span className="text-lg font-semibold text-gray-600">
-                          Price:
-                        </span>
-                        <span className="text-lg font-semibold text-gray-600">
+                        <span className="text-sm font-helvetica">Price:</span>
+                        <span className="text-sm font-helvetica">
                           {item.price} ETH
                         </span>
                       </div>
-                      <div className="flex justify-end items-center w-full px-4 mt-2">
-                        <span className="text-lg font-semibold">
+                      <div className="flex justify-end items-center w-full px-4 mt-1">
+                        <span className="text-sm font-helvetica">
                           {item.trend}%
                         </span>
                         {item.trend > 0 ? (
-                          <span className="text-green-500 ml-2">&#x25B2;</span> // Up arrow
+                          <span className="ml-2">{upArrow}</span>
                         ) : (
-                          <span className="text-red-500 ml-2">&#x25BC;</span> // Down arrow
+                          <span className="ml-2">{downArrow}</span>
                         )}
                       </div>
-                      <div className="flex justify-between w-full px-4 mt-2">
-                        <span className="text-lg font-semibold text-gray-600">
+                      <div className="flex justify-between w-full px-4 mt-1">
+                        <span className="text-sm font-helvetica">
                           Position:
                         </span>
-                        <span className="text-lg font-semibold text-gray-600">
+                        <span className="text-sm font-helvetica">
                           {item.shares}
                         </span>
                       </div>
@@ -440,36 +564,57 @@ function Profile() {
                   </div>
                 ) : (
                   <div
-                    className="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden border-2 border-black transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 hover:scale-105"
+                    className="cursor-pointer bg-white mt-4 mb-2 ml-2 mr-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
+                    style={{
+                      borderTopLeftRadius: "1.25rem",
+                      borderBottomLeftRadius: "1.25rem",
+                      borderTopRightRadius: "1.25rem",
+                      borderBottomRightRadius: "1.25rem",
+                    }}
                   >
-                    <div className="p-6 text-center">
-                      <h3 className="font-semibold text-xl md:text-2xl text-gray-800">
-                        {item.name}
-                      </h3>
-                    </div>
-                    <div className="aspect-w-3 aspect-h-2 mb-4">
+                    <div className="flex justify-center items-center relative">
                       <img
                         src={item.photo}
                         alt={item.name}
-                        className="w-full h-full object-contain mb-2"
+                        className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
+                        style={{ zIndex: 10, aspectRatio: "2 / 3" }}
                       />
                     </div>
-                    <div className="p-4 text-center w-full">
+                    <div className="p-2 text-left px-6">
+                      <span
+                        className="w-full font-helvetica-neue text-sm font-bold"
+                        style={{
+                          display: "-webkit-box",
+                          WebkitBoxOrient: "vertical",
+                          WebkitLineClamp: 2,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          width: "100%",
+                          whiteSpace: "normal",
+                        }}
+                      >
+                        {item.name}
+                      </span>
+                    </div>
+                    <div className="p-2 text-center w-full">
                       <div className="flex justify-between w-full px-4">
-                        <span className="text-lg font-semibold text-gray-600">
-                          Price:
-                        </span>
-                        <span className="text-lg font-semibold text-gray-600">
+                        <span className="text-sm font-helvetica">Price:</span>
+                        <span className="text-sm font-helvetica">
                           {item.price} ETH
                         </span>
                       </div>
-                      <div className="flex justify-between w-full px-4 mt-2">
-                        <span className="text-lg font-semibold text-gray-600">
+                      <div className="flex justify-between w-full px-4 mt-1">
+                        <span className="text-sm font-helvetica">
+                          Presale &nbsp;
+                        </span>
+                      </div>
+                      <div className="flex justify-between w-full px-4 mt-1">
+                        <span className="text-sm font-helvetica">
                           Position:
                         </span>
-                        <span className="text-lg font-semibold text-gray-600">
+                        <span className="text-sm font-helvetica">
                           {item.shares}
                         </span>
                       </div>

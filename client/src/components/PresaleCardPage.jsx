@@ -283,52 +283,66 @@ function PresaleCardPage({ category }) {
   };
 
   return (
-    <div className="mx-auto mt-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 px-10">
+    <div className="min-h-screen mx-auto bg-gray-100">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 px-10">
         {cards.map((card, index) => (
           <div
             key={card.uniqueId}
             id={`card${card.uniqueId}`}
             onClick={() => handleCardClick(card)}
-            className="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden border-2 border-black transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 hover:scale-105"
+            className="cursor-pointer bg-white mt-4 mb-4 ml-4 mr-4 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+            style={{
+              borderTopLeftRadius: "1.25rem",
+              borderBottomLeftRadius: "1.25rem",
+              borderTopRightRadius: "1.25rem",
+              borderBottomRightRadius: "1.25rem",
+            }}
           >
-            <div className="p-6 text-center">
-              <h3 className="font-semibold text-xl md:text-2xl text-gray-800">
-                {card.name}
-              </h3>
+            <div className="flex justify-center items-center relative">
+              <img
+                src={card.photo}
+                alt={card.name}
+                className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
+                style={{ zIndex: 10, aspectRatio: "2 / 3" }}
+              />
             </div>
-            <img
-              src={card.photo}
-              alt={card.name}
-              className="w-full h-64 object-contain mb-2"
-            />
+            <div className="p-2 text-left px-6">
+              <span
+                className="w-full font-helvetica-neue text-sm font-bold"
+                style={{
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 2,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  width: "100%",
+                  whiteSpace: "normal",
+                }}
+              >
+                {card.name}
+              </span>
+            </div>
             {isEligibleUser ? (
-              <div className="p-4 text-center w-full">
+              <div className="p-2 text-center w-full">
                 <div className="flex justify-between w-full px-4">
-                  <span className="text-lg font-semibold text-gray-600">
-                    Price:
-                  </span>
-                  <span className="text-lg font-semibold text-gray-600">
+                  <span className="text-sm font-helvetica">Price:</span>
+                  <span className="text-sm font-helvetica">
                     {card.price} ETH
                   </span>
                 </div>
-                <div className="flex justify-between w-full px-4 mt-2">
-                  <span className="text-lg font-semibold text-gray-600">
-                    Shares:
-                  </span>
-                  <span className="text-lg font-semibold text-gray-600">
-                    {card.shares}
-                  </span>
+                <div className="flex justify-between w-full px-4 mt-1">
+                  <span className="text-sm font-helvetica">Holders:</span>
+                  <span className="text-sm font-helvetica">{card.shares}</span>
                 </div>
               </div>
             ) : (
-              <div className="p-4 text-center w-full">
-                <div className="flex justify-center w-full px-4">
-                  <span className="text-lg font-semibold text-gray-600">
-                    Not Eligible for Current User
-                  </span>
-                </div>
+              // <div className="p-4 text-center w-full">
+              <div className="p-2 text-left px-6">
+                <span className="w-full text-sm font-helvetica">
+                  Current User Not Eligible for Presale
+                </span>
               </div>
+              // </div>
             )}
           </div>
         ))}

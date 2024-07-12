@@ -352,6 +352,8 @@ function CardDetailPage() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     // Fetch card with specific uniqueId
     const fetchCardData = async () => {
       try {
@@ -472,45 +474,76 @@ function CardDetailPage() {
     return <div>Loading...</div>;
   }
 
+  const upArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-green-500"
+    >
+      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
+    </svg>
+  );
+
+  const downArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-red-500"
+    >
+      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
+    </svg>
+  );
+
   return (
-    <div className="container mx-auto p-4 flex justify-between items-start">
-      <div className="w-1/2 ml-4">
-        <button
+    <div className="container mx-auto p-4 flex flex-col lg:flex-row justify-between items-start">
+      <div className="w-full lg:w-1/2 mb-4 lg:mb-0 lg:mr-4">
+        <span
           onClick={() => handleBackClick()}
-          className="bg-blue-500 text-white px-4 py-2 rounded shadow"
+          className="cursor-pointer inline-block bg-white text-black px-4 py-2 font-semibold whitespace-nowrap"
         >
-          Back
-        </button>
-        <img
-          src={card.photo}
-          alt={card.name}
-          className="w-1/2 max-h-screen object-cover rounded-lg shadow-lg"
-        />
+          &lt; Back
+        </span>
+        <div className="flex justify-center items-center w-full">
+          <img
+            src={card.photo}
+            alt={card.name}
+            className="w-1/2 max-h-screen object-cover"
+          />
+        </div>
       </div>
-      <div className="w-1/2 ml-4">
+      <div className="w-full lg:w-1/2">
         <div className="p-6">
-          <h2 className="text-3xl font-bold mb-4">
-            {card.uniqueId} - {card.name}
-          </h2>
-          <p className="text-lg">
-            <strong>Category:</strong> {card.category}
-          </p>
-          <p className="price text-lg">
-            <strong>Price:</strong> {card.price} ETH
-          </p>
-          <p className="trend text-lg">
-            <strong>Trend:</strong> {card.trend}%
-          </p>
-          <p className="shareHolders text-lg">
-            <strong>Share Holders:</strong> {card.shares}
-          </p>
-          <p className="userShares text-lg">
-            <strong>Your Shares:</strong> {userShares}
-          </p>
-          <div className="flex justify-center items-center space-x-2 mb-4">
+          <h2 className="text-2xl font-bold mb-4">{card.name}</h2>
+
+          <div className="text-center w-full">
+            <div className="flex justify-between w-full">
+              <span className="text-base font-helvetica">Price:</span>
+              <span className="text-base font-helvetica">{card.price} ETH</span>
+            </div>
+            <div className="flex justify-end items-center w-full mt-1">
+              <span className="text-base font-helvetica">{card.trend}%</span>
+              {card.trend > 0 ? (
+                <span className="ml-2">{upArrow}</span>
+              ) : (
+                <span className="ml-2">{downArrow}</span>
+              )}
+            </div>
+            <div className="flex justify-between w-full mt-1">
+              <span className="text-base font-helvetica">Holders:</span>
+              <span className="text-base font-helvetica">{card.shares}</span>
+            </div>
+            <div className="flex justify-between w-full mt-1">
+              <span className="text-base font-helvetica">Position:</span>
+              <span className="text-base font-helvetica">{userShares}</span>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center space-x-2 mt-4 mb-4">
             <button
               onClick={() => setOpenBuyModal(true)}
-              className="bg-blue-500 text-white px-4 py-2 rounded shadow"
+              className="w-1/3 bg-white text-black font-bold border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
             >
               Buy
             </button>
@@ -524,13 +557,16 @@ function CardDetailPage() {
             />
             <button
               onClick={() => setOpenSellModal(true)}
-              className={classNames("px-4 py-2 rounded shadow", {
-                "border-blue-500 bg-blue-500 text-white": !(
-                  userShares === 0 || card.shares === 0
-                ),
-                "border-gray-400 bg-gray-400 text-gray-700":
-                  userShares === 0 || card.shares === 0,
-              })}
+              className={classNames(
+                "w-1/3 px-4 py-2 font-bold border-2 border-black rounded-full shadow",
+                {
+                  "bg-white text-black hover:bg-black hover:text-white": !(
+                    userShares === 0 || card.shares === 0
+                  ),
+                  "bg-gray-200 text-black":
+                    userShares === 0 || card.shares === 0,
+                }
+              )}
               disabled={userShares === 0 || card.shares === 0}
             >
               Sell
@@ -547,7 +583,7 @@ function CardDetailPage() {
             />
             <button
               onClick={() => claim()}
-              className="bg-blue-500 text-white px-4 py-2 rounded shadow"
+              className="w-1/3 bg-white text-black font-bold border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
             >
               Claim
             </button>
