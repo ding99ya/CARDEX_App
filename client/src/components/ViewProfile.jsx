@@ -171,7 +171,7 @@ function ViewProfile() {
   );
 
   return (
-    <div className="flex flex-col px-8 lg:px-0 lg:flex-row min-h-screen bg-gray-100">
+    <div className="flex flex-col px-6 lg:px-0 lg:flex-row min-h-screen bg-gray-100">
       <div className="w-full lg:w-1/4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <span
           onClick={() => handleBackClick()}
@@ -252,7 +252,7 @@ function ViewProfile() {
               {userCards.map((item) =>
                 item.category !== "presale" ? (
                   <div
-                    className="cursor-pointer bg-white mt-4 mb-2 ml-2 mr-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
                     style={{
@@ -270,7 +270,7 @@ function ViewProfile() {
                         style={{ zIndex: 10, aspectRatio: "2 / 3" }}
                       />
                     </div>
-                    <div className="p-2 text-left px-6">
+                    <div className="p-2 text-left px-4">
                       <span
                         className="w-full font-helvetica-neue text-sm font-bold"
                         style={{
@@ -287,13 +287,13 @@ function ViewProfile() {
                       </span>
                     </div>
                     <div className="p-2 text-center w-full">
-                      <div className="flex justify-between w-full px-4">
+                      <div className="flex justify-between w-full px-2">
                         <span className="text-sm font-helvetica">Price:</span>
                         <span className="text-sm font-helvetica">
                           {item.price} ETH
                         </span>
                       </div>
-                      <div className="flex justify-end items-center w-full px-4 mt-1">
+                      <div className="flex justify-end items-center w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">
                           {item.trend}%
                         </span>
@@ -303,7 +303,7 @@ function ViewProfile() {
                           <span className="ml-2">{downArrow}</span>
                         )}
                       </div>
-                      <div className="flex justify-between w-full px-4 mt-1">
+                      <div className="flex justify-between w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">
                           Position:
                         </span>
@@ -315,7 +315,7 @@ function ViewProfile() {
                   </div>
                 ) : (
                   <div
-                    className="cursor-pointer bg-white mt-4 mb-2 ml-2 mr-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
                     style={{
@@ -333,7 +333,7 @@ function ViewProfile() {
                         style={{ zIndex: 10, aspectRatio: "2 / 3" }}
                       />
                     </div>
-                    <div className="p-2 text-left px-6">
+                    <div className="p-2 text-left px-4">
                       <span
                         className="w-full font-helvetica-neue text-sm font-bold"
                         style={{
@@ -350,18 +350,18 @@ function ViewProfile() {
                       </span>
                     </div>
                     <div className="p-2 text-center w-full">
-                      <div className="flex justify-between w-full px-4">
+                      <div className="flex justify-between w-full px-2">
                         <span className="text-sm font-helvetica">Price:</span>
                         <span className="text-sm font-helvetica">
                           {item.price} ETH
                         </span>
                       </div>
-                      <div className="flex justify-between w-full px-4 mt-1">
+                      <div className="flex justify-between w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">
                           Presale &nbsp;
                         </span>
                       </div>
-                      <div className="flex justify-between w-full px-4 mt-1">
+                      <div className="flex justify-between w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">
                           Position:
                         </span>
