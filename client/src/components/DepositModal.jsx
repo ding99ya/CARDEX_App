@@ -28,12 +28,12 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress }) => {
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="max-w-full">
-          <div className="flex flex-col justify-start text-center mt-4 px-2 py-4">
+          <div className="flex flex-col justify-start text-center mt-4 p-4 px-8">
             <div className="text-left text-xl font-bold mb-2">DEPOSIT</div>
 
             <div className="flex flex-col items-start space-y-2 mt-4">
               <p>Transfer ETH on Base network to </p>
-              <p className="text-sm">{embeddedWalletAddress}</p>
+              <p className="text-base">{embeddedWalletAddress}</p>
               {/* <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setDepositHover(true)}
