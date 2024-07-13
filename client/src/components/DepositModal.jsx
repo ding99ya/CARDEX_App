@@ -33,7 +33,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress }) => {
 
             <div className="flex flex-col items-start space-y-2 mt-4">
               <p>Transfer ETH on Base network to </p>
-              <p>{embeddedWalletAddress}</p>
+              <p className="text-sm">{embeddedWalletAddress}</p>
               {/* <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setDepositHover(true)}
