@@ -134,7 +134,7 @@ function PresaleCardPage({ category }) {
         name: "Card 1",
         photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
         uniqueId: "1",
-        price: 500000000000000,
+        price: 0,
         lastPrice: 0,
         trend: 0.0,
         shares: 0,
@@ -144,7 +144,7 @@ function PresaleCardPage({ category }) {
         name: "Card 2",
         photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
         uniqueId: "2",
-        price: 500000000000000,
+        price: 0,
         lastPrice: 0,
         trend: 0.0,
         shares: 0,
@@ -154,7 +154,7 @@ function PresaleCardPage({ category }) {
         name: "Card 3",
         photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
         uniqueId: "3",
-        price: 500000000000000,
+        price: 0,
         lastPrice: 0,
         trend: 0.0,
         shares: 0,
@@ -164,7 +164,7 @@ function PresaleCardPage({ category }) {
         name: "Card 4",
         photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
         uniqueId: "4",
-        price: 500000000000000,
+        price: 0,
         lastPrice: 0,
         trend: 0.0,
         shares: 0,
@@ -284,13 +284,13 @@ function PresaleCardPage({ category }) {
 
   return (
     <div className="min-h-screen mx-auto bg-gray-100">
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 px-10">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
         {cards.map((card, index) => (
           <div
             key={card.uniqueId}
             id={`card${card.uniqueId}`}
             onClick={() => handleCardClick(card)}
-            className="cursor-pointer bg-white mt-4 mb-4 ml-4 mr-4 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+            className="cursor-pointer bg-white mt-4 mb-4 mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
             style={{
               borderTopLeftRadius: "1.25rem",
               borderBottomLeftRadius: "1.25rem",
@@ -306,7 +306,7 @@ function PresaleCardPage({ category }) {
                 style={{ zIndex: 10, aspectRatio: "2 / 3" }}
               />
             </div>
-            <div className="p-2 text-left px-6">
+            <div className="p-2 text-left px-4">
               <span
                 className="w-full font-helvetica-neue text-sm font-bold"
                 style={{
@@ -324,20 +324,20 @@ function PresaleCardPage({ category }) {
             </div>
             {isEligibleUser ? (
               <div className="p-2 text-center w-full">
-                <div className="flex justify-between w-full px-4">
+                <div className="flex justify-between w-full px-2">
                   <span className="text-sm font-helvetica">Price:</span>
                   <span className="text-sm font-helvetica">
                     {card.price} ETH
                   </span>
                 </div>
-                <div className="flex justify-between w-full px-4 mt-1">
+                <div className="flex justify-between w-full px-2 mt-1">
                   <span className="text-sm font-helvetica">Holders:</span>
                   <span className="text-sm font-helvetica">{card.shares}</span>
                 </div>
               </div>
             ) : (
               // <div className="p-4 text-center w-full">
-              <div className="p-2 text-left px-6">
+              <div className="p-2 text-left px-2">
                 <span className="w-full text-sm font-helvetica">
                   Current User Not Eligible for Presale
                 </span>
