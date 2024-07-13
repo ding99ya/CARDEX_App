@@ -150,7 +150,7 @@ const Username = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
-      <div className="bg-white p-10 mx-10 rounded-lg shadow-xl text-center">
+      <div className="bg-white p-4 mx-5 rounded-lg shadow-xl text-center">
         {/* <h1 className="text-4xl mb-4 font-bold">INPUT YOUR USERNAME</h1> */}
         <p className="mb-8 font-helvetica-neue font-semibold text-xl">
           Input your username below, you can't change it later
@@ -169,7 +169,7 @@ const Username = () => {
         <p className="mb-8">Username length must be in 3 to 10 characters.</p>
         <button
           className={classNames(
-            "w-1/3 font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full transition duration-300 ease-in-out",
+            "w-1/3 font-bold font-helvetica-neue border border-black px-2 py-2 rounded-full transition duration-300 ease-in-out",
             {
               "border border-black bg-white text-black hover:bg-black hover:text-white":
                 !!valid,

@@ -151,7 +151,7 @@ const InviteCode = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
-      <div className="bg-white p-6 mx-10 rounded-lg shadow-xl text-center">
+      <div className="bg-white mx-5 rounded-lg shadow-xl text-center">
         {/* <h1 className="text-4xl mb-4 font-bold">GOT AN INVITE CODE?</h1> */}
         <p className="mb-8 font-helvetica-neue font-semibold text-xl">
           CARDEX is in Beta, using invite code to start your collectible trading
@@ -169,7 +169,7 @@ const InviteCode = () => {
         </div>
         <button
           onClick={handleInviteCodeInput}
-          className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
+          className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-2 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
           type="button"
         >
           Continue
