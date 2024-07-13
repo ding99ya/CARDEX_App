@@ -305,7 +305,7 @@ function Profile() {
 
   return (
     <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-gray-100">
-      <div className="w-full lg:w-1/4 p-2 lg:p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
+      <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col items-left">
             <div className="flex items-left space-x-2 mb-2">
@@ -501,7 +501,7 @@ function Profile() {
               {userCards.map((item) =>
                 item.category !== "presale" ? (
                   <div
-                    className="cursor-pointer bg-white mt-4 mb-2 mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
                     style={{
@@ -564,7 +564,7 @@ function Profile() {
                   </div>
                 ) : (
                   <div
-                    className="cursor-pointer bg-white mt-4 mb-2 mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
                     style={{
