@@ -42,7 +42,7 @@ const UserDeposit = () => {
     <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
       <div className="bg-white p-2 mx-5 rounded-lg shadow-xl text-center">
         <div className="px-2 py-4">
-          <p className="font-helvetica-neue font-semibold text-lg mt-4 mb-4">
+          <p className="font-helvetica-neue font-semibold text-lg mb-4">
             We suggest deposit some ETH to start trading collectible shares
           </p>
           <p className="text-left mt-2 mb-4">
@@ -80,7 +80,7 @@ const UserDeposit = () => {
         </div>
         <button
           onClick={handleContinue}
-          className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-2 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
+          className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-2 py-2 mb-4 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
           type="button"
         >
           Continue
