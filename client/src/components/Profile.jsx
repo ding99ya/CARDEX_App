@@ -304,7 +304,7 @@ function Profile() {
   );
 
   return (
-    <div className="flex flex-col lg:flex-row px-6 lg:px-0 min-h-screen bg-gray-100">
+    <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-gray-100">
       <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col items-left">
