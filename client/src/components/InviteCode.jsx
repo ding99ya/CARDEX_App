@@ -153,7 +153,7 @@ const InviteCode = () => {
     <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
       <div className="bg-white mx-5 rounded-lg shadow-xl text-center">
         {/* <h1 className="text-4xl mb-4 font-bold">GOT AN INVITE CODE?</h1> */}
-        <p className="mb-8 font-helvetica-neue font-semibold text-xl">
+        <p className="mt-2 mb-8 font-helvetica-neue font-semibold text-xl">
           CARDEX is in Beta, using invite code to start your collectible trading
         </p>
         <div className="flex justify-between items-center mt-4 mb-8">
@@ -174,7 +174,7 @@ const InviteCode = () => {
         >
           Continue
         </button>
-        <p className="underline cursor-pointer" onClick={handleLogout}>
+        <p className="underline cursor-pointer mb-2" onClick={handleLogout}>
           login
         </p>
       </div>
