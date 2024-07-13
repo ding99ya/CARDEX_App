@@ -171,7 +171,7 @@ function ViewProfile() {
   );
 
   return (
-    <div className="flex flex-col px-6 lg:px-0 lg:flex-row min-h-screen bg-gray-100">
+    <div className="flex flex-col px-2 lg:px-0 lg:flex-row min-h-screen bg-gray-100">
       <div className="w-full lg:w-1/4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <span
           onClick={() => handleBackClick()}
@@ -252,7 +252,7 @@ function ViewProfile() {
               {userCards.map((item) =>
                 item.category !== "presale" ? (
                   <div
-                    className="cursor-pointer bg-white mt-4 mb-2 mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
                     style={{
@@ -315,7 +315,7 @@ function ViewProfile() {
                   </div>
                 ) : (
                   <div
-                    className="cursor-pointer bg-white mt-4 mb-2 mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
                     style={{
