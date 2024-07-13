@@ -19,21 +19,39 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress }) => {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black bg-opacity-50 z-50"
     >
       <div
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white shadow-xl rounded-3xl mx-4"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-3xl"
       >
-        <div className="w-full">
-          <div className="flex flex-col justify-start text-center mt-4 p-4 sm:p-6 md:p-8 lg:p-10">
+        <div className="max-w-full">
+          <div className="flex flex-col justify-start text-center mt-4 px-2 py-4">
             <div className="text-left text-xl font-bold mb-2">DEPOSIT</div>
 
             <div className="flex flex-col items-start space-y-2 mt-4">
               <p>Transfer ETH on Base network to </p>
-              <p>{embeddedWalletAddress}</p>
+              <p className="text-sm">{embeddedWalletAddress}</p>
+              {/* <span
+                className="relative cursor-pointer"
+                onMouseEnter={() => setDepositHover(true)}
+                onMouseLeave={() => setDepositHover(false)}
+                onClick={handleDepositCopy}
+              >
+                <img src={CopyIcon} alt="Copy" className="w-5 h-5" />
+                {depositHover && !depositCopied && (
+                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
+                    Copy
+                  </span>
+                )}
+                {depositCopied && (
+                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
+                    Copied
+                  </span>
+                )}
+              </span> */}
               <p className="text-left text-base mb-4">
                 You can bridge ETH to Base on&nbsp;
                 <a
@@ -47,9 +65,9 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress }) => {
               </p>
             </div>
           </div>
-          <div className="flex p-4 sm:p-6 md:p-8 lg:p-10">
+          <div className="flex p-4 px-4">
             <button
-              className="w-1/3 py-4 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white transition duration-300 ease-in-out"
+              className="w-1/3 py-4 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
               onClick={onClose}
             >
               <span className="font-semibold">CANCEL</span>

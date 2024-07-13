@@ -57,7 +57,7 @@ const UserDeposit = () => {
             </a>
           </p>
           <div className="flex items-left">
-            <span className="text-sm">{shortAddress}</span>
+            <span className="text-sm">{embeddedWalletAddress}</span>
             <span
               className="relative cursor-pointer"
               onMouseEnter={() => setDepositHover(true)}
