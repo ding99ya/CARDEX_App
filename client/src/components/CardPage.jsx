@@ -10,7 +10,7 @@ const { BigNumber } = require("bignumber.js");
 
 // Alchemy configuration to fetch info from blockchain and set up info
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-const web3 = createAlchemyWeb3(process.env.REACT_APP_ALCHEMY_KEY);
+const web3 = createAlchemyWeb3(process.env.REACT_APP_ALCHEMY_KEY_CARDPAGE);
 
 // CardexV1 contract instance
 const contract = new web3.eth.Contract(
