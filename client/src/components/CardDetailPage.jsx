@@ -107,6 +107,8 @@ function CardDetailPage() {
       } else {
         const cardID = data.returnValues[0];
 
+        console.log("Buy detected");
+
         // Update current card info
         if (uniqueId.toString() === cardID.toString()) {
           const currentHolders = Number(data.returnValues[4]);
@@ -131,6 +133,8 @@ function CardDetailPage() {
         console.log(error);
       } else {
         const cardID = data.returnValues[0];
+
+        console.log("Sell detected");
 
         // Update current card info
         if (uniqueId.toString() === cardID.toString()) {
