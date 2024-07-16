@@ -3,6 +3,7 @@ import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import abi from "../CardexV1.json";
 import axios from "axios";
+import io from "socket.io-client";
 import "../index.css";
 
 const ethers = require("ethers");
@@ -10,13 +11,15 @@ const { BigNumber } = require("bignumber.js");
 
 // Alchemy configuration to fetch info from blockchain and set up info
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-const web3 = createAlchemyWeb3(process.env.REACT_APP_ALCHEMY_KEY_CARDPAGE);
+const web3 = createAlchemyWeb3(process.env.REACT_APP_ALCHEMY_KEY);
 
 // CardexV1 contract instance
 const contract = new web3.eth.Contract(
   abi,
   process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR
 );
+
+const socket = io("http://localhost:3000");
 
 function CardPage({ category }) {
   const location = useLocation();
@@ -80,6 +83,48 @@ function CardPage({ category }) {
     });
 
     return eventSubscription;
+  }
+
+  function addWebSocketListener() {
+    socket.on("cardUpdate", (updatedCard) => {
+      const cardID = updatedCard.uniqueId;
+      console.log(cardID);
+
+      const index = cards.findIndex(
+        (card) => card.uniqueId === cardID.toString()
+      );
+      console.log(index);
+
+      if (index !== -1) {
+        const currentHolders = Number(updatedCard.shares);
+        console.log(currentHolders);
+
+        const currentPrice = Number(updatedCard.price);
+        console.log(currentPrice);
+        const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
+
+        setCards((prevCards) =>
+          prevCards.map((card) =>
+            card.uniqueId === cardID.toString()
+              ? {
+                  ...card,
+                  price: currentPrice,
+                  trend: currentTrend,
+                  shares: Number(currentHolders),
+                }
+              : card
+          )
+        );
+      }
+
+      // socket.on("connect", () => {
+      //   console.log("Connected to WebSocket server");
+      // });
+
+      // socket.on("disconnect", () => {
+      //   console.log("Disconnected from WebSocket server");
+      // });
+    });
   }
 
   // function to add listener to Sell() event onchain so that Sell() event can trigger price, share holders update
@@ -189,23 +234,38 @@ function CardPage({ category }) {
     fetchData();
   }, []);
 
+  // useEffect(() => {
+  //   if (hasMounted.current) {
+  //     // Add Buy/Sell event listener
+  //     const buyEventSubscription = addBuyListener();
+  //     const sellEventSubscription = addSellListener();
+
+  //     return () => {
+  //       buyEventSubscription.unsubscribe((error, success) => {
+  //         if (success) {
+  //           console.log("Buy event successfully unsubscribed!");
+  //         }
+  //       });
+  //       sellEventSubscription.unsubscribe((error, success) => {
+  //         if (success) {
+  //           console.log("Sell event successfully unsubscribed!");
+  //         }
+  //       });
+  //     };
+  //   } else {
+  //     hasMounted.current = true;
+  //   }
+  // }, [cardsResponse]);
+
   useEffect(() => {
     if (hasMounted.current) {
       // Add Buy/Sell event listener
-      const buyEventSubscription = addBuyListener();
-      const sellEventSubscription = addSellListener();
+      addWebSocketListener();
+      console.log("Web Socket event added!");
 
       return () => {
-        buyEventSubscription.unsubscribe((error, success) => {
-          if (success) {
-            console.log("Buy event successfully unsubscribed!");
-          }
-        });
-        sellEventSubscription.unsubscribe((error, success) => {
-          if (success) {
-            console.log("Sell event successfully unsubscribed!");
-          }
-        });
+        socket.off("cardUpdate");
+        console.log("Event successfully unsubscribed!");
       };
     } else {
       hasMounted.current = true;

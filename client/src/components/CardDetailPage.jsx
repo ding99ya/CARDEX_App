@@ -20,6 +20,7 @@ import abi from "../CardexV1.json";
 import axios from "axios";
 import BuyModal from "./BuyModal.jsx";
 import SellModal from "./SellModal.jsx";
+import io from "socket.io-client";
 import "../index.css";
 
 // Alchemy configuration to fetch info from blockchain and set up info
@@ -36,6 +37,8 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+const socket = io("http://localhost:3000");
 
 function CardDetailPage() {
   const { sendTransaction, user } = usePrivy();
@@ -107,8 +110,6 @@ function CardDetailPage() {
       } else {
         const cardID = data.returnValues[0];
 
-        console.log("Buy detected");
-
         // Update current card info
         if (uniqueId.toString() === cardID.toString()) {
           const currentHolders = Number(data.returnValues[4]);
@@ -134,8 +135,6 @@ function CardDetailPage() {
       } else {
         const cardID = data.returnValues[0];
 
-        console.log("Sell detected");
-
         // Update current card info
         if (uniqueId.toString() === cardID.toString()) {
           const currentHolders = Number(data.returnValues[4]);
@@ -151,6 +150,27 @@ function CardDetailPage() {
     });
 
     return eventSubscription;
+  }
+
+  function addWebSocketListener() {
+    socket.on("cardUpdate", (updatedCard) => {
+      const cardID = updatedCard.uniqueId;
+
+      if (uniqueId.toString() === cardID.toString()) {
+        setCard((prevCard) => {
+          const currentHolders = Number(updatedCard.shares);
+          const currentPrice = Number(updatedCard.price);
+          const currentTrend = getTrend(currentPrice, prevCard.lastPrice);
+          return {
+            ...prevCard,
+            price: currentPrice,
+            trend: currentTrend,
+            shares: currentHolders,
+          };
+        });
+        fetchUserShares();
+      }
+    });
   }
 
   // Function to calculate the cost to buy certain amount of shares
@@ -390,20 +410,13 @@ function CardDetailPage() {
     };
     fetchPriceHistoryData();
 
-    const buyEventSubscription = addBuyListener();
-    const sellEventSubscription = addSellListener();
+    // const buyEventSubscription = addBuyListener();
+    // const sellEventSubscription = addSellListener();
+    addWebSocketListener();
 
     return () => {
-      buyEventSubscription.unsubscribe((error, success) => {
-        if (success) {
-          console.log("Buy event successfully unsubscribed!");
-        }
-      });
-      sellEventSubscription.unsubscribe((error, success) => {
-        if (success) {
-          console.log("Sell event successfully unsubscribed!");
-        }
-      });
+      socket.off("cardUpdate");
+      console.log("Event successfully unsubscribed!");
     };
   }, [uniqueId]);
 

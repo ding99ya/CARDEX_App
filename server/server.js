@@ -1,4 +1,6 @@
 const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
@@ -8,18 +10,24 @@ const CardModel = require("./models/CardModel.js");
 const PriceModel = require("./models/PriceModel.js");
 const UserModel = require("./models/UserModel.js");
 const LeaderboardModel = require("./models/LeaderboardModel.js");
-const InviteCodeModel = require("./models/InviteCodeModel.js");
+const InviteCodeModel = require("./models/inviteCodeModel.js");
 const PresaleUserModel = require("./models/PresaleUserModel.js");
 const path = require("path");
 const axios = require("axios");
 const { PrivyClient } = require("@privy-io/server-auth");
-// const {
-//   default: InviteCode,
-// } = require("../client/src/components/InviteCode.jsx");
 
 require("dotenv").config();
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: "*", // Allow requests from any origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow any HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  },
+});
 
 const privy = new PrivyClient(
   process.env.PRIVY_APP_ID,
@@ -31,7 +39,7 @@ mongoose.connect(process.env.MONGO_URL);
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
-app.use(cors({ origin: "https://cardex-app.vercel.app", credentials: true }));
+app.use(cors({ origin: "*", credentials: true }));
 
 app.get("/test", (req, res) => {
   res.send("testtesttest!");
@@ -283,6 +291,18 @@ app.get("/api/cards/:uniqueId", async (req, res) => {
   }
 });
 
+// Listen for changes and emit events
+const changeStream = CardModel.watch();
+changeStream.on("change", (change) => {
+  console.log("Change detected:", change);
+  if (change.operationType === "update") {
+    CardModel.findById(change.documentKey._id).then((updatedCard) => {
+      console.log("Will update card");
+      io.emit("cardUpdate", updatedCard);
+    });
+  }
+});
+
 app.post("/api/cards/multiple", async (req, res) => {
   try {
     const { uniqueIds } = req.body;
@@ -475,6 +495,8 @@ app.get(
 
 app.get("/*", (req, res) => res.send("Index Page"));
 
-app.listen(3000, () => {
-  console.log(`Server running on http://localhost:3000`);
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
