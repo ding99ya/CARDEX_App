@@ -38,7 +38,7 @@ ChartJS.register(
   Legend
 );
 
-const socket = io("http://localhost:3000");
+const socket = io("https://cardex-backend-api-6c90240ece64.herokuapp.com/");
 
 function CardDetailPage() {
   const { sendTransaction, user } = usePrivy();

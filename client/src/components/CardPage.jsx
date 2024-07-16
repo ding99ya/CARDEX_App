@@ -19,7 +19,7 @@ const contract = new web3.eth.Contract(
   process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR
 );
 
-const socket = io("http://localhost:3000");
+const socket = io("https://cardex-backend-api-6c90240ece64.herokuapp.com/");
 
 function CardPage({ category }) {
   const location = useLocation();
