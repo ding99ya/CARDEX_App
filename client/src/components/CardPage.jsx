@@ -4,6 +4,8 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import abi from "../CardexV1.json";
 import axios from "axios";
 import io from "socket.io-client";
+import { encodeFunctionData } from "viem";
+import BuyModal from "./BuyModal.jsx";
 import "../index.css";
 
 const ethers = require("ethers");
@@ -22,6 +24,8 @@ const contract = new web3.eth.Contract(
 const socket = io("https://cardex-backend-api-6c90240ece64.herokuapp.com/");
 
 function CardPage({ category }) {
+  const { sendTransaction, user } = usePrivy();
+
   const location = useLocation();
 
   // cardsResponse will be set to the response from backend
@@ -33,6 +37,11 @@ function CardPage({ category }) {
 
   // selectedSort be used to determine which sort method is currently being used
   const [selectedSort, setSelectedSort] = useState("ipoTime" + false);
+
+  const [openBuyModal, setOpenBuyModal] = useState(false);
+  const [currentBuyCardId, setCurrentBuyCardId] = useState("");
+  const [currentBuyCardName, setCurrentBuyCardName] = useState("");
+  const [currentBuyCardPhoto, setCurrentBuyCardPhoto] = useState("");
 
   // hasMounted variable is used to ensure the useEffect relies on cardsResponse is only triggered once
   const hasMounted = useRef(false);
@@ -284,6 +293,24 @@ function CardPage({ category }) {
     return shareHolders.toString();
   };
 
+  // Function to calculate the cost to buy certain amount of shares
+  const loadUserCost = async (shares) => {
+    const userCost = await contract.methods
+      .getBuyPriceAfterFee(Number(currentBuyCardId), shares)
+      .call();
+    return userCost.toString();
+  };
+
+  // A wrapper function to obtain the cost
+  const fetchCost = async (shares) => {
+    try {
+      const userCost = await loadUserCost(shares);
+      return userCost;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Function to transfer current price to a format with 3 decimals (X.XXX ETH)
   // This method is not currently used because the price will be fetched from backend and updated per calculations
   // Keep it for potential future use
@@ -310,6 +337,31 @@ function CardPage({ category }) {
   const getHolders = async (cardId) => {
     const holders = await loadShareHolders(cardId);
     return holders;
+  };
+
+  // Function to buy certain amount of shares
+  const buy = async (shares, value, buyUiConfig) => {
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "buyShares",
+      args: [currentBuyCardId, parseInt(shares)],
+    });
+
+    const transaction = {
+      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+      chainId: 84532,
+      data: data,
+      value: ethers.BigNumber.from(value).toHexString(),
+    };
+
+    try {
+      // The returned `txReceipt` has the type `TransactionReceipt`
+      const txReceipt = await sendTransaction(transaction, buyUiConfig);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setOpenBuyModal(false);
   };
 
   // Function to navigate to card detail page, pass the state so that card detail page can back to this page
@@ -445,8 +497,8 @@ function CardPage({ category }) {
               <img
                 src={card.photo}
                 alt={card.name}
-                className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
-                style={{ zIndex: 10, aspectRatio: "2 / 3" }}
+                className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105"
+                style={{ aspectRatio: "2 / 3" }}
               />
             </div>
             <div className="p-2 text-left px-4">
@@ -484,9 +536,48 @@ function CardPage({ category }) {
                 <span className="text-sm font-helvetica">{card.shares}</span>
               </div>
             </div>
+            <div className="flex justify-center items-center w-full relative">
+              <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setCurrentBuyCardId(card.uniqueId);
+                  setCurrentBuyCardName(card.name);
+                  setCurrentBuyCardPhoto(card.photo);
+                  setOpenBuyModal(true);
+                }}
+                className="w-full bg-white text-black font-bold border-2 border-black px-4 py-2 mx-4 mb-2 rounded-full shadow hover:bg-black hover:text-white"
+              >
+                Buy
+              </button>
+            </div>
           </div>
         ))}
       </div>
+
+      {/* Dark Overlay */}
+      {/* {openBuyModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+      )} */}
+
+      {/* Buy Modal */}
+      {openBuyModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-60">
+          <BuyModal
+            open={openBuyModal}
+            onClose={() => {
+              setOpenBuyModal(false);
+              setCurrentBuyCardId("");
+              setCurrentBuyCardName("");
+              setCurrentBuyCardPhoto("");
+            }}
+            buy={buy}
+            fetchCost={fetchCost}
+            cardName={currentBuyCardName}
+            cardPhoto={currentBuyCardPhoto}
+            className="z-60"
+          />
+        </div>
+      )}
     </div>
   );
 }
