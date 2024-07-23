@@ -58,7 +58,20 @@ const ProtectedRoute = ({ children }) => {
     return children;
   }
 
-  return <div>Loading...</div>; // Show a loading state until ready is true
+  // return <div>Loading...</div>;
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <img src="/Loading.gif" alt="Loading..." />
+    </div>
+  );
 };
 
 export default ProtectedRoute;
