@@ -41,30 +41,35 @@ const LeaderboardUser = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <button
+      <span
         onClick={() => handleBackClick()}
-        className="bg-blue-500 text-white px-4 py-2 rounded shadow"
+        className="cursor-pointer inline-block bg-white text-black px-4 py-2 font-semibold whitespace-nowrap"
       >
-        Back
-      </button>
-      <table className="min-w-full bg-white">
-        <thead className="bg-gray-200">
+        &lt; Back
+      </span>
+      <table
+        className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
+        style={{ borderCollapse: "separate", borderSpacing: 0 }}
+      >
+        <thead className="bg-gray-100 rounded-t-xl h-16">
           <tr>
             <th className="py-2 px-4 text-left">RANK</th>
             <th className="py-2 px-4 text-left">USER</th>
-            <th className="py-2 px-4 text-left">TOTAL PAPER POINTS</th>
+            <th className="py-2 px-4 text-center">TOTAL POINTS</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {users.map((user, index) => (
             <tr
               key={user.rank}
-              className="hover:bg-gray-100 cursor-pointer hover:border hover:border-black"
+              className={`hover:border hover:border-black cursor-pointer h-12 ${
+                index === users.length - 1 ? "rounded-b-xl" : ""
+              } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
               onClick={() => handleUserClick(user)}
             >
-              <td className="py-2 px-4">#{user.rank}</td>
-              <td className="py-2 px-4">{user.userName}</td>
-              <td className="py-2 px-4 text-right">{user.paperPoints}</td>
+              <td className="py-2 px-4 text-left">#{user.rank}</td>
+              <td className="py-2 px-4 text-left">{user.userName}</td>
+              <td className="py-2 px-4 text-center">{user.paperPoints} Pts</td>
             </tr>
           ))}
         </tbody>
