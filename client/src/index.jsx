@@ -26,7 +26,7 @@ root.render(
         createOnLogin: "users-without-wallets",
       },
       defaultChain: baseSepolia,
-      supportedChains: [baseSepolia],
+      supportedChains: [base, baseSepolia, mainnet],
     }}
   >
     <AuthProvider>
