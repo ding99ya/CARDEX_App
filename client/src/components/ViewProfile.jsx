@@ -287,7 +287,22 @@ function ViewProfile() {
                       </span>
                     </div>
                     <div className="p-2 text-center w-full">
-                      <div className="flex justify-between w-full px-2">
+                      <div className="flex justify-end w-full px-2">
+                        <span
+                          className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                            item.rarity === "RARE"
+                              ? "bg-sky-300"
+                              : item.rarity === "EPIC"
+                              ? "bg-purple-300"
+                              : item.rarity === "LEGEND"
+                              ? "bg-amber-300"
+                              : "bg-gray-400"
+                          } text-white font-bold rounded-full text-center`}
+                        >
+                          {item.rarity}
+                        </span>
+                      </div>
+                      <div className="flex justify-between w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">Price:</span>
                         <span className="text-sm font-helvetica">
                           {item.price} ETH
@@ -350,7 +365,22 @@ function ViewProfile() {
                       </span>
                     </div>
                     <div className="p-2 text-center w-full">
-                      <div className="flex justify-between w-full px-2">
+                      <div className="flex justify-end w-full px-2">
+                        <span
+                          className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                            item.rarity === "RARE"
+                              ? "bg-sky-300"
+                              : item.rarity === "EPIC"
+                              ? "bg-purple-300"
+                              : item.rarity === "LEGEND"
+                              ? "bg-amber-300"
+                              : "bg-gray-400"
+                          } text-white font-bold rounded-full text-center`}
+                        >
+                          {item.rarity}
+                        </span>
+                      </div>
+                      <div className="flex justify-between w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">Price:</span>
                         <span className="text-sm font-helvetica">
                           {item.price} ETH
