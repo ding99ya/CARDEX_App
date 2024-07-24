@@ -501,7 +501,7 @@ function CardPage({ category }) {
                 style={{ aspectRatio: "2 / 3" }}
               />
             </div>
-            <div className="p-2 text-left px-4">
+            <div className="mt-2 mb-1 text-left px-4">
               <span
                 className="w-full font-helvetica-neue text-sm font-bold"
                 style={{
@@ -519,7 +519,22 @@ function CardPage({ category }) {
             </div>
 
             <div className="p-2 text-center w-full">
-              <div className="flex justify-between w-full px-2">
+              <div className="flex justify-end w-full px-2">
+                <span
+                  className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                    card.rarity === "RARE"
+                      ? "bg-sky-300"
+                      : card.rarity === "EPIC"
+                      ? "bg-purple-300"
+                      : card.rarity === "LEGEND"
+                      ? "bg-amber-300"
+                      : "bg-gray-400"
+                  } text-white font-bold rounded-full text-center`}
+                >
+                  {card.rarity}
+                </span>
+              </div>
+              <div className="flex justify-between w-full px-2 mt-1">
                 <span className="text-sm font-helvetica">Price:</span>
                 <span className="text-sm font-helvetica">{card.price} ETH</span>
               </div>

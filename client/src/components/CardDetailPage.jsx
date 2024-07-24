@@ -67,6 +67,7 @@ function CardDetailPage() {
     ipoShares: 0,
   });
 
+  const [isFront, setIsFront] = useState(true);
   const [userShares, setUserShares] = useState(0);
   const [prices, setPrices] = useState([]);
   const [times, setTimes] = useState([]);
@@ -479,6 +480,14 @@ function CardDetailPage() {
     },
   };
 
+  const handleNextClick = () => {
+    setIsFront(false);
+  };
+
+  const handlePrevClick = () => {
+    setIsFront(true);
+  };
+
   const handleBackClick = () => {
     if (location.state && location.state.from) {
       Navigate(location.state.from);
@@ -522,12 +531,32 @@ function CardDetailPage() {
         >
           &lt; Back
         </span>
-        <div className="flex justify-center items-center w-full">
+        <div className="flex flex-col items-center w-full">
           <img
-            src={card.photo}
+            src={isFront ? card.photo : card.backPhoto}
             alt={card.name}
             className="w-1/2 max-h-screen object-cover"
           />
+          <div className="flex mt-4">
+            <button
+              onClick={handlePrevClick}
+              className={`cursor-pointer inline-block px-4 py-2 font-semibold whitespace-nowrap ${
+                isFront ? "text-gray-400" : "text-black"
+              }`}
+              disabled={isFront}
+            >
+              &lt;
+            </button>
+            <button
+              onClick={handleNextClick}
+              className={`cursor-pointer inline-block px-4 py-2 font-semibold whitespace-nowrap ${
+                isFront ? "text-black" : "text-gray-400"
+              }`}
+              disabled={!isFront}
+            >
+              &gt;
+            </button>
+          </div>
         </div>
       </div>
       <div className="w-full lg:w-1/2">
@@ -535,7 +564,22 @@ function CardDetailPage() {
           <h2 className="text-2xl font-bold mb-4">{card.name}</h2>
 
           <div className="text-center w-full">
-            <div className="flex justify-between w-full">
+            <div className="flex justify-end w-full">
+              <span
+                className={`text-sm font-helvetica inline-block px-4 py-1 ${
+                  card.rarity === "RARE"
+                    ? "bg-sky-300"
+                    : card.rarity === "EPIC"
+                    ? "bg-purple-300"
+                    : card.rarity === "LEGEND"
+                    ? "bg-amber-300"
+                    : "bg-gray-400"
+                } text-white font-bold rounded-full text-center`}
+              >
+                {card.rarity}
+              </span>
+            </div>
+            <div className="flex justify-between w-full mt-1">
               <span className="text-base font-helvetica">Price:</span>
               <span className="text-base font-helvetica">{card.price} ETH</span>
             </div>

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Contract, providers, BigNumber, utils } from "ethers";
 import CopyIcon from "./Copy-Icon.jpg";
 
-const DepositModal = ({ open, onClose, embeddedWalletAddress }) => {
+const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
   const [depositHover, setDepositHover] = useState(false);
   const [depositCopied, setDepositCopied] = useState(false);
 
@@ -52,20 +52,34 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress }) => {
                   </span>
                 )}
               </span> */}
-              <p className="text-left text-base mb-4">
-                You can bridge ETH to Base on&nbsp;
-                <a
-                  href="https://bridge.base.org/deposit"
-                  className="text-blue-600"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              <div className="w-full flex justify-center mt-2">
+                <button
+                  className="px-4 py-2 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
+                  onClick={() => fundWallet(embeddedWalletAddress.toString())}
                 >
-                  official bridge here.
-                </a>
-              </p>
+                  <span className="font-semibold">Transfer From External</span>
+                </button>
+              </div>
+              <div className="w-full flex justify-center">
+                <p>or</p>
+              </div>
+              <div className="w-full flex justify-center">
+                <p className="text-left text-base">
+                  &nbsp;
+                  <a
+                    href="https://bridge.base.org/deposit"
+                    className="text-blue-600"
+                    style={{ textDecoration: "underline" }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Bridge ETH to Base
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
-          <div className="flex p-4 px-4">
+          <div className="flex p-2 px-4">
             <button
               className="w-1/3 py-4 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
               onClick={onClose}

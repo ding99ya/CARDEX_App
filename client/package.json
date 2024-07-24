@@ -5,7 +5,7 @@
   "dependencies": {
     "@alch/alchemy-web3": "^1.4.7",
     "@craco/craco": "^7.1.0",
-    "@privy-io/react-auth": "^1.62.0",
+    "@privy-io/react-auth": "^1.76.0",
     "@privy-io/server-auth": "^1.7.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@testing-library/jest-dom": "^5.17.0",

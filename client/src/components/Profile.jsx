@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { Contract, providers, BigNumber } from "ethers";
@@ -25,6 +25,9 @@ const contract = new web3.eth.Contract(
 
 function Profile() {
   const location = useLocation();
+
+  const { fundWallet } = useFundWallet();
+
   const {
     logout,
     exportWallet,
@@ -640,6 +643,7 @@ function Profile() {
             setOpenDepositModal(false);
           }}
           embeddedWalletAddress={embeddedWalletAddress}
+          fundWallet={fundWallet}
           className="z-50"
         />
       )}

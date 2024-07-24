@@ -1,12 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth";
 import { useNavigate } from "react-router-dom";
 import { Contract, providers, BigNumber, utils } from "ethers";
 import CopyIcon from "./Copy-Icon.jpg";
 
 const UserDeposit = () => {
   const navigate = useNavigate();
+  const { fundWallet } = useFundWallet();
   const { ready, authenticated, login, user } = usePrivy();
 
   const [embeddedWalletAddress, setEmbeddedWalletAddress] = useState("");
@@ -45,18 +46,7 @@ const UserDeposit = () => {
           <p className="font-helvetica-neue font-semibold text-lg mb-4">
             We suggest deposit some ETH to start trading collectible shares
           </p>
-          <p className="text-left mt-2 mb-4">
-            You can bridge ETH to Base on&nbsp;
-            <a
-              href="https://bridge.base.org/deposit"
-              className="text-blue-600"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              official bridge here.
-            </a>
-          </p>
-          <div className="flex">
+          {/* <div className="flex">
             <span className="text-sm">{shortAddress}</span>
             <span
               className="relative cursor-pointer"
@@ -76,6 +66,55 @@ const UserDeposit = () => {
                 </span>
               )}
             </span>
+          </div> */}
+          <div className="flex flex-col items-start space-y-2 mt-4">
+            <p>Transfer ETH on Base network to </p>
+            <div>
+              <span className="text-sm">{shortAddress}</span>
+              <span
+                className="relative cursor-pointer"
+                onMouseEnter={() => setDepositHover(true)}
+                onMouseLeave={() => setDepositHover(false)}
+                onClick={handleDepositCopy}
+              >
+                <img src={CopyIcon} alt="Copy" className="w-5 h-5" />
+                {depositHover && !depositCopied && (
+                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
+                    Copy
+                  </span>
+                )}
+                {depositCopied && (
+                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
+                    Copied
+                  </span>
+                )}
+              </span>
+            </div>
+            <div className="w-full flex justify-center mt-2">
+              <button
+                className="px-4 py-2 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
+                onClick={() => fundWallet(embeddedWalletAddress.toString())}
+              >
+                <span className="font-semibold">Transfer From External</span>
+              </button>
+            </div>
+            <div className="w-full flex justify-center">
+              <p>or</p>
+            </div>
+            <div className="w-full flex justify-center">
+              <p className="text-left text-base">
+                &nbsp;
+                <a
+                  href="https://bridge.base.org/deposit"
+                  className="text-blue-600"
+                  style={{ textDecoration: "underline" }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Bridge ETH to Base
+                </a>
+              </p>
+            </div>
           </div>
         </div>
         <button
