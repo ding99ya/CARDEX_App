@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./components/App";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { AuthProvider } from "./components/AuthContext";
-import { baseSepolia } from "viem/chains";
+import { base, baseSepolia, mainnet } from "viem/chains";
 import { Buffer } from "buffer";
 window.Buffer = Buffer;
 
@@ -26,7 +26,7 @@ root.render(
         createOnLogin: "users-without-wallets",
       },
       defaultChain: baseSepolia,
-      supportedChains: [base, baseSepolia, mainnet],
+      supportedChains: [baseSepolia, base, mainnet],
     }}
   >
     <AuthProvider>
