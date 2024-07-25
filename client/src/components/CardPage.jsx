@@ -449,8 +449,10 @@ function CardPage({ category }) {
 
   return (
     <div className="min-h-screen mx-auto bg-gray-100">
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-end mb-2 space-x-2 lg:space-y-0 lg:space-x-4 p-2 lg:px-0 lg:ml-0 ml-10">
-        <p className="text-base mt-4 font-semibold lg:mt-0">Sort by</p>
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-end mb-2 space-x-2 p-2 lg:space-y-0 lg:space-x-4 lg:px-0 lg:ml-0 ml-10">
+        <p className="text-base mt-4 font-semibold ml-4 lg:ml-0 lg:mt-0">
+          Sort by
+        </p>
         <div className="flex flex-wrap items-center rounded-x1 overflow-hidden pr-10 mt-4 lg:mt-0">
           {[
             { label: "Latest", sortKey: "ipoTime", ascending: false },
@@ -462,10 +464,10 @@ function CardPage({ category }) {
           ].map((button, index) => (
             <button
               key={index}
-              className={`flex items-center px-2 py-1 ml-1 mr-1 mb-1 text-base rounded-full font-helvetica-neue text-black ${
+              className={`flex items-center px-2 py-1 ml-1 mr-1 mt-1 mb-1 text-base rounded-full font-helvetica-neue text-black border ${
                 selectedSort === button.sortKey + button.ascending
-                  ? "bg-gray-300"
-                  : "bg-white hover:bg-gray-200"
+                  ? "bg-gray-300 border-black"
+                  : "bg-white hover:bg-gray-200 border-black"
               }`}
               onClick={() => sortCards(button.sortKey, button.ascending)}
             >
