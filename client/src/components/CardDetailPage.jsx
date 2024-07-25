@@ -16,6 +16,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import Chart from "chart.js/auto";
+import "chartjs-adapter-date-fns";
 import abi from "../CardexV1.json";
 import axios from "axios";
 import BuyModal from "./BuyModal.jsx";
@@ -38,7 +40,7 @@ ChartJS.register(
   Legend
 );
 
-const socket = io("https://cardex-backend-api-6c90240ece64.herokuapp.com/");
+const socket = io("http://localhost:3000");
 
 function CardDetailPage() {
   const { sendTransaction, user } = usePrivy();
@@ -435,14 +437,61 @@ function CardDetailPage() {
   }
 
   // Format the dates to a readable string for the chart labels
-  const formattedTimes = times.map((time) => formatDateString(time));
+  // const formattedTimes = times.map((time, index) => formatDateString(time));
+
+  // const data = {
+  //   labels: formattedTimes,
+  //   datasets: [
+  //     {
+  //       label: "Price",
+  //       data: prices,
+  //       borderColor: "rgba(75, 192, 192, 1)",
+  //       backgroundColor: "rgba(75, 192, 192, 0.2)",
+  //       fill: false,
+  //     },
+  //   ],
+  // };
+
+  // const options = {
+  //   scales: {
+  //     x: {
+  //       type: "category",
+  //       title: {
+  //         display: true,
+  //         text: "Date",
+  //       },
+  //       ticks: {
+  //         display: false, // Hide the x-axis labels
+  //       },
+  //     },
+  //     y: {
+  //       title: {
+  //         display: true,
+  //         text: "Price (ETH)",
+  //       },
+  //     },
+  //   },
+  //   plugins: {
+  //     // title: {
+  //     //   display: true,
+  //     //   text: "Price Trend",
+  //     // },
+  //     legend: {
+  //       display: false,
+  //     },
+  //   },
+  // };
+
+  const formattedData = times.map((time, index) => ({
+    x: new Date(time), // Convert to Date object
+    y: prices[index],
+  }));
 
   const data = {
-    labels: formattedTimes,
     datasets: [
       {
         label: "Price",
-        data: prices,
+        data: formattedData,
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: false,
@@ -453,13 +502,14 @@ function CardDetailPage() {
   const options = {
     scales: {
       x: {
-        type: "category",
+        type: "time", // Use time scale for x-axis
+        time: {
+          unit: "day", // Adjust based on your data
+          tooltipFormat: "PP", // Format for tooltip
+        },
         title: {
           display: true,
           text: "Date",
-        },
-        ticks: {
-          display: false, // Hide the x-axis labels
         },
       },
       y: {
@@ -470,10 +520,6 @@ function CardDetailPage() {
       },
     },
     plugins: {
-      // title: {
-      //   display: true,
-      //   text: "Price Trend",
-      // },
       legend: {
         display: false,
       },
