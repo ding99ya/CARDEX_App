@@ -17,6 +17,7 @@ import {
   Legend,
 } from "chart.js";
 import Chart from "chart.js/auto";
+import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-date-fns";
 import abi from "../CardexV1.json";
 import axios from "axios";
@@ -37,7 +38,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  zoomPlugin
 );
 
 const socket = io("http://localhost:3000");
@@ -73,6 +75,7 @@ function CardDetailPage() {
   const [userShares, setUserShares] = useState(0);
   const [prices, setPrices] = useState([]);
   const [times, setTimes] = useState([]);
+  const chartRef = useRef(null);
 
   const { uniqueId } = useParams();
 
@@ -500,6 +503,7 @@ function CardDetailPage() {
   };
 
   const options = {
+    responsive: true,
     scales: {
       x: {
         type: "time", // Use time scale for x-axis
@@ -522,6 +526,21 @@ function CardDetailPage() {
     plugins: {
       legend: {
         display: false,
+      },
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: "xy",
+        },
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: "xy",
+        },
       },
     },
   };
@@ -696,7 +715,7 @@ function CardDetailPage() {
             </button>
           </div>
           <div>
-            <Line data={data} options={options} />
+            <Line ref={chartRef} data={data} options={options} />
           </div>
         </div>
       </div>
