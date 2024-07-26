@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import marketIcon from "./Market.svg";
+import leaderboardIcon from "./Leaderboard.svg";
+import profileIcon from "./Profile.svg";
 import "../index.css";
 
 function Header() {
@@ -89,11 +92,11 @@ function Header() {
       <footer className="fixed bottom-0 left-0 right-0 z-50 bg-white w-full lg:hidden">
         <div className="max-w-full w-full">
           <nav>
-            <ul className="flex justify-between w-full">
+            <ul className="flex justify-between w-full border-t-2 border-t-black">
               <li
-                className={`flex-1 flex flex-col items-center px-4 py-6 border-t-4 ${
+                className={`flex-1 flex flex-col items-center px-4 py-3 border-b-4 ${
                   selectedButton === "MARKET"
-                    ? "border-black"
+                    ? "border-red-500"
                     : "border-transparent"
                 }`}
               >
@@ -102,8 +105,17 @@ function Header() {
                   onClick={() => handleButtonClick("MARKET")}
                   className="flex flex-col items-center w-full h-full text-black font-bold"
                 >
+                  <img
+                    src={marketIcon}
+                    alt="Market Icon"
+                    className={`w-6 h-6 mb-2 ${
+                      selectedButton === "MARKET"
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  />
                   <span
-                    className={` ${
+                    className={`font-helvetica text-sm ${
                       selectedButton === "MARKET"
                         ? "text-black"
                         : "text-gray-400"
@@ -114,9 +126,9 @@ function Header() {
                 </Link>
               </li>
               <li
-                className={`flex-1 flex flex-col items-center px-4 py-6 border-t-4 ${
+                className={`flex-1 flex flex-col items-center px-4 py-3 border-b-4 ${
                   selectedButton === "LEADERBOARD"
-                    ? "border-black"
+                    ? "border-red-500"
                     : "border-transparent"
                 }`}
               >
@@ -125,8 +137,17 @@ function Header() {
                   onClick={() => handleButtonClick("LEADERBOARD")}
                   className="flex flex-col items-center w-full h-full text-black font-bold"
                 >
+                  <img
+                    src={leaderboardIcon}
+                    alt="Leaderboard Icon"
+                    className={`w-6 h-6 mb-2 ${
+                      selectedButton === "LEADERBOARD"
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  />
                   <span
-                    className={` ${
+                    className={`font-helvetica text-sm ${
                       selectedButton === "LEADERBOARD"
                         ? "text-black"
                         : "text-gray-400"
@@ -137,9 +158,9 @@ function Header() {
                 </Link>
               </li>
               <li
-                className={`flex-1 flex flex-col items-center px-4 py-6 border-t-4 ${
+                className={`flex-1 flex flex-col items-center px-4 py-3 border-b-4 ${
                   selectedButton === "PROFILE"
-                    ? "border-black"
+                    ? "border-red-500"
                     : "border-transparent"
                 }`}
               >
@@ -148,8 +169,17 @@ function Header() {
                   onClick={() => handleButtonClick("PROFILE")}
                   className="flex flex-col items-center w-full h-full text-black font-bold"
                 >
+                  <img
+                    src={profileIcon}
+                    alt="Profile Icon"
+                    className={`w-6 h-6 mb-2 ${
+                      selectedButton === "PROFILE"
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  />
                   <span
-                    className={` ${
+                    className={`font-helvetica text-sm ${
                       selectedButton === "PROFILE"
                         ? "text-black"
                         : "text-gray-400"
