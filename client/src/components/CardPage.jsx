@@ -6,6 +6,7 @@ import axios from "axios";
 import io from "socket.io-client";
 import { encodeFunctionData } from "viem";
 import BuyModal from "./BuyModal.jsx";
+import sortingIcon from "./Sorting.svg";
 import "../index.css";
 
 const ethers = require("ethers");
@@ -36,7 +37,12 @@ function CardPage({ category }) {
   const [cards, setCards] = useState([]);
 
   // selectedSort be used to determine which sort method is currently being used
-  const [selectedSort, setSelectedSort] = useState("ipoTime" + false);
+  const [selectedSort, setSelectedSort] = useState({
+    label: "Latest",
+    sortKey: "ipoTime",
+    ascending: false,
+  });
+  const [sortIsOpen, setSortIsOpen] = useState(false);
 
   const [openBuyModal, setOpenBuyModal] = useState(false);
   const [currentBuyCardId, setCurrentBuyCardId] = useState("");
@@ -380,7 +386,7 @@ function CardPage({ category }) {
   };
 
   // Function to sort the cards based on certain rule
-  function sortCards(by, ascending = true) {
+  function sortCards(label, by, ascending = true) {
     if (by === "none") {
       handleRemoveSort();
       setSelectedSort(null);
@@ -399,9 +405,23 @@ function CardPage({ category }) {
 
       console.log("Latest" + false);
       console.log(by + ascending);
-      setSelectedSort(by + ascending);
+      setSelectedSort({ label: label, sortkey: by, ascending: ascending });
     }
   }
+
+  const handleSortSelection = (option) => {
+    setSelectedSort(option);
+    sortCards(option.label, option.sortKey, option.ascending);
+    setSortIsOpen(false);
+  };
+
+  const sortOptions = [
+    { label: "Latest", sortKey: "ipoTime", ascending: false },
+    { label: "Price", sortKey: "price", ascending: false },
+    { label: "Price", sortKey: "price", ascending: true },
+    { label: "Holder", sortKey: "shares", ascending: false },
+    { label: "Holder", sortKey: "shares", ascending: true },
+  ];
 
   const sortUpArrow = (
     <svg
@@ -449,11 +469,9 @@ function CardPage({ category }) {
 
   return (
     <div className="min-h-screen mx-auto bg-gray-100">
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-end mb-2 space-x-2 p-2 lg:space-y-0 lg:space-x-4 lg:px-0 lg:ml-0 ml-10">
-        <p className="text-base mt-4 font-semibold ml-4 lg:ml-0 lg:mt-0">
-          Sort by
-        </p>
-        <div className="flex flex-wrap items-center rounded-x1 overflow-hidden pr-10 mt-4 lg:mt-0">
+      <div className="flex flex-row items-start items-center justify-end space-x-2 p-2 lg:space-y-0 lg:space-x-4 lg:px-0 mx-4 lg:mx-12">
+        <p className="text-base font-semibold">Sort by</p>
+        {/* <div className="flex flex-wrap items-center rounded-x1 overflow-hidden pr-10 mt-4 lg:mt-0">
           {[
             { label: "Latest", sortKey: "ipoTime", ascending: false },
             { label: "Price", sortKey: "price", ascending: false },
@@ -478,6 +496,51 @@ function CardPage({ category }) {
               </span>
             </button>
           ))}
+        </div> */}
+        <div className="relative inline-block text-left">
+          <button
+            onClick={() => setSortIsOpen(!sortIsOpen)}
+            className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
+          >
+            <span className="flex items-center whitespace-nowrap">
+              {selectedSort.label}{" "}
+              {selectedSort.label !== "Latest" &&
+                (selectedSort.ascending ? sortUpArrow : sortDownArrow)}
+            </span>
+            <img
+              src={sortingIcon}
+              alt="Sort Icon"
+              className={"w-5 h-5 ml-2 -mr-1"}
+            />
+            {/* <svg
+              className="w-5 h-5 ml-2 -mr-1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.293 9.707a1 1 0 010-1.414L10 3.586l4.707 4.707a1 1 0 01-1.414 1.414L10 6.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                clipRule="evenodd"
+              />
+            </svg> */}
+          </button>
+          {sortIsOpen && (
+            <div className="absolute right-0 z-10 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+              {sortOptions.map((option, index) => (
+                <div key={index} className="py-1">
+                  <button
+                    onClick={() => handleSortSelection(option)}
+                    className="flex items-center w-full px-4 py-2 text-sm text-black hover:bg-gray-100"
+                  >
+                    {option.label}{" "}
+                    {option.label !== "Latest" &&
+                      (option.ascending ? sortUpArrow : sortDownArrow)}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
