@@ -540,14 +540,14 @@ function CardPage({ category }) {
                 <span className="text-sm font-helvetica">Price:</span>
                 <span className="text-sm font-helvetica">{card.price} ETH</span>
               </div>
-              <div className="flex justify-end items-center w-full px-2 mt-1">
+              {/* <div className="flex justify-end items-center w-full px-2 mt-1">
                 <span className="text-sm font-helvetica">{card.trend}%</span>
                 {card.trend > 0 ? (
                   <span className="ml-2">{upArrow}</span>
                 ) : (
                   <span className="ml-2">{downArrow}</span>
                 )}
-              </div>
+              </div> */}
               <div className="flex justify-between w-full px-2 mt-1">
                 <span className="text-sm font-helvetica">Holders:</span>
                 <span className="text-sm font-helvetica">{card.shares}</span>

@@ -308,7 +308,7 @@ function ViewProfile() {
                           {item.price} ETH
                         </span>
                       </div>
-                      <div className="flex justify-end items-center w-full px-2 mt-1">
+                      {/* <div className="flex justify-end items-center w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">
                           {item.trend}%
                         </span>
@@ -317,7 +317,7 @@ function ViewProfile() {
                         ) : (
                           <span className="ml-2">{downArrow}</span>
                         )}
-                      </div>
+                      </div> */}
                       <div className="flex justify-between w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">
                           Position:

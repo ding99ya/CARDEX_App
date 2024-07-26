@@ -648,14 +648,14 @@ function CardDetailPage() {
               <span className="text-base font-helvetica">Price:</span>
               <span className="text-base font-helvetica">{card.price} ETH</span>
             </div>
-            <div className="flex justify-end items-center w-full mt-1">
+            {/* <div className="flex justify-end items-center w-full mt-1">
               <span className="text-base font-helvetica">{card.trend}%</span>
               {card.trend > 0 ? (
                 <span className="ml-2">{upArrow}</span>
               ) : (
                 <span className="ml-2">{downArrow}</span>
               )}
-            </div>
+            </div> */}
             <div className="flex justify-between w-full mt-1">
               <span className="text-base font-helvetica">Holders:</span>
               <span className="text-base font-helvetica">{card.shares}</span>
