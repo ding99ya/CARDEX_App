@@ -115,7 +115,7 @@ function Header() {
                     }`}
                   />
                   <span
-                    className={`font-helvetica text-sm ${
+                    className={`font-helvetica text-xs ${
                       selectedButton === "MARKET"
                         ? "text-black"
                         : "text-gray-400"
@@ -147,7 +147,7 @@ function Header() {
                     }`}
                   />
                   <span
-                    className={`font-helvetica text-sm ${
+                    className={`font-helvetica text-xs ${
                       selectedButton === "LEADERBOARD"
                         ? "text-black"
                         : "text-gray-400"
@@ -179,7 +179,7 @@ function Header() {
                     }`}
                   />
                   <span
-                    className={`font-helvetica text-sm ${
+                    className={`font-helvetica text-xs ${
                       selectedButton === "PROFILE"
                         ? "text-black"
                         : "text-gray-400"
