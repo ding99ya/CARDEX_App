@@ -16,7 +16,7 @@ function Market() {
       <div class="container mx-auto px-4 lg:px-0">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div
-            className="w-full mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border-2 border-black"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-black"
             onClick={() => handleShopClick("/Market/Presale")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
@@ -32,7 +32,7 @@ function Market() {
                 <p className="text-lg font-bold">PRESALE</p>
               </div>
               <button
-                className="bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
+                className="bg-cyan-300 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-cyan-500 hover:text-white transition duration-300 ease-in-out"
                 onClick={() => handleShopClick("/Market/Presale")}
               >
                 COLLECT
@@ -40,7 +40,7 @@ function Market() {
             </div>
           </div>
           <div
-            className="w-full mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border-2 border-black"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-black"
             onClick={() => handleShopClick("/Market/Pokemon")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
@@ -56,7 +56,7 @@ function Market() {
                 <p className="text-lg font-bold">POKEMON</p>
               </div>
               <button
-                className="bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
+                className="bg-cyan-300 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-cyan-500 hover:text-white transition duration-300 ease-in-out"
                 onClick={() => handleShopClick("/Market/Pokemon")}
               >
                 COLLECT
@@ -64,7 +64,7 @@ function Market() {
             </div>
           </div>
           <div
-            className="w-full mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border-2 border-black"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-black"
             onClick={() => handleShopClick("/Market/Basketball")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
@@ -80,7 +80,7 @@ function Market() {
                 <p className="text-lg font-bold">BASKETBALL</p>
               </div>
               <button
-                className="bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
+                className="bg-cyan-300 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-cyan-500 hover:text-white transition duration-300 ease-in-out"
                 onClick={() => handleShopClick("/Market/Basketball")}
               >
                 COLLECT
@@ -88,7 +88,7 @@ function Market() {
             </div>
           </div>
           <div
-            className="w-full mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border-2 border-black"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-black"
             onClick={() => handleShopClick("/Market/Baseball")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
@@ -104,7 +104,7 @@ function Market() {
                 <p className="text-lg font-bold">BASEBALL</p>
               </div>
               <button
-                className="bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
+                className="bg-cyan-300 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-cyan-500 hover:text-white transition duration-300 ease-in-out"
                 onClick={() => handleShopClick("/Market/Baseball")}
               >
                 COLLECT
