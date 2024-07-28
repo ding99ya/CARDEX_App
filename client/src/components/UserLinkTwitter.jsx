@@ -14,6 +14,8 @@ const UserLinkTwitter = () => {
   //   const [valid, setValid] = useState(false);
   const [notification, setNotification] = useState(null);
 
+  const userTwitter = user ? user.twitter : "";
+
   const showNotification = (message) => {
     setNotification(message);
   };
@@ -143,7 +145,7 @@ const UserLinkTwitter = () => {
         </p>
         <p
           className={
-            !!user.twitter ? `mb-8 font-helvetica-neue text-lg` : `hidden`
+            !!userTwitter ? `mb-8 font-helvetica-neue text-lg` : `hidden`
           }
         >
           Twitter Linked, click "Continue"
@@ -152,7 +154,7 @@ const UserLinkTwitter = () => {
           <button
             className={classNames(
               "font-bold font-helvetica-neue border border-black bg-white text-black hover:bg-black hover:text-white px-2 py-2 rounded-full transition duration-300 ease-in-out mb-4",
-              { hidden: !!user.twitter }
+              { hidden: !!userTwitter }
             )}
             onClick={linkTwitter}
             type="button"
@@ -166,11 +168,11 @@ const UserLinkTwitter = () => {
               "w-1/3 font-bold font-helvetica-neue border border-black px-2 py-2 rounded-full transition duration-300 ease-in-out",
               {
                 "border border-black bg-white text-black hover:bg-black hover:text-white":
-                  !!user.twitter,
-                "border border-black bg-gray-200 text-black": !user.twitter,
+                  !!userTwitter,
+                "border border-black bg-gray-200 text-black": !userTwitter,
               }
             )}
-            disabled={!user.twitter}
+            disabled={!userTwitter}
             onClick={handleUsernameInput}
             type="button"
           >
