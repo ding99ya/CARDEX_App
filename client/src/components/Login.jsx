@@ -19,7 +19,7 @@ const Login = () => {
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
       } else if (response.data.invited && response.data.username.length === 0) {
-        navigate("/login/username");
+        navigate("/login/usertwitter");
       } else if (!response.data.invited) {
         navigate("/login/invite");
       }

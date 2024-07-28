@@ -19,6 +19,8 @@ function ViewProfile() {
   // Variables used to show twitter when user has linked the twitter account
   const [hasTwitter, setHasTwitter] = useState(false);
   const [twitterURL, setTwitterURL] = useState("");
+  const [twitterName, setTwitterName] = useState("");
+  const [twitterProfilePhoto, setTwitterProfilePhoto] = useState("");
 
   const [leaderboardUser, setLeaderboardUser] = useState({
     DID: "",
@@ -52,6 +54,12 @@ function ViewProfile() {
         setTwitterURL(
           didUserHasTwitter ? "https://x.com/" + didUserTwitter.username : ""
         );
+        setTwitterName(didUserHasTwitter ? didUserTwitter.name : "");
+        setTwitterProfilePhoto(
+          didUserHasTwitter ? didUserTwitter.profile_picture_url : ""
+        );
+
+        console.log(didUserTwitter);
 
         const leaderboardResponse = await axios.get(
           `/api/leaderboard/byname/${username}`
@@ -62,6 +70,7 @@ function ViewProfile() {
       }
     };
     fetchUserPosition();
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -181,8 +190,14 @@ function ViewProfile() {
         </span>
         <div className="flex items-center justify-between w-full mx-4">
           <div className="flex items-left space-x-2 mb-2">
+            <span
+              className="w-10 h-10 bg-center bg-cover rounded-full"
+              style={{
+                backgroundImage: `url(${twitterProfilePhoto})`,
+              }}
+            ></span>
             <span className="text-3xl text-black font-helvetica-neue font-semibold">
-              {username}
+              {twitterName}
             </span>
             <span className="relative cursor-pointer">
               {hasTwitter ? (

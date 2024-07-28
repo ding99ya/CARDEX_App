@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { useLocation, useNavigate } from "react-router-dom";
+import GoldMedal from "./GoldMedal.svg";
+import SilverMedal from "./SilverMedal.svg";
+import BronzeMedal from "./BronzeMedal.svg";
 import axios from "axios";
 
 const Leaderboard = () => {
@@ -68,16 +71,16 @@ const Leaderboard = () => {
     <div className="container mx-auto p-4">
       <div class="w-full">
         <div className="flex justify-between items-center mb-4">
-          <div className="ml-auto flex items-center bg-gray-100 rounded-full shadow-md px-2">
+          <div className="ml-auto flex items-center bg-gray-200 rounded-full shadow-md px-2">
             <input
               type="text"
               placeholder="Search by username"
               value={username}
               onChange={handleUsernameChange}
-              className="bg-gray-100 outline-none flex-grow px-4 py-1 rounded-full"
+              className="bg-gray-200 outline-none flex-grow px-2 py-1 rounded-full"
             />
             <svg
-              className="w-6 h-6 text-black cursor-pointer"
+              className="w-5 h-5 text-black cursor-pointer"
               onClick={handleSearchUser}
               fill="none"
               stroke="currentColor"
@@ -96,8 +99,18 @@ const Leaderboard = () => {
       </div>
 
       <div class="w-full px-4 mb-4 border border-black rounded-xl">
-        <div className="text-2xl text-black font-helvetica-neue font-semibold mt-4 mb-6">
-          {currentUsername}
+        <div className="flex items-left space-x-2 mt-4 mb-6">
+          <span
+            className="w-10 h-10 bg-center bg-cover rounded-full"
+            style={{
+              backgroundImage: user.twitter
+                ? `url(${user.twitter.profilePictureUrl})`
+                : `url(${"https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg"})`,
+            }}
+          ></span>
+          <span className="text-2xl text-black font-helvetica-neue font-semibold">
+            {user.twitter.name}
+          </span>
         </div>
         <div class="flex w-full">
           <div class="flex w-1/2 justify-between items-center mb-4">
@@ -118,7 +131,7 @@ const Leaderboard = () => {
         className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
         style={{ borderCollapse: "separate", borderSpacing: 0 }}
       >
-        <thead className="bg-gray-100 rounded-t-xl h-16">
+        <thead className="bg-sky-100 rounded-t-xl h-16">
           <tr>
             <th className="py-2 px-4 text-left">RANK</th>
             <th className="py-2 px-4 text-left">USER</th>
@@ -131,11 +144,45 @@ const Leaderboard = () => {
               key={user.rank}
               className={`hover:border hover:border-black cursor-pointer h-12 ${
                 index === users.length - 1 ? "rounded-b-xl" : ""
-              } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
+              } ${index % 2 === 1 ? "bg-sky-100" : "bg-white"}`}
               onClick={() => handleUserClick(user)}
             >
-              <td className="py-2 px-4 text-left">#{user.rank}</td>
-              <td className="py-2 px-4 text-left">{user.userName}</td>
+              <td className="py-2 px-4 text-left">
+                <div className="flex items-center">
+                  <span>#{user.rank}</span>
+                  {index === 0 && (
+                    <img
+                      src={GoldMedal}
+                      alt="Gold Medal"
+                      className="w-4 h-4 ml-2"
+                    />
+                  )}
+                  {index === 1 && (
+                    <img
+                      src={SilverMedal}
+                      alt="Silver Medal"
+                      className="w-4 h-4 ml-2"
+                    />
+                  )}
+                  {index === 2 && (
+                    <img
+                      src={BronzeMedal}
+                      alt="Bronze Medal"
+                      className="w-4 h-4 ml-2"
+                    />
+                  )}
+                </div>
+              </td>
+              <td className="py-2 px-4 text-left">
+                <div className="flex items-center">
+                  <img
+                    src={user.profilePhoto}
+                    alt={`${user.name}'s profile`}
+                    className="w-6 h-6 rounded-full mr-2"
+                  />
+                  {user.name}
+                </div>
+              </td>
               <td className="py-2 px-4 text-center">{user.paperPoints} Pts</td>
             </tr>
           ))}

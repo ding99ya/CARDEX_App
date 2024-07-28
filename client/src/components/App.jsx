@@ -6,6 +6,7 @@ import Market from "./Market.jsx";
 import Login from "./Login";
 import InviteCode from "./InviteCode";
 import Username from "./Username.jsx";
+import UserLinkTwitter from "./UserLinkTwitter.jsx";
 import UserDeposit from "./UserDeposit.jsx";
 import Layout from "./Layout";
 import NotFound from "./NotFound";
@@ -28,6 +29,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/login/invite" element={<InviteCode />} />
         <Route path="/login/username" element={<Username />} />
+        <Route path="/login/usertwitter" element={<UserLinkTwitter />} />
         <Route path="/login/userdeposit" element={<UserDeposit />} />
         <Route path="/" element={<Layout />}>
           <Route

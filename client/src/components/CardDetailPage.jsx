@@ -19,6 +19,9 @@ import {
 import Chart from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-date-fns";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import CanvasJSReact from "@canvasjs/react-charts";
 import abi from "../CardexV1.json";
 import axios from "axios";
 import BuyModal from "./BuyModal.jsx";
@@ -43,6 +46,8 @@ ChartJS.register(
 );
 
 const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
+
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 function CardDetailPage() {
   const { sendTransaction, user } = usePrivy();
@@ -75,6 +80,8 @@ function CardDetailPage() {
   const [userShares, setUserShares] = useState(0);
   const [prices, setPrices] = useState([]);
   const [times, setTimes] = useState([]);
+  const [priceData, setPriceData] = useState([]);
+
   const chartRef = useRef(null);
 
   const { uniqueId } = useParams();
@@ -410,6 +417,13 @@ function CardDetailPage() {
 
         setPrices(fetchedPrices);
         setTimes(fetchedTimes);
+
+        const fetchedData = fetchedPriceHistory.map((item) => ({
+          x: new Date(item.time),
+          y: item.price,
+        }));
+
+        setPriceData(fetchedData);
       } catch (error) {
         console.error(`Error fetching ${uniqueId} prices:`, error);
       }
@@ -425,6 +439,39 @@ function CardDetailPage() {
       console.log("Event successfully unsubscribed!");
     };
   }, [uniqueId]);
+
+  const normalizeTimestamps = (times, prices) => {
+    const normalizedData = [];
+    const dayBuckets = {};
+
+    // Group data by day
+    times.forEach((time, index) => {
+      const date = new Date(time).toDateString(); // Get date string without time
+      if (!dayBuckets[date]) {
+        dayBuckets[date] = [];
+      }
+      dayBuckets[date].push({ time, price: prices[index] });
+    });
+
+    // Normalize timestamps within each day
+    Object.keys(dayBuckets).forEach((date, i, arr) => {
+      const dayData = dayBuckets[date];
+      const startTime = new Date(date).getTime();
+      const endTime =
+        i < arr.length - 1
+          ? new Date(arr[i + 1]).getTime()
+          : startTime + 24 * 60 * 60 * 1000;
+
+      const interval = (endTime - startTime) / (dayData.length - 1);
+
+      dayData.forEach((item, index) => {
+        const normalizedTime = startTime + interval * index;
+        normalizedData.push({ x: normalizedTime, y: item.price });
+      });
+    });
+
+    return normalizedData;
+  };
 
   // Need to turn it to GMT, also in server folder updateCard.js
   function formatDateString(dateString) {
@@ -485,64 +532,28 @@ function CardDetailPage() {
   //   },
   // };
 
-  const formattedData = times.map((time, index) => ({
-    x: new Date(time), // Convert to Date object
-    y: prices[index],
-  }));
-
-  const data = {
-    datasets: [
+  const options = {
+    theme: "light2",
+    animationEnabled: true,
+    zoomEnabled: true,
+    title: {
+      text: "Price History",
+    },
+    axisX: {
+      title: "Date",
+      valueFormatString: "YYYY-MM-DD",
+    },
+    axisY: {
+      title: "Price (ETH)",
+      includeZero: false,
+    },
+    data: [
       {
-        label: "Price",
-        data: formattedData,
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        fill: false,
+        type: "line",
+        xValueType: "dateTime",
+        dataPoints: priceData,
       },
     ],
-  };
-
-  const options = {
-    responsive: true,
-    scales: {
-      x: {
-        type: "time", // Use time scale for x-axis
-        time: {
-          unit: "day", // Adjust based on your data
-          tooltipFormat: "PP", // Format for tooltip
-        },
-        title: {
-          display: true,
-          text: "Date",
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: "Price (ETH)",
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      zoom: {
-        pan: {
-          enabled: true,
-          mode: "xy",
-        },
-        zoom: {
-          wheel: {
-            enabled: true,
-          },
-          pinch: {
-            enabled: true,
-          },
-          mode: "xy",
-        },
-      },
-    },
   };
 
   const handleNextClick = () => {
@@ -715,7 +726,8 @@ function CardDetailPage() {
             </button>
           </div>
           <div>
-            <Line ref={chartRef} data={data} options={options} />
+            {/* <Line ref={chartRef} data={data} options={options} /> */}
+            <CanvasJSChart options={options} />
           </div>
         </div>
       </div>

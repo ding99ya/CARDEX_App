@@ -42,6 +42,11 @@ function Profile() {
         -4
       )}`
     : "0x0";
+  const twitterProfilePhoto = user
+    ? user.twitter.profilePictureUrl
+    : "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg";
+  const twitterName = user ? user.twitter.name : "";
+  const twitterUsername = user ? user.twitter.username : "";
 
   const hasMounted = useRef(false);
   const Navigate = useNavigate();
@@ -109,6 +114,7 @@ function Profile() {
       }
     };
     fetchUserPosition();
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -182,6 +188,10 @@ function Profile() {
         state: { from: location.pathname },
       });
     }
+  };
+
+  const handleTwitterImageClick = (twitterURL) => {
+    window.open(twitterURL, "_blank");
   };
 
   const linkOrUnlinkTwitter = () => {
@@ -312,21 +322,29 @@ function Profile() {
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col items-left">
             <div className="flex items-left space-x-2 mb-2">
+              <span
+                className="w-10 h-10 bg-center bg-cover rounded-full"
+                style={{
+                  backgroundImage: `url(${twitterProfilePhoto})`,
+                }}
+              ></span>
               <span className="text-3xl text-black font-helvetica-neue font-semibold">
-                {currentUsername}
+                {twitterName}
               </span>
               <span
-                className="relative cursor-pointer"
-                onMouseEnter={() => setTwitterHover(true)}
-                onMouseLeave={() => setTwitterHover(false)}
+                className="cursor-pointer"
+                // onMouseEnter={() => setTwitterHover(true)}
+                // onMouseLeave={() => setTwitterHover(false)}
               >
                 <img
-                  onClick={linkOrUnlinkTwitter}
+                  onClick={() =>
+                    handleTwitterImageClick("https://x.com/" + twitterUsername)
+                  }
                   src={TwitterLogo}
                   alt="Twitter"
                   className="w-5 h-5"
                 />
-                {twitterHover && !twitterLinked && (
+                {/* {twitterHover && !twitterLinked && (
                   <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded whitespace-nowrap">
                     Link Twitter
                   </span>
@@ -335,7 +353,7 @@ function Profile() {
                   <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded whitespace-nowrap">
                     Unlink Twitter
                   </span>
-                )}
+                )} */}
               </span>
             </div>
             <div className="flex items-left space-x-2">

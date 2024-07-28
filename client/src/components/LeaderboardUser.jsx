@@ -51,7 +51,7 @@ const LeaderboardUser = () => {
         className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
         style={{ borderCollapse: "separate", borderSpacing: 0 }}
       >
-        <thead className="bg-gray-100 rounded-t-xl h-16">
+        <thead className="bg-sky-100 rounded-t-xl h-16">
           <tr>
             <th className="py-2 px-4 text-left">RANK</th>
             <th className="py-2 px-4 text-left">USER</th>
@@ -64,11 +64,24 @@ const LeaderboardUser = () => {
               key={user.rank}
               className={`hover:border hover:border-black cursor-pointer h-12 ${
                 index === users.length - 1 ? "rounded-b-xl" : ""
-              } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
+              } ${index % 2 === 1 ? "bg-sky-100" : "bg-white"}`}
               onClick={() => handleUserClick(user)}
             >
-              <td className="py-2 px-4 text-left">#{user.rank}</td>
-              <td className="py-2 px-4 text-left">{user.userName}</td>
+              <td className="py-2 px-4 text-left">
+                <div className="flex items-center">
+                  <span>#{user.rank}</span>
+                </div>
+              </td>
+              <td className="py-2 px-4 text-left">
+                <div className="flex items-center">
+                  <img
+                    src={user.profilePhoto}
+                    alt={`${user.name}'s profile`}
+                    className="w-6 h-6 rounded-full mr-2"
+                  />
+                  {user.name}
+                </div>
+              </td>
               <td className="py-2 px-4 text-center">{user.paperPoints} Pts</td>
             </tr>
           ))}

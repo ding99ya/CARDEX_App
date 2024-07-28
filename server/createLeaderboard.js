@@ -14,7 +14,9 @@ mongoose
 const leaderboardSchema = new mongoose.Schema({
   DID: String,
   walletAddress: String,
+  name: String,
   userName: String,
+  profilePhoto: String,
   rank: Number,
   paperPoints: Number,
 });
@@ -26,10 +28,10 @@ const Leaderboard = mongoose.model("leaderboard", leaderboardSchema);
 const createLeaderboard = async () => {
   const exampleDID1 = "did:privy:clvoc7dzr00ftne36qf962c4u";
   const exampleWalletAddress1 = "0xaB6144cD2f8b54F71cB7f91F7b8e56917B721c65";
-  const exampleUserName1 = "DING99YA";
-  const exampleDID2 = "did:privy:clvjy5dj7000b11gxs0lbm4q3";
-  const exampleWalletAddress2 = "0x0e2A4ae795BD9AA5c35c6278025020A7ceb92fE8";
-  const exampleUserName2 = "FENGHU428";
+  const exampleUserName1 = "ding99ya";
+  const exampleDID2 = "did:privy:clz4nweqy045hogar0f4gh85n";
+  const exampleWalletAddress2 = "0x19854409c8383F90b3f2B769A5ce1967fc2058a4";
+  const exampleUserName2 = "0xLRM";
 
   const exampleLeaderboard = [];
 
@@ -37,8 +39,11 @@ const createLeaderboard = async () => {
     if (i % 2 === 0) {
       exampleLeaderboard.push({
         DID: exampleDID1,
-        walletAddress: exampleWalletAddress2,
-        userName: exampleUserName1 + "-" + i.toString(),
+        walletAddress: exampleWalletAddress1,
+        name: exampleUserName1 + "-" + i.toString(),
+        userName: exampleUserName1,
+        profilePhoto:
+          "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg",
         rank: i + 1,
         paperPoints: 100 - i,
       });
@@ -46,7 +51,10 @@ const createLeaderboard = async () => {
       exampleLeaderboard.push({
         DID: exampleDID2,
         walletAddress: exampleWalletAddress2,
-        userName: exampleUserName2 + "-" + i.toString(),
+        name: exampleUserName2 + "-" + i.toString(),
+        userName: exampleUserName2,
+        profilePhoto:
+          "https://pbs.twimg.com/profile_images/1778774373890916352/hPFMHE0-_normal.jpg",
         rank: i + 1,
         paperPoints: 100 - i,
       });

@@ -359,7 +359,8 @@ app.get("/api/leaderboard", async (req, res) => {
 });
 
 app.post("/api/leaderboard", async (req, res) => {
-  const { DID, walletAddress, userName, paperPoints } = req.body;
+  const { DID, walletAddress, name, userName, profilePhoto, paperPoints } =
+    req.body;
 
   // if (!DID || !walletAddress || !userName || paperPoints === undefined) {
   //   return res.status(400).json({ message: "All fields are required" });
@@ -373,7 +374,9 @@ app.post("/api/leaderboard", async (req, res) => {
     const newLeaderboardEntry = new LeaderboardModel({
       DID: DID,
       walletAddress: walletAddress,
+      name: name,
       userName: userName,
+      profilePhoto: profilePhoto,
       rank: count + 1, // Rank is the current count + 1
       paperPoints: paperPoints,
     });
@@ -415,7 +418,26 @@ app.get("/api/leaderboard/byname/:userName", async (req, res) => {
   }
 });
 
-app.get("/api/leaderboard/containname/:userName", async (req, res) => {
+app.get("/api/leaderboard/containname/:name", async (req, res) => {
+  const { name } = req.params;
+  try {
+    // Use regex to perform a case-insensitive search
+    const users = await LeaderboardModel.find({
+      name: { $regex: name, $options: "i" },
+    });
+
+    if (users.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/api/leaderboard/containusername/:userName", async (req, res) => {
   const { userName } = req.params;
   try {
     // Use regex to perform a case-insensitive search
