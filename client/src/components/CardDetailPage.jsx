@@ -42,7 +42,7 @@ ChartJS.register(
   zoomPlugin
 );
 
-const socket = io("https://cardex-backend-api-6c90240ece64.herokuapp.com/");
+const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
 
 function CardDetailPage() {
   const { sendTransaction, user } = usePrivy();

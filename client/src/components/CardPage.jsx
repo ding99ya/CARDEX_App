@@ -22,7 +22,7 @@ const contract = new web3.eth.Contract(
   process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR
 );
 
-const socket = io("https://cardex-backend-api-6c90240ece64.herokuapp.com/");
+const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
 
 function CardPage({ category }) {
   const { sendTransaction, user } = usePrivy();
