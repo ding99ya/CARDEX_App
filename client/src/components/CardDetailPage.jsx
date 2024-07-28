@@ -16,12 +16,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import Chart from "chart.js/auto";
-import zoomPlugin from "chartjs-plugin-zoom";
-import "chartjs-adapter-date-fns";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import CanvasJSReact from "@canvasjs/react-charts";
 import abi from "../CardexV1.json";
 import axios from "axios";
 import BuyModal from "./BuyModal.jsx";
@@ -41,13 +35,10 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend,
-  zoomPlugin
+  Legend
 );
 
 const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
-
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 function CardDetailPage() {
   const { sendTransaction, user } = usePrivy();
@@ -80,9 +71,6 @@ function CardDetailPage() {
   const [userShares, setUserShares] = useState(0);
   const [prices, setPrices] = useState([]);
   const [times, setTimes] = useState([]);
-  const [priceData, setPriceData] = useState([]);
-
-  const chartRef = useRef(null);
 
   const { uniqueId } = useParams();
 
@@ -417,13 +405,6 @@ function CardDetailPage() {
 
         setPrices(fetchedPrices);
         setTimes(fetchedTimes);
-
-        const fetchedData = fetchedPriceHistory.map((item) => ({
-          x: new Date(item.time),
-          y: item.price,
-        }));
-
-        setPriceData(fetchedData);
       } catch (error) {
         console.error(`Error fetching ${uniqueId} prices:`, error);
       }
@@ -440,39 +421,6 @@ function CardDetailPage() {
     };
   }, [uniqueId]);
 
-  const normalizeTimestamps = (times, prices) => {
-    const normalizedData = [];
-    const dayBuckets = {};
-
-    // Group data by day
-    times.forEach((time, index) => {
-      const date = new Date(time).toDateString(); // Get date string without time
-      if (!dayBuckets[date]) {
-        dayBuckets[date] = [];
-      }
-      dayBuckets[date].push({ time, price: prices[index] });
-    });
-
-    // Normalize timestamps within each day
-    Object.keys(dayBuckets).forEach((date, i, arr) => {
-      const dayData = dayBuckets[date];
-      const startTime = new Date(date).getTime();
-      const endTime =
-        i < arr.length - 1
-          ? new Date(arr[i + 1]).getTime()
-          : startTime + 24 * 60 * 60 * 1000;
-
-      const interval = (endTime - startTime) / (dayData.length - 1);
-
-      dayData.forEach((item, index) => {
-        const normalizedTime = startTime + interval * index;
-        normalizedData.push({ x: normalizedTime, y: item.price });
-      });
-    });
-
-    return normalizedData;
-  };
-
   // Need to turn it to GMT, also in server folder updateCard.js
   function formatDateString(dateString) {
     const date = new Date(dateString);
@@ -487,73 +435,49 @@ function CardDetailPage() {
   }
 
   // Format the dates to a readable string for the chart labels
-  // const formattedTimes = times.map((time, index) => formatDateString(time));
+  const formattedTimes = times.map((time) => formatDateString(time));
 
-  // const data = {
-  //   labels: formattedTimes,
-  //   datasets: [
-  //     {
-  //       label: "Price",
-  //       data: prices,
-  //       borderColor: "rgba(75, 192, 192, 1)",
-  //       backgroundColor: "rgba(75, 192, 192, 0.2)",
-  //       fill: false,
-  //     },
-  //   ],
-  // };
-
-  // const options = {
-  //   scales: {
-  //     x: {
-  //       type: "category",
-  //       title: {
-  //         display: true,
-  //         text: "Date",
-  //       },
-  //       ticks: {
-  //         display: false, // Hide the x-axis labels
-  //       },
-  //     },
-  //     y: {
-  //       title: {
-  //         display: true,
-  //         text: "Price (ETH)",
-  //       },
-  //     },
-  //   },
-  //   plugins: {
-  //     // title: {
-  //     //   display: true,
-  //     //   text: "Price Trend",
-  //     // },
-  //     legend: {
-  //       display: false,
-  //     },
-  //   },
-  // };
-
-  const options = {
-    theme: "light2",
-    animationEnabled: true,
-    zoomEnabled: true,
-    title: {
-      text: "Price History",
-    },
-    axisX: {
-      title: "Date",
-      valueFormatString: "YYYY-MM-DD",
-    },
-    axisY: {
-      title: "Price (ETH)",
-      includeZero: false,
-    },
-    data: [
+  const data = {
+    labels: formattedTimes,
+    datasets: [
       {
-        type: "line",
-        xValueType: "dateTime",
-        dataPoints: priceData,
+        label: "Price",
+        data: prices,
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: false,
       },
     ],
+  };
+
+  const options = {
+    scales: {
+      x: {
+        type: "category",
+        title: {
+          display: true,
+          text: "Date",
+        },
+        ticks: {
+          display: false, // Hide the x-axis labels
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Price (ETH)",
+        },
+      },
+    },
+    plugins: {
+      // title: {
+      //   display: true,
+      //   text: "Price Trend",
+      // },
+      legend: {
+        display: false,
+      },
+    },
   };
 
   const handleNextClick = () => {
@@ -726,8 +650,7 @@ function CardDetailPage() {
             </button>
           </div>
           <div>
-            {/* <Line ref={chartRef} data={data} options={options} /> */}
-            <CanvasJSChart options={options} />
+            <Line data={data} options={options} />
           </div>
         </div>
       </div>
