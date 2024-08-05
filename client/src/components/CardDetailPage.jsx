@@ -496,7 +496,7 @@ function CardDetailPage() {
   );
 
   return (
-    <div className="container mx-auto p-4 flex flex-col lg:flex-row justify-between items-start">
+    <div className="container mx-auto p-4 flex flex-col lg:flex-row justify-between items-start relative">
       <div className="w-full lg:w-1/2 mb-4 lg:mb-0 lg:mr-4">
         <span
           onClick={() => handleBackClick()}
@@ -532,7 +532,7 @@ function CardDetailPage() {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-1/2">
+      <div className="w-full lg:w-1/2 relative">
         <div className="p-2">
           <h2 className="text-2xl font-bold mb-4">{card.name}</h2>
 
@@ -573,14 +573,6 @@ function CardDetailPage() {
             >
               Buy
             </button>
-            <BuyModal
-              open={openBuyModal}
-              onClose={() => setOpenBuyModal(false)}
-              buy={buy}
-              fetchCost={fetchCost}
-              cardName={card.name}
-              cardPhoto={card.photo}
-            />
             <button
               onClick={() => setOpenSellModal(true)}
               className={classNames(
@@ -597,16 +589,7 @@ function CardDetailPage() {
             >
               Sell
             </button>
-            <SellModal
-              open={openSellModal}
-              shareHolders={card.shares}
-              userShares={userShares}
-              onClose={() => setOpenSellModal(false)}
-              sell={sell}
-              fetchProfit={fetchProfit}
-              cardName={card.name}
-              cardPhoto={card.photo}
-            />
+
             <button
               onClick={() => claim()}
               className="w-1/3 bg-white text-black font-bold border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
@@ -616,7 +599,7 @@ function CardDetailPage() {
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 relative z-0">
           <div className="flex border-b">
             <button
               className={`py-2 px-4 font-semibold ${
@@ -641,7 +624,7 @@ function CardDetailPage() {
           </div>
 
           {activeTab === "activity" && (
-            <div>
+            <div className="relative max-w-full z-0">
               <InfiniteScroll
                 dataLength={activities.length}
                 next={fetchActivities}
@@ -654,10 +637,10 @@ function CardDetailPage() {
                 >
                   <thead className="bg-sky-100 rounded-t-xl h-16">
                     <tr>
-                      <th className="py-2 px-4 text-left">TIME</th>
-                      <th className="py-2 px-4 text-left">QUANTITY</th>
-                      <th className="py-2 px-4 text-center">TRADER</th>
-                      <th className="py-2 px-4 text-center">PRICE</th>
+                      <th className="py-2 px-4 text-left">Time</th>
+                      <th className="py-2 px-4 text-left">Qty</th>
+                      <th className="py-2 px-4 text-center">Trader</th>
+                      <th className="py-2 px-4 text-center">Price</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -704,16 +687,16 @@ function CardDetailPage() {
           )}
 
           {activeTab === "holders" && (
-            <div>
+            <div className="max-w-full">
               <table
                 className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
                 style={{ borderCollapse: "separate", borderSpacing: 0 }}
               >
                 <thead className="bg-sky-100 rounded-t-xl h-16">
                   <tr>
-                    <th className="py-2 px-4 text-left">HOLDER</th>
-                    <th className="py-2 px-4 text-center">POSITION</th>
-                    <th className="py-2 px-4 text-center">WORTH</th>
+                    <th className="py-2 px-4 text-left">Holder</th>
+                    <th className="py-2 px-4 text-center">Position</th>
+                    <th className="py-2 px-4 text-center">Worth</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -751,6 +734,24 @@ function CardDetailPage() {
           )}
         </div>
       </div>
+      <BuyModal
+        open={openBuyModal}
+        onClose={() => setOpenBuyModal(false)}
+        buy={buy}
+        fetchCost={fetchCost}
+        cardName={card.name}
+        cardPhoto={card.photo}
+      />
+      <SellModal
+        open={openSellModal}
+        shareHolders={card.shares}
+        userShares={userShares}
+        onClose={() => setOpenSellModal(false)}
+        sell={sell}
+        fetchProfit={fetchProfit}
+        cardName={card.name}
+        cardPhoto={card.photo}
+      />
     </div>
   );
 }
