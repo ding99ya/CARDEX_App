@@ -1,42 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useLocation, useParams } from "react-router-dom";
 import { encodeFunctionData } from "viem";
 import { Contract, providers, BigNumber } from "ethers";
 import { useNavigate } from "react-router-dom";
-import { Line } from "react-chartjs-2";
 import classNames from "classnames";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import abi from "../CardexV1.json";
 import axios from "axios";
 import BuyModal from "./BuyModal.jsx";
 import SellModal from "./SellModal.jsx";
 import io from "socket.io-client";
+import InfiniteScroll from "react-infinite-scroll-component";
+import moment from "moment";
 import "../index.css";
 
 // Alchemy configuration to fetch info from blockchain and set up info
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const web3 = createAlchemyWeb3(process.env.REACT_APP_ALCHEMY_KEY);
-
-// Register the components required for Chart.js
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
 
@@ -69,13 +49,48 @@ function CardDetailPage() {
 
   const [isFront, setIsFront] = useState(true);
   const [userShares, setUserShares] = useState(0);
-  const [prices, setPrices] = useState([]);
-  const [times, setTimes] = useState([]);
 
   const { uniqueId } = useParams();
 
   const [openBuyModal, setOpenBuyModal] = useState(false);
   const [openSellModal, setOpenSellModal] = useState(false);
+
+  const [activities, setActivities] = useState([]);
+  const [currentPage, setCurrentpage] = useState(2);
+  const [hasMore, setHasMore] = useState(true);
+
+  const [holders, setHolders] = useState([]);
+
+  const [activeTab, setActiveTab] = useState("activity");
+
+  const fetchActivities = async () => {
+    console.log("Fetching Activities...");
+    const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
+      params: { page: currentPage, limit: 30 },
+    });
+
+    const data = response.data;
+    setActivities((prevActivities) => [...prevActivities, ...response.data]);
+
+    setCurrentpage(currentPage + 1);
+    setHasMore(data.length === 30);
+  };
+
+  const formatTime = (time) => {
+    const now = moment();
+    const activityTime = moment(time);
+    const diffInSeconds = now.diff(activityTime, "seconds");
+
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}s`;
+    } else if (diffInSeconds < 3600) {
+      return `${Math.floor(diffInSeconds / 60)}m`;
+    } else if (diffInSeconds < 86400) {
+      return `${Math.floor(diffInSeconds / 3600)}h`;
+    } else {
+      return `${Math.floor(diffInSeconds / 86400)}d`;
+    }
+  };
 
   const updateCard = (currentHolders) => {
     setCard((prevCard) => {
@@ -394,22 +409,39 @@ function CardDetailPage() {
 
     fetchUserShares();
 
-    // Fetch price history for card with specific uniqueId
-    const fetchPriceHistoryData = async () => {
+    // const fetchCardActivity = async (page) => {
+    //   try {
+    //     const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
+    //       params: { page: page, limit: 10 },
+    //     });
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error(`Error fetching card activity:`, error);
+    //   }
+    // };
+    // fetchCardActivity(2);
+
+    const fetchCardHolder = async () => {
       try {
-        const response = await axios.get(`/api/prices/${uniqueId}`);
-        const fetchedPriceHistory = response.data.priceHistory;
-
-        const fetchedPrices = fetchedPriceHistory.map((item) => item.price);
-        const fetchedTimes = fetchedPriceHistory.map((item) => item.time);
-
-        setPrices(fetchedPrices);
-        setTimes(fetchedTimes);
+        const response = await axios.get(`/api/cardholders/${uniqueId}`);
+        console.log(response.data);
+        setHolders(response.data);
       } catch (error) {
-        console.error(`Error fetching ${uniqueId} prices:`, error);
+        console.error(`Error fetching card holders:`, error);
       }
     };
-    fetchPriceHistoryData();
+    fetchCardHolder();
+
+    const fetchInitialActivities = async () => {
+      console.log("Fetching Initial Activities...");
+      const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
+        params: { page: 1, limit: 30 },
+      });
+      setActivities(response.data);
+      setHasMore(response.data.length === 30);
+    };
+
+    fetchInitialActivities();
 
     // const buyEventSubscription = addBuyListener();
     // const sellEventSubscription = addSellListener();
@@ -420,65 +452,6 @@ function CardDetailPage() {
       console.log("Event successfully unsubscribed!");
     };
   }, [uniqueId]);
-
-  // Need to turn it to GMT, also in server folder updateCard.js
-  function formatDateString(dateString) {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
-
-  // Format the dates to a readable string for the chart labels
-  const formattedTimes = times.map((time) => formatDateString(time));
-
-  const data = {
-    labels: formattedTimes,
-    datasets: [
-      {
-        label: "Price",
-        data: prices,
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        fill: false,
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      x: {
-        type: "category",
-        title: {
-          display: true,
-          text: "Date",
-        },
-        ticks: {
-          display: false, // Hide the x-axis labels
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: "Price (ETH)",
-        },
-      },
-    },
-    plugins: {
-      // title: {
-      //   display: true,
-      //   text: "Price Trend",
-      // },
-      legend: {
-        display: false,
-      },
-    },
-  };
 
   const handleNextClick = () => {
     setIsFront(false);
@@ -560,7 +533,7 @@ function CardDetailPage() {
         </div>
       </div>
       <div className="w-full lg:w-1/2">
-        <div className="p-6">
+        <div className="p-2">
           <h2 className="text-2xl font-bold mb-4">{card.name}</h2>
 
           <div className="text-center w-full">
@@ -583,14 +556,6 @@ function CardDetailPage() {
               <span className="text-base font-helvetica">Price:</span>
               <span className="text-base font-helvetica">{card.price} ETH</span>
             </div>
-            {/* <div className="flex justify-end items-center w-full mt-1">
-              <span className="text-base font-helvetica">{card.trend}%</span>
-              {card.trend > 0 ? (
-                <span className="ml-2">{upArrow}</span>
-              ) : (
-                <span className="ml-2">{downArrow}</span>
-              )}
-            </div> */}
             <div className="flex justify-between w-full mt-1">
               <span className="text-base font-helvetica">Holders:</span>
               <span className="text-base font-helvetica">{card.shares}</span>
@@ -649,9 +614,141 @@ function CardDetailPage() {
               Claim
             </button>
           </div>
-          <div>
-            <Line data={data} options={options} />
+        </div>
+
+        <div className="mt-8">
+          <div className="flex border-b">
+            <button
+              className={`py-2 px-4 font-semibold ${
+                activeTab === "activity"
+                  ? "border-b-2 border-blue-500 text-blue-500"
+                  : "text-gray-500"
+              }`}
+              onClick={() => setActiveTab("activity")}
+            >
+              Activity
+            </button>
+            <button
+              className={`py-2 px-4 font-semibold ${
+                activeTab === "holders"
+                  ? "border-b-2 border-blue-500 text-blue-500"
+                  : "text-gray-500"
+              }`}
+              onClick={() => setActiveTab("holders")}
+            >
+              Holders
+            </button>
           </div>
+
+          {activeTab === "activity" && (
+            <div>
+              <InfiniteScroll
+                dataLength={activities.length}
+                next={fetchActivities}
+                hasMore={hasMore}
+                loader={<p>Loading...</p>}
+              >
+                <table
+                  className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
+                  style={{ borderCollapse: "separate", borderSpacing: 0 }}
+                >
+                  <thead className="bg-sky-100 rounded-t-xl h-16">
+                    <tr>
+                      <th className="py-2 px-4 text-left">TIME</th>
+                      <th className="py-2 px-4 text-left">QUANTITY</th>
+                      <th className="py-2 px-4 text-center">TRADER</th>
+                      <th className="py-2 px-4 text-center">PRICE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {activities.map((activity, index) => (
+                      <tr
+                        className={`hover:border hover:border-black cursor-pointer h-12 ${
+                          index === activities.length - 1 ? "rounded-b-xl" : ""
+                        } ${index % 2 === 1 ? "bg-sky-100" : "bg-white"}`}
+                        // onClick={() => handleUserClick(user)}
+                      >
+                        <td className="py-2 px-4 text-left">
+                          <div className="flex items-center">
+                            <span>{formatTime(activity.time)}</span>
+                          </div>
+                        </td>
+                        <td
+                          className={`py-2 px-4 text-left ${
+                            activity.isBuy ? "text-green-500" : "text-red-500"
+                          }`}
+                        >
+                          {activity.isBuy
+                            ? `Buy ${activity.shares}`
+                            : `Sell ${activity.shares}`}
+                        </td>
+                        <td className="py-2 px-4 text-center">
+                          <div className="flex items-center justify-center">
+                            <img
+                              src={activity.profilePhoto}
+                              alt={`${activity.name}'s profile`}
+                              className="w-6 h-6 rounded-full mr-2"
+                            />
+                            <span>{activity.name}</span>
+                          </div>
+                        </td>
+                        <td className="py-2 px-4 text-center">
+                          {activity.ethAmount} ETH
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </InfiniteScroll>
+            </div>
+          )}
+
+          {activeTab === "holders" && (
+            <div>
+              <table
+                className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
+                style={{ borderCollapse: "separate", borderSpacing: 0 }}
+              >
+                <thead className="bg-sky-100 rounded-t-xl h-16">
+                  <tr>
+                    <th className="py-2 px-4 text-left">HOLDER</th>
+                    <th className="py-2 px-4 text-center">POSITION</th>
+                    <th className="py-2 px-4 text-center">WORTH</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {holders.map((holder, index) => (
+                    <tr
+                      className={`hover:border hover:border-black cursor-pointer h-12 ${
+                        index === activities.length - 1 ? "rounded-b-xl" : ""
+                      } ${index % 2 === 1 ? "bg-sky-100" : "bg-white"}`}
+                      // onClick={() => handleUserClick(user)}
+                    >
+                      <td className="py-2 px-4 text-left">
+                        <div className="flex items-center">
+                          <img
+                            src={holder.profilePhoto}
+                            alt={`${holder.name}'s profile`}
+                            className="w-6 h-6 rounded-full mr-2"
+                          />
+                          {holder.name}
+                        </div>
+                      </td>
+                      <td className="py-2 px-4 text-center">
+                        {holder.shares} shares
+                      </td>
+                      <td className="py-2 px-4 text-center">
+                        {(Number(holder.shares) * Number(card.price)).toFixed(
+                          4
+                        )}{" "}
+                        ETH
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -12,6 +12,8 @@ const UserModel = require("./models/UserModel.js");
 const LeaderboardModel = require("./models/LeaderboardModel.js");
 const InviteCodeModel = require("./models/inviteCodeModel.js");
 const PresaleUserModel = require("./models/PresaleUserModel.js");
+const CardActivityModel = require("./models/CardActivityModel.js");
+const CardHolderModel = require("./models/CardHolderModel.js");
 const path = require("path");
 const axios = require("axios");
 const { PrivyClient } = require("@privy-io/server-auth");
@@ -48,6 +50,52 @@ app.get("/test", (req, res) => {
 app.post("/register", (req, res) => {
   const { name, email, sms, owns } = req.body;
   User.create();
+});
+
+// API endpoint for lazy loading activities
+app.get("/api/cardactivity/:uniqueId", async (req, res) => {
+  const { uniqueId } = req.params;
+  const { page, limit } = req.query;
+
+  const skip = (page - 1) * limit;
+  const limitInt = parseInt(limit);
+
+  try {
+    const result = await CardActivityModel.aggregate([
+      { $match: { uniqueId } },
+      {
+        $project: {
+          activity: { $slice: ["$activity", skip, limitInt] },
+        },
+      },
+    ]);
+
+    if (result.length === 0) {
+      return res.json([]);
+    }
+
+    const { activity } = result[0];
+
+    res.json(activity);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/api/cardholders/:uniqueId", async (req, res) => {
+  try {
+    const cardHolders = await CardHolderModel.findOne({
+      uniqueId: req.params.uniqueId,
+    });
+    if (!cardHolders) {
+      return res.json([]);
+    }
+    res.json(cardHolders.holders);
+  } catch (error) {
+    console.error("Error in /api/cardholders/:uniqueId:", error);
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // Create an endpoint to fetch user info
@@ -142,6 +190,7 @@ app.post("/api/users", async (req, res) => {
         walletAddress: walletAddress,
         username: username,
         invited: invited,
+        inviteCode: "",
         cardInventory: cardInventory,
       });
       await user.save();

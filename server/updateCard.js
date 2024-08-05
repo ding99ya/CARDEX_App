@@ -1,5 +1,6 @@
 const { Contract, providers, BigNumber } = require("ethers");
 const abi = require("./CardexV1.json");
+const axios = require("axios");
 
 const mongoose = require("mongoose");
 // const CardModel = require("./models/CardModel");
@@ -14,7 +15,7 @@ mongoose
 // Alchemy configuration to fetch info from blockchain and set up info
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const alchemyKey =
-  "wss://base-sepolia.g.alchemy.com/v2/9CJFODeY1tvRhobyTvaylvYe4F7oOacS";
+  "wss://base-sepolia.g.alchemy.com/v2/wMbCgZrHMGP75QlXkB6LtcKOKDb4BHfg";
 const web3 = createAlchemyWeb3(alchemyKey);
 
 // CardexV1 address on Base Sepolia
@@ -27,7 +28,9 @@ const contract = new web3.eth.Contract(abi, CONTRACT_ADDR);
 const cardSchema = new mongoose.Schema({
   name: String,
   photo: String,
+  backPhoto: String,
   uniqueId: { type: String, unique: true },
+  rarity: String,
   ipoTime: String,
   price: Number,
   category: String,
@@ -75,6 +78,43 @@ const usersSchema = new mongoose.Schema({
 
 // Create the model for the prices collection
 const users = mongoose.model("users", usersSchema);
+
+// Define the holders schema
+const holderSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  username: { type: String, required: true },
+  profilePhoto: { type: String, required: true },
+  shares: { type: Number, required: true },
+});
+
+// Define the cardHolders schema
+const cardHolderSchema = new mongoose.Schema({
+  uniqueId: { type: String, required: true, unique: true },
+  holders: { type: [holderSchema], required: true },
+});
+
+// Create the model for the card holders collection
+const cardHolders = mongoose.model("cardHolders", cardHolderSchema);
+
+// Define the activities schems
+const activitySchema = new mongoose.Schema({
+  time: { type: Date, required: true },
+  name: { type: String, required: true },
+  username: { type: String, required: true },
+  profilePhoto: { type: String, required: true },
+  isBuy: { type: Boolean, require: true },
+  shares: { type: Number, required: true },
+  ethAmount: { type: Number, required: true },
+});
+
+// Define the cardActivity schema
+const cardActivitySchema = new mongoose.Schema({
+  uniqueId: { type: String, required: true, unique: true },
+  activity: { type: [activitySchema], required: true },
+});
+
+// Create the model for the card activities collection
+const CardActivity = mongoose.model("cardActivity", cardActivitySchema);
 
 // Function to update the info for a specific card including latest price, trend and share holders
 const updateCard = async (uniqueId, newPrice, newTrend, newShares) => {
@@ -128,6 +168,190 @@ const updateOrCreatePrice = async (uniqueId, newPrice, newTime) => {
   }
 };
 
+// Function to update or create a card holder
+const updateOrCreateCardHolder = async (
+  uniqueId,
+  name,
+  username,
+  profilePhoto,
+  shares
+) => {
+  try {
+    const existingCardHolder = await cardHolders.findOne({ uniqueId });
+
+    if (existingCardHolder) {
+      // Find the index of the holder with the given username
+      const holderIndex = existingCardHolder.holders.findIndex(
+        (holder) => holder.username === username
+      );
+      if (holderIndex !== -1) {
+        if (shares === 0) {
+          // If shares is 0, remove the holder
+          existingCardHolder.holders.splice(holderIndex, 1);
+          console.log(`Holder with username ${username} removed successfully`);
+        } else {
+          // If the holder exists, update the shares
+          existingCardHolder.holders[holderIndex].shares = shares;
+        }
+      } else {
+        // If the holder does not exist, add a new holder
+        if (shares !== 0) {
+          existingCardHolder.holders.push({
+            name,
+            username,
+            profilePhoto,
+            shares,
+          });
+        }
+      }
+
+      // Save the updated document
+      await existingCardHolder.save();
+      console.log("Holder updated successfully");
+    } else {
+      // If the document does not exist, create a new one
+      const newCardHolder = new cardHolders({
+        uniqueId,
+        holders: [
+          {
+            name: name,
+            username: username,
+            profilePhoto: profilePhoto,
+            shares: shares,
+          },
+        ],
+      });
+      await newCardHolder.save();
+      console.log(`cardHolder created for Card ${uniqueId}`);
+    }
+  } catch (err) {
+    console.error(
+      `Error updating or creating cardHolder for Card ${uniqueId} with error: `,
+      err
+    );
+  }
+};
+
+// Function to determine if to update card holders and card activities
+const updateCardHoldersAndActivity = async (
+  walletAddress,
+  uniqueId,
+  shares,
+  isBuy,
+  deltaShares,
+  ethAmount
+) => {
+  try {
+    const user = await users.findOne({ walletAddress });
+
+    if (user && user.DID !== "0") {
+      const privyUrl = `https://auth.privy.io/api/v1/users/${user.DID}`;
+
+      const response = await axios.get(privyUrl, {
+        headers: {
+          Authorization: `Basic ${btoa(
+            process.env.PRIVY_APP_ID + ":" + process.env.PRIVY_APP_SECRET
+          )}`,
+          "privy-app-id": process.env.PRIVY_APP_ID,
+        },
+      });
+      const userTwitter = response.data.linked_accounts.find(
+        (account) => account.type === "twitter_oauth"
+      );
+      const name = userTwitter.name;
+      const username = userTwitter.username;
+      const profilePhoto = userTwitter.profile_picture_url;
+      const time = new Date();
+      updateOrCreateCardHolder(uniqueId, name, username, profilePhoto, shares);
+      updateOrCreateCardActivity(
+        uniqueId,
+        time,
+        name,
+        username,
+        profilePhoto,
+        isBuy,
+        deltaShares,
+        ethAmount
+      );
+    } else if (user && user.DID === "0") {
+      const name = walletAddress.slice(0, 6);
+      const username = walletAddress.slice(0, 6);
+      const profilePhoto =
+        "https://cardsimage.s3.amazonaws.com/default/loading.jpg";
+      const time = new Date();
+      updateOrCreateCardHolder(uniqueId, name, username, profilePhoto, shares);
+      updateOrCreateCardActivity(
+        uniqueId,
+        time,
+        name,
+        username,
+        profilePhoto,
+        isBuy,
+        deltaShares,
+        ethAmount
+      );
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Function to update or create a card activity
+const updateOrCreateCardActivity = async (
+  uniqueId,
+  time,
+  name,
+  username,
+  profilePhoto,
+  isBuy,
+  shares,
+  ethAmount
+) => {
+  try {
+    const existingCardActivity = await CardActivity.findOne({ uniqueId });
+
+    if (existingCardActivity) {
+      // If the document exists, update the priceHistory
+      existingCardActivity.activity.unshift({
+        time: time,
+        name: name,
+        username: username,
+        profilePhoto: profilePhoto,
+        isBuy: isBuy,
+        shares: shares,
+        ethAmount: ethAmount,
+      });
+
+      await existingCardActivity.save();
+      console.log(`Updated card activity for Card ${uniqueId}`);
+    } else {
+      // If the document does not exist, create a new one
+      const newCardActivity = new CardActivity({
+        uniqueId,
+        activity: [
+          {
+            time: time,
+            name: name,
+            username: username,
+            profilePhoto: profilePhoto,
+            isBuy: isBuy,
+            shares: shares,
+            ethAmount: ethAmount,
+          },
+        ],
+      });
+      await newCardActivity.save();
+      console.log(`cardActivity created for Card ${uniqueId}`);
+    }
+  } catch (err) {
+    console.error(
+      `Error updating or creating cardActivity for Card ${uniqueId} with error: `,
+      err
+    );
+  }
+};
+
+// Note: update user related may be separated from card update in production
 // Function to update a user's card inventory when buy
 const updateUsersWhenBuy = async (walletAddress, uniqueId, shares) => {
   try {
@@ -178,6 +402,7 @@ const updateUsersWhenBuy = async (walletAddress, uniqueId, shares) => {
   }
 };
 
+// Note: update user related may be separated from card update in production
 // Function to update a user's card inventory when sell
 const updateUsersWhenSell = async (walletAddress, uniqueId, shares) => {
   try {
@@ -205,6 +430,13 @@ const updateUsersWhenSell = async (walletAddress, uniqueId, shares) => {
       if (cardIndex === -1) {
         // If selling and card doesn't exist, add the new card to the inventory
         user.cardInventory.push({ uniqueId, shares });
+        await user.save();
+        if (user.cardInventory[cardIndex].shares === 0) {
+          user.cardInventory.splice(cardIndex, 1);
+          console.log(
+            `Removed Card ${uniqueId} from user's ${walletAddress} inventory as shares dropped to 0`
+          );
+        }
         await user.save();
         console.log(
           `Added Card ${uniqueId} to user's ${walletAddress} inventory`
@@ -276,6 +508,94 @@ const getTrend = (currentPrice, lastPrice) => {
   );
   return Number(priceTrend).toFixed(2);
 };
+
+// function to add listener to Trade() event onchain so that Trade() event can trigger update for cards, prices and users
+function addTradeListener() {
+  console.log("Trade Listener Started");
+  contract.events.Trade({}, async (error, data) => {
+    if (error) {
+      console.log(`Error when listening to Trade event: `, error);
+    } else {
+      try {
+        const cardID = data.returnValues[0];
+
+        const trader = data.returnValues[1];
+
+        const isBuy = data.returnValues[2];
+
+        const deltaShares = data.returnValues[3];
+
+        const ethAmount = data.returnValues[4];
+        const ethAmountToBigNumber = BigNumber.from(ethAmount);
+        const oneEther = BigNumber.from("1000000000000000000");
+        const ethAmountInETH =
+          Number(ethAmountToBigNumber.mul(10000).div(oneEther)) / 10000;
+
+        const currentPrice = await getPrice(Number(cardID));
+
+        const currentShareHolders = await getHolders(Number(cardID));
+
+        const card = await Card.findOne(
+          { uniqueId: cardID.toString() },
+          "lastPrice"
+        );
+
+        const currentTrend = getTrend(
+          Number(currentPrice),
+          Number(card.lastPrice)
+        );
+
+        updateCard(
+          cardID.toString(),
+          Number(currentPrice),
+          currentTrend,
+          Number(currentShareHolders)
+        );
+
+        // const currentTime = new Date();
+
+        // updateOrCreatePrice(
+        //   cardID.toString(),
+        //   Number(currentPrice),
+        //   currentTime
+        // );
+
+        const currentTraderShares = await loadUserShares(
+          Number(cardID),
+          trader
+        );
+
+        if (isBuy) {
+          updateUsersWhenBuy(
+            trader.toString(),
+            cardID.toString(),
+            Number(currentTraderShares)
+          );
+        } else {
+          updateUsersWhenSell(
+            trader.toString(),
+            cardID.toString(),
+            Number(currentTraderShares)
+          );
+        }
+
+        updateCardHoldersAndActivity(
+          trader.toString(),
+          cardID.toString(),
+          Number(currentTraderShares),
+          isBuy,
+          deltaShares,
+          ethAmountInETH
+        );
+      } catch (error) {
+        console.log(
+          `Error when listening to Trade event for card and try to update for: `,
+          error
+        );
+      }
+    }
+  });
+}
 
 // function to add listener to Buy() event onchain so that Buy() event can trigger update for cards, prices and users
 function addBuyListener() {
@@ -392,8 +712,9 @@ function addSellListener() {
   });
 }
 
-addBuyListener();
-addSellListener();
+// addBuyListener();
+// addSellListener();
+
+addTradeListener();
 
 // TODO: Need to also create card and update/create user inventory for IPOCard event
-// TODO: Need to update lastPrice every 24 hours, maybe in other script
