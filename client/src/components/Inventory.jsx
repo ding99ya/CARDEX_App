@@ -350,7 +350,7 @@ function Inventory() {
               </button>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:px-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-4">
               {userCards.map((item) =>
                 item.category !== "presale" ? (
                   <div
