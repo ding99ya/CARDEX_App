@@ -318,7 +318,7 @@ function Inventory() {
 
   return (
     <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-gray-100">
-      <div className="w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
+      <div className="w-full lg:px-4">
         {userCards.length === 0 ? (
           <div>
             <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
