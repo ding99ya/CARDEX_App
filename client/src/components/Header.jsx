@@ -95,7 +95,7 @@ function Header() {
           <nav>
             <ul className="flex justify-between w-full border-t-2 border-t-black">
               <li
-                className={`flex-1 flex flex-col items-center px-4 py-2 border-b-4 ${
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "MARKET"
                     ? "border-red-500"
                     : "border-transparent"
@@ -127,7 +127,7 @@ function Header() {
                 </Link>
               </li>
               <li
-                className={`flex-1 flex flex-col items-center px-4 py-2 border-b-4 ${
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "LEADERBOARD"
                     ? "border-red-500"
                     : "border-transparent"
@@ -159,7 +159,7 @@ function Header() {
                 </Link>
               </li>
               <li
-                className={`flex-1 flex flex-col items-center px-4 py-2 border-b-4 ${
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "INVENTORY"
                     ? "border-red-500"
                     : "border-transparent"
@@ -191,7 +191,7 @@ function Header() {
                 </Link>
               </li>
               <li
-                className={`flex-1 flex flex-col items-center px-4 py-2 border-b-4 ${
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "PROFILE"
                     ? "border-red-500"
                     : "border-transparent"

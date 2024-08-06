@@ -322,12 +322,12 @@ function Inventory() {
         {userCards.length === 0 ? (
           <div>
             <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
-              <span className="font-semibold text-base">
+              <span className="font-semibold text-sm">
                 Inventory Worth: {totalWorth} ETH
               </span>
               <button
                 onClick={() => claim()}
-                className="bg-white text-black border border-black font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
+                className="bg-white text-black text-sm border border-black font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
               >
                 Claim for All
               </button>
@@ -339,12 +339,12 @@ function Inventory() {
         ) : (
           <div>
             <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
-              <span className="font-semibold text-base">
+              <span className="font-semibold text-sm">
                 Inventory Worth: {totalWorth} ETH
               </span>
               <button
                 onClick={() => claim()}
-                className="bg-white text-black border border-black font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
+                className="bg-white text-black text-sm border border-black font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
               >
                 Claim for All
               </button>
