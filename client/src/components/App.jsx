@@ -12,6 +12,7 @@ import Layout from "./Layout";
 import NotFound from "./NotFound";
 import Leaderboard from "./Leaderboard";
 import Profile from "./Profile";
+import Inventory from "./Inventory.jsx";
 import ViewProfile from "./ViewProfile";
 import CardDetailPage from "./CardDetailPage";
 import PresaleCardDetailPage from "./PresaleCardDetailPage";
@@ -101,6 +102,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/inventory"
+            element={
+              <ProtectedRoute>
+                <Inventory />
               </ProtectedRoute>
             }
           />

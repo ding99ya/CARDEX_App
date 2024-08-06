@@ -23,7 +23,7 @@ const contract = new web3.eth.Contract(
   process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR
 );
 
-function Profile() {
+function Inventory() {
   const location = useLocation();
 
   const { fundWallet } = useFundWallet();
@@ -37,51 +37,51 @@ function Profile() {
     unlinkTwitter,
   } = usePrivy();
   const embeddedWalletAddress = user ? user.wallet.address : 0;
-  const shortAddress = !!embeddedWalletAddress
-    ? `${embeddedWalletAddress.slice(0, 6)}...${embeddedWalletAddress.slice(
-        -4
-      )}`
-    : "0x0";
-  const twitterProfilePhoto = user
-    ? user.twitter.profilePictureUrl
-    : "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg";
-  const twitterName = user ? user.twitter.name : "";
-  const twitterUsername = user ? user.twitter.username : "";
+  //   const shortAddress = !!embeddedWalletAddress
+  //     ? `${embeddedWalletAddress.slice(0, 6)}...${embeddedWalletAddress.slice(
+  //         -4
+  //       )}`
+  //     : "0x0";
+  //   const twitterProfilePhoto = user
+  //     ? user.twitter.profilePictureUrl
+  //     : "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg";
+  //   const twitterName = user ? user.twitter.name : "";
+  //   const twitterUsername = user ? user.twitter.username : "";
 
   const hasMounted = useRef(false);
   const Navigate = useNavigate();
 
-  const handleLogout = async () => {
-    await logout();
-    Navigate("/login");
-  };
+  //   const handleLogout = async () => {
+  //     await logout();
+  //     Navigate("/login");
+  //   };
 
-  const [currentInviteCode, setCurrentInviteCode] = useState("");
-  const [currentUsername, setCurrentUsername] = useState("");
-  const [currentUserPaperPoint, setCurrentUserPaperPoint] = useState(0);
+  //   const [currentInviteCode, setCurrentInviteCode] = useState("");
+  //   const [currentUsername, setCurrentUsername] = useState("");
+  //   const [currentUserPaperPoint, setCurrentUserPaperPoint] = useState(0);
 
-  const [hover, setHover] = useState(false);
-  const [copied, setCopied] = useState(false);
+  //   const [hover, setHover] = useState(false);
+  //   const [copied, setCopied] = useState(false);
 
-  const [twitterHover, setTwitterHover] = useState(false);
-  const [twitterLinked, setTwitterLinked] = useState(
-    !!user ? !!user.twitter : false
-  );
+  //   const [twitterHover, setTwitterHover] = useState(false);
+  //   const [twitterLinked, setTwitterLinked] = useState(
+  //     !!user ? !!user.twitter : false
+  //   );
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(embeddedWalletAddress).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
+  //   const handleCopy = () => {
+  //     navigator.clipboard.writeText(embeddedWalletAddress).then(() => {
+  //       setCopied(true);
+  //       setTimeout(() => setCopied(false), 2000);
+  //     });
+  //   };
 
   const [inventory, setInventory] = useState([]);
   const [userCards, setUserCards] = useState([]);
   const [totalWorth, setTotalWorth] = useState(0);
-  const [userETHBalance, setUserETHBalance] = useState(0);
+  //   const [userETHBalance, setUserETHBalance] = useState(0);
 
-  const [openDepositModal, setOpenDepositModal] = useState(false);
-  const [openWithdrawModal, setOpenWithdrawModal] = useState(false);
+  //   const [openDepositModal, setOpenDepositModal] = useState(false);
+  //   const [openWithdrawModal, setOpenWithdrawModal] = useState(false);
 
   useEffect(() => {
     // Fetch users positions (card ids and corresponding shares)
@@ -92,20 +92,20 @@ function Profile() {
         );
 
         setInventory(response.data.cardInventory);
-        setCurrentUsername(response.data.username);
-        setCurrentInviteCode(response.data.inviteCode);
+        // setCurrentUsername(response.data.username);
+        // setCurrentInviteCode(response.data.inviteCode);
 
-        const fetchedLeaderboardData = await axios.get(
-          `/api/leaderboard/${embeddedWalletAddress}`
-        );
-        setCurrentUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
+        // const fetchedLeaderboardData = await axios.get(
+        //   `/api/leaderboard/${embeddedWalletAddress}`
+        // );
+        // setCurrentUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
 
-        const balance = await web3.eth.getBalance(embeddedWalletAddress);
-        const balanceToBigNumber = BigNumber.from(balance);
-        const oneEther = BigNumber.from("1000000000000000000");
-        const balanceInETH =
-          Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
-        setUserETHBalance(balanceInETH);
+        // const balance = await web3.eth.getBalance(embeddedWalletAddress);
+        // const balanceToBigNumber = BigNumber.from(balance);
+        // const oneEther = BigNumber.from("1000000000000000000");
+        // const balanceInETH =
+        //   Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
+        // setUserETHBalance(balanceInETH);
       } catch (error) {
         console.error(
           `Error fetching user ${embeddedWalletAddress} card inventory`,
@@ -190,45 +190,45 @@ function Profile() {
     }
   };
 
-  const handleTwitterImageClick = (twitterURL) => {
-    window.open(twitterURL, "_blank");
-  };
+  //   const handleTwitterImageClick = (twitterURL) => {
+  //     window.open(twitterURL, "_blank");
+  //   };
 
-  const linkOrUnlinkTwitter = () => {
-    if (!user.twitter) {
-      linkTwitter();
-      setTwitterLinked(true);
-    } else if (!!user.twitter) {
-      unlinkTwitter(user.twitter.subject);
-      setTwitterLinked(false);
-    }
-  };
+  //   const linkOrUnlinkTwitter = () => {
+  //     if (!user.twitter) {
+  //       linkTwitter();
+  //       setTwitterLinked(true);
+  //     } else if (!!user.twitter) {
+  //       unlinkTwitter(user.twitter.subject);
+  //       setTwitterLinked(false);
+  //     }
+  //   };
 
-  const transfer = async (
-    destinationAddress,
-    transferAmount,
-    transferUiConfig
-  ) => {
-    const transaction = {
-      to: destinationAddress,
-      chainId: 84532,
-      value: BigNumber.from(transferAmount).toHexString(),
-    };
+  //   const transfer = async (
+  //     destinationAddress,
+  //     transferAmount,
+  //     transferUiConfig
+  //   ) => {
+  //     const transaction = {
+  //       to: destinationAddress,
+  //       chainId: 84532,
+  //       value: BigNumber.from(transferAmount).toHexString(),
+  //     };
 
-    try {
-      const txReceipt = await sendTransaction(transaction, transferUiConfig);
-      const balance = await web3.eth.getBalance(embeddedWalletAddress);
-      const balanceToBigNumber = BigNumber.from(balance);
-      const oneEther = BigNumber.from("1000000000000000000");
-      const balanceInETH =
-        Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
-      setUserETHBalance(balanceInETH);
-    } catch (error) {
-      console.log(error);
-    }
-    // The returned `txReceipt` has the type `TransactionReceipt`
-    setOpenWithdrawModal(false);
-  };
+  //     try {
+  //       const txReceipt = await sendTransaction(transaction, transferUiConfig);
+  //       const balance = await web3.eth.getBalance(embeddedWalletAddress);
+  //       const balanceToBigNumber = BigNumber.from(balance);
+  //       const oneEther = BigNumber.from("1000000000000000000");
+  //       const balanceInETH =
+  //         Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
+  //       setUserETHBalance(balanceInETH);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     // The returned `txReceipt` has the type `TransactionReceipt`
+  //     setOpenWithdrawModal(false);
+  //   };
 
   // Function to obtain the accumulated fee for the user
   const batchLoadUserFee = async () => {
@@ -294,208 +294,31 @@ function Profile() {
     }
   };
 
-  const upArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-green-500"
-    >
-      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
-    </svg>
-  );
+  //   const upArrow = (
+  //     <svg
+  //       xmlns="http://www.w3.org/2000/svg"
+  //       viewBox="0 0 24 24"
+  //       fill="currentColor"
+  //       className="w-4 h-4 text-green-500"
+  //     >
+  //       <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
+  //     </svg>
+  //   );
 
-  const downArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-red-500"
-    >
-      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
-    </svg>
-  );
+  //   const downArrow = (
+  //     <svg
+  //       xmlns="http://www.w3.org/2000/svg"
+  //       viewBox="0 0 24 24"
+  //       fill="currentColor"
+  //       className="w-4 h-4 text-red-500"
+  //     >
+  //       <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
+  //     </svg>
+  //   );
 
   return (
     <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-gray-100">
-      <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex flex-col items-left">
-            <div className="flex items-left space-x-2 mb-2">
-              <span
-                className="w-10 h-10 bg-center bg-cover rounded-full"
-                style={{
-                  backgroundImage: `url(${twitterProfilePhoto})`,
-                }}
-              ></span>
-              <span className="text-3xl text-black font-helvetica-neue font-semibold">
-                {twitterName}
-              </span>
-              <span
-                className="cursor-pointer"
-                // onMouseEnter={() => setTwitterHover(true)}
-                // onMouseLeave={() => setTwitterHover(false)}
-              >
-                <img
-                  onClick={() =>
-                    handleTwitterImageClick("https://x.com/" + twitterUsername)
-                  }
-                  src={TwitterLogo}
-                  alt="Twitter"
-                  className="w-5 h-5"
-                />
-                {/* {twitterHover && !twitterLinked && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded whitespace-nowrap">
-                    Link Twitter
-                  </span>
-                )}
-                {twitterHover && twitterLinked && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded whitespace-nowrap">
-                    Unlink Twitter
-                  </span>
-                )} */}
-              </span>
-            </div>
-            <div className="flex items-left space-x-2">
-              <span className="text-black font-semibold">{shortAddress}</span>
-              <span
-                className="relative cursor-pointer"
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-                onClick={handleCopy}
-              >
-                <img src={CopyIcon} alt="Copy" className="w-5 h-5" />
-                {hover && !copied && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
-                    Copy
-                  </span>
-                )}
-                {copied && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
-                    Copied
-                  </span>
-                )}
-              </span>
-            </div>
-          </div>
-          <span
-            onClick={exportWallet}
-            className="cursor-pointer self-end items-right text-black font-semibold"
-            style={{ textDecoration: "underline" }}
-          >
-            Export Key
-          </span>
-        </div>
-        <div className="mt-6">
-          <div className="mb-4 border border-black rounded-3xl bg-white">
-            {/* <div className="flex items-left text-xl font-semibold">
-              Inventory Worth: {totalWorth} ETH
-              <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
-            </div> */}
-            <div className="flex justify-between w-full mt-4 mx-4">
-              <span className="text-base font-semibold text-gray-500">
-                Invite Code:
-              </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
-                {currentInviteCode}
-              </span>
-            </div>
-            <div className="flex justify-between w-full mt-2 mx-4">
-              <span className="text-base font-semibold text-gray-500">
-                Paper Points:
-              </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
-                {currentUserPaperPoint} Pts
-              </span>
-            </div>
-            <div className="flex justify-between w-full mt-2 mx-4">
-              <span className="text-base font-semibold text-gray-500">
-                Inventory Worth:
-              </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
-                {totalWorth} ETH
-              </span>
-            </div>
-            <div className="flex justify-center my-2 mx-4">
-              <button
-                onClick={() => claim()}
-                className="w-full bg-white text-black border-2 border-black font-semibold py-2 px-4 mt-2 mb-2 rounded-full hover:bg-black hover:text-white transition duration-300"
-              >
-                Claim for All
-              </button>
-            </div>
-            {/* <div className="text-lg">Your Invite Code: {currentInviteCode}</div>
-            <div className="text-lg">Total Papers: {currentUserPaperPoint}</div> */}
-            {/* <div className="flex items-left text-lg">
-              Wallet Balance: {userETHBalance} ETH
-              <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
-            </div> */}
-          </div>
-          <div className="flex flex-col items-left border border-black rounded-3xl bg-white">
-            <div className="flex items-left space-x-2 mb-2 mx-4">
-              <span className="relative mt-2">
-                <img src={Wallet} alt="Wallet" className="w-10 h-10" />
-              </span>
-              <span className="text-xl text-black font-semibold mt-4">
-                Wallet
-              </span>
-            </div>
-            <div className="flex justify-between w-full mx-4">
-              <span className="text-base font-semibold text-gray-500">
-                Balance:
-              </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
-                {userETHBalance} ETH
-              </span>
-            </div>
-            <div className="flex justify-between items-center space-x-2 mt-4 mx-4">
-              <button
-                onClick={() => setOpenDepositModal(true)}
-                className="w-1/2 bg-white text-black font-semibold items-center border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
-              >
-                Deposit
-              </button>
-              <button
-                onClick={() => setOpenWithdrawModal(true)}
-                className="w-1/2 bg-white text-black font-semibold items-center border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
-              >
-                Withdraw
-              </button>
-            </div>
-            <div className="flex justify-center my-4 mx-4">
-              <button
-                onClick={handleLogout}
-                className="w-full bg-red-500 text-white font-semibold px-4 py-2 rounded-full"
-              >
-                LOG OUT
-              </button>
-            </div>
-          </div>
-          {/* <div className="flex space-x-2">
-            <button
-              onClick={() => setOpenDepositModal(true)}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              Deposit
-            </button>
-            <button
-              onClick={() => setOpenWithdrawModal(true)}
-              className="px-4 py-2 bg-red-500 text-white rounded"
-            >
-              Withdraw
-            </button>
-          </div> */}
-        </div>
-        {/* <div className="flex justify-center mt-4">
-          <button
-            onClick={handleLogout}
-            className="items-center w-1/4 bg-blue-500 text-white font-bold py-2 px-4 rounded"
-          >
-            LOG OUT
-          </button>
-        </div> */}
-      </div>
-      <div className="hidden lg:block w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
+      <div className="w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
         {userCards.length === 0 ? (
           <div>
             <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
@@ -686,44 +509,8 @@ function Profile() {
           </div>
         )}
       </div>
-
-      {/* Dark Overlay */}
-      {openDepositModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
-      )}
-
-      {/* Deposit Modal */}
-      {openDepositModal && (
-        <DepositModal
-          open={openDepositModal}
-          onClose={() => {
-            setOpenDepositModal(false);
-          }}
-          embeddedWalletAddress={embeddedWalletAddress}
-          fundWallet={fundWallet}
-          className="z-50"
-        />
-      )}
-
-      {/* Dark Overlay */}
-      {openWithdrawModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
-      )}
-
-      {/* Withdraw Modal */}
-      {openWithdrawModal && (
-        <WithdrawModal
-          open={openWithdrawModal}
-          onClose={() => {
-            setOpenWithdrawModal(false);
-          }}
-          transfer={transfer}
-          userBalance={Number(userETHBalance)}
-          className="z-50"
-        />
-      )}
     </div>
   );
 }
 
-export default Profile;
+export default Inventory;

@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import marketIcon from "./Market.svg";
 import leaderboardIcon from "./Leaderboard.svg";
 import profileIcon from "./Profile.svg";
+import inventoryIcon from "./Inventory.svg";
 import "../index.css";
 
 function Header() {
@@ -154,6 +155,38 @@ function Header() {
                     }`}
                   >
                     LEADERBOARD
+                  </span>
+                </Link>
+              </li>
+              <li
+                className={`flex-1 flex flex-col items-center px-4 py-2 border-b-4 ${
+                  selectedButton === "INVENTORY"
+                    ? "border-red-500"
+                    : "border-transparent"
+                }`}
+              >
+                <Link
+                  to="/Inventory"
+                  onClick={() => handleButtonClick("INVENTORY")}
+                  className="flex flex-col items-center w-full h-full text-black font-bold"
+                >
+                  <img
+                    src={inventoryIcon}
+                    alt="Inventory Icon"
+                    className={`w-6 h-6 mb-2 ${
+                      selectedButton === "INVENTORY"
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  />
+                  <span
+                    className={`font-helvetica text-xs ${
+                      selectedButton === "INVENTORY"
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    INVENTORY
                   </span>
                 </Link>
               </li>
