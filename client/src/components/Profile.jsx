@@ -95,17 +95,17 @@ function Profile() {
         setCurrentUsername(response.data.username);
         setCurrentInviteCode(response.data.inviteCode);
 
-        const fetchedLeaderboardData = await axios.get(
-          `/api/leaderboard/${embeddedWalletAddress}`
-        );
-        setCurrentUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
+        // const fetchedLeaderboardData = await axios.get(
+        //   `/api/leaderboard/${embeddedWalletAddress}`
+        // );
+        // setCurrentUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
 
-        const balance = await web3.eth.getBalance(embeddedWalletAddress);
-        const balanceToBigNumber = BigNumber.from(balance);
-        const oneEther = BigNumber.from("1000000000000000000");
-        const balanceInETH =
-          Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
-        setUserETHBalance(balanceInETH);
+        // const balance = await web3.eth.getBalance(embeddedWalletAddress);
+        // const balanceToBigNumber = BigNumber.from(balance);
+        // const oneEther = BigNumber.from("1000000000000000000");
+        // const balanceInETH =
+        //   Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
+        // setUserETHBalance(balanceInETH);
       } catch (error) {
         console.error(
           `Error fetching user ${embeddedWalletAddress} card inventory`,
@@ -114,6 +114,39 @@ function Profile() {
       }
     };
     fetchUserPosition();
+
+    const fetchUserLeaderboard = async () => {
+      try {
+        const fetchedLeaderboardData = await axios.get(
+          `/api/leaderboard/${embeddedWalletAddress}`
+        );
+        setCurrentUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
+      } catch (error) {
+        console.error(
+          `Error fetching user ${embeddedWalletAddress} leaderboard`,
+          error
+        );
+      }
+    };
+    fetchUserLeaderboard();
+
+    const fetchUserWalletBalance = async () => {
+      try {
+        const balance = await web3.eth.getBalance(embeddedWalletAddress);
+        const balanceToBigNumber = BigNumber.from(balance);
+        const oneEther = BigNumber.from("1000000000000000000");
+        const balanceInETH =
+          Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
+        setUserETHBalance(balanceInETH);
+      } catch (error) {
+        console.error(
+          `Error fetching user ${embeddedWalletAddress} wallet balance`,
+          error
+        );
+      }
+    };
+    fetchUserWalletBalance();
+
     window.scrollTo(0, 0);
   }, []);
 
