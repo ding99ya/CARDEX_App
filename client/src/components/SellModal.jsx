@@ -69,7 +69,7 @@ const SellModal = ({
         }}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-3xl"
       >
-        <div className="w-full">
+        <div className="w-full mx-2">
           <div className="flex flex-col justify-center text-center mt-6 p-4 px-8">
             <div className="text-left text-xl font-bold mb-2">
               Sell {cardName}
