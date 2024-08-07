@@ -107,6 +107,7 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
               disabled={isNaN(number) || number === 0}
               onClick={async () => {
                 const buyCost = await calculateCost();
+                console.log(buyCost);
                 buy(number, buyCost, buyUiConfig);
               }}
             >
