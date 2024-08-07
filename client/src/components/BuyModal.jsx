@@ -84,7 +84,7 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
   return (
     <div
       onClick={completeClose}
-      className="fixed inset-0 bg-black bg-opacity-50"
+      className="fixed inset-0 bg-black bg-opacity-50 p-2"
     >
       <div
         onClick={(e) => {
