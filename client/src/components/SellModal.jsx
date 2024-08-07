@@ -67,7 +67,7 @@ const SellModal = ({
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-3xl"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
           <div className="flex flex-col justify-center text-center mt-6 p-4 px-8">

@@ -84,13 +84,13 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
   return (
     <div
       onClick={completeClose}
-      className="fixed inset-0 bg-black bg-opacity-50 p-2"
+      className="fixed inset-0 bg-black bg-opacity-50"
     >
       <div
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-2rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="max-w-full">
           <div className="flex flex-col justify-center text-center mt-6 p-4 px-8">
@@ -112,7 +112,7 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
                 />
               </span>
             </div>
-            <div className="flex justify-between items-center mb-4">
+            {/* <div className="flex justify-between items-center mb-4">
               <span className="text-base">Slippage</span>
               <div className="flex border-2 border-gray-300 rounded-xl overflow-hidden">
                 {percentageOptions.map((percentage, index) => (
@@ -129,6 +129,26 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
                         ? "rounded-r-xl"
                         : ""
                     }`}
+                    onClick={() => {
+                      setSelectedPercentage(percentage);
+                    }}
+                  >
+                    {percentage.toFixed(1)}%
+                  </button>
+                ))}
+              </div>
+            </div> */}
+            <div className="mb-4">
+              <span className="text-base block mb-2 text-left">Slippage</span>
+              <div className="flex border-2 border-gray-300 rounded-xl overflow-hidden w-full">
+                {percentageOptions.map((percentage, index) => (
+                  <button
+                    key={percentage}
+                    className={`flex-1 py-2 text-base font-semibold ${
+                      selectedPercentage === percentage
+                        ? "bg-black text-white border-black"
+                        : "bg-white text-black hover:bg-gray-100"
+                    } ${index !== 0 ? "border-l border-gray-300" : ""}`}
                     onClick={() => {
                       setSelectedPercentage(percentage);
                     }}
