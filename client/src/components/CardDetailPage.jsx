@@ -615,7 +615,7 @@ function CardDetailPage() {
                   className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
                   style={{ borderCollapse: "separate", borderSpacing: 0 }}
                 >
-                  <thead className="bg-gray-100 rounded-t-xl h-12 text-gray-500 text-sm font-open-sans">
+                  <thead className="bg-gray-100 rounded-t-xl h-12 text-gray-500 text-xs lg:text-sm font-open-sans">
                     <tr>
                       <th className="py-2 px-4 text-left">Time</th>
                       <th className="py-2 px-4 text-left">Trader</th>
@@ -626,17 +626,17 @@ function CardDetailPage() {
                   <tbody>
                     {activities.map((activity, index) => (
                       <tr
-                        className={`cursor-pointer h-10 text-sm font-open-sans ${
+                        className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
                           index === activities.length - 1 ? "rounded-b-xl" : ""
                         } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
                         // onClick={() => handleUserClick(user)}
                       >
-                        <td className="py-2 px-4 text-left">
+                        <td className="py-2 pl-4 text-left">
                           <div className="flex items-center">
                             <span>{formatTime(activity.time)}</span>
                           </div>
                         </td>
-                        <td className="py-2 px-4 text-left">
+                        <td className="py-2 text-left">
                           <div className="flex items-center justify-start">
                             <img
                               src={activity.profilePhoto}
@@ -647,7 +647,7 @@ function CardDetailPage() {
                           </div>
                         </td>
                         <td
-                          className={`py-2 px-4 text-left ${
+                          className={`py-2 text-left ${
                             activity.isBuy ? "text-green-500" : "text-red-500"
                           }`}
                         >
@@ -655,7 +655,7 @@ function CardDetailPage() {
                             ? `Buy ${activity.shares}`
                             : `Sell ${activity.shares}`}
                         </td>
-                        <td className="py-2 px-4 text-center">
+                        <td className="py-2 text-center">
                           {activity.ethAmount} ETH
                         </td>
                       </tr>
@@ -672,7 +672,7 @@ function CardDetailPage() {
                 className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
                 style={{ borderCollapse: "separate", borderSpacing: 0 }}
               >
-                <thead className="bg-gray-100 rounded-t-xl h-12 text-gray-500 text-sm font-open-sans">
+                <thead className="bg-gray-100 rounded-t-xl h-12 text-gray-500 text-xs lg:text-sm font-open-sans">
                   <tr>
                     <th className="py-2 px-4 text-left">Holder</th>
                     <th className="py-2 px-4 text-center">Position</th>
@@ -682,12 +682,12 @@ function CardDetailPage() {
                 <tbody>
                   {holders.map((holder, index) => (
                     <tr
-                      className={`cursor-pointer h-10 text-sm font-open-sans ${
+                      className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
                         index === activities.length - 1 ? "rounded-b-xl" : ""
                       } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
                       // onClick={() => handleUserClick(user)}
                     >
-                      <td className="py-2 px-4 text-left">
+                      <td className="py-2 pl-4 text-left">
                         <div className="flex items-center">
                           <img
                             src={holder.profilePhoto}
@@ -697,10 +697,10 @@ function CardDetailPage() {
                           {holder.name}
                         </div>
                       </td>
-                      <td className="py-2 px-4 text-center">
+                      <td className="py-2 text-center">
                         {holder.shares} shares
                       </td>
-                      <td className="py-2 px-4 text-center">
+                      <td className="py-2 text-center">
                         {(Number(holder.shares) * Number(card.price)).toFixed(
                           4
                         )}{" "}
