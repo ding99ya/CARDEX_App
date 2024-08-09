@@ -327,7 +327,7 @@ function Inventory() {
               </span>
               <button
                 onClick={() => claim()}
-                className="bg-white text-black text-sm border border-black font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
+                className="bg-blue-400 text-white text-sm font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
               >
                 Claim for All
               </button>
