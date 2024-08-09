@@ -619,7 +619,7 @@ function CardDetailPage() {
                     <tr>
                       <th className="py-2 px-4 text-left">Time</th>
                       <th className="py-2 px-4 text-left">Trader</th>
-                      <th className="py-2 px-4 text-left">Qty</th>
+                      <th className="py-2 px-4 text-center">Qty</th>
                       <th className="py-2 px-4 text-center">Price</th>
                     </tr>
                   </thead>
@@ -647,7 +647,7 @@ function CardDetailPage() {
                           </div>
                         </td>
                         <td
-                          className={`py-2 text-left ${
+                          className={`py-2 text-center ${
                             activity.isBuy ? "text-green-500" : "text-red-500"
                           }`}
                         >
