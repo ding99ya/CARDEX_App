@@ -399,7 +399,7 @@ function Profile() {
               >
                 <img src={CopyIcon} alt="Copy" className="w-5 h-5" />
                 {hover && !copied && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
+                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded hidden sm:block">
                     Copy
                   </span>
                 )}
