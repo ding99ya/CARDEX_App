@@ -103,19 +103,14 @@ function CardPage({ category }) {
   function addWebSocketListener() {
     socket.on("cardUpdate", (updatedCard) => {
       const cardID = updatedCard.uniqueId;
-      console.log(cardID);
 
       const index = cards.findIndex(
         (card) => card.uniqueId === cardID.toString()
       );
-      console.log(index);
 
       if (index !== -1) {
         const currentHolders = Number(updatedCard.shares);
-        console.log(currentHolders);
-
         const currentPrice = Number(updatedCard.price);
-        console.log(currentPrice);
         const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
 
         setCards((prevCards) =>
@@ -131,14 +126,6 @@ function CardPage({ category }) {
           )
         );
       }
-
-      // socket.on("connect", () => {
-      //   console.log("Connected to WebSocket server");
-      // });
-
-      // socket.on("disconnect", () => {
-      //   console.log("Disconnected from WebSocket server");
-      // });
     });
   }
 
@@ -274,13 +261,11 @@ function CardPage({ category }) {
 
   useEffect(() => {
     if (hasMounted.current) {
-      // Add Buy/Sell event listener
+      // Add wweb socket event listener to be triggered when Trade event occurs
       addWebSocketListener();
-      console.log("Web Socket event added!");
 
       return () => {
         socket.off("cardUpdate");
-        console.log("Event successfully unsubscribed!");
       };
     } else {
       hasMounted.current = true;
@@ -318,7 +303,7 @@ function CardPage({ category }) {
   };
 
   // Function to transfer current price to a format with 3 decimals (X.XXX ETH)
-  // This method is not currently used because the price will be fetched from backend and updated per calculations
+  // This method is not currently used because the price will be directly fetched from the web socket events
   // Keep it for potential future use
   const getPrice = async (cardId) => {
     const price = await loadCurrentPrice(cardId);
@@ -338,7 +323,7 @@ function CardPage({ category }) {
   };
 
   // Function to get shares being bought
-  // This method is not currently used because the holders will be fetched from backend and updated per calculations
+  // This method is not currently used because the holders will be directly fetched from the web socket events
   // Keep it for potential future use
   const getHolders = async (cardId) => {
     const holders = await loadShareHolders(cardId);
@@ -402,9 +387,6 @@ function CardPage({ category }) {
       });
 
       setCards(sortedCards);
-
-      console.log("Latest" + false);
-      console.log(by + ascending);
       setSelectedSort({ label: label, sortkey: by, ascending: ascending });
     }
   }
@@ -471,36 +453,10 @@ function CardPage({ category }) {
     <div className="min-h-screen mx-auto bg-gray-100">
       <div className="flex flex-row items-start items-center justify-end space-x-2 p-2 lg:space-y-0 lg:space-x-4 lg:px-0 mx-4 lg:mx-12">
         <p className="text-base font-semibold">Sort by</p>
-        {/* <div className="flex flex-wrap items-center rounded-x1 overflow-hidden pr-10 mt-4 lg:mt-0">
-          {[
-            { label: "Latest", sortKey: "ipoTime", ascending: false },
-            { label: "Price", sortKey: "price", ascending: false },
-            { label: "Price", sortKey: "price", ascending: true },
-            { label: "Trend", sortKey: "trend", ascending: false },
-            { label: "Trend", sortKey: "trend", ascending: true },
-            // { label: "Remove Sort", sortKey: "none" },
-          ].map((button, index) => (
-            <button
-              key={index}
-              className={`flex items-center px-2 py-1 ml-1 mr-1 mt-1 mb-1 text-base rounded-full font-helvetica-neue text-black border ${
-                selectedSort === button.sortKey + button.ascending
-                  ? "bg-gray-300 border-black"
-                  : "bg-white hover:bg-gray-200 border-black"
-              }`}
-              onClick={() => sortCards(button.sortKey, button.ascending)}
-            >
-              <span className="flex items-center">
-                {button.label}
-                {button.label !== "Latest" &&
-                  (button.ascending ? sortUpArrow : sortDownArrow)}
-              </span>
-            </button>
-          ))}
-        </div> */}
         <div className="relative inline-block text-left">
           <button
             onClick={() => setSortIsOpen(!sortIsOpen)}
-            className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
+            className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
             <span className="flex items-center whitespace-nowrap">
               {selectedSort.label}{" "}
@@ -512,18 +468,6 @@ function CardPage({ category }) {
               alt="Sort Icon"
               className={"w-5 h-5 ml-2 -mr-1"}
             />
-            {/* <svg
-              className="w-5 h-5 ml-2 -mr-1"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.293 9.707a1 1 0 010-1.414L10 3.586l4.707 4.707a1 1 0 01-1.414 1.414L10 6.414l-3.293 3.293a1 1 0 01-1.414 0z"
-                clipRule="evenodd"
-              />
-            </svg> */}
           </button>
           {sortIsOpen && (
             <div className="absolute right-0 z-10 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
@@ -550,7 +494,7 @@ function CardPage({ category }) {
             key={card.uniqueId}
             id={`card${card.uniqueId}`}
             onClick={() => handleCardClick(card)}
-            className="cursor-pointer bg-white mt-4 mb-4 mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+            className="cursor-pointer bg-white mt-4 mb-4 mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
             style={{
               borderTopLeftRadius: "1.25rem",
               borderBottomLeftRadius: "1.25rem",
@@ -625,7 +569,7 @@ function CardPage({ category }) {
                   setCurrentBuyCardPhoto(card.photo);
                   setOpenBuyModal(true);
                 }}
-                className="w-full bg-white text-black font-bold border-2 border-black px-4 py-2 mx-4 mb-2 rounded-full shadow hover:bg-black hover:text-white"
+                className="w-full bg-blue-400 text-white font-bold px-4 py-2 mx-4 mb-2 rounded-full hover:bg-blue-400 hover:text-white"
               >
                 Buy
               </button>
@@ -633,11 +577,6 @@ function CardPage({ category }) {
           </div>
         ))}
       </div>
-
-      {/* Dark Overlay */}
-      {/* {openBuyModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-      )} */}
 
       {/* Buy Modal */}
       {openBuyModal && (

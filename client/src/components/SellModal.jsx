@@ -61,7 +61,7 @@ const SellModal = ({
   return (
     <div
       onClick={completeClose}
-      className="fixed inset-0 bg-black bg-opacity-50 p-2"
+      className="fixed inset-0 bg-black bg-opacity-50"
     >
       <div
         onClick={(e) => {
@@ -70,10 +70,8 @@ const SellModal = ({
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
-          <div className="flex flex-col justify-center text-center mt-6 p-4 px-8">
-            <div className="text-left text-xl font-bold mb-2">
-              Sell {cardName}
-            </div>
+          <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
+            <div className="text-left text-xl font-bold mb-2">{cardName}</div>
             <div className="flex justify-between items-center mt-6 mb-4">
               <span className="text-base">Sell Amount</span>
               <span className="w-1/5">
@@ -91,21 +89,23 @@ const SellModal = ({
             </div>
             <div className="flex justify-between">
               <span className="text-base">Total Profit: </span>
-              <span className="text-base font-semibold">{profit} ETH</span>
+              <span className="text-base font-semibold">
+                {profit.toFixed(3)} ETH
+              </span>
             </div>
           </div>
-          <div className="flex justify-between space-x-2 p-4 items-stretch mb-2">
+          <div className="flex justify-between space-x-2 px-8 py-2 items-stretch mb-4">
             <button
               className={classNames(
-                "w-2/3 py-4 font-semibold rounded-full flex items-center justify-center",
+                "w-2/3 py-2 font-semibold rounded-full flex items-center justify-center",
                 {
-                  "border border-black bg-white text-black hover:bg-black hover:text-white":
+                  "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
                     !(
                       isNaN(number) ||
                       !(number <= shareHolders && number <= userShares) ||
                       number === 0
                     ),
-                  "border border-black bg-gray-200 text-black":
+                  "bg-blue-200 text-white":
                     isNaN(number) ||
                     !(number <= shareHolders && number <= userShares) ||
                     number === 0,
@@ -118,13 +118,13 @@ const SellModal = ({
               }
               onClick={() => sell(number, sellUiConfig)}
             >
-              <span className="font-semibold">SELL</span>
+              <span className="font-semibold">Sell</span>
             </button>
             <button
-              className="w-1/3 py-4 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
+              className="w-1/3 py-2 bg-white box-border border-2 border-black text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={completeClose}
             >
-              <span className="font-semibold">CANCEL</span>
+              <span className="font-semibold">Cancel</span>
             </button>
           </div>
         </div>

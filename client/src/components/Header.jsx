@@ -97,7 +97,7 @@ function Header() {
               <li
                 className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "MARKET"
-                    ? "border-red-500"
+                    ? "border-blue-400"
                     : "border-transparent"
                 }`}
               >
@@ -129,7 +129,7 @@ function Header() {
               <li
                 className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "LEADERBOARD"
-                    ? "border-red-500"
+                    ? "border-blue-400"
                     : "border-transparent"
                 }`}
               >
@@ -161,7 +161,7 @@ function Header() {
               <li
                 className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "INVENTORY"
-                    ? "border-red-500"
+                    ? "border-blue-400"
                     : "border-transparent"
                 }`}
               >
@@ -193,7 +193,7 @@ function Header() {
               <li
                 className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "PROFILE"
-                    ? "border-red-500"
+                    ? "border-blue-400"
                     : "border-transparent"
                 }`}
               >

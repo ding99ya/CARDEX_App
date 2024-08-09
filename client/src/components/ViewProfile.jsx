@@ -267,7 +267,7 @@ function ViewProfile() {
               {userCards.map((item) =>
                 item.category !== "presale" ? (
                   <div
-                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
                     style={{

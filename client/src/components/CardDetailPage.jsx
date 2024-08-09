@@ -64,7 +64,6 @@ function CardDetailPage() {
   const [activeTab, setActiveTab] = useState("activity");
 
   const fetchActivities = async () => {
-    console.log("Fetching Activities...");
     const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
       params: { page: currentPage, limit: 30 },
     });
@@ -409,18 +408,6 @@ function CardDetailPage() {
 
     fetchUserShares();
 
-    // const fetchCardActivity = async (page) => {
-    //   try {
-    //     const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
-    //       params: { page: page, limit: 10 },
-    //     });
-    //     console.log(response.data);
-    //   } catch (error) {
-    //     console.error(`Error fetching card activity:`, error);
-    //   }
-    // };
-    // fetchCardActivity(2);
-
     const fetchCardHolder = async () => {
       try {
         const response = await axios.get(`/api/cardholders/${uniqueId}`);
@@ -433,7 +420,6 @@ function CardDetailPage() {
     fetchCardHolder();
 
     const fetchInitialActivities = async () => {
-      console.log("Fetching Initial Activities...");
       const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
         params: { page: 1, limit: 30 },
       });
@@ -443,13 +429,10 @@ function CardDetailPage() {
 
     fetchInitialActivities();
 
-    // const buyEventSubscription = addBuyListener();
-    // const sellEventSubscription = addSellListener();
     addWebSocketListener();
 
     return () => {
       socket.off("cardUpdate");
-      console.log("Event successfully unsubscribed!");
     };
   }, [uniqueId]);
 
@@ -497,14 +480,14 @@ function CardDetailPage() {
 
   return (
     <div className="container mx-auto p-4 flex flex-col lg:flex-row justify-between items-start relative">
-      <div className="w-full lg:w-1/2 mb-4 lg:mb-0 lg:mr-4">
+      <div className="w-full lg:w-1/2 lg:mb-0 lg:mr-4">
         <span
           onClick={() => handleBackClick()}
-          className="cursor-pointer inline-block bg-white text-black px-4 py-2 font-semibold whitespace-nowrap"
+          className="cursor-pointer inline-block bg-white text-black px-4 py-2 mb-2 font-semibold whitespace-nowrap"
         >
           &lt; Back
         </span>
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full border-2 border-b border-black rounded-t-3xl lg:border-b-2 lg:rounded-3xl p-6">
           <img
             src={isFront ? card.photo : card.backPhoto}
             alt={card.name}
@@ -532,8 +515,8 @@ function CardDetailPage() {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-1/2 relative">
-        <div className="p-2">
+      <div className="w-full lg:w-1/2 lg:mt-12 relative">
+        <div className="p-4 lg:p-6 border-2 border-l-black border-r-black border-b-black lg:border-t-black rounded-b-3xl lg:rounded-3xl">
           <h2 className="text-2xl font-bold mb-4">{card.name}</h2>
 
           <div className="text-center w-full">
@@ -566,25 +549,22 @@ function CardDetailPage() {
             </div>
           </div>
 
-          <div className="flex justify-between items-center space-x-2 mt-4 mb-4">
+          <div className="flex justify-between items-center space-x-2 mt-4 mb-2">
             <button
               onClick={() => setOpenBuyModal(true)}
-              className="w-1/3 bg-white text-black font-bold border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
+              className="w-1/3 bg-blue-400 text-white font-bold px-4 py-2 rounded-full  hover:bg-blue-500 hover:text-white"
             >
               Buy
             </button>
             <button
               onClick={() => setOpenSellModal(true)}
-              className={classNames(
-                "w-1/3 px-4 py-2 font-bold border-2 border-black rounded-full shadow",
-                {
-                  "bg-white text-black hover:bg-black hover:text-white": !(
-                    userShares === 0 || card.shares === 0
-                  ),
-                  "bg-gray-200 text-black":
-                    userShares === 0 || card.shares === 0,
-                }
-              )}
+              className={classNames("w-1/3 px-4 py-2 font-bold rounded-full", {
+                "bg-blue-400 text-white hover:bg-blue-500 hover:text-white": !(
+                  userShares === 0 || card.shares === 0
+                ),
+                "bg-blue-200 text-gray-200":
+                  userShares === 0 || card.shares === 0,
+              })}
               disabled={userShares === 0 || card.shares === 0}
             >
               Sell
@@ -592,7 +572,7 @@ function CardDetailPage() {
 
             <button
               onClick={() => claim()}
-              className="w-1/3 bg-white text-black font-bold border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
+              className="w-1/3 bg-white text-black font-bold border-2 border-black px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full shadow hover:bg-gray-200 hover:text-black"
             >
               Claim
             </button>
@@ -635,25 +615,35 @@ function CardDetailPage() {
                   className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
                   style={{ borderCollapse: "separate", borderSpacing: 0 }}
                 >
-                  <thead className="bg-sky-100 rounded-t-xl h-16">
+                  <thead className="bg-gray-100 rounded-t-xl h-12 text-gray-500 text-sm font-open-sans">
                     <tr>
                       <th className="py-2 px-4 text-left">Time</th>
+                      <th className="py-2 px-4 text-left">Trader</th>
                       <th className="py-2 px-4 text-left">Qty</th>
-                      <th className="py-2 px-4 text-center">Trader</th>
                       <th className="py-2 px-4 text-center">Price</th>
                     </tr>
                   </thead>
                   <tbody>
                     {activities.map((activity, index) => (
                       <tr
-                        className={`hover:border hover:border-black cursor-pointer h-12 ${
+                        className={`cursor-pointer h-10 text-sm font-open-sans ${
                           index === activities.length - 1 ? "rounded-b-xl" : ""
-                        } ${index % 2 === 1 ? "bg-sky-100" : "bg-white"}`}
+                        } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
                         // onClick={() => handleUserClick(user)}
                       >
                         <td className="py-2 px-4 text-left">
                           <div className="flex items-center">
                             <span>{formatTime(activity.time)}</span>
+                          </div>
+                        </td>
+                        <td className="py-2 px-4 text-left">
+                          <div className="flex items-center justify-start">
+                            <img
+                              src={activity.profilePhoto}
+                              alt={`${activity.name}'s profile`}
+                              className="w-6 h-6 rounded-full mr-2"
+                            />
+                            <span>{activity.name}</span>
                           </div>
                         </td>
                         <td
@@ -664,16 +654,6 @@ function CardDetailPage() {
                           {activity.isBuy
                             ? `Buy ${activity.shares}`
                             : `Sell ${activity.shares}`}
-                        </td>
-                        <td className="py-2 px-4 text-center">
-                          <div className="flex items-center justify-center">
-                            <img
-                              src={activity.profilePhoto}
-                              alt={`${activity.name}'s profile`}
-                              className="w-6 h-6 rounded-full mr-2"
-                            />
-                            <span>{activity.name}</span>
-                          </div>
                         </td>
                         <td className="py-2 px-4 text-center">
                           {activity.ethAmount} ETH
@@ -692,7 +672,7 @@ function CardDetailPage() {
                 className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
                 style={{ borderCollapse: "separate", borderSpacing: 0 }}
               >
-                <thead className="bg-sky-100 rounded-t-xl h-16">
+                <thead className="bg-gray-100 rounded-t-xl h-12 text-gray-500 text-sm font-open-sans">
                   <tr>
                     <th className="py-2 px-4 text-left">Holder</th>
                     <th className="py-2 px-4 text-center">Position</th>
@@ -702,9 +682,9 @@ function CardDetailPage() {
                 <tbody>
                   {holders.map((holder, index) => (
                     <tr
-                      className={`hover:border hover:border-black cursor-pointer h-12 ${
+                      className={`cursor-pointer h-10 text-sm font-open-sans ${
                         index === activities.length - 1 ? "rounded-b-xl" : ""
-                      } ${index % 2 === 1 ? "bg-sky-100" : "bg-white"}`}
+                      } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
                       // onClick={() => handleUserClick(user)}
                     >
                       <td className="py-2 px-4 text-left">

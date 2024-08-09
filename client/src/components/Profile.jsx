@@ -350,7 +350,7 @@ function Profile() {
   );
 
   return (
-    <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-gray-100">
+    <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-white lg:bg-gray-100">
       <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col items-left">
@@ -484,13 +484,13 @@ function Profile() {
             <div className="flex justify-between items-center space-x-2 mt-4 mx-4">
               <button
                 onClick={() => setOpenDepositModal(true)}
-                className="w-1/2 bg-white text-black font-semibold items-center border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
+                className="w-1/2 bg-blue-400 text-white font-semibold items-center px-4 py-2 rounded-full hover:bg-blue-500 hover:text-white"
               >
                 Deposit
               </button>
               <button
                 onClick={() => setOpenWithdrawModal(true)}
-                className="w-1/2 bg-white text-black font-semibold items-center border-2 border-black px-4 py-2 rounded-full shadow hover:bg-black hover:text-white"
+                className="w-1/2 bg-white text-black font-semibold items-center border-2 border-black px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full shadow hover:bg-gray-200 hover:text-black"
               >
                 Withdraw
               </button>
@@ -537,7 +537,7 @@ function Profile() {
               </span>
               <button
                 onClick={() => claim()}
-                className="bg-white text-black border border-black font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
+                className="bg-blue-400 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-500 hover:text-white transition duration-300"
               >
                 Claim for All
               </button>
@@ -554,7 +554,7 @@ function Profile() {
               </span>
               <button
                 onClick={() => claim()}
-                className="bg-white text-black border border-black font-semibold py-2 px-4 rounded-full hover:bg-black hover:text-white transition duration-300"
+                className="bg-blue-400 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-500 hover:text-white transition duration-300"
               >
                 Claim for All
               </button>
