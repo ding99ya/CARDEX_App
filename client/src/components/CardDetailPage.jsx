@@ -517,7 +517,7 @@ function CardDetailPage() {
       </div>
       <div className="w-full lg:w-1/2 lg:mt-12 relative">
         <div className="p-4 lg:p-6 border-2 border-l-black border-r-black border-b-black lg:border-t-black rounded-b-3xl lg:rounded-3xl">
-          <h2 className="text-2xl font-bold mb-4">{card.name}</h2>
+          <h2 className="text-xl lg:text-2xl font-bold mb-4">{card.name}</h2>
 
           <div className="text-center w-full">
             <div className="flex justify-end w-full">
@@ -624,42 +624,52 @@ function CardDetailPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {activities.map((activity, index) => (
-                      <tr
-                        className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
-                          index === activities.length - 1 ? "rounded-b-xl" : ""
-                        } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                        // onClick={() => handleUserClick(user)}
-                      >
-                        <td className="py-2 pl-4 text-left">
-                          <div className="flex items-center">
-                            <span>{formatTime(activity.time)}</span>
-                          </div>
-                        </td>
-                        <td className="py-2 text-left">
-                          <div className="flex items-center justify-start">
-                            <img
-                              src={activity.profilePhoto}
-                              alt={`${activity.name}'s profile`}
-                              className="w-6 h-6 rounded-full mr-2"
-                            />
-                            <span>{activity.name}</span>
-                          </div>
-                        </td>
-                        <td
-                          className={`py-2 text-center ${
-                            activity.isBuy ? "text-green-500" : "text-red-500"
-                          }`}
-                        >
-                          {activity.isBuy
-                            ? `Buy ${activity.shares}`
-                            : `Sell ${activity.shares}`}
-                        </td>
-                        <td className="py-2 text-center">
-                          {activity.ethAmount} ETH
+                    {activities.length === 0 ? (
+                      <tr className="h-10 text-xs lg:text-sm font-open-sans">
+                        <td colSpan="4" className="py-2 text-center">
+                          No Activities
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      activities.map((activity, index) => (
+                        <tr
+                          className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
+                            index === activities.length - 1
+                              ? "rounded-b-xl"
+                              : ""
+                          } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
+                          // onClick={() => handleUserClick(user)}
+                        >
+                          <td className="py-2 pl-4 text-left">
+                            <div className="flex items-center">
+                              <span>{formatTime(activity.time)}</span>
+                            </div>
+                          </td>
+                          <td className="py-2 text-left">
+                            <div className="flex items-center justify-start">
+                              <img
+                                src={activity.profilePhoto}
+                                alt={`${activity.name}'s profile`}
+                                className="w-6 h-6 rounded-full mr-2"
+                              />
+                              <span>{activity.name}</span>
+                            </div>
+                          </td>
+                          <td
+                            className={`py-2 text-center ${
+                              activity.isBuy ? "text-green-500" : "text-red-500"
+                            }`}
+                          >
+                            {activity.isBuy
+                              ? `Buy ${activity.shares}`
+                              : `Sell ${activity.shares}`}
+                          </td>
+                          <td className="py-2 text-center">
+                            {activity.ethAmount} ETH
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </InfiniteScroll>
@@ -680,34 +690,42 @@ function CardDetailPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {holders.map((holder, index) => (
-                    <tr
-                      className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
-                        index === activities.length - 1 ? "rounded-b-xl" : ""
-                      } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                      // onClick={() => handleUserClick(user)}
-                    >
-                      <td className="py-2 pl-4 text-left">
-                        <div className="flex items-center">
-                          <img
-                            src={holder.profilePhoto}
-                            alt={`${holder.name}'s profile`}
-                            className="w-6 h-6 rounded-full mr-2"
-                          />
-                          {holder.name}
-                        </div>
-                      </td>
-                      <td className="py-2 text-center">
-                        {holder.shares} shares
-                      </td>
-                      <td className="py-2 text-center">
-                        {(Number(holder.shares) * Number(card.price)).toFixed(
-                          4
-                        )}{" "}
-                        ETH
+                  {holders.length === 0 ? (
+                    <tr className="h-10 text-xs lg:text-sm font-open-sans">
+                      <td colSpan="4" className="py-2 text-center">
+                        No Holders
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    holders.map((holder, index) => (
+                      <tr
+                        className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
+                          index === activities.length - 1 ? "rounded-b-xl" : ""
+                        } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
+                        // onClick={() => handleUserClick(user)}
+                      >
+                        <td className="py-2 pl-4 text-left">
+                          <div className="flex items-center">
+                            <img
+                              src={holder.profilePhoto}
+                              alt={`${holder.name}'s profile`}
+                              className="w-6 h-6 rounded-full mr-2"
+                            />
+                            {holder.name}
+                          </div>
+                        </td>
+                        <td className="py-2 text-center">
+                          {holder.shares} shares
+                        </td>
+                        <td className="py-2 text-center">
+                          {(Number(holder.shares) * Number(card.price)).toFixed(
+                            4
+                          )}{" "}
+                          ETH
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
