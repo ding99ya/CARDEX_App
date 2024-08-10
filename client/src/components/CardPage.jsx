@@ -506,7 +506,7 @@ function CardPage({ category }) {
             key={card.uniqueId}
             id={`card${card.uniqueId}`}
             onClick={() => handleCardClick(card)}
-            className="cursor-pointer bg-white mt-4 mb-4 mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
+            className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
             style={{
               borderTopLeftRadius: "1.25rem",
               borderBottomLeftRadius: "1.25rem",
