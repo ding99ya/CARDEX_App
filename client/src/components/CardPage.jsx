@@ -362,6 +362,10 @@ function CardPage({ category }) {
     });
   };
 
+  const handleBackClick = () => {
+    navigate(`/market`);
+  };
+
   // Function triggered when remove sort button is clicked, will reset the order based on card id
   const handleRemoveSort = () => {
     const sortedCards = [...cards].sort(
@@ -451,40 +455,48 @@ function CardPage({ category }) {
 
   return (
     <div className="min-h-screen mx-auto bg-gray-100">
-      <div className="flex flex-row items-start items-center justify-end space-x-2 p-2 lg:space-y-0 lg:space-x-4 lg:px-0 mx-4 lg:mx-12">
-        <p className="text-base font-semibold">Sort by</p>
-        <div className="relative inline-block text-left">
-          <button
-            onClick={() => setSortIsOpen(!sortIsOpen)}
-            className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-          >
-            <span className="flex items-center whitespace-nowrap">
-              {selectedSort.label}{" "}
-              {selectedSort.label !== "Latest" &&
-                (selectedSort.ascending ? sortUpArrow : sortDownArrow)}
-            </span>
-            <img
-              src={sortingIcon}
-              alt="Sort Icon"
-              className={"w-5 h-5 ml-2 -mr-1"}
-            />
-          </button>
-          {sortIsOpen && (
-            <div className="absolute right-0 z-10 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
-              {sortOptions.map((option, index) => (
-                <div key={index} className="py-1">
-                  <button
-                    onClick={() => handleSortSelection(option)}
-                    className="flex items-center w-full px-4 py-2 text-sm text-black hover:bg-gray-100"
-                  >
-                    {option.label}{" "}
-                    {option.label !== "Latest" &&
-                      (option.ascending ? sortUpArrow : sortDownArrow)}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+      <div className="flex flex-row items-center justify-between space-x-2 p-2 mx-4 lg:mx-12">
+        <span
+          onClick={() => handleBackClick()}
+          className="cursor-pointer inline-block text-black px-4 py-2 mt-3 mb-2 font-semibold whitespace-nowrap"
+        >
+          &lt; Back
+        </span>
+        <div className="flex items-center space-x-2 lg:space-x-4">
+          <p className="text-base font-semibold">Sort by</p>
+          <div className="relative inline-block text-left">
+            <button
+              onClick={() => setSortIsOpen(!sortIsOpen)}
+              className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              <span className="flex items-center whitespace-nowrap">
+                {selectedSort.label}{" "}
+                {selectedSort.label !== "Latest" &&
+                  (selectedSort.ascending ? sortUpArrow : sortDownArrow)}
+              </span>
+              <img
+                src={sortingIcon}
+                alt="Sort Icon"
+                className={"w-5 h-5 ml-2 -mr-1"}
+              />
+            </button>
+            {sortIsOpen && (
+              <div className="absolute right-0 z-10 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                {sortOptions.map((option, index) => (
+                  <div key={index} className="py-1">
+                    <button
+                      onClick={() => handleSortSelection(option)}
+                      className="flex items-center w-full px-4 py-2 text-sm text-black hover:bg-gray-100"
+                    >
+                      {option.label}{" "}
+                      {option.label !== "Latest" &&
+                        (option.ascending ? sortUpArrow : sortDownArrow)}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
