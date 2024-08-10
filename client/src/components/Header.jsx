@@ -93,7 +93,7 @@ function Header() {
       <footer className="fixed bottom-0 left-0 right-0 z-50 bg-white w-full lg:hidden">
         <div className="max-w-full w-full">
           <nav>
-            <ul className="flex justify-between w-full border-t-2 border-t-black">
+            <ul className="flex justify-between w-full">
               <li
                 className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
                   selectedButton === "MARKET"
