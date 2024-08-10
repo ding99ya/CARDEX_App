@@ -458,7 +458,7 @@ function CardPage({ category }) {
       <div className="flex flex-row items-center justify-between space-x-2 p-2 mx-4 lg:mx-12">
         <span
           onClick={() => handleBackClick()}
-          className="cursor-pointer inline-block text-black px-4 py-2 mt-3 mb-2 font-semibold whitespace-nowrap"
+          className="cursor-pointer inline-block text-black py-2 mt-3 mb-2 font-semibold whitespace-nowrap"
         >
           &lt; Back
         </span>
