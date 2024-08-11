@@ -171,7 +171,7 @@ const Leaderboard = () => {
         className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
         style={{ borderCollapse: "separate", borderSpacing: 0 }}
       >
-        <thead className="bg-sky-100 rounded-t-xl h-16 text-gray-500 text-sm font-open-sans">
+        <thead className="bg-gray-100 rounded-t-xl h-16 text-gray-500 text-sm font-open-sans">
           <tr>
             <th className="py-2 px-4 text-left">Rank</th>
             <th className="py-2 px-4 text-left">User</th>
