@@ -38,11 +38,11 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
-          <div className="flex flex-col justify-center text-center mt-4 px-2 lg:px-8 py-4">
-            <div className="text-left text-xl font-bold mb-2">WITHDRAW</div>
-            <div className="flex justify-between items-center mt-4 mb-2">
-              <span className="text-base mt-2">Address</span>
-              <span className="w-4/5">
+          <div className="flex flex-col justify-center text-center mt-4 px-8 py-4">
+            <div className="text-left text-xl font-bold">WITHDRAW</div>
+            <div className="flex flex-col mt-4 mb-2">
+              <span className="text-base mt-2 text-left">Address</span>
+              <span className="w-full">
                 <input
                   className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-left pl-4 mt-2"
                   type="string"
@@ -52,9 +52,9 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
                 />
               </span>
             </div>
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-base mt-2">Amount</span>
-              <span className="w-4/5">
+            <div className="flex flex-col mb-2">
+              <span className="text-base mt-2 text-left">Amount</span>
+              <span className="w-full">
                 <input
                   className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-left pl-4 mt-2"
                   type="number"
@@ -73,7 +73,7 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
               Current Balance: {userBalance} ETH
             </div>
           </div>
-          <div className="flex justify-between space-x-2 px-2 lg:px-8 py-2 items-stretch mb-4">
+          <div className="flex justify-between space-x-2 px-8 py-2 items-stretch mb-4">
             <button
               className={classNames(
                 "w-2/3 py-4 font-semibold rounded-full flex items-center justify-center",
