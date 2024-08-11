@@ -20,6 +20,7 @@ function ViewProfile() {
   const [hasTwitter, setHasTwitter] = useState(false);
   const [twitterURL, setTwitterURL] = useState("");
   const [twitterName, setTwitterName] = useState("");
+  const [twitterUsername, setTwitterUsername] = useState("");
   const [twitterProfilePhoto, setTwitterProfilePhoto] = useState("");
 
   const [leaderboardUser, setLeaderboardUser] = useState({
@@ -55,6 +56,7 @@ function ViewProfile() {
           didUserHasTwitter ? "https://x.com/" + didUserTwitter.username : ""
         );
         setTwitterName(didUserHasTwitter ? didUserTwitter.name : "");
+        setTwitterUsername(didUserHasTwitter ? didUserTwitter.username : "");
         setTwitterProfilePhoto(
           didUserHasTwitter ? didUserTwitter.profile_picture_url : ""
         );
@@ -189,14 +191,28 @@ function ViewProfile() {
           &lt; Back
         </span>
         <div className="flex items-center justify-between w-full mx-4">
-          <div className="flex items-left space-x-2 mb-2">
+          <div className="flex items-start space-x-2 mb-2">
             <span
-              className="w-10 h-10 bg-center bg-cover rounded-full"
+              className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
               style={{
                 backgroundImage: `url(${twitterProfilePhoto})`,
               }}
             ></span>
-            <span className="text-3xl text-black font-helvetica-neue font-semibold">
+            <div className="flex flex-col mt-1">
+              <span className="text-xl text-black font-helvetica-neue font-semibold">
+                {twitterName}
+              </span>
+              <div
+                className="flex items-center cursor-pointer rounded-full"
+                onClick={handleTwitterImageClick}
+              >
+                <img src={TwitterLogo} alt="Twitter" className="w-3 h-3 mr-1" />
+                <span className="text-gray-400 font-open-sans text-xs">
+                  @{twitterUsername}
+                </span>
+              </div>
+            </div>
+            {/* <span className="text-3xl text-black font-helvetica-neue font-semibold">
               {twitterName}
             </span>
             <span className="relative cursor-pointer">
@@ -208,7 +224,7 @@ function ViewProfile() {
                   onClick={handleTwitterImageClick}
                 />
               ) : null}
-            </span>
+            </span> */}
           </div>
         </div>
         <div className="mt-6">

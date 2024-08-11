@@ -164,7 +164,7 @@ const Leaderboard = () => {
               key={user.rank}
               className={`cursor-pointer h-14 text-sm font-open-sans ${
                 index === users.length - 1 ? "rounded-b-xl" : ""
-              } ${index % 2 === 1 ? "bg-sky-100" : "bg-white"}`}
+              } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
               onClick={() => handleUserClick(user)}
             >
               <td className="py-2 px-4 text-left">
