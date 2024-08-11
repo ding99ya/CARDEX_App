@@ -396,22 +396,10 @@ function Profile() {
                   backgroundImage: `url(${twitterProfilePhoto})`,
                 }}
               ></span>
-              <div className="flex flex-col">
+              <div className="flex flex-col mt-1">
                 <span className="text-xl text-black font-helvetica-neue font-semibold">
                   {twitterName}
                 </span>
-                {/* <span className="cursor-pointer">
-                  <img
-                    onClick={() =>
-                      handleTwitterImageClick(
-                        "https://x.com/" + twitterUsername
-                      )
-                    }
-                    src={TwitterLogo}
-                    alt="Twitter"
-                    className="w-5 h-5"
-                  />
-                </span> */}
                 <div
                   className="flex items-center cursor-pointer rounded-full"
                   onClick={() =>
