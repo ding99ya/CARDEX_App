@@ -391,7 +391,7 @@ function Profile() {
             </div> */}
             <div className="flex items-start space-x-2 mb-2">
               <span
-                className="w-10 h-10 bg-center bg-cover rounded-full mt-1"
+                className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
                 style={{
                   backgroundImage: `url(${twitterProfilePhoto})`,
                 }}
@@ -431,7 +431,7 @@ function Profile() {
             </div>
 
             <div className="flex items-left space-x-2">
-              <span className="text-black font-semibold">{shortAddress}</span>
+              <span className="text-sm">{shortAddress}</span>
               <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setHover(true)}
@@ -454,7 +454,7 @@ function Profile() {
           </div>
           <span
             onClick={exportWallet}
-            className="cursor-pointer self-end items-right text-black font-semibold"
+            className="cursor-pointer self-end items-right text-sm text-blue-600"
             style={{ textDecoration: "underline" }}
           >
             Export Key
