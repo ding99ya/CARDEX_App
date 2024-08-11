@@ -57,6 +57,10 @@ const Leaderboard = () => {
     });
   };
 
+  const handleProfileClick = () => {
+    navigate(`/profile`);
+  };
+
   const handleUsernameChange = (e) => {
     const name = e.target.value;
     setUsername(name);
@@ -104,45 +108,57 @@ const Leaderboard = () => {
       </div>
 
       <div class="w-full px-4 mb-4 border border-black rounded-xl">
-        <div className="flex items-start space-x-2 mt-4 mb-6">
-          <span
-            className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
-            style={{
-              backgroundImage: user.twitter
-                ? `url(${user.twitter.profilePictureUrl})`
-                : `url(${"https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg"})`,
-            }}
-          ></span>
-          <div className="flex flex-col mt-1">
-            <span className="text-xl text-black font-helvetica-neue font-semibold">
-              {user.twitter.name}
-            </span>
-            <div
-              className="flex items-center cursor-pointer rounded-full"
-              onClick={() =>
-                handleTwitterImageClick(
-                  "https://x.com/" + user.twitter.username
-                )
-              }
-            >
-              <img src={TwitterLogo} alt="Twitter" className="w-3 h-3 mr-1" />
-              <span className="text-gray-400 font-open-sans text-xs">
-                @{user.twitter.username}
+        <div class="grid grid-cols-2 w-full">
+          <div className="flex items-start space-x-2 mt-4 mb-6">
+            <span
+              className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
+              style={{
+                backgroundImage: user.twitter
+                  ? `url(${user.twitter.profilePictureUrl})`
+                  : `url(${"https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg"})`,
+              }}
+            ></span>
+            <div className="flex flex-col mt-1">
+              <span className="text-xl text-black font-helvetica-neue font-semibold">
+                {user.twitter.name}
               </span>
+              <div
+                className="flex items-center cursor-pointer rounded-full"
+                onClick={() =>
+                  handleTwitterImageClick(
+                    "https://x.com/" + user.twitter.username
+                  )
+                }
+              >
+                <img src={TwitterLogo} alt="Twitter" className="w-3 h-3 mr-1" />
+                <span className="text-gray-400 font-open-sans text-xs">
+                  @{user.twitter.username}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="flex w-full">
-          <div class="flex w-1/2 justify-between items-center mb-4">
-            <span class="font-semibold text-base">Your Rank</span>
-            <span class="text-base font-semibold mr-8">#{currentUserRank}</span>
-          </div>
+          {/* <div className="flex items-center">
+            <button
+              onClick={handleProfileClick}
+              className="bg-blue-400 text-white ml-8 px-4 py-2 font-semibold rounded-full hover:bg-blue-500 hover:text-white"
+            >
+              View Profile
+            </button>
+          </div> */}
+          <div class="flex flex-col w-full justify-center">
+            <div class="flex w-full justify-between items-center mb-2">
+              <span class="font-open-sans text-base font-semibold">Rank</span>
+              <span class="font-open-sans text-base font-semibold">
+                #{currentUserRank}
+              </span>
+            </div>
 
-          <div class="flex w-1/2 justify-between items-center mb-4">
-            <span class="font-semibold text-base ml-8">Your Points</span>
-            <span class="text-base font-semibold">
-              {currentUserPaperPoint} Pts
-            </span>
+            <div class="flex w-full justify-between items-center">
+              <span class="font-open-sans text-base font-semibold">Points</span>
+              <span class="font-open-sans text-base font-semibold">
+                {currentUserPaperPoint} Pts
+              </span>
+            </div>
           </div>
         </div>
       </div>
