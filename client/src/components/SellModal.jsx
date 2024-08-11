@@ -76,7 +76,7 @@ const SellModal = ({
               <span className="text-base">Sell Amount</span>
               <span className="w-1/5">
                 <input
-                  className="text-base border-2 border-black bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
+                  className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
                   type="number"
                   value={number}
                   min={0}

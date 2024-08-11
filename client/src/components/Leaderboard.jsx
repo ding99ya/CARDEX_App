@@ -80,7 +80,7 @@ const Leaderboard = () => {
     <div className="container mx-auto p-4">
       <div class="w-full">
         <div className="flex justify-between items-center mb-4">
-          <div className="ml-auto flex items-center bg-gray-200 rounded-full shadow-md px-2">
+          <div className="ml-auto flex items-center bg-gray-200 rounded-full px-2">
             <input
               type="text"
               placeholder="Search by username"

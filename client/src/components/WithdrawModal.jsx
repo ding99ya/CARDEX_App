@@ -35,16 +35,16 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-3xl"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
           <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
             <div className="text-left text-xl font-bold mb-2">WITHDRAW</div>
-            <div className="flex justify-between items-center mt-8 mb-2">
+            <div className="flex justify-between items-center mt-4 mb-2">
               <span className="text-base mt-2">Address</span>
               <span className="w-4/5">
                 <input
-                  className="text-base border border-black bg-gray-100 w-full py-1 appearance-none rounded-xl text-left pl-4 mt-2"
+                  className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-left pl-4 mt-2"
                   type="string"
                   value={destinationAddress}
                   onChange={handleDestinationAddressChange}
@@ -56,7 +56,7 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
               <span className="text-base mt-2">Amount</span>
               <span className="w-4/5">
                 <input
-                  className="text-base border border-black bg-gray-100 w-full py-1 appearance-none rounded-xl text-left pl-4 mt-2"
+                  className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-left pl-4 mt-2"
                   type="number"
                   value={transferAmount === 0 ? "" : transferAmount}
                   min={0}
@@ -69,22 +69,22 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
                 />
               </span>
             </div>
-            <div className="flex justify-between items-center mt-2 mb-2">
+            <div className="flex justify-between items-center mt-2">
               Current Balance: {userBalance} ETH
             </div>
           </div>
-          <div className="flex justify-between space-x-2 p-4 px-8 items-stretch mb-2">
+          <div className="flex justify-between space-x-2 px-8 py-2 items-stretch mb-4">
             <button
               className={classNames(
                 "w-2/3 py-4 font-semibold rounded-full flex items-center justify-center",
                 {
-                  "border border-black bg-white text-black hover:bg-black hover:text-white":
+                  "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
                     !(
                       !isValidAddress ||
                       transferAmount === "" ||
                       transferAmount > userBalance
                     ),
-                  "border border-black bg-gray-200 text-black":
+                  "bg-blue-200 text-white":
                     !isValidAddress ||
                     transferAmount === "" ||
                     transferAmount > userBalance,
@@ -103,13 +103,13 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
                 )
               }
             >
-              <span className="font-semibold">TRANSFER</span>
+              <span className="font-semibold">Transfer</span>
             </button>
             <button
-              className="w-1/3 py-4 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
+              className="w-1/3 py-2 bg-white box-border border-2 border-black text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={onClose}
             >
-              <span className="font-semibold">CANCEL</span>
+              <span className="font-semibold">Cancel</span>
             </button>
           </div>
         </div>
