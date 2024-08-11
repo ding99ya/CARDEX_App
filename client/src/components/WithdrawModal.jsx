@@ -38,7 +38,7 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
-          <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
+          <div className="flex flex-col justify-center text-center mt-4 px-2 lg:px-8 py-4">
             <div className="text-left text-xl font-bold mb-2">WITHDRAW</div>
             <div className="flex justify-between items-center mt-4 mb-2">
               <span className="text-base mt-2">Address</span>
@@ -73,7 +73,7 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
               Current Balance: {userBalance} ETH
             </div>
           </div>
-          <div className="flex justify-between space-x-2 px-8 py-2 items-stretch mb-4">
+          <div className="flex justify-between space-x-2 px-2 lg:px-8 py-2 items-stretch mb-4">
             <button
               className={classNames(
                 "w-2/3 py-4 font-semibold rounded-full flex items-center justify-center",
