@@ -107,7 +107,7 @@ const Leaderboard = () => {
         </div>
       </div>
 
-      <div class="w-full px-4 mb-4 border border-black rounded-xl">
+      <div class="w-full px-2 mb-4 border border-black rounded-xl">
         <div class="grid grid-cols-2 w-full">
           <div className="flex items-start space-x-2 mt-4 mb-6">
             <span
@@ -147,14 +147,18 @@ const Leaderboard = () => {
           </div> */}
           <div class="flex flex-col w-full justify-center">
             <div class="flex w-full justify-between items-center mb-2">
-              <span class="font-open-sans text-base font-semibold">Rank</span>
+              <span class="font-open-sans text-base font-semibold ml-2">
+                Rank
+              </span>
               <span class="font-open-sans text-base font-semibold">
                 #{currentUserRank}
               </span>
             </div>
 
             <div class="flex w-full justify-between items-center">
-              <span class="font-open-sans text-base font-semibold">Points</span>
+              <span class="font-open-sans text-base font-semibold ml-2">
+                Points
+              </span>
               <span class="font-open-sans text-base font-semibold">
                 {currentUserPaperPoint} Pts
               </span>
