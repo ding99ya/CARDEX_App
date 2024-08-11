@@ -354,7 +354,7 @@ function Profile() {
       <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col items-left">
-            <div className="flex items-left space-x-2 mb-2">
+            {/* <div className="flex items-left space-x-2 mb-2">
               <span
                 className="w-10 h-10 bg-center bg-cover rounded-full"
                 style={{
@@ -366,8 +366,8 @@ function Profile() {
               </span>
               <span
                 className="cursor-pointer"
-                // onMouseEnter={() => setTwitterHover(true)}
-                // onMouseLeave={() => setTwitterHover(false)}
+                onMouseEnter={() => setTwitterHover(true)}
+                onMouseLeave={() => setTwitterHover(false)}
               >
                 <img
                   onClick={() =>
@@ -377,7 +377,7 @@ function Profile() {
                   alt="Twitter"
                   className="w-5 h-5"
                 />
-                {/* {twitterHover && !twitterLinked && (
+                {twitterHover && !twitterLinked && (
                   <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded whitespace-nowrap">
                     Link Twitter
                   </span>
@@ -386,9 +386,50 @@ function Profile() {
                   <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded whitespace-nowrap">
                     Unlink Twitter
                   </span>
-                )} */}
+                )}
               </span>
+            </div> */}
+            <div className="flex items-start space-x-2 mb-2">
+              <span
+                className="w-10 h-10 bg-center bg-cover rounded-full mt-1"
+                style={{
+                  backgroundImage: `url(${twitterProfilePhoto})`,
+                }}
+              ></span>
+              <div className="flex flex-col">
+                <span className="text-xl text-black font-helvetica-neue font-semibold">
+                  {twitterName}
+                </span>
+                {/* <span className="cursor-pointer">
+                  <img
+                    onClick={() =>
+                      handleTwitterImageClick(
+                        "https://x.com/" + twitterUsername
+                      )
+                    }
+                    src={TwitterLogo}
+                    alt="Twitter"
+                    className="w-5 h-5"
+                  />
+                </span> */}
+                <div
+                  className="flex items-center cursor-pointer rounded-full"
+                  onClick={() =>
+                    handleTwitterImageClick("https://x.com/" + twitterUsername)
+                  }
+                >
+                  <img
+                    src={TwitterLogo}
+                    alt="Twitter"
+                    className="w-3 h-3 mr-1"
+                  />
+                  <span className="text-gray-400 font-open-sans text-xs">
+                    @{twitterUsername}
+                  </span>
+                </div>
+              </div>
             </div>
+
             <div className="flex items-left space-x-2">
               <span className="text-black font-semibold">{shortAddress}</span>
               <span
@@ -564,7 +605,7 @@ function Profile() {
               {userCards.map((item) =>
                 item.category !== "presale" ? (
                   <div
-                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
                     key={item.uniqueId}
                     onClick={() => handleCardClick(item)}
                     style={{
