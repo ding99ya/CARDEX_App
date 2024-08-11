@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import GoldMedal from "./GoldMedal.svg";
 import SilverMedal from "./SilverMedal.svg";
 import BronzeMedal from "./BronzeMedal.svg";
+import TwitterLogo from "./TwitterLogo.png";
 import axios from "axios";
 
 const Leaderboard = () => {
@@ -131,18 +132,18 @@ const Leaderboard = () => {
         className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
         style={{ borderCollapse: "separate", borderSpacing: 0 }}
       >
-        <thead className="bg-sky-100 rounded-t-xl h-16">
+        <thead className="bg-sky-100 rounded-t-xl h-16 text-gray-500 text-sm font-open-sans">
           <tr>
-            <th className="py-2 px-4 text-left">RANK</th>
-            <th className="py-2 px-4 text-left">USER</th>
-            <th className="py-2 px-4 text-center">TOTAL POINTS</th>
+            <th className="py-2 px-4 text-left">Rank</th>
+            <th className="py-2 px-4 text-left">User</th>
+            <th className="py-2 px-4 text-center">Total Points</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user, index) => (
             <tr
               key={user.rank}
-              className={`hover:border hover:border-black cursor-pointer h-12 ${
+              className={`cursor-pointer h-14 text-sm font-open-sans ${
                 index === users.length - 1 ? "rounded-b-xl" : ""
               } ${index % 2 === 1 ? "bg-sky-100" : "bg-white"}`}
               onClick={() => handleUserClick(user)}
@@ -154,21 +155,21 @@ const Leaderboard = () => {
                     <img
                       src={GoldMedal}
                       alt="Gold Medal"
-                      className="w-4 h-4 ml-2"
+                      className="w-6 h-6 ml-2"
                     />
                   )}
                   {index === 1 && (
                     <img
                       src={SilverMedal}
                       alt="Silver Medal"
-                      className="w-4 h-4 ml-2"
+                      className="w-6 h-6 ml-2"
                     />
                   )}
                   {index === 2 && (
                     <img
                       src={BronzeMedal}
                       alt="Bronze Medal"
-                      className="w-4 h-4 ml-2"
+                      className="w-6 h-6 ml-2"
                     />
                   )}
                 </div>
@@ -178,7 +179,7 @@ const Leaderboard = () => {
                   <img
                     src={user.profilePhoto}
                     alt={`${user.name}'s profile`}
-                    className="w-6 h-6 rounded-full mr-2"
+                    className="w-6 h-6 rounded-full mr-1"
                   />
                   {user.name}
                 </div>
