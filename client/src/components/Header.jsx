@@ -4,11 +4,14 @@ import marketIcon from "./Market.svg";
 import leaderboardIcon from "./Leaderboard.svg";
 import profileIcon from "./Profile.svg";
 import inventoryIcon from "./Inventory.svg";
+import CardexWebsite from "./CardexWebsite.jpg";
+import Cardex from "./Cardex.jpg";
 import "../index.css";
 
 function Header() {
   const location = useLocation();
   const [selectedButton, setSelectedButton] = useState("MARKET");
+  const [headerText, setHeaderText] = useState("MARKET");
 
   useEffect(() => {
     const storedSelectedButton = localStorage.getItem("selectedButton");
@@ -27,8 +30,24 @@ function Header() {
 
   const handleButtonClick = (buttonText) => {
     setSelectedButton(buttonText);
+    setHeaderText(buttonText);
     localStorage.setItem("selectedButton", buttonText);
   };
+
+  // const getHeaderText = (pathname) => {
+  //   switch (pathname.toLowerCase()) {
+  //     case "/market":
+  //       return "MARKET";
+  //     case "/leaderboard":
+  //       return "LEADERBOARD";
+  //     case "/inventory":
+  //       return "INVENTORY";
+  //     case "/profile":
+  //       return "PROFILE";
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   return (
     <>
@@ -89,7 +108,25 @@ function Header() {
           </nav>
         </div>
       </header>
+      {headerText && (
+        <header className="fixed top-0 left-0 right-0 z-50 bg-white w-full block lg:hidden">
+          <div className="max-w-full w-full px-4 py-2 flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-gray-900">
+              <Link to="/" className="flex items-center h-full">
+                <img
+                  src={CardexWebsite}
+                  alt="Cardex"
+                  className="h-8 w-auto my-auto"
+                />
+              </Link>
+            </h1>
 
+            <div className="text-2xl font-bold text-gray-900 font-helvetica-neue">
+              {headerText}
+            </div>
+          </div>
+        </header>
+      )}
       <footer className="fixed bottom-0 left-0 right-0 z-50 bg-white w-full lg:hidden">
         <div className="max-w-full w-full">
           <nav>
