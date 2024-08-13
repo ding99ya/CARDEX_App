@@ -51,7 +51,7 @@ function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 bg-white w-full hidden lg:block">
+      <header className="fixed top-0 left-0 right-0 bg-white w-full hidden lg:block z-50">
         <div className="max-w-full w-full py-6 px-0 sm:px-0 lg:px-16 flex items-center justify-between">
           <h1 className="text-6xl font-bold text-gray-900">
             <Link
@@ -109,7 +109,7 @@ function Header() {
         </div>
       </header>
       {headerText && (
-        <header className="fixed top-0 left-0 right-0 bg-white w-full block lg:hidden">
+        <header className="fixed top-0 left-0 right-0 bg-white w-full block lg:hidden z-50">
           <div className="max-w-full w-full px-4 py-4 flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900">
               <Link to="/" className="flex items-center h-full">
