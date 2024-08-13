@@ -110,7 +110,7 @@ function Header() {
       </header>
       {headerText && (
         <header className="fixed top-0 left-0 right-0 z-50 bg-white w-full block lg:hidden">
-          <div className="max-w-full w-full px-4 pt-4 pb-2 flex items-center justify-between">
+          <div className="max-w-full w-full px-4 py-4 flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900">
               <Link to="/" className="flex items-center h-full">
                 <img
