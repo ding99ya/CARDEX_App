@@ -455,7 +455,7 @@ function CardPage({ category }) {
 
   return (
     <div className="min-h-screen mx-auto bg-gray-100">
-      <div className="flex flex-row items-center justify-between space-x-2 p-2 mx-4 lg:mx-12">
+      <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 mx-4 lg:mx-12">
         <span
           onClick={() => handleBackClick()}
           className="cursor-pointer inline-block text-black py-2 mt-3 mb-2 font-semibold whitespace-nowrap"

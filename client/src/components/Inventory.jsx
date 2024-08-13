@@ -321,7 +321,7 @@ function Inventory() {
       <div className="w-full lg:px-4">
         {userCards.length === 0 ? (
           <div>
-            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
+            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 mx-1 lg:mx-6">
               <span className="font-semibold text-sm">
                 Inventory Worth: {totalWorth} ETH
               </span>
@@ -338,7 +338,7 @@ function Inventory() {
           </div>
         ) : (
           <div>
-            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
+            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 mx-1 lg:mx-6">
               <span className="font-semibold text-sm">
                 Inventory Worth: {totalWorth} ETH
               </span>
