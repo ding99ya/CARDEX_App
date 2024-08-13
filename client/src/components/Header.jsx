@@ -130,7 +130,7 @@ function Header() {
           </div>
         </header>
       )}
-      <footer className="fixed bottom-0 left-0 right-0 bg-white w-full lg:hidden">
+      <footer className="fixed bottom-0 left-0 right-0 bg-white w-full lg:hidden z-50">
         <div className="max-w-full w-full">
           <nav>
             <ul className="flex justify-between w-full border-t border-t-black">
