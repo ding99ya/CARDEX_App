@@ -121,9 +121,12 @@ function Header() {
               </Link>
             </h1>
 
-            <div className="text-xl font-bold font-helvetica-neue">
+            {/* <div className="text-xl font-bold font-helvetica-neue">
               {headerText}
-            </div>
+            </div> */}
+            <button className="text-xl font-bold px-4 py-1 rounded-full border-2 border-black shadow-[0px_2px_0px_0px_rgba(0,0,0,1)]">
+              {headerText}
+            </button>
           </div>
         </header>
       )}
