@@ -53,15 +53,13 @@ function Header() {
     <>
       <header className="fixed top-0 left-0 right-0 bg-white w-full hidden lg:block z-50">
         <div className="max-w-full w-full py-6 px-0 sm:px-0 lg:px-16 flex items-center justify-between">
-          <h1 className="text-6xl font-bold text-gray-900">
-            <Link
-              to="/"
-              className="ml-8 text-gray-900 hover:text-gray-700"
-              onClick={() => handleButtonClick("MARKET")}
-            >
-              CARDEX
-            </Link>
-          </h1>
+          <Link
+            to="/"
+            className="ml-8"
+            onClick={() => handleButtonClick("MARKET")}
+          >
+            <img src={CardexWebsite} alt="Cardex" className="h-12 w-auto" />
+          </Link>
 
           <nav>
             <ul className="flex items-center space-x-10 ml-auto mr-10">
@@ -69,10 +67,10 @@ function Header() {
                 <Link
                   to="/Market"
                   onClick={() => handleButtonClick("MARKET")}
-                  className={`text-black font-bold rounded-full px-8 py-3 border-2 border-black font-helvetica-neue ${
+                  className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
                     selectedButton === "MARKET"
-                      ? "bg-black text-white"
-                      : "bg-white hover:bg-gray-200"
+                      ? "bg-blue-400 text-white"
+                      : "bg-white text-blue-400 hover:bg-gray-100"
                   }`}
                 >
                   MARKET
@@ -82,10 +80,10 @@ function Header() {
                 <Link
                   to="/Leaderboard"
                   onClick={() => handleButtonClick("LEADERBOARD")}
-                  className={`text-black font-bold rounded-full px-8 py-3 border-2 border-black font-helvetica-neue ${
+                  className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
                     selectedButton === "LEADERBOARD"
-                      ? "bg-black text-white"
-                      : "bg-white hover:bg-gray-200"
+                      ? "bg-blue-400 text-white"
+                      : "bg-white text-blue-400 hover:bg-gray-100"
                   }`}
                 >
                   LEADERBOARD
@@ -95,10 +93,10 @@ function Header() {
                 <Link
                   to="/Profile"
                   onClick={() => handleButtonClick("PROFILE")}
-                  className={`text-black font-bold rounded-full px-8 py-3 border-2 border-black font-helvetica-neue ${
+                  className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
                     selectedButton === "PROFILE"
-                      ? "bg-black text-white"
-                      : "bg-white hover:bg-gray-200"
+                      ? "bg-blue-400 text-white"
+                      : "bg-white text-blue-400 hover:bg-gray-100"
                   }`}
                 >
                   PROFILE
