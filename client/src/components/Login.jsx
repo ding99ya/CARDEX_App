@@ -55,7 +55,7 @@ const Login = () => {
 
   if (ready && !authenticated) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-100 rounded-3xl">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100 rounded-3xl">
         <div className="w-full max-w-[calc(100%-2rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center z-10">
           {/* <h4 className="text-4xl mb-4 font-helvetica-neue font-semibold">
             Welcome to CARDEX
