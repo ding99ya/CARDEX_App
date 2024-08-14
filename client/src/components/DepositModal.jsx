@@ -33,7 +33,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
 
             <div className="flex flex-col items-start space-y-2 mt-4">
               <p>Transfer ETH on Base network to </p>
-              <p className="text-sm">{embeddedWalletAddress}</p>
+              <p className="text-xs lg:text-sm">{embeddedWalletAddress}</p>
               {/* <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setDepositHover(true)}
@@ -54,7 +54,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
               </span> */}
               <div className="w-full flex justify-center mt-2">
                 <button
-                  className="px-4 py-2 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
+                  className="py-2 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                   onClick={() => fundWallet(embeddedWalletAddress.toString())}
                 >
                   <span className="font-semibold">Transfer From External</span>
