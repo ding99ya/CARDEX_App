@@ -27,7 +27,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
         }}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
-        <div className="max-w-full">
+        <div className="w-full">
           <div className="flex flex-col justify-center text-center mt-4 px-4 lg:px-8 py-4">
             <div className="text-left text-xl font-bold mb-2">DEPOSIT</div>
 
@@ -52,40 +52,38 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
                   </span>
                 )}
               </span> */}
+            </div>
+            <div className="flex flex-col items-center space-y-2 mt-4 w-full max-w-xs mx-auto">
+              <button
+                className="w-full px-4 py-2 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                onClick={() => fundWallet(embeddedWalletAddress.toString())}
+              >
+                <span className="font-semibold">Transfer</span>
+              </button>
+
               <div className="w-full flex justify-center mt-2">
                 <button
-                  className="py-2 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
-                  onClick={() => fundWallet(embeddedWalletAddress.toString())}
+                  className="w-full px-4 py-2 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                  onClick={() =>
+                    window.open(
+                      "https://bridge.base.org/deposit",
+                      "_blank",
+                      "noopener,noreferrer"
+                    )
+                  }
                 >
-                  <span className="font-semibold">Transfer From External</span>
+                  <span className="font-semibold">Bridge</span>
                 </button>
               </div>
-              <div className="w-full flex justify-center">
-                <p>or</p>
-              </div>
-              <div className="w-full flex justify-center">
-                <p className="text-left text-base">
-                  &nbsp;
-                  <a
-                    href="https://bridge.base.org/deposit"
-                    className="text-blue-600"
-                    style={{ textDecoration: "underline" }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Bridge ETH to Base
-                  </a>
-                </p>
+              <div className="w-full flex justify-center mt-2">
+                <button
+                  className="w-full px-4 py-2 border-2 border-black font-semibold rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
+                  onClick={onClose}
+                >
+                  <span className="font-semibold">Cancel</span>
+                </button>
               </div>
             </div>
-          </div>
-          <div className="flex p-2 px-4">
-            <button
-              className="w-1/3 py-4 bg-white border border-black text-black rounded-full flex items-center justify-center hover:bg-black hover:text-white"
-              onClick={onClose}
-            >
-              <span className="font-semibold">CANCEL</span>
-            </button>
           </div>
         </div>
       </div>
