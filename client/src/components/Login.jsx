@@ -50,7 +50,18 @@ const Login = () => {
   };
 
   if (!ready) {
-    return <div>Not Ready</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img src="/Loading.gif" alt="Loading..." />
+      </div>
+    );
   }
 
   if (ready && !authenticated) {
