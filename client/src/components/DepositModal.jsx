@@ -33,25 +33,27 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
 
             <div className="flex flex-col items-start space-y-2 mt-4">
               <p>Transfer ETH on Base network to </p>
-              <p className="text-xs lg:text-sm">{embeddedWalletAddress}</p>
-              {/* <span
-                className="relative cursor-pointer"
-                onMouseEnter={() => setDepositHover(true)}
-                onMouseLeave={() => setDepositHover(false)}
-                onClick={handleDepositCopy}
-              >
-                <img src={CopyIcon} alt="Copy" className="w-5 h-5" />
-                {depositHover && !depositCopied && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
-                    Copy
-                  </span>
-                )}
-                {depositCopied && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
-                    Copied
-                  </span>
-                )}
-              </span> */}
+              <div className="flex items-center">
+                <p className="text-xs lg:text-sm">{embeddedWalletAddress}</p>
+                <span
+                  className="relative cursor-pointer"
+                  onMouseEnter={() => setDepositHover(true)}
+                  onMouseLeave={() => setDepositHover(false)}
+                  onClick={handleDepositCopy}
+                >
+                  <img src={CopyIcon} alt="Copy" className="w-5 h-5" />
+                  {depositHover && !depositCopied && (
+                    <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded hidden sm:block">
+                      Copy
+                    </span>
+                  )}
+                  {depositCopied && (
+                    <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded">
+                      Copied
+                    </span>
+                  )}
+                </span>
+              </div>
             </div>
             <div className="flex flex-col items-center space-y-2 mt-4 w-full max-w-xs mx-auto">
               <button
@@ -77,7 +79,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
               </div>
               <div className="w-full flex justify-center mt-2">
                 <button
-                  className="w-full px-4 py-2 border-2 border-black font-semibold rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
+                  className="w-full px-4 py-2 mb-4 border-2 border-black font-semibold rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
                   onClick={onClose}
                 >
                   <span className="font-semibold">Cancel</span>
