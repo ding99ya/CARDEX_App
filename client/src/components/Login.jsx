@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import CardexWebsite from "./CardexWebsite.jpg";
 import "../index.css";
 
 const Login = () => {
@@ -55,25 +56,31 @@ const Login = () => {
   if (ready && !authenticated) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
-        <div className="bg-white p-10 rounded-lg shadow-xl text-center z-10">
-          <h4 className="text-4xl mb-4 font-helvetica-neue font-semibold">
+        <div className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white p-10 rounded-lg shadow-xl text-center z-10">
+          {/* <h4 className="text-4xl mb-4 font-helvetica-neue font-semibold">
             Welcome to CARDEX
-          </h4>
-          <p className="mb-8 font-helvetica-neue text-lg">
-            RWA Experimentation for Physical Collectible
+          </h4> */}
+          <div className="flex justify-center items-center mb-12">
+            <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
+          </div>
+          {/* <p className="mb-8 font-open-sans font-bold text-2xl">
+            Welcome to CARDEX
+          </p> */}
+          <p className="mb-8 font-open-sans font-bold text-base">
+            RWA Experimentation for Luxury Collectible
           </p>
           <button
             onClick={handleLogin}
-            className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
+            className="w-2/3 bg-blue-400 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out"
             type="button"
           >
             Sign In
           </button>
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <a href="/privacy-policy" className="text-black underline text-sm">
               Privacy Policy
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     );
