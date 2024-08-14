@@ -14,6 +14,7 @@ const UserLinkTwitter = () => {
   //   const [username, setUsername] = useState("");
   //   const [valid, setValid] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [dummyState, setDummyState] = useState(false);
 
   const userTwitter = user ? user.twitter : "";
 
@@ -72,6 +73,19 @@ const UserLinkTwitter = () => {
 
   //     setUsername(name);
   //   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Toggle the dummy state to force a re-render
+      setDummyState((prev) => !prev);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const generateInviteCode = () => {
     const characters =
