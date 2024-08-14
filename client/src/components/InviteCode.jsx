@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../index.css";
 import Notification from "./InviteCodeNotification.jsx";
+import CardexWebsite from "./CardexWebsite.jpg";
 
 const InviteCode = () => {
   const { ready, authenticated, login, logout, user } = usePrivy();
@@ -150,33 +151,41 @@ const InviteCode = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
-      <div className="bg-white mx-5 rounded-lg shadow-xl text-center">
+    <div className="flex justify-center items-center h-screen bg-gray-100 rounded-3xl">
+      <div className="w-full max-w-[calc(100%-2rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center">
         {/* <h1 className="text-4xl mb-4 font-bold">GOT AN INVITE CODE?</h1> */}
-        <p className="mt-4 mb-8 font-helvetica-neue font-semibold text-xl">
-          CARDEX is in Beta, using invite code to start your collectible trading
+        <div className="flex justify-center items-center mb-8">
+          <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
+        </div>
+        <p className="mt-4 mb-4 font-open-sans font-semibold text-base">
+          CARDEX is in Beta. Get an invite code to enter.
         </p>
-        <div className="flex justify-between items-center mt-4 mb-8">
-          <span className="sm:w-3/5 mx-auto">
-            <input
-              className="text-base border-2 border-black bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
-              type="string"
-              value={inviteCode}
-              onChange={handleInviteCodeChange}
-              placeholder="Enter Your Invite Code"
-            />
-          </span>
+        <div className="w-full mb-8">
+          <input
+            className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
+            type="string"
+            value={inviteCode}
+            onChange={handleInviteCodeChange}
+            placeholder="Enter Your Invite Code"
+          />
         </div>
         <button
           onClick={handleInviteCodeInput}
-          className="w-1/3 bg-white text-black font-bold font-helvetica-neue border border-black px-2 py-2 rounded-full hover:bg-black hover:text-white transition duration-300 ease-in-out"
+          className="w-full bg-blue-400 text-white font-bold font-helvetica-neue px-4 py-2 mb-2 rounded-full hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out"
           type="button"
         >
           Continue
         </button>
-        <p className="underline cursor-pointer mb-4" onClick={handleLogout}>
+        <button
+          onClick={handleLogout}
+          className="w-full bg-white text-black border-2 border-black font-bold font-helvetica-neue px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black transition duration-300 ease-in-out"
+          type="button"
+        >
+          Log Out
+        </button>
+        {/* <p className="underline cursor-pointer mb-4" onClick={handleLogout}>
           login
-        </p>
+        </p> */}
       </div>
       {notification && (
         <div className="absolute inset-0 flex justify-center items-center">

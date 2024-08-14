@@ -55,12 +55,12 @@ const Login = () => {
 
   if (ready && !authenticated) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
-        <div className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white p-10 rounded-lg shadow-xl text-center z-10">
+      <div className="flex justify-center items-center h-screen bg-gray-100 rounded-3xl">
+        <div className="w-full max-w-[calc(100%-2rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center z-10">
           {/* <h4 className="text-4xl mb-4 font-helvetica-neue font-semibold">
             Welcome to CARDEX
           </h4> */}
-          <div className="flex justify-center items-center mb-12">
+          <div className="flex justify-center items-center mb-10">
             <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
           </div>
           {/* <p className="mb-8 font-open-sans font-bold text-2xl">

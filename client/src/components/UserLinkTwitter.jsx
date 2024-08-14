@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import classNames from "classnames";
 import UsernameNotification from "./UsernameNotification.jsx";
+import CardexWebsite from "./CardexWebsite.jpg";
 import "../index.css";
 
 const UserLinkTwitter = () => {
@@ -138,50 +139,66 @@ const UserLinkTwitter = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
-      <div className="bg-white p-4 mx-5 rounded-lg shadow-xl text-center">
-        <p className="mb-8 font-helvetica-neue font-semibold text-xl">
-          Create your Account by Linking Twitter
+    <div className="flex justify-center items-center h-screen bg-gray-100 rounded-3xl">
+      <div className="w-full max-w-[calc(100%-2rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center">
+        <div className="flex justify-center items-center mb-8">
+          <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
+        </div>
+        <p
+          className={
+            !userTwitter
+              ? `mb-4 font-open-sans font-semibold text-base`
+              : `hidden`
+          }
+        >
+          Link Twitter to Create Account
         </p>
         <p
           className={
-            !!userTwitter ? `mb-8 font-helvetica-neue text-lg` : `hidden`
+            !!userTwitter
+              ? `mb-4 font-open-sans font-semibold text-base`
+              : `hidden`
           }
         >
-          Twitter Linked, click "Continue"
+          Twitter Linked
         </p>
-        <div>
-          <button
-            className={classNames(
-              "font-bold font-helvetica-neue border border-black bg-white text-black hover:bg-black hover:text-white px-2 py-2 rounded-full transition duration-300 ease-in-out mb-4",
-              { hidden: !!userTwitter }
-            )}
-            onClick={linkTwitter}
-            type="button"
-          >
-            Link Twitter
-          </button>
-        </div>
-        <div>
-          <button
-            className={classNames(
-              "w-1/3 font-bold font-helvetica-neue border border-black px-2 py-2 rounded-full transition duration-300 ease-in-out",
-              {
-                "border border-black bg-white text-black hover:bg-black hover:text-white":
-                  !!userTwitter,
-                "border border-black bg-gray-200 text-black": !userTwitter,
-              }
-            )}
-            disabled={!userTwitter}
-            onClick={handleUsernameInput}
-            type="button"
-          >
-            Continue
-          </button>
-        </div>
-        <p className="underline cursor-pointer" onClick={handleLogout}>
+
+        <button
+          className={classNames(
+            "w-full font-bold font-helvetica-neue bg-blue-400 text-white hover:bg-blue-500 hover:text-white px-4 py-2 mb-2 rounded-full transition duration-300 ease-in-out",
+            { hidden: !!userTwitter }
+          )}
+          onClick={linkTwitter}
+          type="button"
+        >
+          Link Twitter
+        </button>
+
+        <button
+          className={classNames(
+            "w-full font-bold font-helvetica-neue px-4 py-2 mb-2 rounded-full",
+            {
+              "bg-blue-400 text-white hover:bg-blue-500 gover:text-white transition duration-300 ease-in-out":
+                !!userTwitter,
+              "bg-gray-200 text-white": !userTwitter,
+            }
+          )}
+          disabled={!userTwitter}
+          onClick={handleUsernameInput}
+          type="button"
+        >
+          Continue
+        </button>
+        <button
+          onClick={handleLogout}
+          className="w-full bg-white text-black border-2 border-black font-bold font-helvetica-neue px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black transition duration-300 ease-in-out"
+          type="button"
+        >
+          Log Out
+        </button>
+        {/* <p className="underline cursor-pointer" onClick={handleLogout}>
           login
-        </p>
+        </p> */}
       </div>
       {notification && (
         <div className="absolute inset-0 flex justify-center items-center">
