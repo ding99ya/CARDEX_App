@@ -110,7 +110,11 @@ function Header() {
         <header className="fixed top-0 left-0 right-0 bg-white w-full block lg:hidden z-50">
           <div className="max-w-full w-full px-4 py-4 flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900">
-              <Link to="/" className="flex items-center h-full">
+              <Link
+                to="/"
+                className="flex items-center h-full"
+                onClick={() => handleButtonClick("MARKET")}
+              >
                 <img
                   src={CardexWebsite}
                   alt="Cardex"
