@@ -396,6 +396,10 @@ function NewPresaleCardPage({ category }) {
     try {
       // The returned `txReceipt` has the type `TransactionReceipt`
       const txReceipt = await sendTransaction(transaction, buyUiConfig);
+      setUserOwnedCards((prevOwnedCards) => [
+        ...prevOwnedCards,
+        currentBuyCardId.toString(),
+      ]);
     } catch (error) {
       console.log(error);
     }
