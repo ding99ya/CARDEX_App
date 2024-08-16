@@ -3,10 +3,19 @@ import { useState, useEffect } from "react";
 import { Contract, providers, BigNumber } from "ethers";
 import classNames from "classnames";
 
-const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
+const PresaleBuyModal = ({
+  open,
+  onClose,
+  buy,
+  fetchCost,
+  fetchUserShares,
+  cardName,
+  cardPhoto,
+}) => {
   const [number, setNumber] = useState(1);
   const [cost, setCost] = useState(0);
   const [costInETH, setCostInETH] = useState(0);
+  const [hasShare, setHasShare] = useState(false);
 
   const buyUiConfig = {
     header: cardName,
@@ -24,10 +33,9 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
     if (costValue === undefined) {
       setCost(0);
       setCostInETH(0);
-
       return 0;
     } else {
-      const costValueToBigNumber = BigNumber.from(costValue);
+      const costValueToBigNumber = BigNumber.from(costValue.toString());
       const oneEther = BigNumber.from("1000000000000000000");
       const costInETH =
         Number(costValueToBigNumber.mul(1000).div(oneEther)) / 1000;
@@ -42,6 +50,11 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
     setNumber(1);
     onClose();
   };
+
+  useEffect(() => {
+    const userShares = fetchUserShares();
+    setHasShare(Number(userShares) > 0);
+  }, []);
 
   useEffect(() => {
     if (isNaN(number)) {
@@ -61,78 +74,57 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
   return (
     <div
       onClick={completeClose}
-      className="fixed inset-0 bg-black bg-opacity-50"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
     >
       <div
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-md bg-white shadow-xl rounded-lg"
+        className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
-        <div className="w-full">
-          <div className="flex flex-col justify-center text-center mt-12 p-4 px-8">
-            <div className="text-left mb-2">Buy {cardName}</div>
-            <div className="flex justify-between items-center mt-12 mb-2">
-              <span>Buy Amount</span>
-              <span className="w-1/5">
-                <input
-                  className="border border-black w-full appearance-none"
-                  type="number"
-                  value={number}
-                  min={1}
-                  onChange={(e) => {
-                    setNumber(parseInt(e.target.value));
-                  }}
-                />
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>Total Cost: </span>
-              <span>{costInETH} ETH</span>
-            </div>
+        <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
+          <div className="text-left text-xl font-bold mb-2">{cardName}</div>
+
+          <div className="flex justify-between items-center mt-6 mb-4">
+            <span className="text-base">Buy Amount</span>
+            <span className="text-base font-semibold">{number}</span>
           </div>
-          <div className="flex p-4">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-base">Total Cost </span>
+            <span className="text-base font-semibold">
+              {costInETH.toFixed(3)} ETH
+            </span>
+          </div>
+          <div className="flex justify-between space-x-2 py-2 items-stretch mb-2">
             <button
-              // className="w-full my-2 py-4 border border-purple-800 bg-purple-800 text-white"
-              className={classNames("w-full my-2 py-4 border font-semibold", {
-                "border-purple-800 bg-purple-800 text-white": !(
-                  isNaN(number) || number === 0
-                ),
-                "border-gray-400 bg-gray-400 text-gray-700":
-                  isNaN(number) || number === 0,
-              })}
-              disabled={isNaN(number) || number === 0}
+              className={classNames(
+                "w-2/3 py-2 font-semibold rounded-full flex items-center justify-center",
+                {
+                  "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
+                    !(isNaN(number) || number === 0),
+                  "bg-blue-200 text-gray-200": isNaN(number) || number === 0,
+                }
+              )}
+              disabled={hasShare}
               onClick={async () => {
                 const buyCost = await calculateCost();
+                console.log(buyCost);
                 buy(number, buyCost, buyUiConfig);
               }}
             >
-              <span className="font-semibold">BUY</span>
+              <span className="font-semibold">Buy</span>
             </button>
             <button
-              className="bg-white text-purple-800"
+              className="w-1/3 py-2 bg-white box-border border-2 border-black text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={completeClose}
             >
-              <span className="font-semibold">CANCEL</span>
+              <span className="font-semibold">Cancel</span>
             </button>
           </div>
         </div>
       </div>
-      <style jsx>{`
-        /* Chrome, Safari, Edge, Opera */
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-
-        /* Firefox */
-        input[type="number"] {
-          -moz-appearance: textfield;
-        }
-      `}</style>
     </div>
   );
 };
 
-export default BuyModal;
+export default PresaleBuyModal;

@@ -16,6 +16,7 @@ import Inventory from "./Inventory.jsx";
 import ViewProfile from "./ViewProfile";
 import CardDetailPage from "./CardDetailPage";
 import PresaleCardDetailPage from "./PresaleCardDetailPage";
+import NewPresaleCardPage from "./NewPresaleCardPage";
 import LeaderboardUser from "./LeaderboardUser";
 import ProtectedRoute from "./ProtectedRoute";
 import axios from "axios";
@@ -77,7 +78,7 @@ function App() {
             path="/market/presale"
             element={
               <ProtectedRoute>
-                <PresaleCardPage category="presale" />
+                <NewPresaleCardPage category="presale" />
               </ProtectedRoute>
             }
           />
