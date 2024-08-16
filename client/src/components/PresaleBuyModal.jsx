@@ -8,7 +8,6 @@ const PresaleBuyModal = ({
   onClose,
   buy,
   fetchCost,
-  fetchUserShares,
   cardName,
   cardPhoto,
 }) => {
@@ -50,11 +49,6 @@ const PresaleBuyModal = ({
     setNumber(1);
     onClose();
   };
-
-  useEffect(() => {
-    const userShares = fetchUserShares();
-    setHasShare(Number(userShares) > 0);
-  }, []);
 
   useEffect(() => {
     if (isNaN(number)) {

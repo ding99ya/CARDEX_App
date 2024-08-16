@@ -36,6 +36,8 @@ function NewPresaleCardPage({ category }) {
 
   const [isEligibleUser, setIsEligibleUser] = useState(false);
 
+  const [userOwnedCards, setUserOwnedCards] = useState([]);
+
   // cards array includes info about a card, it will be used to render the page
   const [cards, setCards] = useState([]);
 
@@ -260,6 +262,22 @@ function NewPresaleCardPage({ category }) {
       };
 
       checkEligibleUser();
+
+      const checkUserShares = async () => {
+        cardsResponse.map(async (card, index) => {
+          const userOwnedShares = await fetchUserShares(card.uniqueId);
+          console.log(userOwnedShares);
+          if (Number(userOwnedShares) > 0) {
+            console.log(`Own card ${card.uniqueId}`);
+            setUserOwnedCards((prevOwnedCards) => [
+              ...prevOwnedCards,
+              card.uniqueId,
+            ]);
+          }
+        });
+      };
+
+      checkUserShares();
     } else {
       hasMounted.current = true;
     }
@@ -286,16 +304,16 @@ function NewPresaleCardPage({ category }) {
   };
 
   // Function to fetch user's current shares from blockchain
-  const loadUserShares = async () => {
+  const loadUserShares = async (cardId) => {
     const userShares = await contract.methods
-      .sharesBalance(Number(currentBuyCardId), embeddedWalletAddress)
+      .sharesBalance(Number(cardId), embeddedWalletAddress)
       .call();
     return userShares.toString();
   };
 
-  const fetchUserShares = async () => {
+  const fetchUserShares = async (cardId) => {
     try {
-      const userShares = await loadUserShares();
+      const userShares = await loadUserShares(cardId);
       return userShares;
     } catch (error) {
       console.log(error);
@@ -559,9 +577,16 @@ function NewPresaleCardPage({ category }) {
                     setCurrentBuyCardPhoto(card.photo);
                     setOpenBuyModal(true);
                   }}
-                  className="w-full bg-blue-400 text-white font-bold px-4 py-2 mx-4 mb-2 rounded-full hover:bg-blue-500 hover:text-white"
+                  disabled={userOwnedCards.includes(card.uniqueId)}
+                  className={`w-full font-bold px-4 py-2 mx-4 mb-2 rounded-full ${
+                    userOwnedCards.includes(card.uniqueId)
+                      ? "bg-blue-200 text-white"
+                      : "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                  }`}
                 >
-                  Buy 1/1
+                  {userOwnedCards.includes(card.uniqueId)
+                    ? "Own 1/1"
+                    : "Buy 1/1"}
                 </button>
               </div>
             ) : (
@@ -591,7 +616,6 @@ function NewPresaleCardPage({ category }) {
             }}
             buy={buy}
             fetchCost={fetchCost}
-            fetchUserShares={fetchUserShares}
             cardName={currentBuyCardName}
             cardPhoto={currentBuyCardPhoto}
             className="z-60"
