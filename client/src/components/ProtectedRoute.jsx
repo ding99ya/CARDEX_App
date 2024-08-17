@@ -69,7 +69,7 @@ const ProtectedRoute = ({ children }) => {
         height: "100vh",
       }}
     >
-      <img src="/Loading.gif" alt="Loading..." />
+      <img src="/Loading.gif" alt="Loading..." style={{ marginTop: "-20vh" }} />
     </div>
   );
 };
