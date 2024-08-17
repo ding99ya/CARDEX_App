@@ -3,7 +3,6 @@ import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import abi from "../CardexV1.json";
 import axios from "axios";
-import io from "socket.io-client";
 import { encodeFunctionData } from "viem";
 import PresaleBuyModal from "./PresaleBuyModal.jsx";
 import sortingIcon from "./Sorting.svg";
@@ -21,8 +20,6 @@ const contract = new web3.eth.Contract(
   abi,
   process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR
 );
-
-const socket = io("http://localhost:3000");
 
 function PresaleCardPage({ category }) {
   const { sendTransaction, user } = usePrivy();
@@ -103,35 +100,6 @@ function PresaleCardPage({ category }) {
     });
 
     return eventSubscription;
-  }
-
-  function addWebSocketListener() {
-    socket.on("cardUpdate", (updatedCard) => {
-      const cardID = updatedCard.uniqueId;
-
-      const index = cards.findIndex(
-        (card) => card.uniqueId === cardID.toString()
-      );
-
-      if (index !== -1) {
-        const currentHolders = Number(updatedCard.shares);
-        const currentPrice = Number(updatedCard.price);
-        const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
-
-        setCards((prevCards) =>
-          prevCards.map((card) =>
-            card.uniqueId === cardID.toString()
-              ? {
-                  ...card,
-                  price: currentPrice,
-                  trend: currentTrend,
-                  shares: Number(currentHolders),
-                }
-              : card
-          )
-        );
-      }
-    });
   }
 
   // function to add listener to Sell() event onchain so that Sell() event can trigger price, share holders update

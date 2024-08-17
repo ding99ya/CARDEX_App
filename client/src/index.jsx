@@ -5,7 +5,7 @@ import { PrivyProvider } from "@privy-io/react-auth";
 import { AuthProvider } from "./components/AuthContext";
 import { base, baseSepolia, mainnet } from "viem/chains";
 import { Buffer } from "buffer";
-// import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 window.Buffer = Buffer;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -36,4 +36,4 @@ root.render(
   </PrivyProvider>
 );
 
-// serviceWorkerRegistration.register();
+serviceWorkerRegistration.register();
