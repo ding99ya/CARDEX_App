@@ -1,14 +1,5 @@
 const CACHE_NAME = "Cardex-cache-v1";
-const urlsToCache = [
-  "/",
-  "/index.html",
-  "/static/js/main.chunk.js",
-  "/static/js/0.chunk.js",
-  "/static/js/bundle.js",
-  "/static/css/main.chunk.css",
-  "/manifest.json",
-  "/Cardex_logo.png",
-];
+const urlsToCache = ["/", "/index.html", "/manifest.json", "/Cardex_logo.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
