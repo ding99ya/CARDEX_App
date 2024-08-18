@@ -1,4 +1,5 @@
 const CACHE_NAME = "Cardex-cache-v1";
+// Cached URL
 const urlsToCache = ["/", "/index.html", "/manifest.json", "/Cardex_logo.png"];
 
 self.addEventListener("install", (event) => {
