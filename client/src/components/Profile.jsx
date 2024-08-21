@@ -68,6 +68,8 @@ function Profile() {
     !!user ? !!user.twitter : false
   );
 
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(embeddedWalletAddress).then(() => {
       setCopied(true);
@@ -146,6 +148,18 @@ function Profile() {
       }
     };
     fetchUserWalletBalance();
+
+    const checkSubscriptionStatus = async () => {
+      try {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.getSubscription();
+        setIsSubscribed(!!subscription);
+      } catch (error) {
+        console.error("Error checking subscription status:", error);
+      }
+    };
+
+    checkSubscriptionStatus();
 
     window.scrollTo(0, 0);
   }, []);
@@ -327,6 +341,123 @@ function Profile() {
     }
   };
 
+  // const subscribe = async () => {
+  //   try {
+  //     const registration = await navigator.serviceWorker.ready;
+  //     const response = await axios.get("/api/vapidPublicKey");
+  //     console.log("Got vapid key");
+  //     const vapidPublicKey = response.data;
+  //     const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+  //     const subscription = await registration.pushManager.subscribe({
+  //       userVisibleOnly: true,
+  //       applicationServerKey: convertedVapidKey,
+  //     });
+  //     console.log("Successfully got subscription");
+
+  //     await axios.post("/api/subscribe", {
+  //       subscription: subscription,
+  //     });
+  //     setIsSubscribed(true);
+  //     alert("You have successfully subscribed to notifications!");
+  //   } catch (error) {
+  //     console.error("Error subscribing to notifications:", error);
+  //     alert("Failed to subscribe to notifications. Please try again.");
+  //   }
+  // };
+
+  const subscribe = async () => {
+    try {
+      // Check if the browser supports push notifications
+      if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+        alert("Push notifications are not supported in this browser.");
+        return;
+      }
+
+      // Check the current permission state
+      let permission = Notification.permission;
+      if (permission === "denied") {
+        alert("Please enable notification permission in device settings");
+        return;
+      }
+
+      const registration = await navigator.serviceWorker.ready;
+      let subscription = await registration.pushManager.getSubscription();
+
+      // If permission is not granted, or there's no existing subscription, request permission
+      if (permission === "default" || !subscription) {
+        permission = await Notification.requestPermission();
+        if (permission !== "granted") {
+          alert("Permission for notifications was denied");
+          return;
+        }
+      }
+
+      // If there's no existing subscription, create one
+      if (!subscription) {
+        const response = await axios.get("/api/vapidPublicKey");
+        console.log("Got vapid key");
+        const vapidPublicKey = response.data;
+        const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+        subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidKey,
+        });
+        console.log("Successfully created new subscription");
+      } else {
+        console.log("Using existing subscription");
+      }
+
+      // Send the subscription to the server
+      await axios.post("/api/subscribe", {
+        subscription: subscription,
+      });
+      setIsSubscribed(true);
+      alert("You have successfully subscribed to notifications!");
+    } catch (error) {
+      console.error("Error subscribing to notifications:", error);
+      alert("Failed to subscribe to notifications. Please try again.");
+    }
+  };
+
+  const unsubscribe = async () => {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.getSubscription();
+      if (subscription) {
+        await subscription.unsubscribe();
+        await axios.post("/api/unsubscribe", subscription);
+        setIsSubscribed(false);
+        alert("You have successfully unsubscribed from notifications.");
+      }
+    } catch (error) {
+      console.error("Error unsubscribing from notifications:", error);
+      alert("Failed to unsubscribe from notifications. Please try again.");
+    }
+  };
+
+  const toggleSubscription = () => {
+    if (isSubscribed) {
+      unsubscribe();
+    } else {
+      subscribe();
+    }
+  };
+
+  function urlBase64ToUint8Array(base64String) {
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding)
+      .replace(/\-/g, "+")
+      .replace(/_/g, "/");
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
   const upArrow = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -354,42 +485,7 @@ function Profile() {
       <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col items-left">
-            {/* <div className="flex items-left space-x-2 mb-2">
-              <span
-                className="w-10 h-10 bg-center bg-cover rounded-full"
-                style={{
-                  backgroundImage: `url(${twitterProfilePhoto})`,
-                }}
-              ></span>
-              <span className="text-3xl text-black font-helvetica-neue font-semibold">
-                {twitterName}
-              </span>
-              <span
-                className="cursor-pointer"
-                onMouseEnter={() => setTwitterHover(true)}
-                onMouseLeave={() => setTwitterHover(false)}
-              >
-                <img
-                  onClick={() =>
-                    handleTwitterImageClick("https://x.com/" + twitterUsername)
-                  }
-                  src={TwitterLogo}
-                  alt="Twitter"
-                  className="w-5 h-5"
-                />
-                {twitterHover && !twitterLinked && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded whitespace-nowrap">
-                    Link Twitter
-                  </span>
-                )}
-                {twitterHover && twitterLinked && (
-                  <span className="absolute left-0 top-6 bg-gray-700 text-white text-xs p-1 rounded whitespace-nowrap">
-                    Unlink Twitter
-                  </span>
-                )}
-              </span>
-            </div> */}
-            <div className="flex items-start space-x-2 mb-2">
+            <div className="flex items-start space-x-2 mb-2 flex-1">
               <span
                 className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
                 style={{
@@ -418,6 +514,17 @@ function Profile() {
               </div>
             </div>
 
+            <button
+              onClick={toggleSubscription}
+              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out ${
+                isSubscribed
+                  ? "bg-red-500 text-white hover:bg-red-600"
+                  : "bg-green-500 text-white hover:bg-green-600"
+              }`}
+            >
+              {isSubscribed ? "Turn Off" : "Turn On"}
+            </button>
+
             <div className="flex items-left space-x-2">
               <span className="text-sm">{shortAddress}</span>
               <span
@@ -440,6 +547,7 @@ function Profile() {
               </span>
             </div>
           </div>
+
           <span
             onClick={exportWallet}
             className="cursor-pointer self-end items-right text-sm text-blue-600"

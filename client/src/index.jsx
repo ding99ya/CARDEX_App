@@ -6,6 +6,7 @@ import { PrivyProvider } from "@privy-io/react-auth";
 import { AuthProvider } from "./components/AuthContext";
 import { base, baseSepolia, mainnet } from "viem/chains";
 import { Buffer } from "buffer";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 window.Buffer = Buffer;
 
 async function registerServiceWorkerAndSubscribe() {
@@ -96,7 +97,9 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 // Call the function to register service worker and subscribe to push notifications
-registerServiceWorkerAndSubscribe();
+// registerServiceWorkerAndSubscribe();
+
+serviceWorkerRegistration.register();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -110,7 +113,7 @@ root.render(
       appearance: {
         theme: "light",
         accentColor: "#676FFF",
-        //logo: "https://your-logo-url",
+        logo: "/Cardex_logo.png",
       },
       // Create embedded wallets for users who don't have a wallet
       embeddedWallets: {
