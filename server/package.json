@@ -37,6 +37,7 @@
     "pm2": "^5.3.1",
     "postcss": "^8.4.38",
     "socket.io": "^4.7.5",
+    "web-push": "^3.6.7",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

@@ -14,8 +14,10 @@ const InviteCodeModel = require("./models/inviteCodeModel.js");
 const PresaleUserModel = require("./models/PresaleUserModel.js");
 const CardActivityModel = require("./models/CardActivityModel.js");
 const CardHolderModel = require("./models/CardHolderModel.js");
+const SubscriptionModel = require("./models/SubscriptionModel.js");
 const path = require("path");
 const axios = require("axios");
+const webpush = require("web-push");
 const { PrivyClient } = require("@privy-io/server-auth");
 
 require("dotenv").config();
@@ -35,6 +37,9 @@ const privy = new PrivyClient(
   process.env.PRIVY_APP_ID,
   process.env.PRIVY_APP_SECRET
 );
+
+const vapidPublicKey = process.env.VAPID_PUBLIC_KEY;
+const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY;
 
 mongoose.connect(process.env.MONGO_URL);
 
@@ -558,6 +563,76 @@ app.get(
     }
   }
 );
+
+webpush.setVapidDetails(
+  "mailto:ding99ya@gmail.com", // This should be your contact email
+  vapidPublicKey,
+  vapidPrivateKey
+);
+
+// API endpoint to serve the VAPID public key
+app.get("/api/vapidPublicKey", (req, res) => {
+  res.send(vapidPublicKey);
+});
+
+app.get("api/getAllSubscriptions", async (req, res) => {
+  try {
+    // Fetch all subscriptions from the database
+    const subscriptions = await SubscriptionModel.find({});
+
+    // If no subscriptions are found, return an empty array
+    if (!subscriptions || subscriptions.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    // Map the subscriptions to the format expected by web-push
+    // const formattedSubscriptions = subscriptions.map((sub) => ({
+    //   endpoint: sub.endpoint,
+    //   keys: {
+    //     p256dh: sub.keys.p256dh,
+    //     auth: sub.keys.auth,
+    //   },
+    // }));
+
+    res.status(200).json(subscriptions);
+  } catch (error) {
+    console.error("Error fetching subscriptions:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching subscriptions" });
+  }
+});
+
+app.post("/api/subscribe", async (req, res) => {
+  const { subscription } = req.body;
+
+  try {
+    const newSubscription = new SubscriptionModel({
+      endpoint: subscription.endpoint,
+      keys: subscription.keys,
+    });
+
+    await newSubscription.save();
+
+    res.status(201).json({ message: "Subscription saved successfully" });
+  } catch (error) {
+    console.error("Error in /api/save-subscription", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post("/api/unsubscribe", async (req, res) => {
+  try {
+    const subscription = req.body;
+    await SubscriptionModel.findOneAndDelete({
+      endpoint: subscription.endpoint,
+    });
+    res.status(200).json({ message: "Subscription removed successfully" });
+  } catch (error) {
+    console.error("Error removing subscription:", error);
+    res.status(500).json({ error: "Failed to remove subscription" });
+  }
+});
 
 // app.use(express.static(path.join(__dirname, "../client/build")));
 // app.get("*", (req, res) => {
