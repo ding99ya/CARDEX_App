@@ -8,6 +8,8 @@ import CopyIcon from "./Copy-Icon.jpg";
 import ETHSymbol from "./ETHSymbol.png";
 import Wallet from "./Wallet.jpg";
 import TwitterLogo from "./TwitterLogo.png";
+import NotificationOn from "./NotificationOn.png";
+import NotificationOff from "./NotificationOff.png";
 import DepositModal from "./DepositModal.jsx";
 import WithdrawModal from "./WithdrawModal.jsx";
 import abi from "../CardexV1.json";
@@ -387,7 +389,7 @@ function Profile() {
       if (permission === "default" || !subscription) {
         permission = await Notification.requestPermission();
         if (permission !== "granted") {
-          alert("Permission for notifications was denied");
+          alert("Please enable notification permission in device settings");
           return;
         }
       }
@@ -484,8 +486,8 @@ function Profile() {
     <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-white lg:bg-gray-100">
       <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <div className="flex items-center justify-between w-full">
-          <div className="flex flex-col items-left">
-            <div className="flex items-start space-x-2 mb-2 flex-1">
+          <div className="flex flex-col">
+            <div className="flex items-start space-x-2 mb-2">
               <span
                 className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
                 style={{
@@ -514,18 +516,7 @@ function Profile() {
               </div>
             </div>
 
-            <button
-              onClick={toggleSubscription}
-              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out ${
-                isSubscribed
-                  ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-green-500 text-white hover:bg-green-600"
-              }`}
-            >
-              {isSubscribed ? "Turn Off" : "Turn On"}
-            </button>
-
-            <div className="flex items-left space-x-2">
+            <div className="flex items-center space-x-2">
               <span className="text-sm">{shortAddress}</span>
               <span
                 className="relative cursor-pointer"
@@ -548,14 +539,29 @@ function Profile() {
             </div>
           </div>
 
-          <span
-            onClick={exportWallet}
-            className="cursor-pointer self-end items-right text-sm text-blue-600"
-            style={{ textDecoration: "underline" }}
-          >
-            Export Key
-          </span>
+          <div className="flex flex-col items-end justify-center">
+            <button
+              onClick={toggleSubscription}
+              className={`py-1 rounded-full text-sm font-semibold text-gray-500 transition-colors duration-200 ease-in-out mt-2 flex items-center space-x-2`}
+            >
+              <img
+                src={isSubscribed ? NotificationOff : NotificationOn}
+                alt={isSubscribed ? "Turn Off" : "Turn On"}
+                className="w-5 h-5 mr-1"
+              />
+              {isSubscribed ? "Turn Off" : "Turn On"}
+            </button>
+
+            <span
+              onClick={exportWallet}
+              className="cursor-pointer text-sm text-blue-600 mt-5"
+              style={{ textDecoration: "underline" }}
+            >
+              Export Key
+            </span>
+          </div>
         </div>
+
         <div className="mt-6">
           <div className="mb-4 border border-black rounded-3xl bg-white">
             {/* <div className="flex items-left text-xl font-semibold">
