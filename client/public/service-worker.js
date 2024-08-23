@@ -1,23 +1,23 @@
-const CACHE_NAME = "Cardex-cache-v1";
-// Cached URL
-const urlsToCache = ["/", "/index.html", "/manifest.json", "/Cardex_logo.png"];
+// const CACHE_NAME = "Cardex-cache-v1";
+// // Cached URL
+// const urlsToCache = ["/", "/index.html", "/manifest.json", "/Cardex_logo.png"];
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
-  );
-});
+// self.addEventListener("install", (event) => {
+//   event.waitUntil(
+//     caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+//   );
+// });
 
-self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request);
-    })
-  );
-});
+// self.addEventListener("fetch", (event) => {
+//   event.respondWith(
+//     caches.match(event.request).then((response) => {
+//       if (response) {
+//         return response;
+//       }
+//       return fetch(event.request);
+//     })
+//   );
+// });
 
 self.addEventListener("activate", (event) => {
   const cacheWhitelist = [CACHE_NAME];
