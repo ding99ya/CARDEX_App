@@ -487,7 +487,7 @@ function CardDetailPage() {
         >
           &lt; Back
         </span>
-        <div className="flex flex-col items-center w-full border-2 border-b border-black rounded-t-3xl lg:border-b-2 lg:rounded-3xl p-6">
+        <div className="flex flex-col items-center w-full border-2 border-b border-gray-300 rounded-t-3xl lg:border-b-2 lg:rounded-3xl p-6">
           <img
             src={isFront ? card.photo : card.backPhoto}
             alt={card.name}
@@ -516,7 +516,7 @@ function CardDetailPage() {
         </div>
       </div>
       <div className="w-full lg:w-1/2 lg:mt-12 relative">
-        <div className="p-4 lg:p-6 border-2 border-l-black border-r-black border-b-black lg:border-t-black rounded-b-3xl lg:rounded-3xl">
+        <div className="p-4 lg:p-6 border-2 border-l-gray-300 border-r-gray-300 border-b-gray-300 lg:border-t-gray-300 rounded-b-3xl lg:rounded-3xl">
           <h2 className="text-xl lg:text-2xl font-bold mb-4">{card.name}</h2>
 
           <div className="text-center w-full">
@@ -572,7 +572,7 @@ function CardDetailPage() {
 
             <button
               onClick={() => claim()}
-              className="w-1/3 bg-white text-black font-bold border-2 border-black px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full shadow hover:bg-gray-200 hover:text-black"
+              className="w-1/3 bg-white text-black font-bold border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full shadow hover:bg-gray-200 hover:text-black"
             >
               Claim
             </button>
@@ -612,7 +612,7 @@ function CardDetailPage() {
                 loader={<p>Loading...</p>}
               >
                 <table
-                  className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
+                  className="min-w-full bg-white border border-gray-300 rounded-xl overflow-hidden"
                   style={{ borderCollapse: "separate", borderSpacing: 0 }}
                 >
                   <thead className="bg-gray-100 rounded-t-xl h-12 text-gray-500 text-xs lg:text-sm font-open-sans">
@@ -679,7 +679,7 @@ function CardDetailPage() {
           {activeTab === "holders" && (
             <div className="max-w-full">
               <table
-                className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
+                className="min-w-full bg-white border border-gray-300 rounded-xl overflow-hidden"
                 style={{ borderCollapse: "separate", borderSpacing: 0 }}
               >
                 <thead className="bg-gray-100 rounded-t-xl h-12 text-gray-500 text-xs lg:text-sm font-open-sans">
