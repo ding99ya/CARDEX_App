@@ -484,7 +484,7 @@ function Profile() {
 
   return (
     <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-white lg:bg-gray-100">
-      <div className="w-full lg:w-1/4 p-4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
+      <div className="w-full lg:w-1/4 p-4 bg-white border border-gray-300 rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col">
             <div className="flex items-start space-x-2 mb-2">
@@ -563,7 +563,7 @@ function Profile() {
         </div>
 
         <div className="mt-6">
-          <div className="mb-4 border border-black rounded-3xl bg-white">
+          <div className="mb-4 border border-gray-300 rounded-3xl bg-white">
             {/* <div className="flex items-left text-xl font-semibold">
               Inventory Worth: {totalWorth} ETH
               <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
@@ -607,7 +607,7 @@ function Profile() {
               <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
             </div> */}
           </div>
-          <div className="flex flex-col items-left border border-black rounded-3xl bg-white">
+          <div className="flex flex-col items-left border border-gray-300 rounded-3xl bg-white">
             <div className="flex items-left space-x-2 mb-2 mx-4">
               <span className="relative mt-2">
                 <img src={Wallet} alt="Wallet" className="w-10 h-10" />
