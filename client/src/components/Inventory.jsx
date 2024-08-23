@@ -317,11 +317,11 @@ function Inventory() {
   //   );
 
   return (
-    <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-white">
+    <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-gray-100">
       <div className="w-full lg:px-4">
         {userCards.length === 0 ? (
           <div>
-            <div className="border-2 border-gray-300 bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 mx-1 lg:mx-6">
+            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 mx-1 lg:mx-6">
               <span className="font-semibold text-sm">
                 Inventory Worth: {totalWorth} ETH
               </span>
@@ -338,7 +338,7 @@ function Inventory() {
           </div>
         ) : (
           <div>
-            <div className="border-2 border-gray-300 bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 mx-1 lg:mx-6">
+            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 mx-1 lg:mx-6">
               <span className="font-semibold text-sm">
                 Inventory Worth: {totalWorth} ETH
               </span>
@@ -355,7 +355,7 @@ function Inventory() {
                 (item) =>
                   item.category !== "presale" ? (
                     <div
-                      className="border-2 border-gray-300 cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl group"
+                      className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl group"
                       key={item.uniqueId}
                       onClick={() => handleCardClick(item)}
                       style={{
