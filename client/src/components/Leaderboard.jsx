@@ -80,7 +80,7 @@ const Leaderboard = () => {
     <div className="container mx-auto p-4">
       <div class="w-full">
         <div className="flex justify-between items-center mb-4">
-          <div className="ml-auto flex items-center bg-gray-200 rounded-full px-2">
+          <div className="ml-auto flex items-center bg-gray-200 rounded-full px-2 py-0">
             <input
               type="text"
               placeholder="Search by username"
@@ -107,7 +107,7 @@ const Leaderboard = () => {
         </div>
       </div>
 
-      <div class="w-full px-2 mb-4 border border-black rounded-xl">
+      <div class="w-full px-2 mb-4 border border-gray-300 rounded-xl">
         <div class="grid grid-cols-2 w-full">
           <div className="flex items-start space-x-2 mt-4 mb-6">
             <span
@@ -167,7 +167,7 @@ const Leaderboard = () => {
         </div>
       </div>
 
-      <table
+      {/* <table
         className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
         style={{ borderCollapse: "separate", borderSpacing: 0 }}
       >
@@ -224,6 +224,75 @@ const Leaderboard = () => {
                 </div>
               </td>
               <td className="py-2 px-4 text-center">{user.paperPoints} Pts</td>
+            </tr>
+          ))}
+        </tbody>
+      </table> */}
+
+      <table
+        className="min-w-full rounded-xl"
+        style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
+      >
+        <thead className="bg-blue-50 h-8 text-gray-500 text-sm font-open-sans rounded-t-xl rounded-b-xl">
+          <tr>
+            <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
+              Rank
+            </th>
+            <th className="py-2 px-4 text-left">User</th>
+            <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
+              Total Points
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, index) => (
+            <tr
+              key={user.rank}
+              className={`cursor-pointer h-20 text-sm font-open-sans shadow-md rounded-t-xl rounded-b-xl ${
+                index === users.length - 1 ? "rounded-b-xl" : ""
+              } ${index % 2 === 1 ? "bg-blue-50" : "bg-white"}
+              `}
+              onClick={() => handleUserClick(user)}
+            >
+              <td className="py-4 px-6 text-left rounded-tl-xl rounded-bl-xl">
+                <div className="flex items-center">
+                  <span className="bg-blue-100 text-blue-600 rounded-full px-2 py-1 text-center">{`#${user.rank}`}</span>
+                  {index === 0 && (
+                    <img
+                      src={GoldMedal}
+                      alt="Gold Medal"
+                      className="w-6 h-6 ml-2"
+                    />
+                  )}
+                  {index === 1 && (
+                    <img
+                      src={SilverMedal}
+                      alt="Silver Medal"
+                      className="w-6 h-6 ml-2"
+                    />
+                  )}
+                  {index === 2 && (
+                    <img
+                      src={BronzeMedal}
+                      alt="Bronze Medal"
+                      className="w-6 h-6 ml-2"
+                    />
+                  )}
+                </div>
+              </td>
+              <td className="py-4 px-6 text-left">
+                <div className="flex items-center">
+                  <img
+                    src={user.profilePhoto}
+                    alt={`${user.name}'s profile`}
+                    className="w-8 h-8 rounded-full mr-2"
+                  />
+                  {user.name}
+                </div>
+              </td>
+              <td className="py-4 px-6 text-center rounded-tr-xl rounded-br-xl">
+                {user.paperPoints} Pts
+              </td>
             </tr>
           ))}
         </tbody>

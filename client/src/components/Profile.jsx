@@ -563,7 +563,7 @@ function Profile() {
         </div>
 
         <div className="mt-6">
-          <div className="mb-4 border border-gray-300 rounded-3xl bg-white">
+          <div className="mb-4 border border-gray-300 rounded-3xl bg-gray-50">
             {/* <div className="flex items-left text-xl font-semibold">
               Inventory Worth: {totalWorth} ETH
               <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
@@ -592,14 +592,14 @@ function Profile() {
                 {totalWorth} ETH
               </span>
             </div>
-            <div className="flex justify-center my-2 mx-4">
+            {/* <div className="flex justify-center my-2 mx-4">
               <button
                 onClick={() => claim()}
                 className="w-full bg-white text-black border-2 border-black font-semibold py-2 px-4 mt-2 mb-2 rounded-full hover:bg-black hover:text-white transition duration-300"
               >
                 Claim for All
               </button>
-            </div>
+            </div> */}
             {/* <div className="text-lg">Your Invite Code: {currentInviteCode}</div>
             <div className="text-lg">Total Papers: {currentUserPaperPoint}</div> */}
             {/* <div className="flex items-left text-lg">
