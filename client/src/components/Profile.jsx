@@ -584,7 +584,7 @@ function Profile() {
                 {currentUserPaperPoint} Pts
               </span>
             </div>
-            <div className="flex justify-between w-full mt-2 mx-4">
+            <div className="flex justify-between w-full mt-2 mx-4 mb-4">
               <span className="text-base font-semibold text-gray-500">
                 Inventory Worth:
               </span>
