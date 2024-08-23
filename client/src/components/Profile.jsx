@@ -633,7 +633,7 @@ function Profile() {
               </button>
               <button
                 onClick={() => setOpenWithdrawModal(true)}
-                className="w-1/2 bg-white text-black font-semibold items-center border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full shadow hover:bg-gray-200 hover:text-black"
+                className="w-1/2 bg-white text-black font-semibold items-center border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black"
               >
                 Withdraw
               </button>
