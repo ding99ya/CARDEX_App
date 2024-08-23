@@ -137,7 +137,7 @@ function Header() {
           <nav>
             <ul className="flex justify-between w-full border-t border-t-gray-300">
               <li
-                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-0 ${
                   selectedButton === "MARKET"
                     ? "border-blue-400"
                     : "border-transparent"
@@ -160,7 +160,7 @@ function Header() {
                   <span
                     className={`font-helvetica text-xs ${
                       selectedButton === "MARKET"
-                        ? "text-black"
+                        ? "text-blue-400"
                         : "text-gray-400"
                     }`}
                   >
@@ -169,7 +169,7 @@ function Header() {
                 </Link>
               </li>
               <li
-                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-0 ${
                   selectedButton === "LEADERBOARD"
                     ? "border-blue-400"
                     : "border-transparent"
@@ -192,7 +192,7 @@ function Header() {
                   <span
                     className={`font-helvetica text-xs ${
                       selectedButton === "LEADERBOARD"
-                        ? "text-black"
+                        ? "text-blue-400"
                         : "text-gray-400"
                     }`}
                   >
@@ -201,7 +201,7 @@ function Header() {
                 </Link>
               </li>
               <li
-                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-0 ${
                   selectedButton === "INVENTORY"
                     ? "border-blue-400"
                     : "border-transparent"
@@ -224,7 +224,7 @@ function Header() {
                   <span
                     className={`font-helvetica text-xs ${
                       selectedButton === "INVENTORY"
-                        ? "text-black"
+                        ? "text-blue-400"
                         : "text-gray-400"
                     }`}
                   >
@@ -233,7 +233,7 @@ function Header() {
                 </Link>
               </li>
               <li
-                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-4 ${
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-0 ${
                   selectedButton === "PROFILE"
                     ? "border-blue-400"
                     : "border-transparent"
@@ -256,7 +256,7 @@ function Header() {
                   <span
                     className={`font-helvetica text-xs ${
                       selectedButton === "PROFILE"
-                        ? "text-black"
+                        ? "text-blue-400"
                         : "text-gray-400"
                     }`}
                   >
