@@ -572,7 +572,7 @@ function CardDetailPage() {
 
             <button
               onClick={() => claim()}
-              className="w-1/3 bg-white text-black font-bold border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full shadow hover:bg-gray-200 hover:text-black"
+              className="w-1/3 bg-white text-black font-bold border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black"
             >
               Claim
             </button>
@@ -580,7 +580,7 @@ function CardDetailPage() {
         </div>
 
         <div className="mt-8 relative z-0">
-          <div className="flex border-b">
+          <div className="flex border-b-0">
             <button
               className={`py-2 px-4 font-semibold ${
                 activeTab === "activity"
