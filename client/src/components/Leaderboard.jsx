@@ -257,7 +257,7 @@ const Leaderboard = () => {
               <td className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl`}>
                 <div className="flex items-center">
                   <span
-                    className={`text-blue-600 rounded-full pl-2 py-1 text-center ${
+                    className={`text-blue-600 rounded-full px-2 py-1 text-center ${
                       index === 0
                         ? "bg-yellow-300"
                         : index === 1
@@ -271,21 +271,21 @@ const Leaderboard = () => {
                     <img
                       src={GoldMedal}
                       alt="Gold Medal"
-                      className="w-6 h-6 ml-2"
+                      className="w-6 h-6 ml-1"
                     />
                   )}
                   {index === 1 && (
                     <img
                       src={SilverMedal}
                       alt="Silver Medal"
-                      className="w-6 h-6 ml-2"
+                      className="w-6 h-6 ml-1"
                     />
                   )}
                   {index === 2 && (
                     <img
                       src={BronzeMedal}
                       alt="Bronze Medal"
-                      className="w-6 h-6 ml-2"
+                      className="w-6 h-6 ml-1"
                     />
                   )}
                 </div>
@@ -302,7 +302,7 @@ const Leaderboard = () => {
 
                 <div className="flex items-start space-x-2">
                   <span
-                    className="w-8 h-8 bg-center bg-cover rounded-full mr-2"
+                    className="w-8 h-8 bg-center bg-cover rounded-full mr-1"
                     style={{
                       backgroundImage: `url(${user.profilePhoto})`, // Use an object with backgroundImage property
                     }}
