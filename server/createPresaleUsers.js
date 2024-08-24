@@ -25,15 +25,15 @@ const createPresaleUser = async () => {
   const examplePresaleUser = [];
 
   examplePresaleUser.push({
-    DID: "did:privy:clvjy5dj7000b11gxs0lbm4q3",
+    DID: "did:privy:clvoc7dzr00ftne36qf962c4u",
     walletAddress: "0xaB6144cD2f8b54F71cB7f91F7b8e56917B721c65",
-    username: "DING99YA",
+    username: "ding99ya",
   });
 
   examplePresaleUser.push({
-    DID: "did:privy:clvoc7dzr00ftne36qf962c4u",
-    walletAddress: "0x0e2A4ae795BD9AA5c35c6278025020A7ceb92fE8",
-    username: "FENGHU428",
+    DID: "did:privy:clz659gkr03nek76e5dgbnx15",
+    walletAddress: "0xe26403d401911021b21187E2242bF88D77da77D8",
+    username: "FengHu479069",
   });
 
   try {

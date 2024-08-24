@@ -4,6 +4,8 @@ const CardSchema = new mongoose.Schema(
   {
     name: String,
     photo: String,
+    backPhoto: String,
+    rarity: String,
     uniqueId: { type: String, unique: true },
     ipoTime: String,
     price: Number,

@@ -40,6 +40,7 @@ const usersSchema = new mongoose.Schema({
 });
 
 // Create the model for the prices collection
+// Create the model for the prices collection
 const users = mongoose.model("users", usersSchema);
 
 // Function to create experimental data and push it to the collection
