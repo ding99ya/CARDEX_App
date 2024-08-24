@@ -254,19 +254,19 @@ const Leaderboard = () => {
               `}
               onClick={() => handleUserClick(user)}
             >
-              <td
-                className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl ${
-                  index === 0
-                    ? "bg-yellow-300"
-                    : index === 1
-                    ? "bg-slate-300"
-                    : index === 2
-                    ? "bg-amber-600"
-                    : ""
-                }`}
-              >
+              <td className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl`}>
                 <div className="flex items-center">
-                  <span className="text-blue-600 rounded-full px-2 py-1 text-center">{`#${user.rank}`}</span>
+                  <span
+                    className={`text-blue-600 rounded-full pl-2 py-1 text-center ${
+                      index === 0
+                        ? "bg-yellow-300"
+                        : index === 1
+                        ? "bg-slate-300"
+                        : index === 2
+                        ? "bg-amber-600"
+                        : ""
+                    }`}
+                  >{`#${user.rank}`}</span>
                   {index === 0 && (
                     <img
                       src={GoldMedal}
@@ -313,11 +313,12 @@ const Leaderboard = () => {
                     </span>
                     <div
                       className="flex items-center cursor-pointer rounded-full"
-                      onClick={() =>
+                      onClick={(event) => {
+                        event.stopPropagation();
                         handleTwitterImageClick(
                           "https://x.com/" + user.userName
-                        )
-                      }
+                        );
+                      }}
                     >
                       <img
                         src={TwitterLogo}
