@@ -280,66 +280,67 @@ function ViewProfile() {
             </div> */}
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:px-4">
-              {userCards.map((item) =>
-                item.category !== "presale" ? (
-                  <div
-                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
-                    key={item.uniqueId}
-                    onClick={() => handleCardClick(item)}
-                    style={{
-                      borderTopLeftRadius: "1.25rem",
-                      borderBottomLeftRadius: "1.25rem",
-                      borderTopRightRadius: "1.25rem",
-                      borderBottomRightRadius: "1.25rem",
-                    }}
-                  >
-                    <div className="flex justify-center items-center relative">
-                      <img
-                        src={item.photo}
-                        alt={item.name}
-                        className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
-                        style={{ zIndex: 10, aspectRatio: "2 / 3" }}
-                      />
-                    </div>
-                    <div className="p-2 text-left px-4">
-                      <span
-                        className="w-full font-helvetica-neue text-sm font-bold"
-                        style={{
-                          display: "-webkit-box",
-                          WebkitBoxOrient: "vertical",
-                          WebkitLineClamp: 2,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          width: "100%",
-                          whiteSpace: "normal",
-                        }}
-                      >
-                        {item.name}
-                      </span>
-                    </div>
-                    <div className="p-2 text-center w-full">
-                      <div className="flex justify-end w-full px-2">
+              {userCards.map(
+                (item) =>
+                  item.category !== "presale" ? (
+                    <div
+                      className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
+                      key={item.uniqueId}
+                      onClick={() => handleCardClick(item)}
+                      style={{
+                        borderTopLeftRadius: "1.25rem",
+                        borderBottomLeftRadius: "1.25rem",
+                        borderTopRightRadius: "1.25rem",
+                        borderBottomRightRadius: "1.25rem",
+                      }}
+                    >
+                      <div className="flex justify-center items-center relative">
+                        <img
+                          src={item.photo}
+                          alt={item.name}
+                          className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
+                          style={{ zIndex: 10, aspectRatio: "2 / 3" }}
+                        />
+                      </div>
+                      <div className="p-2 text-left px-4">
                         <span
-                          className={`text-xs font-helvetica inline-block px-4 py-1 ${
-                            item.rarity === "RARE"
-                              ? "bg-sky-300"
-                              : item.rarity === "EPIC"
-                              ? "bg-purple-300"
-                              : item.rarity === "LEGEND"
-                              ? "bg-amber-300"
-                              : "bg-gray-400"
-                          } text-white font-bold rounded-full text-center`}
+                          className="w-full font-helvetica-neue text-sm font-bold"
+                          style={{
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            width: "100%",
+                            whiteSpace: "normal",
+                          }}
                         >
-                          {item.rarity}
+                          {item.name}
                         </span>
                       </div>
-                      <div className="flex justify-between w-full px-2 mt-1">
-                        <span className="text-sm font-helvetica">Price:</span>
-                        <span className="text-sm font-helvetica">
-                          {item.price} ETH
-                        </span>
-                      </div>
-                      {/* <div className="flex justify-end items-center w-full px-2 mt-1">
+                      <div className="p-2 text-center w-full">
+                        <div className="flex justify-end w-full px-2">
+                          <span
+                            className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                              item.rarity === "RARE"
+                                ? "bg-sky-300"
+                                : item.rarity === "EPIC"
+                                ? "bg-purple-300"
+                                : item.rarity === "LEGEND"
+                                ? "bg-amber-300"
+                                : "bg-gray-400"
+                            } text-white font-bold rounded-full text-center`}
+                          >
+                            {item.rarity}
+                          </span>
+                        </div>
+                        <div className="flex justify-between w-full px-2 mt-1">
+                          <span className="text-sm font-helvetica">Price:</span>
+                          <span className="text-sm font-helvetica">
+                            {item.price} ETH
+                          </span>
+                        </div>
+                        {/* <div className="flex justify-end items-center w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">
                           {item.trend}%
                         </span>
@@ -349,90 +350,91 @@ function ViewProfile() {
                           <span className="ml-2">{downArrow}</span>
                         )}
                       </div> */}
-                      <div className="flex justify-between w-full px-2 mt-1">
-                        <span className="text-sm font-helvetica">
-                          Position:
-                        </span>
-                        <span className="text-sm font-helvetica">
-                          {item.shares}
-                        </span>
+                        <div className="flex justify-between w-full px-2 mt-1">
+                          <span className="text-sm font-helvetica">
+                            Position:
+                          </span>
+                          <span className="text-sm font-helvetica">
+                            {item.shares}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div
-                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
-                    key={item.uniqueId}
-                    onClick={() => handleCardClick(item)}
-                    style={{
-                      borderTopLeftRadius: "1.25rem",
-                      borderBottomLeftRadius: "1.25rem",
-                      borderTopRightRadius: "1.25rem",
-                      borderBottomRightRadius: "1.25rem",
-                    }}
-                  >
-                    <div className="flex justify-center items-center relative">
-                      <img
-                        src={item.photo}
-                        alt={item.name}
-                        className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
-                        style={{ zIndex: 10, aspectRatio: "2 / 3" }}
-                      />
-                    </div>
-                    <div className="p-2 text-left px-4">
-                      <span
-                        className="w-full font-helvetica-neue text-sm font-bold"
-                        style={{
-                          display: "-webkit-box",
-                          WebkitBoxOrient: "vertical",
-                          WebkitLineClamp: 2,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          width: "100%",
-                          whiteSpace: "normal",
-                        }}
-                      >
-                        {item.name}
-                      </span>
-                    </div>
-                    <div className="p-2 text-center w-full">
-                      <div className="flex justify-end w-full px-2">
-                        <span
-                          className={`text-xs font-helvetica inline-block px-4 py-1 ${
-                            item.rarity === "RARE"
-                              ? "bg-sky-300"
-                              : item.rarity === "EPIC"
-                              ? "bg-purple-300"
-                              : item.rarity === "LEGEND"
-                              ? "bg-amber-300"
-                              : "bg-gray-400"
-                          } text-white font-bold rounded-full text-center`}
-                        >
-                          {item.rarity}
-                        </span>
-                      </div>
-                      <div className="flex justify-between w-full px-2 mt-1">
-                        <span className="text-sm font-helvetica">Price:</span>
-                        <span className="text-sm font-helvetica">
-                          {item.price} ETH
-                        </span>
-                      </div>
-                      <div className="flex justify-between w-full px-2 mt-1">
-                        <span className="text-sm font-helvetica">
-                          Presale &nbsp;
-                        </span>
-                      </div>
-                      <div className="flex justify-between w-full px-2 mt-1">
-                        <span className="text-sm font-helvetica">
-                          Position:
-                        </span>
-                        <span className="text-sm font-helvetica">
-                          {item.shares}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )
+                  ) : null
+                // (
+                //   <div
+                //     className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                //     key={item.uniqueId}
+                //     onClick={() => handleCardClick(item)}
+                //     style={{
+                //       borderTopLeftRadius: "1.25rem",
+                //       borderBottomLeftRadius: "1.25rem",
+                //       borderTopRightRadius: "1.25rem",
+                //       borderBottomRightRadius: "1.25rem",
+                //     }}
+                //   >
+                //     <div className="flex justify-center items-center relative">
+                //       <img
+                //         src={item.photo}
+                //         alt={item.name}
+                //         className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
+                //         style={{ zIndex: 10, aspectRatio: "2 / 3" }}
+                //       />
+                //     </div>
+                //     <div className="p-2 text-left px-4">
+                //       <span
+                //         className="w-full font-helvetica-neue text-sm font-bold"
+                //         style={{
+                //           display: "-webkit-box",
+                //           WebkitBoxOrient: "vertical",
+                //           WebkitLineClamp: 2,
+                //           overflow: "hidden",
+                //           textOverflow: "ellipsis",
+                //           width: "100%",
+                //           whiteSpace: "normal",
+                //         }}
+                //       >
+                //         {item.name}
+                //       </span>
+                //     </div>
+                //     <div className="p-2 text-center w-full">
+                //       <div className="flex justify-end w-full px-2">
+                //         <span
+                //           className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                //             item.rarity === "RARE"
+                //               ? "bg-sky-300"
+                //               : item.rarity === "EPIC"
+                //               ? "bg-purple-300"
+                //               : item.rarity === "LEGEND"
+                //               ? "bg-amber-300"
+                //               : "bg-gray-400"
+                //           } text-white font-bold rounded-full text-center`}
+                //         >
+                //           {item.rarity}
+                //         </span>
+                //       </div>
+                //       <div className="flex justify-between w-full px-2 mt-1">
+                //         <span className="text-sm font-helvetica">Price:</span>
+                //         <span className="text-sm font-helvetica">
+                //           {item.price} ETH
+                //         </span>
+                //       </div>
+                //       <div className="flex justify-between w-full px-2 mt-1">
+                //         <span className="text-sm font-helvetica">
+                //           Presale &nbsp;
+                //         </span>
+                //       </div>
+                //       <div className="flex justify-between w-full px-2 mt-1">
+                //         <span className="text-sm font-helvetica">
+                //           Position:
+                //         </span>
+                //         <span className="text-sm font-helvetica">
+                //           {item.shares}
+                //         </span>
+                //       </div>
+                //     </div>
+                //   </div>
+                // )
               )}
             </div>
           </div>
