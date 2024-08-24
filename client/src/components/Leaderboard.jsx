@@ -109,7 +109,7 @@ const Leaderboard = () => {
 
       <div class="w-full px-2 mb-4 border border-gray-300 rounded-xl">
         <div class="grid grid-cols-2 w-full">
-          <div className="flex items-start space-x-2 mt-4 mb-6">
+          <div className="flex items-start space-x-2 my-4">
             <span
               className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
               style={{
@@ -137,29 +137,21 @@ const Leaderboard = () => {
               </div>
             </div>
           </div>
-          {/* <div className="flex items-center">
-            <button
-              onClick={handleProfileClick}
-              className="bg-blue-400 text-white ml-8 px-4 py-2 font-semibold rounded-full hover:bg-blue-500 hover:text-white"
-            >
-              View Profile
-            </button>
-          </div> */}
-          <div class="flex flex-col w-full justify-center">
+          <div class="flex flex-col w-full justify-center border border-gray-300 rounded-xl bg-gray-100 my-4">
             <div class="flex w-full justify-between items-center mb-2">
-              <span class="font-open-sans text-base font-semibold ml-2">
+              <span class="font-open-sans text-base font-semibold text-gray-400 ml-2 mt-2">
                 Rank
               </span>
-              <span class="font-open-sans text-base font-semibold">
+              <span class="font-open-sans text-base font-semibold text-gray-400 mr-2 mt-2">
                 #{currentUserRank}
               </span>
             </div>
 
             <div class="flex w-full justify-between items-center">
-              <span class="font-open-sans text-base font-semibold ml-2">
+              <span class="font-open-sans text-base font-semibold text-gray-400 ml-2 mb-2">
                 Points
               </span>
-              <span class="font-open-sans text-base font-semibold">
+              <span class="font-open-sans text-base font-semibold text-gray-400 mr-2 mb-2">
                 {currentUserPaperPoint} Pts
               </span>
             </div>
@@ -248,7 +240,7 @@ const Leaderboard = () => {
           {users.map((user, index) => (
             <tr
               key={user.rank}
-              className={`cursor-pointer h-20 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
+              className={`cursor-pointer h-16 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
                 index === users.length - 1 ? "rounded-b-xl" : ""
               }
               `}
@@ -257,13 +249,13 @@ const Leaderboard = () => {
               <td className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl`}>
                 <div className="flex items-center">
                   <span
-                    className={`text-blue-600 rounded-full px-2 py-1 text-center ${
+                    className={`text-blue-600 rounded-full px-2 text-center border border-blue-600 ${
                       index === 0
-                        ? "bg-yellow-300"
+                        ? "bg-yellow-300 border-transparent"
                         : index === 1
-                        ? "bg-slate-300"
+                        ? "bg-slate-300 border-transparent"
                         : index === 2
-                        ? "bg-amber-600"
+                        ? "bg-amber-600 border-transparent"
                         : ""
                     }`}
                   >{`#${user.rank}`}</span>

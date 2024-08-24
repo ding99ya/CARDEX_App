@@ -563,32 +563,32 @@ function Profile() {
         </div>
 
         <div className="mt-6">
-          <div className="mb-4 border border-gray-300 rounded-3xl bg-gray-50">
+          <div className="mb-4 border border-gray-300 rounded-3xl bg-gray-100">
             {/* <div className="flex items-left text-xl font-semibold">
               Inventory Worth: {totalWorth} ETH
               <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
             </div> */}
             <div className="flex justify-between w-full mt-4 mx-4">
-              <span className="text-base font-semibold text-gray-500">
+              <span className="text-base font-semibold text-gray-400">
                 Invite Code:
               </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
+              <span className="text-base font-semibold text-gray-400 pr-8">
                 {currentInviteCode}
               </span>
             </div>
             <div className="flex justify-between w-full mt-2 mx-4">
-              <span className="text-base font-semibold text-gray-500">
+              <span className="text-base font-semibold text-gray-400">
                 Paper Points:
               </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
+              <span className="text-base font-semibold text-gray-400 pr-8">
                 {currentUserPaperPoint} Pts
               </span>
             </div>
             <div className="flex justify-between w-full mt-2 mx-4 mb-4">
-              <span className="text-base font-semibold text-gray-500">
+              <span className="text-base font-semibold text-gray-400">
                 Inventory Worth:
               </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
+              <span className="text-base font-semibold text-gray-400 pr-8">
                 {totalWorth} ETH
               </span>
             </div>
