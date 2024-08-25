@@ -78,7 +78,7 @@ const Login = () => {
             Welcome to CARDEX
           </p> */}
           <p className="mb-8 font-open-sans font-bold text-base">
-            RWA Experimentation for Luxury Collectible
+            Luxury Collectibles Launchpad
           </p>
           <button
             onClick={handleLogin}
