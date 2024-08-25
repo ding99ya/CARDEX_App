@@ -234,6 +234,12 @@ function CardPage({ category }) {
       }
     };
     fetchData();
+
+    handleSortSelection({
+      label: "Latest",
+      sortKey: "ipoTime",
+      ascending: false,
+    });
   }, []);
 
   // useEffect(() => {

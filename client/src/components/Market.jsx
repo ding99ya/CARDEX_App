@@ -11,6 +11,10 @@ function Market() {
     navigate(`${page}`);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="bg-white flex items-center justify-center">
       <div class="container mx-auto px-4 lg:px-0">
