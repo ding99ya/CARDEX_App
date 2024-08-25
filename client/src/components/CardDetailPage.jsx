@@ -18,7 +18,7 @@ import "../index.css";
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const web3 = createAlchemyWeb3(process.env.REACT_APP_ALCHEMY_KEY);
 
-const socket = io("http://localhost:3000");
+const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
 
 function CardDetailPage() {
   const { sendTransaction, user } = usePrivy();
