@@ -234,12 +234,6 @@ function CardPage({ category }) {
       }
     };
     fetchData();
-
-    handleSortSelection({
-      label: "Latest",
-      sortKey: "ipoTime",
-      ascending: false,
-    });
   }, []);
 
   // useEffect(() => {
@@ -269,6 +263,12 @@ function CardPage({ category }) {
     if (hasMounted.current) {
       // Add wweb socket event listener to be triggered when Trade event occurs
       addWebSocketListener();
+
+      handleSortSelection({
+        label: "Latest",
+        sortKey: "ipoTime",
+        ascending: false,
+      });
 
       return () => {
         socket.off("cardUpdate");
