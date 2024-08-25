@@ -113,7 +113,7 @@ root.render(
       appearance: {
         theme: "light",
         accentColor: "#676FFF",
-        logo: "/Cardex_logo.png",
+        logo: "/Cardex.jpg",
       },
       // Create embedded wallets for users who don't have a wallet
       embeddedWallets: {
