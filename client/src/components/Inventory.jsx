@@ -11,6 +11,7 @@ import TwitterLogo from "./TwitterLogo.png";
 import DepositModal from "./DepositModal.jsx";
 import WithdrawModal from "./WithdrawModal.jsx";
 import abi from "../CardexV1.json";
+import { useNavigation } from "./NavigationContext";
 import { encodeFunctionData } from "viem";
 
 // Alchemy configuration to fetch info from blockchain and set up info
@@ -25,6 +26,8 @@ const contract = new web3.eth.Contract(
 
 function Inventory() {
   const location = useLocation();
+
+  const { navigateTo } = useNavigation();
 
   const { fundWallet } = useFundWallet();
 
@@ -180,13 +183,15 @@ function Inventory() {
 
   const handleCardClick = (card) => {
     if (card.category !== "presale") {
-      Navigate(`/cards/${card.uniqueId}`, {
-        state: { from: location.pathname },
-      });
+      // Navigate(`/cards/${card.uniqueId}`, {
+      //   state: { from: location.pathname },
+      // });
+      navigateTo(`/cards/${card.uniqueId}`);
     } else {
-      Navigate(`/presalecards/${card.uniqueId}`, {
-        state: { from: location.pathname },
-      });
+      // Navigate(`/presalecards/${card.uniqueId}`, {
+      //   state: { from: location.pathname },
+      // });
+      navigateTo(`/presalecards/${card.uniqueId}`);
     }
   };
 

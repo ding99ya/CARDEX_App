@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
 import { useWallets } from "@privy-io/react-auth";
+import { useNavigation } from "./NavigationContext";
 import CardType from "./CardType";
 
 function Market() {
   const navigate = useNavigate();
+
+  const { navigateTo } = useNavigation();
 
   const handleShopClick = (page) => {
     navigate(`${page}`);
@@ -21,7 +24,8 @@ function Market() {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-black"
-            onClick={() => handleShopClick("/Market/Presale")}
+            // onClick={() => handleShopClick("/Market/Presale")}
+            onClick={() => navigateTo("/Market/Presale")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
@@ -37,7 +41,8 @@ function Market() {
               </div>
               <button
                 className="bg-cyan-300 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-cyan-500 hover:text-white transition duration-300 ease-in-out"
-                onClick={() => handleShopClick("/Market/Presale")}
+                // onClick={() => handleShopClick("/Market/Presale")}
+                onClick={() => navigateTo("/Market/Presale")}
               >
                 COLLECT
               </button>
@@ -45,7 +50,8 @@ function Market() {
           </div>
           <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-black"
-            onClick={() => handleShopClick("/Market/Pokemon")}
+            // onClick={() => handleShopClick("/Market/Pokemon")}
+            onClick={() => navigateTo("/Market/Pokemon")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
@@ -61,7 +67,8 @@ function Market() {
               </div>
               <button
                 className="bg-cyan-300 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-cyan-500 hover:text-white transition duration-300 ease-in-out"
-                onClick={() => handleShopClick("/Market/Pokemon")}
+                // onClick={() => handleShopClick("/Market/Pokemon")}
+                onClick={() => navigateTo("/Market/Pokemon")}
               >
                 COLLECT
               </button>
@@ -69,7 +76,8 @@ function Market() {
           </div>
           <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-black"
-            onClick={() => handleShopClick("/Market/Basketball")}
+            // onClick={() => handleShopClick("/Market/Basketball")}
+            onClick={() => navigateTo("/Market/Basketball")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
@@ -85,7 +93,8 @@ function Market() {
               </div>
               <button
                 className="bg-cyan-300 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-cyan-500 hover:text-white transition duration-300 ease-in-out"
-                onClick={() => handleShopClick("/Market/Basketball")}
+                // onClick={() => handleShopClick("/Market/Basketball")}
+                onClick={() => navigateTo("/Market/Basketball")}
               >
                 COLLECT
               </button>
@@ -93,7 +102,8 @@ function Market() {
           </div>
           <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-black"
-            onClick={() => handleShopClick("/Market/Baseball")}
+            // onClick={() => handleShopClick("/Market/Baseball")}
+            onClick={() => navigateTo("/Market/Baseball")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
@@ -109,7 +119,8 @@ function Market() {
               </div>
               <button
                 className="bg-cyan-300 text-white font-bold font-helvetica-neue px-4 py-2 rounded-full hover:bg-cyan-500 hover:text-white transition duration-300 ease-in-out"
-                onClick={() => handleShopClick("/Market/Baseball")}
+                // onClick={() => handleShopClick("/Market/Baseball")}
+                onClick={() => navigateTo("/Market/Baseball")}
               >
                 COLLECT
               </button>

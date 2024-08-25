@@ -6,6 +6,7 @@ import axios from "axios";
 import { encodeFunctionData } from "viem";
 import PresaleBuyModal from "./PresaleBuyModal.jsx";
 import sortingIcon from "./Sorting.svg";
+import { useNavigation } from "./NavigationContext";
 import "../index.css";
 
 const ethers = require("ethers");
@@ -26,6 +27,8 @@ function PresaleCardPage({ category }) {
   const embeddedWalletAddress = user.wallet.address;
 
   const location = useLocation();
+
+  const { goBack } = useNavigation();
 
   // cardsResponse will be set to the response from backend
   // Once cardsResponse is set it will trigger fetching price, share holders, etc... and update cards array
@@ -477,7 +480,8 @@ function PresaleCardPage({ category }) {
     <div className="min-h-screen mx-auto bg-gray-100">
       <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 mx-4 lg:mx-12">
         <span
-          onClick={() => handleBackClick()}
+          // onClick={() => handleBackClick()}
+          onClick={goBack}
           className="cursor-pointer inline-block text-black py-2 mt-3 mb-2 font-semibold whitespace-nowrap"
         >
           &lt; Back

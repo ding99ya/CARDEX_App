@@ -12,6 +12,7 @@ import SellModal from "./SellModal.jsx";
 import io from "socket.io-client";
 import InfiniteScroll from "react-infinite-scroll-component";
 import moment from "moment";
+import { useNavigation } from "./NavigationContext";
 import "../index.css";
 
 // Alchemy configuration to fetch info from blockchain and set up info
@@ -27,6 +28,8 @@ function CardDetailPage() {
   const location = useLocation();
 
   const Navigate = useNavigate();
+
+  const { goBack, navigateTo } = useNavigation();
 
   // CardexV1 contract instance
   const contract = new web3.eth.Contract(
@@ -488,7 +491,7 @@ function CardDetailPage() {
     <div className="container mx-auto p-4 flex flex-col lg:flex-row justify-between items-start relative">
       <div className="w-full lg:w-1/2 lg:mb-0 lg:mr-4">
         <span
-          onClick={() => handleBackClick()}
+          onClick={goBack}
           className="cursor-pointer inline-block bg-white text-black px-4 py-2 mb-2 font-semibold whitespace-nowrap"
         >
           &lt; Back
@@ -644,7 +647,10 @@ function CardDetailPage() {
                               ? "rounded-b-xl"
                               : ""
                           } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                          onClick={() => handleUserClick(activity.username)}
+                          // onClick={() => handleUserClick(activity.username)}
+                          onClick={() =>
+                            navigateTo(`/users/${activity.username}`)
+                          }
                         >
                           <td className="py-2 pl-4 text-left">
                             <div className="flex items-center">
@@ -708,7 +714,8 @@ function CardDetailPage() {
                         className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
                           index === activities.length - 1 ? "rounded-b-xl" : ""
                         } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                        onClick={() => handleUserClick(holder.username)}
+                        // onClick={() => handleUserClick(holder.username)}
+                        onClick={() => navigateTo(`/users/${holder.username}`)}
                       >
                         <td className="py-2 pl-4 text-left">
                           <div className="flex items-center">

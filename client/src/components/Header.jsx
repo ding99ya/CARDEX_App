@@ -6,9 +6,12 @@ import profileIcon from "./Profile.svg";
 import inventoryIcon from "./Inventory.svg";
 import CardexWebsite from "./CardexWebsite.jpg";
 import Cardex from "./Cardex.jpg";
+import { useNavigation } from "./NavigationContext";
 import "../index.css";
 
 function Header() {
+  const { resetNavigation } = useNavigation();
+
   const location = useLocation();
   const [selectedButton, setSelectedButton] = useState("MARKET");
   const [headerText, setHeaderText] = useState("MARKET");
@@ -32,6 +35,7 @@ function Header() {
     setSelectedButton(buttonText);
     setHeaderText(buttonText);
     localStorage.setItem("selectedButton", buttonText);
+    resetNavigation();
   };
 
   // const getHeaderText = (pathname) => {

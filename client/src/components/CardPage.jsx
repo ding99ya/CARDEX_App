@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import { encodeFunctionData } from "viem";
 import BuyModal from "./BuyModal.jsx";
 import sortingIcon from "./Sorting.svg";
+import { useNavigation } from "./NavigationContext";
 import "../index.css";
 
 const ethers = require("ethers");
@@ -28,6 +29,8 @@ function CardPage({ category }) {
   const { sendTransaction, user } = usePrivy();
 
   const location = useLocation();
+
+  const { goBack, navigateTo } = useNavigation();
 
   // cardsResponse will be set to the response from backend
   // Once cardsResponse is set it will trigger fetching price, share holders, etc... and update cards array
@@ -463,7 +466,7 @@ function CardPage({ category }) {
     <div className="min-h-screen mx-auto bg-gray-100">
       <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 mx-4 lg:mx-12">
         <span
-          onClick={() => handleBackClick()}
+          onClick={goBack}
           className="cursor-pointer inline-block text-black py-2 mt-3 mb-2 font-semibold whitespace-nowrap"
         >
           &lt; Back
@@ -511,7 +514,8 @@ function CardPage({ category }) {
           <div
             key={card.uniqueId}
             id={`card${card.uniqueId}`}
-            onClick={() => handleCardClick(card)}
+            // onClick={() => handleCardClick(card)}
+            onClick={() => navigateTo(`/cards/${card.uniqueId}`)}
             className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
             style={{
               borderTopLeftRadius: "1.25rem",

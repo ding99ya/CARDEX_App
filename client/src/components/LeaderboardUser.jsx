@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TwitterLogo from "./TwitterLogo.png";
+import { useNavigation } from "./NavigationContext";
 import axios from "axios";
 
 const LeaderboardUser = () => {
@@ -11,6 +12,7 @@ const LeaderboardUser = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { goBack, navigateTo } = useNavigation();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -27,9 +29,10 @@ const LeaderboardUser = () => {
   }, []);
 
   const handleUserClick = (user) => {
-    navigate(`/users/${user.userName}`, {
-      state: { from: location.pathname },
-    });
+    // navigate(`/users/${user.userName}`, {
+    //   state: { from: location.pathname },
+    // });
+    navigateTo(`/users/${user.userName}`);
   };
 
   const handleBackClick = () => {
@@ -47,7 +50,8 @@ const LeaderboardUser = () => {
   return (
     <div className="container mx-auto p-4">
       <span
-        onClick={() => handleBackClick()}
+        // onClick={() => handleBackClick()}
+        onClick={goBack}
         className="cursor-pointer inline-block bg-white text-black px-4 py-2 font-semibold whitespace-nowrap"
       >
         &lt; Back

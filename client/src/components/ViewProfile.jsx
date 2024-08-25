@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
-
 import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
-
 import ETHSymbol from "./ETHSymbol.png";
-
 import TwitterLogo from "./TwitterLogo.png";
+import { useNavigation } from "./NavigationContext";
 
 function ViewProfile() {
   const location = useLocation();
+  const { goBack, navigateTo } = useNavigation();
   const { username } = useParams();
 
   const hasMounted = useRef(false);
@@ -135,15 +133,29 @@ function ViewProfile() {
     }
   }, [inventory]);
 
+  // const handleCardClick = (card) => {
+  //   if (card.category !== "presale") {
+  //     Navigate(`/cards/${card.uniqueId}`, {
+  //       state: { from: location.pathname },
+  //     });
+  //   } else {
+  //     Navigate(`/presalecards/${card.uniqueId}`, {
+  //       state: { from: location.pathname },
+  //     });
+  //   }
+  // };
+
   const handleCardClick = (card) => {
     if (card.category !== "presale") {
-      Navigate(`/cards/${card.uniqueId}`, {
-        state: { from: location.pathname },
-      });
+      // Navigate(`/cards/${card.uniqueId}`, {
+      //   state: { from: location.pathname },
+      // });
+      navigateTo(`/cards/${card.uniqueId}`);
     } else {
-      Navigate(`/presalecards/${card.uniqueId}`, {
-        state: { from: location.pathname },
-      });
+      // Navigate(`/presalecards/${card.uniqueId}`, {
+      //   state: { from: location.pathname },
+      // });
+      navigateTo(`/presalecards/${card.uniqueId}`);
     }
   };
 
@@ -185,7 +197,8 @@ function ViewProfile() {
     <div className="flex flex-col px-2 lg:px-0 lg:flex-row min-h-screen bg-gray-100">
       <div className="w-full lg:w-1/4 bg-white border border-gray-300 rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <span
-          onClick={() => handleBackClick()}
+          // onClick={() => handleBackClick()}
+          onClick={goBack}
           className="cursor-pointer inline-block bg-white text-black mt-2 ml-2 px-4 py-2 font-semibold whitespace-nowrap"
         >
           &lt; Back

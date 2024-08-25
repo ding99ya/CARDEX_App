@@ -5,9 +5,12 @@ import GoldMedal from "./GoldMedal.svg";
 import SilverMedal from "./SilverMedal.svg";
 import BronzeMedal from "./BronzeMedal.svg";
 import TwitterLogo from "./TwitterLogo.png";
+import { useNavigation } from "./NavigationContext";
 import axios from "axios";
 
 const Leaderboard = () => {
+  const { navigateTo } = useNavigation();
+
   // users is the variable containing all users info displayed in leaderboard
   const [users, setUsers] = useState([]);
 
@@ -52,9 +55,10 @@ const Leaderboard = () => {
   }, []);
 
   const handleUserClick = (user) => {
-    navigate(`/users/${user.userName}`, {
-      state: { from: location.pathname },
-    });
+    // navigate(`/users/${user.userName}`, {
+    //   state: { from: location.pathname },
+    // });
+    navigateTo(`/users/${user.userName}`);
   };
 
   const handleProfileClick = () => {
@@ -67,9 +71,10 @@ const Leaderboard = () => {
   };
 
   const handleSearchUser = () => {
-    navigate(`/leaderboard/${username}`, {
-      state: { from: location.pathname },
-    });
+    // navigate(`/leaderboard/${username}`, {
+    //   state: { from: location.pathname },
+    // });
+    navigateTo(`/leaderboard/${username}`);
   };
 
   const handleTwitterImageClick = (twitterURL) => {
