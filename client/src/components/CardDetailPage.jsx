@@ -708,7 +708,7 @@ function CardDetailPage() {
                         className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
                           index === activities.length - 1 ? "rounded-b-xl" : ""
                         } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                        onClick={() => handleUserClick(activity.username)}
+                        onClick={() => handleUserClick(holder.username)}
                       >
                         <td className="py-2 pl-4 text-left">
                           <div className="flex items-center">
