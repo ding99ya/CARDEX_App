@@ -183,7 +183,7 @@ function ViewProfile() {
 
   return (
     <div className="flex flex-col px-2 lg:px-0 lg:flex-row min-h-screen bg-gray-100">
-      <div className="w-full lg:w-1/4 bg-white border border-black rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
+      <div className="w-full lg:w-1/4 bg-white border border-gray-300 rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
         <span
           onClick={() => handleBackClick()}
           className="cursor-pointer inline-block bg-white text-black mt-2 ml-2 px-4 py-2 font-semibold whitespace-nowrap"
