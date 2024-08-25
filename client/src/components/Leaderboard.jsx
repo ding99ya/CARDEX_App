@@ -222,7 +222,7 @@ const Leaderboard = () => {
       </table> */}
 
       <table
-        className="min-w-full rounded-xl p-2 bg-blue-100"
+        className="min-w-full rounded-xl p-2 bg-blue-100 border border-gray-300"
         style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
       >
         <thead className="bg-white h-8 text-gray-500 text-sm font-open-sans rounded-t-xl rounded-b-xl">
@@ -259,7 +259,7 @@ const Leaderboard = () => {
                         : ""
                     }`}
                   >{`#${user.rank}`}</span>
-                  {index === 0 && (
+                  {/* {index === 0 && (
                     <img
                       src={GoldMedal}
                       alt="Gold Medal"
@@ -279,7 +279,7 @@ const Leaderboard = () => {
                       alt="Bronze Medal"
                       className="w-6 h-6 ml-1"
                     />
-                  )}
+                  )} */}
                 </div>
               </td>
               <td className="py-4 px-3 text-left">
