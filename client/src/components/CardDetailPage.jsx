@@ -18,7 +18,7 @@ import "../index.css";
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const web3 = createAlchemyWeb3(process.env.REACT_APP_ALCHEMY_KEY);
 
-const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
+const socket = io("http://localhost:3000");
 
 function CardDetailPage() {
   const { sendTransaction, user } = usePrivy();
@@ -444,6 +444,12 @@ function CardDetailPage() {
     setIsFront(true);
   };
 
+  const handleUserClick = (username) => {
+    Navigate(`/users/${username}`, {
+      state: { from: location.pathname },
+    });
+  };
+
   const handleBackClick = () => {
     if (location.state && location.state.from) {
       Navigate(location.state.from);
@@ -638,7 +644,7 @@ function CardDetailPage() {
                               ? "rounded-b-xl"
                               : ""
                           } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                          // onClick={() => handleUserClick(user)}
+                          onClick={() => handleUserClick(activity.username)}
                         >
                           <td className="py-2 pl-4 text-left">
                             <div className="flex items-center">
@@ -702,7 +708,7 @@ function CardDetailPage() {
                         className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
                           index === activities.length - 1 ? "rounded-b-xl" : ""
                         } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                        // onClick={() => handleUserClick(user)}
+                        onClick={() => handleUserClick(activity.username)}
                       >
                         <td className="py-2 pl-4 text-left">
                           <div className="flex items-center">
