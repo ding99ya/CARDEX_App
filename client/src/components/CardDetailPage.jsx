@@ -454,7 +454,7 @@ function CardDetailPage() {
     if (location.state && location.state.from) {
       Navigate(location.state.from);
     } else {
-      Navigate("/homepage");
+      Navigate("/market");
     }
   };
 
