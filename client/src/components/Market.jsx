@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useWallets } from "@privy-io/react-auth";
 import { useNavigation } from "./NavigationContext";
 import CardType from "./CardType";
+import CardexPokemon from "./CardexPokemon.png";
+import CardexSportsCard from "./CardexSportsCard.png";
 
 function Market() {
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src="https://cardsimage.s3.amazonaws.com/CardClassificationImage/detailone.jpg"
+                src={CardexSportsCard}
                 alt="Presale"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -55,8 +57,8 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src="https://cardsimage.s3.amazonaws.com/CardClassificationImage/detailone.jpg"
-                alt="Presale"
+                src={CardexPokemon}
+                alt="Pokemon"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
             </div>
@@ -81,8 +83,8 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src="https://cardsimage.s3.amazonaws.com/CardClassificationImage/detailtwo.jpg"
-                alt="Presale"
+                src={CardexSportsCard}
+                alt="Basketball"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
             </div>
@@ -107,8 +109,8 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src="https://cardsimage.s3.amazonaws.com/CardClassificationImage/detailthree.jpg"
-                alt="Presale"
+                src={CardexSportsCard}
+                alt="Baseball"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
             </div>
