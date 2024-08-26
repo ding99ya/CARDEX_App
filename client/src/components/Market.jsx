@@ -35,7 +35,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexPresale1}
+                src={CardexPresale2}
                 alt="Presale"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -61,7 +61,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexPokemon1}
+                src={CardexPokemon2}
                 alt="Pokemon"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -87,7 +87,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexSports1}
+                src={CardexSports2}
                 alt="Basketball"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -113,7 +113,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexSports1}
+                src={CardexSports2}
                 alt="Baseball"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
