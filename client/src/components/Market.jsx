@@ -5,7 +5,7 @@ import { useWallets } from "@privy-io/react-auth";
 import { useNavigation } from "./NavigationContext";
 import CardType from "./CardType";
 import CardexPresale1 from "./CardexPresale1.png";
-import CardexPresale1 from "./CardexPresale1.png";
+import CardexPresale2 from "./CardexPresale2.png";
 import CardexPokemon1 from "./CardexPokemon1.png";
 import CardexPokemon2 from "./CardexPokemon2.png";
 import CardexSports1 from "./CardexSports1.png";
