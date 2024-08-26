@@ -4,8 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useWallets } from "@privy-io/react-auth";
 import { useNavigation } from "./NavigationContext";
 import CardType from "./CardType";
-import CardexPokemon from "./CardexPokemon.png";
-import CardexSportsCard from "./CardexSportsCard.png";
+import CardexPresale1 from "./CardexPresale1.png";
+import CardexPresale1 from "./CardexPresale1.png";
+import CardexPokemon1 from "./CardexPokemon1.png";
+import CardexPokemon2 from "./CardexPokemon2.png";
+import CardexSports1 from "./CardexSports1.png";
+import CardexSports2 from "./CardexSports2.png";
 
 function Market() {
   const navigate = useNavigate();
@@ -31,7 +35,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexSportsCard}
+                src={CardexPresale1}
                 alt="Presale"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -57,7 +61,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexPokemon}
+                src={CardexPokemon1}
                 alt="Pokemon"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -83,7 +87,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexSportsCard}
+                src={CardexSports1}
                 alt="Basketball"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -109,7 +113,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexSportsCard}
+                src={CardexSports1}
                 alt="Baseball"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
