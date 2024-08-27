@@ -12,6 +12,9 @@ import CardexPokemon2 from "./CardexPokemon2.png";
 import CardexPokemon3 from "./CardexPokemon3.png";
 import CardexSports1 from "./CardexSports1.png";
 import CardexSports2 from "./CardexSports2.png";
+import CardexPresaleExtension from "./CardexPresaleExtension.png";
+import CardexPokemonExtension from "./CardexPokemonExtension.png";
+import CardexSportsExtension from "./CardexSportsExtension.png";
 
 function Market() {
   const navigate = useNavigate();
@@ -30,14 +33,13 @@ function Market() {
     <div className="bg-white flex items-center justify-center">
       <div class="container mx-auto px-4 lg:px-0">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div
+          {/* <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
-            // onClick={() => handleShopClick("/Market/Presale")}
             onClick={() => navigateTo("/Market/Presale")}
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexPresale3}
+                src={CardexPresaleExtension}
                 alt="Presale"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -55,8 +57,31 @@ function Market() {
                 COLLECT
               </button>
             </div>
-          </div>
+          </div> */}
           <div
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            onClick={() => navigateTo("/Market/Presale")}
+            style={{
+              backgroundImage: `url(${CardexPresaleExtension})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
+              {/* Image div removed since the background image is now on the parent div */}
+            </div>
+
+            <div className="p-4 flex justify-center items-end font-helvetica-neue">
+              {/* Text div removed */}
+              <button
+                className="bg-white text-black font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-2/3"
+                onClick={() => navigateTo("/Market/Presale")}
+              >
+                Presale
+              </button>
+            </div>
+          </div>
+          {/* <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
             // onClick={() => handleShopClick("/Market/Pokemon")}
             onClick={() => navigateTo("/Market/Pokemon")}
@@ -81,8 +106,31 @@ function Market() {
                 COLLECT
               </button>
             </div>
-          </div>
+          </div> */}
           <div
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            onClick={() => navigateTo("/Market/Pokemon")}
+            style={{
+              backgroundImage: `url(${CardexPokemonExtension})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
+              {/* Image div removed since the background image is now on the parent div */}
+            </div>
+
+            <div className="p-4 flex justify-center items-end font-helvetica-neue">
+              {/* Text div removed */}
+              <button
+                className="bg-white text-black font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-2/3"
+                onClick={() => navigateTo("/Market/Pokemon")}
+              >
+                Pokemon
+              </button>
+            </div>
+          </div>
+          {/* <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
             // onClick={() => handleShopClick("/Market/Basketball")}
             onClick={() => navigateTo("/Market/Basketball")}
@@ -107,8 +155,31 @@ function Market() {
                 COLLECT
               </button>
             </div>
-          </div>
+          </div> */}
           <div
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            onClick={() => navigateTo("/Market/Basketball")}
+            style={{
+              backgroundImage: `url(${CardexSportsExtension})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
+              {/* Image div removed since the background image is now on the parent div */}
+            </div>
+
+            <div className="p-4 flex justify-center items-end font-helvetica-neue">
+              {/* Text div removed */}
+              <button
+                className="bg-white text-black font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-2/3"
+                onClick={() => navigateTo("/Market/Basketball")}
+              >
+                Basketball
+              </button>
+            </div>
+          </div>
+          {/* <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
             // onClick={() => handleShopClick("/Market/Baseball")}
             onClick={() => navigateTo("/Market/Baseball")}
@@ -131,6 +202,29 @@ function Market() {
                 onClick={() => navigateTo("/Market/Baseball")}
               >
                 COLLECT
+              </button>
+            </div>
+          </div> */}
+          <div
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            onClick={() => navigateTo("/Market/Baseball")}
+            style={{
+              backgroundImage: `url(${CardexSportsExtension})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
+              {/* Image div removed since the background image is now on the parent div */}
+            </div>
+
+            <div className="p-4 flex justify-center items-end font-helvetica-neue">
+              {/* Text div removed */}
+              <button
+                className="bg-white text-black font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-2/3"
+                onClick={() => navigateTo("/Market/Baseball")}
+              >
+                Baseball
               </button>
             </div>
           </div>
