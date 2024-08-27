@@ -71,10 +71,10 @@ function Market() {
               {/* Image div removed since the background image is now on the parent div */}
             </div>
 
-            <div className="p-4 flex justify-center items-end font-helvetica-neue">
+            <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="bg-white text-black font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
                 onClick={() => navigateTo("/Market/Presale")}
               >
                 PRESALE
@@ -120,10 +120,10 @@ function Market() {
               {/* Image div removed since the background image is now on the parent div */}
             </div>
 
-            <div className="p-4 flex justify-center items-end font-helvetica-neue">
+            <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="bg-white text-black font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
                 onClick={() => navigateTo("/Market/Pokemon")}
               >
                 POKEMON
@@ -169,10 +169,10 @@ function Market() {
               {/* Image div removed since the background image is now on the parent div */}
             </div>
 
-            <div className="p-4 flex justify-center items-end font-helvetica-neue">
+            <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="bg-white text-black font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
                 onClick={() => navigateTo("/Market/Basketball")}
               >
                 BASKETBALL
@@ -218,10 +218,10 @@ function Market() {
               {/* Image div removed since the background image is now on the parent div */}
             </div>
 
-            <div className="p-4 flex justify-center items-end font-helvetica-neue">
+            <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="bg-white text-black font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
                 onClick={() => navigateTo("/Market/Baseball")}
               >
                 BASEBALL
