@@ -74,10 +74,10 @@ function Market() {
             <div className="p-4 flex justify-center items-end font-helvetica-neue">
               {/* Text div removed */}
               <button
-                className="bg-white text-black font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-2/3"
+                className="bg-white text-black font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
                 onClick={() => navigateTo("/Market/Presale")}
               >
-                Presale
+                PRESALE
               </button>
             </div>
           </div>
@@ -123,10 +123,10 @@ function Market() {
             <div className="p-4 flex justify-center items-end font-helvetica-neue">
               {/* Text div removed */}
               <button
-                className="bg-white text-black font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-2/3"
+                className="bg-white text-black font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
                 onClick={() => navigateTo("/Market/Pokemon")}
               >
-                Pokemon
+                POKEMON
               </button>
             </div>
           </div>
@@ -172,10 +172,10 @@ function Market() {
             <div className="p-4 flex justify-center items-end font-helvetica-neue">
               {/* Text div removed */}
               <button
-                className="bg-white text-black font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-2/3"
+                className="bg-white text-black font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
                 onClick={() => navigateTo("/Market/Basketball")}
               >
-                Basketball
+                BASKETBALL
               </button>
             </div>
           </div>
@@ -221,10 +221,10 @@ function Market() {
             <div className="p-4 flex justify-center items-end font-helvetica-neue">
               {/* Text div removed */}
               <button
-                className="bg-white text-black font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-2/3"
+                className="bg-white text-black font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
                 onClick={() => navigateTo("/Market/Baseball")}
               >
-                Baseball
+                BASEBALL
               </button>
             </div>
           </div>
