@@ -6,8 +6,10 @@ import { useNavigation } from "./NavigationContext";
 import CardType from "./CardType";
 import CardexPresale1 from "./CardexPresale1.png";
 import CardexPresale2 from "./CardexPresale2.png";
+import CardexPresale3 from "./CardexPresale3.png";
 import CardexPokemon1 from "./CardexPokemon1.png";
 import CardexPokemon2 from "./CardexPokemon2.png";
+import CardexPokemon3 from "./CardexPokemon3.png";
 import CardexSports1 from "./CardexSports1.png";
 import CardexSports2 from "./CardexSports2.png";
 
@@ -35,7 +37,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexPresale2}
+                src={CardexPresale3}
                 alt="Presale"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />
@@ -61,7 +63,7 @@ function Market() {
           >
             <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
               <img
-                src={CardexPokemon2}
+                src={CardexPokemon3}
                 alt="Pokemon"
                 className="absolute top-0 left-0 w-full h-full object-cover"
               />

@@ -7,6 +7,7 @@ import { encodeFunctionData } from "viem";
 import PresaleBuyModal from "./PresaleBuyModal.jsx";
 import sortingIcon from "./Sorting.svg";
 import { useNavigation } from "./NavigationContext";
+import PresaleCard from "./PresaleCard.png";
 import "../index.css";
 
 const ethers = require("ethers");
@@ -503,7 +504,7 @@ function PresaleCardPage({ category }) {
           >
             <div className="flex justify-center items-center relative">
               <img
-                src={card.photo}
+                src={PresaleCard}
                 alt={card.name}
                 className="w-1/2 object-contain mt-6 transition duration-300"
                 style={{ aspectRatio: "2 / 3" }}
