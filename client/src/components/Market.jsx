@@ -59,7 +59,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Presale")}
             style={{
               backgroundImage: `url(${CardexPresaleExtension})`,
@@ -74,7 +74,7 @@ function Market() {
             <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-full max-w-xs text-center"
                 onClick={() => navigateTo("/Market/Presale")}
               >
                 PRESALE
@@ -82,7 +82,7 @@ function Market() {
             </div>
           </div>
           {/* <div
-            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             // onClick={() => handleShopClick("/Market/Pokemon")}
             onClick={() => navigateTo("/Market/Pokemon")}
           >
@@ -108,7 +108,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Pokemon")}
             style={{
               backgroundImage: `url(${CardexPokemonExtension})`,
@@ -123,7 +123,7 @@ function Market() {
             <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-full max-w-xs text-center"
                 onClick={() => navigateTo("/Market/Pokemon")}
               >
                 POKEMON
@@ -157,7 +157,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Basketball")}
             style={{
               backgroundImage: `url(${CardexSportsExtension})`,
@@ -169,10 +169,10 @@ function Market() {
               {/* Image div removed since the background image is now on the parent div */}
             </div>
 
-            <div className="p-4 flex justify-center w-full">
+            <div className="p-4 flex justify-center items-center w-full">
               {/* Text div removed */}
               <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-full max-w-xs text-center"
                 onClick={() => navigateTo("/Market/Basketball")}
               >
                 BASKETBALL
@@ -206,7 +206,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Baseball")}
             style={{
               backgroundImage: `url(${CardexSportsExtension})`,
@@ -221,7 +221,7 @@ function Market() {
             <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-1/3"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-full max-w-xs text-center"
                 onClick={() => navigateTo("/Market/Baseball")}
               >
                 BASEBALL
