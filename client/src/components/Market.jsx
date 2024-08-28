@@ -74,7 +74,7 @@ function Market() {
             <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-full max-w-xs text-center"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full w-full max-w-xs text-center"
                 onClick={() => navigateTo("/Market/Presale")}
               >
                 PRESALE
@@ -123,7 +123,7 @@ function Market() {
             <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-full max-w-xs text-center"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full w-full max-w-xs text-center"
                 onClick={() => navigateTo("/Market/Pokemon")}
               >
                 POKEMON
@@ -172,7 +172,7 @@ function Market() {
             <div className="p-4 flex justify-center items-center w-full">
               {/* Text div removed */}
               <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-full max-w-xs text-center"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full w-full max-w-xs text-center"
                 onClick={() => navigateTo("/Market/Basketball")}
               >
                 BASKETBALL
@@ -221,7 +221,7 @@ function Market() {
             <div className="p-4 flex justify-center w-full">
               {/* Text div removed */}
               <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out w-full max-w-xs text-center"
+                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full w-full max-w-xs text-center"
                 onClick={() => navigateTo("/Market/Baseball")}
               >
                 BASEBALL
