@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import { encodeFunctionData } from "viem";
 import BuyModal from "./BuyModal.jsx";
 import sortingIcon from "./Sorting.svg";
+import PresaleCard from "./PresaleCard.png";
 import { useNavigation } from "./NavigationContext";
 import "../index.css";
 
@@ -183,7 +184,7 @@ function CardPage({ category }) {
       // Initialized cards array to make the HTML render to default format
       {
         name: "Card 1",
-        photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+        photo: PresaleCard,
         uniqueId: "1",
         price: 0,
         lastPrice: 0,
@@ -193,7 +194,7 @@ function CardPage({ category }) {
       },
       {
         name: "Card 2",
-        photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+        photo: PresaleCard,
         uniqueId: "2",
         price: 0,
         lastPrice: 0,
@@ -203,7 +204,7 @@ function CardPage({ category }) {
       },
       {
         name: "Card 3",
-        photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+        photo: PresaleCard,
         uniqueId: "3",
         price: 0,
         lastPrice: 0,
@@ -213,7 +214,7 @@ function CardPage({ category }) {
       },
       {
         name: "Card 4",
-        photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+        photo: PresaleCard,
         uniqueId: "4",
         price: 0,
         lastPrice: 0,
