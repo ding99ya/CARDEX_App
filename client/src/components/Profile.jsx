@@ -292,7 +292,7 @@ function Profile() {
             {
               from: wallets[0].address,
               to: destinationAddress,
-              value: BigNumber.from(transferAmount).toHexString(),
+              value: BigNumber.from(transferAmount).toString(),
               chainId: 84532,
             },
           ],
@@ -603,13 +603,15 @@ function Profile() {
               {isSubscribed ? "Turn Off" : "Turn On"}
             </button>
 
-            <span
-              onClick={exportWallet}
-              className="cursor-pointer text-sm text-blue-600 mt-5"
-              style={{ textDecoration: "underline" }}
-            >
-              Export Key
-            </span>
+            {walletType === "privy" && (
+              <span
+                onClick={exportWallet}
+                className="cursor-pointer text-sm text-blue-600 mt-5"
+                style={{ textDecoration: "underline" }}
+              >
+                Export Key
+              </span>
+            )}
           </div>
         </div>
 
