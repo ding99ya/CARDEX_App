@@ -28,6 +28,7 @@ const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
 
 function CardPage({ category }) {
   const { sendTransaction, user } = usePrivy();
+  const { wallets } = useWallets();
 
   const location = useLocation();
 
@@ -342,24 +343,53 @@ function CardPage({ category }) {
 
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
-    const data = encodeFunctionData({
-      abi: abi,
-      functionName: "buyShares",
-      args: [currentBuyCardId, parseInt(shares)],
-    });
+    const walletType = wallets[0].walletClientType;
 
-    const transaction = {
-      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-      chainId: 84532,
-      data: data,
-      value: ethers.BigNumber.from(value).toHexString(),
-    };
+    if (walletType === "privy") {
+      console.log("Using privy wallet to buy");
+      const data = encodeFunctionData({
+        abi: abi,
+        functionName: "buyShares",
+        args: [currentBuyCardId, parseInt(shares)],
+      });
 
-    try {
-      // The returned `txReceipt` has the type `TransactionReceipt`
-      const txReceipt = await sendTransaction(transaction, buyUiConfig);
-    } catch (error) {
-      console.log(error);
+      const transaction = {
+        to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+        chainId: 84532,
+        data: data,
+        value: ethers.BigNumber.from(value).toHexString(),
+      };
+
+      try {
+        // The returned `txReceipt` has the type `TransactionReceipt`
+        const txReceipt = await sendTransaction(transaction, buyUiConfig);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Using external wallet to buy");
+      const provider = await wallets[0].getEthereumProvider();
+      const data = encodeFunctionData({
+        abi: abi,
+        functionName: "buyShares",
+        args: [currentBuyCardId, parseInt(shares)],
+      });
+      try {
+        const txHash = await provider.request({
+          method: "eth_sendTransaction",
+          params: [
+            {
+              from: wallets[0].address,
+              to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+              value: ethers.BigNumber.from(value).toHexString(),
+              data: data,
+              chainId: 84532,
+            },
+          ],
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     setOpenBuyModal(false);

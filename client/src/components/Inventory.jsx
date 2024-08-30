@@ -39,7 +39,9 @@ function Inventory() {
     linkTwitter,
     unlinkTwitter,
   } = usePrivy();
+  const { wallets } = useWallets();
   const embeddedWalletAddress = user ? user.wallet.address : 0;
+  const walletType = user ? wallets[0].walletClientType : "";
   //   const shortAddress = !!embeddedWalletAddress
   //     ? `${embeddedWalletAddress.slice(0, 6)}...${embeddedWalletAddress.slice(
   //         -4
@@ -277,25 +279,50 @@ function Inventory() {
 
   // Function to claim the accumulated fees for current card
   const claim = async () => {
-    const uniqueIds = userCards.map((card) => Number(card.uniqueId));
-    const data = encodeFunctionData({
-      abi: abi,
-      functionName: "batchClaim",
-      args: [uniqueIds],
-    });
+    if (walletType === "privy") {
+      const uniqueIds = userCards.map((card) => Number(card.uniqueId));
+      const data = encodeFunctionData({
+        abi: abi,
+        functionName: "batchClaim",
+        args: [uniqueIds],
+      });
 
-    const transaction = {
-      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-      chainId: 84532,
-      data: data,
-    };
+      const transaction = {
+        to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+        chainId: 84532,
+        data: data,
+      };
 
-    try {
-      // The returned `txReceipt` has the type `TransactionReceipt`
-      const claimUI = await getClaimUiConfig();
-      const txReceipt = await sendTransaction(transaction, claimUI);
-    } catch (error) {
-      console.log(error);
+      try {
+        // The returned `txReceipt` has the type `TransactionReceipt`
+        const claimUI = await getClaimUiConfig();
+        const txReceipt = await sendTransaction(transaction, claimUI);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const provider = await wallets[0].getEthereumProvider();
+      const uniqueIds = userCards.map((card) => Number(card.uniqueId));
+      const data = encodeFunctionData({
+        abi: abi,
+        functionName: "batchClaim",
+        args: [uniqueIds],
+      });
+      try {
+        const txHash = await provider.request({
+          method: "eth_sendTransaction",
+          params: [
+            {
+              from: wallets[0].address,
+              to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+              data: data,
+              chainId: 84532,
+            },
+          ],
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
