@@ -341,9 +341,14 @@ function CardPage({ category }) {
     return holders;
   };
 
+  const removeLeadingZeroFromHex = (hexString) => {
+    return "0x" + hexString.slice(2).replace(/^0+/, "");
+  };
+
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
     const walletType = wallets[0].walletClientType;
+    console.log(walletType);
 
     if (walletType === "privy") {
       console.log("Using privy wallet to buy");
@@ -381,7 +386,9 @@ function CardPage({ category }) {
             {
               from: wallets[0].address,
               to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-              value: ethers.BigNumber.from(value).toHexString(),
+              value: removeLeadingZeroFromHex(
+                ethers.BigNumber.from(value).toHexString()
+              ),
               data: data,
               chainId: 84532,
             },

@@ -266,6 +266,10 @@ function CardDetailPage() {
     };
   };
 
+  const removeLeadingZeroFromHex = (hexString) => {
+    return "0x" + hexString.slice(2).replace(/^0+/, "");
+  };
+
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
     const walletType = wallets[0].walletClientType;
@@ -306,7 +310,9 @@ function CardDetailPage() {
             {
               from: wallets[0].address,
               to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-              value: BigNumber.from(value).toHexString(),
+              value: removeLeadingZeroFromHex(
+                BigNumber.from(value).toHexString()
+              ),
               data: data,
               chainId: 84532,
             },

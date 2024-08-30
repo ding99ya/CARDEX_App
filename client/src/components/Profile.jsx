@@ -260,6 +260,10 @@ function Profile() {
     }
   };
 
+  const removeLeadingZeroFromHex = (hexString) => {
+    return "0x" + hexString.slice(2).replace(/^0+/, "");
+  };
+
   const transfer = async (
     destinationAddress,
     transferAmount,
@@ -285,6 +289,9 @@ function Profile() {
       }
     } else {
       const provider = await wallets[0].getEthereumProvider();
+      console.log(
+        removeLeadingZeroFromHex(BigNumber.from(transferAmount).toHexString())
+      );
       try {
         const txHash = await provider.request({
           method: "eth_sendTransaction",
@@ -292,7 +299,10 @@ function Profile() {
             {
               from: wallets[0].address,
               to: destinationAddress,
-              value: BigNumber.from(transferAmount).toString(),
+              value: removeLeadingZeroFromHex(
+                BigNumber.from(transferAmount).toHexString()
+              ),
+              // value: "0xDE0B6B3A7640000",
               chainId: 84532,
             },
           ],
