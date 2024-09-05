@@ -12,6 +12,7 @@ import SellModal from "./SellModal.jsx";
 import io from "socket.io-client";
 import InfiniteScroll from "react-infinite-scroll-component";
 import moment from "moment";
+import PresaleCard from "./PresaleCard.png";
 import { useNavigation } from "./NavigationContext";
 import "../index.css";
 
@@ -40,7 +41,7 @@ function CardDetailPage() {
 
   const [card, setCard] = useState({
     name: "card",
-    photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+    photo: PresaleCard,
     uniqueId: "0",
     price: 0,
     category: "card",
