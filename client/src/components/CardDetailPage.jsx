@@ -680,7 +680,7 @@ function CardDetailPage() {
         </div>
 
         <div className="mt-8 relative z-0">
-          <div className="flex border-b-0">
+          <div className="flex border-b-0 mb-2">
             <button
               className={`py-2 px-4 font-semibold ${
                 activeTab === "activity"
