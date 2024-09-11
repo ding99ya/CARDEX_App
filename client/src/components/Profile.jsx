@@ -5,11 +5,11 @@ import { useAuth } from "./AuthContext";
 import { Contract, providers, BigNumber } from "ethers";
 import axios from "axios";
 import CopyIcon from "./Copy-Icon.jpg";
-import ETHSymbol from "./ETHSymbol.png";
 import Wallet from "./Wallet.jpg";
 import TwitterLogo from "./TwitterLogo.png";
 import NotificationOn from "./NotificationOn.png";
 import NotificationOff from "./NotificationOff.png";
+import PresaleCard from "./PresaleCard.png";
 import DepositModal from "./DepositModal.jsx";
 import WithdrawModal from "./WithdrawModal.jsx";
 import abi from "../CardexV1.json";
@@ -103,18 +103,6 @@ function Profile() {
         setInventory(response.data.cardInventory);
         setCurrentUsername(response.data.username);
         setCurrentInviteCode(response.data.inviteCode);
-
-        // const fetchedLeaderboardData = await axios.get(
-        //   `/api/leaderboard/${embeddedWalletAddress}`
-        // );
-        // setCurrentUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
-
-        // const balance = await web3.eth.getBalance(embeddedWalletAddress);
-        // const balanceToBigNumber = BigNumber.from(balance);
-        // const oneEther = BigNumber.from("1000000000000000000");
-        // const balanceInETH =
-        //   Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
-        // setUserETHBalance(balanceInETH);
       } catch (error) {
         console.error(
           `Error fetching user ${embeddedWalletAddress} card inventory`,
@@ -174,20 +162,7 @@ function Profile() {
   useEffect(() => {
     if (hasMounted.current) {
       const fetchCardPosition = async () => {
-        // let worth = 0;
-
         try {
-          // const cardPosition = await Promise.all(
-          //   inventory.map(async (card) => {
-          //     const response = await axios.get(`/api/cards/${card.uniqueId}`);
-          //     const fetchedCard = response.data;
-          //     fetchedCard.shares = card.shares;
-
-          //     worth += fetchedCard.price * card.shares;
-          //     return fetchedCard;
-          //   })
-          // );
-
           const userCardIds = inventory.map((card) => card.uniqueId.toString());
 
           const sharesMap = inventory.reduce((map, item) => {
@@ -215,7 +190,7 @@ function Profile() {
             return acc;
           }, {});
 
-          // Calculate the sum
+          // Calculate the total worth
           const worth = inventory.reduce((sum, item) => {
             const price = cardLookup[item.uniqueId];
             return sum + item.shares * price;
@@ -234,14 +209,8 @@ function Profile() {
 
   const handleCardClick = (card) => {
     if (card.category !== "presale") {
-      // Navigate(`/cards/${card.uniqueId}`, {
-      //   state: { from: location.pathname },
-      // });
       navigateTo(`/cards/${card.uniqueId}`);
     } else {
-      // Navigate(`/presalecards/${card.uniqueId}`, {
-      //   state: { from: location.pathname },
-      // });
       navigateTo(`/presalecards/${card.uniqueId}`);
     }
   };
@@ -289,9 +258,6 @@ function Profile() {
       }
     } else {
       const provider = await wallets[0].getEthereumProvider();
-      console.log(
-        removeLeadingZeroFromHex(BigNumber.from(transferAmount).toHexString())
-      );
       try {
         const txHash = await provider.request({
           method: "eth_sendTransaction",
@@ -302,7 +268,6 @@ function Profile() {
               value: removeLeadingZeroFromHex(
                 BigNumber.from(transferAmount).toHexString()
               ),
-              // value: "0xDE0B6B3A7640000",
               chainId: 84532,
             },
           ],
@@ -318,7 +283,6 @@ function Profile() {
   // Function to obtain the accumulated fee for the user
   const batchLoadUserFee = async () => {
     const uniqueIds = userCards.map((card) => Number(card.uniqueId));
-    console.log(uniqueIds);
     const userFee = await contract.methods
       .batchGetFee(uniqueIds, embeddedWalletAddress)
       .call();
@@ -404,30 +368,6 @@ function Profile() {
     }
   };
 
-  // const subscribe = async () => {
-  //   try {
-  //     const registration = await navigator.serviceWorker.ready;
-  //     const response = await axios.get("/api/vapidPublicKey");
-  //     console.log("Got vapid key");
-  //     const vapidPublicKey = response.data;
-  //     const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
-  //     const subscription = await registration.pushManager.subscribe({
-  //       userVisibleOnly: true,
-  //       applicationServerKey: convertedVapidKey,
-  //     });
-  //     console.log("Successfully got subscription");
-
-  //     await axios.post("/api/subscribe", {
-  //       subscription: subscription,
-  //     });
-  //     setIsSubscribed(true);
-  //     alert("You have successfully subscribed to notifications!");
-  //   } catch (error) {
-  //     console.error("Error subscribing to notifications:", error);
-  //     alert("Failed to subscribe to notifications. Please try again.");
-  //   }
-  // };
-
   const subscribe = async () => {
     try {
       // Check if the browser supports push notifications
@@ -458,14 +398,12 @@ function Profile() {
       // If there's no existing subscription, create one
       if (!subscription) {
         const response = await axios.get("/api/vapidPublicKey");
-        console.log("Got vapid key");
         const vapidPublicKey = response.data;
         const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
         subscription = await registration.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: convertedVapidKey,
         });
-        console.log("Successfully created new subscription");
       } else {
         console.log("Using existing subscription");
       }
@@ -477,7 +415,6 @@ function Profile() {
       setIsSubscribed(true);
       alert("You have successfully subscribed to notifications!");
     } catch (error) {
-      console.error("Error subscribing to notifications:", error);
       alert("Failed to subscribe to notifications. Please try again.");
     }
   };
@@ -627,10 +564,6 @@ function Profile() {
 
         <div className="mt-6">
           <div className="mb-4 border border-gray-300 rounded-3xl bg-gray-100">
-            {/* <div className="flex items-left text-xl font-semibold">
-              Inventory Worth: {totalWorth} ETH
-              <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
-            </div> */}
             <div className="flex justify-between w-full mt-4 mx-4">
               <span className="text-base font-semibold text-gray-400">
                 Invite Code:
@@ -655,20 +588,6 @@ function Profile() {
                 {totalWorth} ETH
               </span>
             </div>
-            {/* <div className="flex justify-center my-2 mx-4">
-              <button
-                onClick={() => claim()}
-                className="w-full bg-white text-black border-2 border-black font-semibold py-2 px-4 mt-2 mb-2 rounded-full hover:bg-black hover:text-white transition duration-300"
-              >
-                Claim for All
-              </button>
-            </div> */}
-            {/* <div className="text-lg">Your Invite Code: {currentInviteCode}</div>
-            <div className="text-lg">Total Papers: {currentUserPaperPoint}</div> */}
-            {/* <div className="flex items-left text-lg">
-              Wallet Balance: {userETHBalance} ETH
-              <img src={ETHSymbol} className="w-3 h-5 ml-2 mt-1" />
-            </div> */}
           </div>
           <div className="flex flex-col items-left border border-gray-300 rounded-3xl bg-white">
             <div className="flex items-left space-x-2 mb-2 mx-4">
@@ -710,29 +629,7 @@ function Profile() {
               </button>
             </div>
           </div>
-          {/* <div className="flex space-x-2">
-            <button
-              onClick={() => setOpenDepositModal(true)}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              Deposit
-            </button>
-            <button
-              onClick={() => setOpenWithdrawModal(true)}
-              className="px-4 py-2 bg-red-500 text-white rounded"
-            >
-              Withdraw
-            </button>
-          </div> */}
         </div>
-        {/* <div className="flex justify-center mt-4">
-          <button
-            onClick={handleLogout}
-            className="items-center w-1/4 bg-blue-500 text-white font-bold py-2 px-4 rounded"
-          >
-            LOG OUT
-          </button>
-        </div> */}
       </div>
       <div className="hidden lg:block w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
         {userCards.length === 0 ? (
@@ -745,7 +642,7 @@ function Profile() {
                 onClick={() => claim()}
                 className="bg-blue-400 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-500 hover:text-white transition duration-300"
               >
-                Claim for All
+                Claim All
               </button>
             </div>
             <div className="flex flex-col items-center">
@@ -762,72 +659,71 @@ function Profile() {
                 onClick={() => claim()}
                 className="bg-blue-400 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-500 hover:text-white transition duration-300"
               >
-                Claim for All
+                Claim All
               </button>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:px-4">
-              {userCards.map(
-                (item) =>
-                  item.category !== "presale" ? (
-                    <div
-                      className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
-                      key={item.uniqueId}
-                      onClick={() => handleCardClick(item)}
-                      style={{
-                        borderTopLeftRadius: "1.25rem",
-                        borderBottomLeftRadius: "1.25rem",
-                        borderTopRightRadius: "1.25rem",
-                        borderBottomRightRadius: "1.25rem",
-                      }}
-                    >
-                      <div className="flex justify-center items-center relative">
-                        <img
-                          src={item.photo}
-                          alt={item.name}
-                          className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
-                          style={{ zIndex: 10, aspectRatio: "2 / 3" }}
-                        />
-                      </div>
-                      <div className="p-2 text-left px-4">
+              {userCards.map((item) =>
+                item.category !== "presale" ? (
+                  <div
+                    className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
+                    key={item.uniqueId}
+                    onClick={() => handleCardClick(item)}
+                    style={{
+                      borderTopLeftRadius: "1.25rem",
+                      borderBottomLeftRadius: "1.25rem",
+                      borderTopRightRadius: "1.25rem",
+                      borderBottomRightRadius: "1.25rem",
+                    }}
+                  >
+                    <div className="flex justify-center items-center relative">
+                      <img
+                        src={item.photo}
+                        alt={item.name}
+                        className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
+                        style={{ zIndex: 10, aspectRatio: "2 / 3" }}
+                      />
+                    </div>
+                    <div className="p-2 text-left px-4">
+                      <span
+                        className="w-full font-helvetica-neue text-sm font-bold"
+                        style={{
+                          display: "-webkit-box",
+                          WebkitBoxOrient: "vertical",
+                          WebkitLineClamp: 2,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          width: "100%",
+                          whiteSpace: "normal",
+                        }}
+                      >
+                        {item.name}
+                      </span>
+                    </div>
+                    <div className="p-2 text-center w-full">
+                      <div className="flex justify-end w-full px-2">
                         <span
-                          className="w-full font-helvetica-neue text-sm font-bold"
-                          style={{
-                            display: "-webkit-box",
-                            WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 2,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            width: "100%",
-                            whiteSpace: "normal",
-                          }}
+                          className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                            item.rarity === "RARE"
+                              ? "bg-sky-300"
+                              : item.rarity === "EPIC"
+                              ? "bg-purple-300"
+                              : item.rarity === "LEGEND"
+                              ? "bg-amber-300"
+                              : "bg-gray-400"
+                          } text-white font-bold rounded-full text-center`}
                         >
-                          {item.name}
+                          {item.rarity}
                         </span>
                       </div>
-                      <div className="p-2 text-center w-full">
-                        <div className="flex justify-end w-full px-2">
-                          <span
-                            className={`text-xs font-helvetica inline-block px-4 py-1 ${
-                              item.rarity === "RARE"
-                                ? "bg-sky-300"
-                                : item.rarity === "EPIC"
-                                ? "bg-purple-300"
-                                : item.rarity === "LEGEND"
-                                ? "bg-amber-300"
-                                : "bg-gray-400"
-                            } text-white font-bold rounded-full text-center`}
-                          >
-                            {item.rarity}
-                          </span>
-                        </div>
-                        <div className="flex justify-between w-full px-2 mt-1">
-                          <span className="text-sm font-helvetica">Price:</span>
-                          <span className="text-sm font-helvetica">
-                            {item.price} ETH
-                          </span>
-                        </div>
-                        {/* <div className="flex justify-end items-center w-full px-2 mt-1">
+                      <div className="flex justify-between w-full px-2 mt-1">
+                        <span className="text-sm font-helvetica">Price:</span>
+                        <span className="text-sm font-helvetica">
+                          {item.price} ETH
+                        </span>
+                      </div>
+                      {/* <div className="flex justify-end items-center w-full px-2 mt-1">
                         <span className="text-sm font-helvetica">
                           {item.trend}%
                         </span>
@@ -837,91 +733,17 @@ function Profile() {
                           <span className="ml-2">{downArrow}</span>
                         )}
                       </div> */}
-                        <div className="flex justify-between w-full px-2 mt-1">
-                          <span className="text-sm font-helvetica">
-                            Position:
-                          </span>
-                          <span className="text-sm font-helvetica">
-                            {item.shares}
-                          </span>
-                        </div>
+                      <div className="flex justify-between w-full px-2 mt-1">
+                        <span className="text-sm font-helvetica">
+                          Position:
+                        </span>
+                        <span className="text-sm font-helvetica">
+                          {item.shares}
+                        </span>
                       </div>
                     </div>
-                  ) : null
-                // (
-                //   <div
-                //     className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out hover:shadow-2xl hover:border-gray-500 group"
-                //     key={item.uniqueId}
-                //     onClick={() => handleCardClick(item)}
-                //     style={{
-                //       borderTopLeftRadius: "1.25rem",
-                //       borderBottomLeftRadius: "1.25rem",
-                //       borderTopRightRadius: "1.25rem",
-                //       borderBottomRightRadius: "1.25rem",
-                //     }}
-                //   >
-                //     <div className="flex justify-center items-center relative">
-                //       <img
-                //         src={item.photo}
-                //         alt={item.name}
-                //         className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
-                //         style={{ zIndex: 10, aspectRatio: "2 / 3" }}
-                //       />
-                //     </div>
-                //     <div className="p-2 text-left px-4">
-                //       <span
-                //         className="w-full font-helvetica-neue text-sm font-bold"
-                //         style={{
-                //           display: "-webkit-box",
-                //           WebkitBoxOrient: "vertical",
-                //           WebkitLineClamp: 2,
-                //           overflow: "hidden",
-                //           textOverflow: "ellipsis",
-                //           width: "100%",
-                //           whiteSpace: "normal",
-                //         }}
-                //       >
-                //         {item.name}
-                //       </span>
-                //     </div>
-                //     <div className="p-2 text-center w-full">
-                //       <div className="flex justify-end w-full px-2">
-                //         <span
-                //           className={`text-xs font-helvetica inline-block px-4 py-1 ${
-                //             item.rarity === "RARE"
-                //               ? "bg-sky-300"
-                //               : item.rarity === "EPIC"
-                //               ? "bg-purple-300"
-                //               : item.rarity === "LEGEND"
-                //               ? "bg-amber-300"
-                //               : "bg-gray-400"
-                //           } text-white font-bold rounded-full text-center`}
-                //         >
-                //           {item.rarity}
-                //         </span>
-                //       </div>
-                //       <div className="flex justify-between w-full px-2 mt-1">
-                //         <span className="text-sm font-helvetica">Price:</span>
-                //         <span className="text-sm font-helvetica">
-                //           {item.price} ETH
-                //         </span>
-                //       </div>
-                //       <div className="flex justify-between w-full px-2 mt-1">
-                //         <span className="text-sm font-helvetica">
-                //           Presale &nbsp;
-                //         </span>
-                //       </div>
-                //       <div className="flex justify-between w-full px-2 mt-1">
-                //         <span className="text-sm font-helvetica">
-                //           Position:
-                //         </span>
-                //         <span className="text-sm font-helvetica">
-                //           {item.shares}
-                //         </span>
-                //       </div>
-                //     </div>
-                //   </div>
-                // )
+                  </div>
+                ) : null
               )}
             </div>
           </div>

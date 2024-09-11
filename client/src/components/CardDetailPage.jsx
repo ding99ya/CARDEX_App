@@ -96,81 +96,85 @@ function CardDetailPage() {
     }
   };
 
-  const updateCard = (currentHolders) => {
-    setCard((prevCard) => {
-      const q = Math.pow(
-        prevCard.ipoSharesPrice / prevCard.initialSharesPrice,
-        1 / prevCard.ipoShares
-      );
+  // function to update card
+  // deprecated
+  // const updateCard = (currentHolders) => {
+  //   setCard((prevCard) => {
+  //     const q = Math.pow(
+  //       prevCard.ipoSharesPrice / prevCard.initialSharesPrice,
+  //       1 / prevCard.ipoShares
+  //     );
 
-      const a = prevCard.initialSharesPrice;
-      const b = Math.pow(q, Number(currentHolders) + 1);
-      const c = Math.pow(q, Number(currentHolders));
-      const d = q - 1;
+  //     const a = prevCard.initialSharesPrice;
+  //     const b = Math.pow(q, Number(currentHolders) + 1);
+  //     const c = Math.pow(q, Number(currentHolders));
+  //     const d = q - 1;
 
-      const currentPrice = ((a * (b - c)) / d).toFixed(4);
+  //     const currentPrice = ((a * (b - c)) / d).toFixed(4);
 
-      const fetchedLastPrice = prevCard.lastPrice;
-      const currentTrend = getTrend(currentPrice, fetchedLastPrice);
+  //     const fetchedLastPrice = prevCard.lastPrice;
+  //     const currentTrend = getTrend(currentPrice, fetchedLastPrice);
 
-      return {
-        ...prevCard,
-        price: currentPrice,
-        trend: currentTrend,
-        shares: currentHolders,
-      };
-    });
-  };
+  //     return {
+  //       ...prevCard,
+  //       price: currentPrice,
+  //       trend: currentTrend,
+  //       shares: currentHolders,
+  //     };
+  //   });
+  // };
 
   // function to add listener to Buy() event onchain so that Buy() event can trigger price, share holders update
-  function addBuyListener() {
-    const eventSubscription = contract.events.Buy({}, async (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        const cardID = data.returnValues[0];
+  // Deprecated
+  // function addBuyListener() {
+  //   const eventSubscription = contract.events.Buy({}, async (error, data) => {
+  //     if (error) {
+  //       console.log(error);
+  //     } else {
+  //       const cardID = data.returnValues[0];
 
-        // Update current card info
-        if (uniqueId.toString() === cardID.toString()) {
-          const currentHolders = Number(data.returnValues[4]);
-          updateCard(currentHolders);
+  //       // Update current card info
+  //       if (uniqueId.toString() === cardID.toString()) {
+  //         const currentHolders = Number(data.returnValues[4]);
+  //         updateCard(currentHolders);
 
-          // Update user's current balance
-          const eventUser = data.returnValues[1];
-          if (eventUser.toString() === embeddedWalletAddress.toString()) {
-            fetchUserShares();
-          }
-        }
-      }
-    });
+  //         // Update user's current balance
+  //         const eventUser = data.returnValues[1];
+  //         if (eventUser.toString() === embeddedWalletAddress.toString()) {
+  //           fetchUserShares();
+  //         }
+  //       }
+  //     }
+  //   });
 
-    return eventSubscription;
-  }
+  //   return eventSubscription;
+  // }
 
   // function to add listener to Sell() event onchain so that Sell() event can trigger price, share holders update
-  function addSellListener() {
-    const eventSubscription = contract.events.Sell({}, async (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        const cardID = data.returnValues[0];
+  // Deprecated
+  // function addSellListener() {
+  //   const eventSubscription = contract.events.Sell({}, async (error, data) => {
+  //     if (error) {
+  //       console.log(error);
+  //     } else {
+  //       const cardID = data.returnValues[0];
 
-        // Update current card info
-        if (uniqueId.toString() === cardID.toString()) {
-          const currentHolders = Number(data.returnValues[4]);
-          updateCard(currentHolders);
+  //       // Update current card info
+  //       if (uniqueId.toString() === cardID.toString()) {
+  //         const currentHolders = Number(data.returnValues[4]);
+  //         updateCard(currentHolders);
 
-          // Update user's current balance
-          const eventUser = data.returnValues[1];
-          if (eventUser.toString() === embeddedWalletAddress.toString()) {
-            fetchUserShares();
-          }
-        }
-      }
-    });
+  //         // Update user's current balance
+  //         const eventUser = data.returnValues[1];
+  //         if (eventUser.toString() === embeddedWalletAddress.toString()) {
+  //           fetchUserShares();
+  //         }
+  //       }
+  //     }
+  //   });
 
-    return eventSubscription;
-  }
+  //   return eventSubscription;
+  // }
 
   function addWebSocketListener() {
     socket.on("cardUpdate", (updatedCard) => {
@@ -276,7 +280,6 @@ function CardDetailPage() {
     const walletType = wallets[0].walletClientType;
 
     if (walletType === "privy") {
-      console.log("Using privy wallet to buy");
       const data = encodeFunctionData({
         abi: abi,
         functionName: "buyShares",
@@ -297,7 +300,6 @@ function CardDetailPage() {
         console.log(error);
       }
     } else {
-      console.log("Using external wallet to buy");
       const provider = await wallets[0].getEthereumProvider();
       const data = encodeFunctionData({
         abi: abi,
@@ -332,7 +334,6 @@ function CardDetailPage() {
     const walletType = wallets[0].walletClientType;
 
     if (walletType === "privy") {
-      console.log("Using privy wallet to sell");
       const data = encodeFunctionData({
         abi: abi,
         functionName: "sellShares",
@@ -351,7 +352,6 @@ function CardDetailPage() {
         console.log(error);
       }
     } else {
-      console.log("Using external wallet to sell");
       const provider = await wallets[0].getEthereumProvider();
       const data = encodeFunctionData({
         abi: abi,
@@ -505,7 +505,6 @@ function CardDetailPage() {
     const fetchCardHolder = async () => {
       try {
         const response = await axios.get(`/api/cardholders/${uniqueId}`);
-        console.log(response.data);
         setHolders(response.data);
       } catch (error) {
         console.error(`Error fetching card holders:`, error);
@@ -553,30 +552,23 @@ function CardDetailPage() {
   };
 
   if (!card) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img
+          src="/Loading.gif"
+          alt="Loading..."
+          style={{ marginTop: "-20vh" }}
+        />
+      </div>
+    );
   }
-
-  const upArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-green-500"
-    >
-      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
-    </svg>
-  );
-
-  const downArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-red-500"
-    >
-      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
-    </svg>
-  );
 
   return (
     <div className="container mx-auto p-4 flex flex-col lg:flex-row justify-between items-start relative">
@@ -738,7 +730,6 @@ function CardDetailPage() {
                               ? "rounded-b-xl"
                               : ""
                           } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                          // onClick={() => handleUserClick(activity.username)}
                           onClick={() =>
                             navigateTo(`/users/${activity.username}`)
                           }
@@ -805,7 +796,6 @@ function CardDetailPage() {
                         className={`cursor-pointer h-10 text-xs lg:text-sm font-open-sans ${
                           index === activities.length - 1 ? "rounded-b-xl" : ""
                         } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-                        // onClick={() => handleUserClick(holder.username)}
                         onClick={() => navigateTo(`/users/${holder.username}`)}
                       >
                         <td className="py-2 pl-4 text-left">

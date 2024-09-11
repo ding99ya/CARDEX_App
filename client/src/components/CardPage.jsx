@@ -47,9 +47,14 @@ function CardPage({ category }) {
     sortKey: "ipoTime",
     ascending: false,
   });
+
+  // sortIsOpen is used to control if the sort list should be opened
   const [sortIsOpen, setSortIsOpen] = useState(false);
 
+  // openBuyModal is used to control if the buy modal window be displayed
   const [openBuyModal, setOpenBuyModal] = useState(false);
+
+  // These variables are to be updated when user select the card to buy
   const [currentBuyCardId, setCurrentBuyCardId] = useState("");
   const [currentBuyCardName, setCurrentBuyCardName] = useState("");
   const [currentBuyCardPhoto, setCurrentBuyCardPhoto] = useState("");
@@ -60,50 +65,55 @@ function CardPage({ category }) {
   const navigate = useNavigate();
 
   // function to add listener to Buy() event onchain so that Buy() event can trigger price, share holders update
-  function addBuyListener() {
-    const eventSubscription = contract.events.Buy({}, async (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        const cardID = data.returnValues[0];
+  // Depreciated because this page will now listen to the websocket events from backend and update the card info
+  // Keep this for potential future use
 
-        const index = cards.findIndex(
-          (card) => card.uniqueId === cardID.toString()
-        );
+  // function addBuyListener() {
+  //   const eventSubscription = contract.events.Buy({}, async (error, data) => {
+  //     if (error) {
+  //       console.log(error);
+  //     } else {
+  //       const cardID = data.returnValues[0];
 
-        if (index !== -1) {
-          const q = Math.pow(
-            cards[index].ipoSharesPrice / cards[index].initialSharesPrice,
-            1 / cards[index].ipoShares
-          );
-          const currentHolders = data.returnValues[4];
+  //       const index = cards.findIndex(
+  //         (card) => card.uniqueId === cardID.toString()
+  //       );
 
-          const a = cards[index].initialSharesPrice;
-          const b = Math.pow(q, Number(currentHolders) + 1);
-          const c = Math.pow(q, Number(currentHolders));
-          const d = q - 1;
+  //       if (index !== -1) {
+  //         const q = Math.pow(
+  //           cards[index].ipoSharesPrice / cards[index].initialSharesPrice,
+  //           1 / cards[index].ipoShares
+  //         );
+  //         const currentHolders = data.returnValues[4];
 
-          const currentPrice = ((a * (b - c)) / d).toFixed(4);
-          const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
+  //         const a = cards[index].initialSharesPrice;
+  //         const b = Math.pow(q, Number(currentHolders) + 1);
+  //         const c = Math.pow(q, Number(currentHolders));
+  //         const d = q - 1;
 
-          setCards((prevCards) =>
-            prevCards.map((card) =>
-              card.uniqueId === cardID.toString()
-                ? {
-                    ...card,
-                    price: currentPrice,
-                    trend: currentTrend,
-                    shares: Number(currentHolders),
-                  }
-                : card
-            )
-          );
-        }
-      }
-    });
+  //         const currentPrice = ((a * (b - c)) / d).toFixed(4);
+  //         const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
 
-    return eventSubscription;
-  }
+  //         setCards((prevCards) =>
+  //           prevCards.map((card) =>
+  //             card.uniqueId === cardID.toString()
+  //               ? {
+  //                   ...card,
+  //                   price: currentPrice,
+  //                   trend: currentTrend,
+  //                   shares: Number(currentHolders),
+  //                 }
+  //               : card
+  //           )
+  //         );
+  //       }
+  //     }
+  //   });
+
+  //   return eventSubscription;
+  // }
+
+  // function to listen to cardUpdate() event from backend and update cards info
 
   function addWebSocketListener() {
     socket.on("cardUpdate", (updatedCard) => {
@@ -135,50 +145,53 @@ function CardPage({ category }) {
   }
 
   // function to add listener to Sell() event onchain so that Sell() event can trigger price, share holders update
-  function addSellListener() {
-    const eventSubscription = contract.events.Sell({}, async (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        const cardID = data.returnValues[0];
+  // Depreciated because this page will now listen to the websocket events from backend and update the card info
+  // Keep this for potential future use
 
-        const index = cards.findIndex(
-          (card) => card.uniqueId === cardID.toString()
-        );
+  // function addSellListener() {
+  //   const eventSubscription = contract.events.Sell({}, async (error, data) => {
+  //     if (error) {
+  //       console.log(error);
+  //     } else {
+  //       const cardID = data.returnValues[0];
 
-        if (index !== -1) {
-          const q = Math.pow(
-            cards[index].ipoSharesPrice / cards[index].initialSharesPrice,
-            1 / cards[index].ipoShares
-          );
-          const currentHolders = data.returnValues[4];
+  //       const index = cards.findIndex(
+  //         (card) => card.uniqueId === cardID.toString()
+  //       );
 
-          const a = cards[index].initialSharesPrice;
-          const b = Math.pow(q, Number(currentHolders) + 1);
-          const c = Math.pow(q, Number(currentHolders));
-          const d = q - 1;
+  //       if (index !== -1) {
+  //         const q = Math.pow(
+  //           cards[index].ipoSharesPrice / cards[index].initialSharesPrice,
+  //           1 / cards[index].ipoShares
+  //         );
+  //         const currentHolders = data.returnValues[4];
 
-          const currentPrice = ((a * (b - c)) / d).toFixed(4);
-          const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
+  //         const a = cards[index].initialSharesPrice;
+  //         const b = Math.pow(q, Number(currentHolders) + 1);
+  //         const c = Math.pow(q, Number(currentHolders));
+  //         const d = q - 1;
 
-          setCards((prevCards) =>
-            prevCards.map((card) =>
-              card.uniqueId === cardID.toString()
-                ? {
-                    ...card,
-                    price: currentPrice,
-                    trend: currentTrend,
-                    shares: Number(currentHolders),
-                  }
-                : card
-            )
-          );
-        }
-      }
-    });
+  //         const currentPrice = ((a * (b - c)) / d).toFixed(4);
+  //         const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
 
-    return eventSubscription;
-  }
+  //         setCards((prevCards) =>
+  //           prevCards.map((card) =>
+  //             card.uniqueId === cardID.toString()
+  //               ? {
+  //                   ...card,
+  //                   price: currentPrice,
+  //                   trend: currentTrend,
+  //                   shares: Number(currentHolders),
+  //                 }
+  //               : card
+  //           )
+  //         );
+  //       }
+  //     }
+  //   });
+
+  //   return eventSubscription;
+  // }
 
   useEffect(() => {
     setCards([
@@ -241,32 +254,9 @@ function CardPage({ category }) {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   if (hasMounted.current) {
-  //     // Add Buy/Sell event listener
-  //     const buyEventSubscription = addBuyListener();
-  //     const sellEventSubscription = addSellListener();
-
-  //     return () => {
-  //       buyEventSubscription.unsubscribe((error, success) => {
-  //         if (success) {
-  //           console.log("Buy event successfully unsubscribed!");
-  //         }
-  //       });
-  //       sellEventSubscription.unsubscribe((error, success) => {
-  //         if (success) {
-  //           console.log("Sell event successfully unsubscribed!");
-  //         }
-  //       });
-  //     };
-  //   } else {
-  //     hasMounted.current = true;
-  //   }
-  // }, [cardsResponse]);
-
   useEffect(() => {
     if (hasMounted.current) {
-      // Add wweb socket event listener to be triggered when Trade event occurs
+      // Add web socket event listener to be triggered when Trade event occurs
       addWebSocketListener();
 
       handleSortSelection({
@@ -341,6 +331,7 @@ function CardPage({ category }) {
     return holders;
   };
 
+  // If a hex string begins with "0x0..." the function will turn it to "0x..."
   const removeLeadingZeroFromHex = (hexString) => {
     return "0x" + hexString.slice(2).replace(/^0+/, "");
   };
@@ -348,10 +339,8 @@ function CardPage({ category }) {
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
     const walletType = wallets[0].walletClientType;
-    console.log(walletType);
 
     if (walletType === "privy") {
-      console.log("Using privy wallet to buy");
       const data = encodeFunctionData({
         abi: abi,
         functionName: "buyShares",
@@ -372,7 +361,6 @@ function CardPage({ category }) {
         console.log(error);
       }
     } else {
-      console.log("Using external wallet to buy");
       const provider = await wallets[0].getEthereumProvider();
       const data = encodeFunctionData({
         abi: abi,
@@ -403,15 +391,18 @@ function CardPage({ category }) {
   };
 
   // Function to navigate to card detail page, pass the state so that card detail page can back to this page
-  const handleCardClick = (card) => {
-    navigate(`/cards/${card.uniqueId}`, {
-      state: { from: location.pathname },
-    });
-  };
+  // Deprecated
+  // const handleCardClick = (card) => {
+  //   navigate(`/cards/${card.uniqueId}`, {
+  //     state: { from: location.pathname },
+  //   });
+  // };
 
-  const handleBackClick = () => {
-    navigate(`/market`);
-  };
+  // Function to back to market page
+  // Deprecated
+  // const handleBackClick = () => {
+  //   navigate(`/market`);
+  // };
 
   // Function triggered when remove sort button is clicked, will reset the order based on card id
   const handleRemoveSort = () => {
@@ -478,27 +469,31 @@ function CardPage({ category }) {
     </svg>
   );
 
-  const upArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-green-500"
-    >
-      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
-    </svg>
-  );
+  // Trend Up arrow
+  // Deprecated
+  // const upArrow = (
+  //   <svg
+  //     xmlns="http://www.w3.org/2000/svg"
+  //     viewBox="0 0 24 24"
+  //     fill="currentColor"
+  //     className="w-4 h-4 text-green-500"
+  //   >
+  //     <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
+  //   </svg>
+  // );
 
-  const downArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-red-500"
-    >
-      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
-    </svg>
-  );
+  // Trend Down arrow
+  // Deprecated
+  // const downArrow = (
+  //   <svg
+  //     xmlns="http://www.w3.org/2000/svg"
+  //     viewBox="0 0 24 24"
+  //     fill="currentColor"
+  //     className="w-4 h-4 text-red-500"
+  //   >
+  //     <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
+  //   </svg>
+  // );
 
   return (
     <div className="min-h-screen mx-auto bg-gray-100">
@@ -552,7 +547,6 @@ function CardPage({ category }) {
           <div
             key={card.uniqueId}
             id={`card${card.uniqueId}`}
-            // onClick={() => handleCardClick(card)}
             onClick={() => navigateTo(`/cards/${card.uniqueId}`)}
             className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
             style={{
