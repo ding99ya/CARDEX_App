@@ -364,6 +364,8 @@ function CardPage({ category }) {
       const provider = await wallets[0].getEthereumProvider();
 
       const currentChainId = await provider.request({ method: "eth_chainId" });
+      alert(currentChainId);
+      alert(parseInt(currentChainId, 16));
       if (parseInt(currentChainId, 16) !== 84532) {
         try {
           alert(`switching network`);
