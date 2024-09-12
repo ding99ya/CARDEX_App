@@ -3,6 +3,7 @@ import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CardexWebsite from "./CardexWebsite.jpg";
+import OnboardBg from "./OnboardBg.png";
 import "../index.css";
 
 const Login = () => {
@@ -66,7 +67,14 @@ const Login = () => {
 
   if (ready && !authenticated) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100 rounded-3xl">
+      <div
+        className="flex justify-center items-center min-h-screen bg-gray-100"
+        style={{
+          backgroundImage: `url(${OnboardBg})`,
+          backgroundSize: "cover", // Make sure the background covers the entire div
+          backgroundPosition: "center", // Center the background image
+        }}
+      >
         <div className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center z-10">
           {/* <h4 className="text-4xl mb-4 font-helvetica-neue font-semibold">
             Welcome to CARDEX

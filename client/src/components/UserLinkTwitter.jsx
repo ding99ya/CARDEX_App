@@ -5,6 +5,7 @@ import axios from "axios";
 import classNames from "classnames";
 import UsernameNotification from "./UsernameNotification.jsx";
 import CardexWebsite from "./CardexWebsite.jpg";
+import OnboardBg from "./OnboardBg.png";
 import "../index.css";
 
 const UserLinkTwitter = () => {
@@ -150,7 +151,14 @@ const UserLinkTwitter = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen overflow-hidden bg-gray-100 rounded-3xl">
+    <div
+      className="flex justify-center items-center h-screen overflow-hidden bg-gray-100"
+      style={{
+        backgroundImage: `url(${OnboardBg})`,
+        backgroundSize: "cover", // Make sure the background covers the entire div
+        backgroundPosition: "center", // Center the background image
+      }}
+    >
       <div className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center">
         <div className="flex justify-center items-center mb-8">
           <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />

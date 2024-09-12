@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Contract, providers, BigNumber, utils } from "ethers";
 import CopyIcon from "./Copy-Icon.jpg";
 import CardexWebsite from "./CardexWebsite.jpg";
+import OnboardBg from "./OnboardBg.png";
 
 const UserDeposit = () => {
   const navigate = useNavigate();
@@ -41,7 +42,14 @@ const UserDeposit = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 rounded-3xl">
+    <div
+      className="flex justify-center items-center min-h-screen bg-gray-100"
+      style={{
+        backgroundImage: `url(${OnboardBg})`,
+        backgroundSize: "cover", // Make sure the background covers the entire div
+        backgroundPosition: "center", // Center the background image
+      }}
+    >
       <div className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white p-4 rounded-3xl shadow-xl text-center">
         <div className="flex justify-center items-center mb-8">
           <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
