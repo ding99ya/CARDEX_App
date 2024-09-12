@@ -368,7 +368,7 @@ function CardPage({ category }) {
         args: [currentBuyCardId, parseInt(shares)],
       });
       try {
-        const txHash = await provider.request({
+        provider.request({
           method: "eth_sendTransaction",
           params: [
             {
