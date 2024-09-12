@@ -8,6 +8,7 @@ import PresaleBuyModal from "./PresaleBuyModal.jsx";
 import sortingIcon from "./Sorting.svg";
 import { useNavigation } from "./NavigationContext";
 import PresaleCard from "./PresaleCard.png";
+import ComingSoon from "./ComingSoon.png";
 import "../index.css";
 
 const ethers = require("ethers");
@@ -478,7 +479,11 @@ function PresaleCardPage({ category }) {
   );
 
   return (
-    <div className="min-h-screen mx-auto bg-gray-100">
+    <div
+      className={`min-h-screen mx-auto ${
+        cards.length === 0 ? "bg-white" : "bg-gray-100"
+      }`}
+    >
       <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 mx-4 lg:mx-12">
         <span
           // onClick={() => handleBackClick()}
@@ -489,96 +494,103 @@ function PresaleCardPage({ category }) {
         </span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
-        {cards.map((card, index) => (
-          <div
-            key={card.uniqueId}
-            id={`card${card.uniqueId}`}
-            className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out group"
-            style={{
-              borderTopLeftRadius: "1.25rem",
-              borderBottomLeftRadius: "1.25rem",
-              borderTopRightRadius: "1.25rem",
-              borderBottomRightRadius: "1.25rem",
-            }}
-          >
-            <div className="flex justify-center items-center relative">
-              <img
-                src={PresaleCard}
-                alt={card.name}
-                className="w-1/2 object-contain mt-6 transition duration-300"
-                style={{ aspectRatio: "2 / 3" }}
-              />
-            </div>
-            <div className="mt-2 mb-1 text-center px-4">
-              <span
-                className="w-full font-helvetica-neue text-sm font-bold"
-                style={{
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 2,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  width: "100%",
-                  whiteSpace: "normal",
-                }}
-              >
-                Presale
-              </span>
-            </div>
-
-            <div className="p-2 text-center w-full">
-              <div className="flex justify-end w-full px-2">
+      {cards.length === 0 ? (
+        // Show the "Coming Soon" image when there are no cards
+        <div className="flex justify-center items-center w-full mt-20 lg:mt-0">
+          <img src={ComingSoon} alt="Coming Soon" className="w-1/2 h-auto" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
+          {cards.map((card, index) => (
+            <div
+              key={card.uniqueId}
+              id={`card${card.uniqueId}`}
+              className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out group"
+              style={{
+                borderTopLeftRadius: "1.25rem",
+                borderBottomLeftRadius: "1.25rem",
+                borderTopRightRadius: "1.25rem",
+                borderBottomRightRadius: "1.25rem",
+              }}
+            >
+              <div className="flex justify-center items-center relative">
+                <img
+                  src={PresaleCard}
+                  alt={card.name}
+                  className="w-1/2 object-contain mt-6 transition duration-300"
+                  style={{ aspectRatio: "2 / 3" }}
+                />
+              </div>
+              <div className="mt-2 mb-1 text-center px-4">
                 <span
-                  className={`text-xs font-helvetica inline-block px-4 py-1 bg-sky-300 text-white font-bold rounded-full text-center`}
+                  className="w-full font-helvetica-neue text-sm font-bold"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 2,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    width: "100%",
+                    whiteSpace: "normal",
+                  }}
                 >
-                  ???
+                  Presale
                 </span>
               </div>
-              <div className="flex justify-between w-full px-2 mt-1">
-                <span className="text-sm font-helvetica">Price:</span>
-                <span className="text-sm font-helvetica">? ETH</span>
+
+              <div className="p-2 text-center w-full">
+                <div className="flex justify-end w-full px-2">
+                  <span
+                    className={`text-xs font-helvetica inline-block px-4 py-1 bg-sky-300 text-white font-bold rounded-full text-center`}
+                  >
+                    ???
+                  </span>
+                </div>
+                <div className="flex justify-between w-full px-2 mt-1">
+                  <span className="text-sm font-helvetica">Price:</span>
+                  <span className="text-sm font-helvetica">? ETH</span>
+                </div>
+                <div className="flex justify-between w-full px-2 mt-1">
+                  <span className="text-sm font-helvetica">Holders:</span>
+                  <span className="text-sm font-helvetica">?</span>
+                </div>
               </div>
-              <div className="flex justify-between w-full px-2 mt-1">
-                <span className="text-sm font-helvetica">Holders:</span>
-                <span className="text-sm font-helvetica">?</span>
-              </div>
+              {isEligibleUser ? (
+                <div className="flex justify-center items-center w-full relative">
+                  <button
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setCurrentBuyCardId(card.uniqueId);
+                      setCurrentBuyCardName("Unknown Presale");
+                      setCurrentBuyCardPhoto(card.photo);
+                      setOpenBuyModal(true);
+                    }}
+                    disabled={userOwnedCards.includes(card.uniqueId)}
+                    className={`w-full font-bold px-4 py-2 mx-4 mb-2 rounded-full ${
+                      userOwnedCards.includes(card.uniqueId)
+                        ? "bg-blue-200 text-white"
+                        : "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                    }`}
+                  >
+                    {userOwnedCards.includes(card.uniqueId)
+                      ? "Own 1/1"
+                      : "Buy 1/1"}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center w-full relative">
+                  <button
+                    disabled={true}
+                    className="w-full bg-blue-200 text-white font-bold px-4 py-2 mx-4 mb-2 rounded-full"
+                  >
+                    Ineligible
+                  </button>
+                </div>
+              )}
             </div>
-            {isEligibleUser ? (
-              <div className="flex justify-center items-center w-full relative">
-                <button
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setCurrentBuyCardId(card.uniqueId);
-                    setCurrentBuyCardName("Unknown Presale");
-                    setCurrentBuyCardPhoto(card.photo);
-                    setOpenBuyModal(true);
-                  }}
-                  disabled={userOwnedCards.includes(card.uniqueId)}
-                  className={`w-full font-bold px-4 py-2 mx-4 mb-2 rounded-full ${
-                    userOwnedCards.includes(card.uniqueId)
-                      ? "bg-blue-200 text-white"
-                      : "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
-                  }`}
-                >
-                  {userOwnedCards.includes(card.uniqueId)
-                    ? "Own 1/1"
-                    : "Buy 1/1"}
-                </button>
-              </div>
-            ) : (
-              <div className="flex justify-center items-center w-full relative">
-                <button
-                  disabled={true}
-                  className="w-full bg-blue-200 text-white font-bold px-4 py-2 mx-4 mb-2 rounded-full"
-                >
-                  Ineligible
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Buy Modal */}
       {openBuyModal && (
