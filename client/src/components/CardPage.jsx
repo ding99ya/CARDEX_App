@@ -366,7 +366,11 @@ function CardPage({ category }) {
       const currentChainId = await provider.request({ method: "eth_chainId" });
       alert(currentChainId);
       alert(parseInt(currentChainId, 16));
-      if (parseInt(currentChainId, 16) !== 84532) {
+      const normalizedChainId = currentChainId.startsWith("0x")
+        ? parseInt(currentChainId, 16) // Convert hex to decimal
+        : parseInt(currentChainId);
+      alert(normalizedChainId);
+      if (normalizedChainId !== 84532) {
         try {
           alert(`switching network`);
           await provider.request({
