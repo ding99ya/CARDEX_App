@@ -419,7 +419,7 @@ function CardPage({ category }) {
                 ethers.BigNumber.from(value).toHexString()
               ),
               data: data,
-              chainId: "0x14A34",
+              chainId: 84532,
             },
           ],
         });
