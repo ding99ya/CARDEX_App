@@ -271,160 +271,160 @@ function CardDetailPage() {
     };
   };
 
-  const removeLeadingZeroFromHex = (hexString) => {
-    return "0x" + hexString.slice(2).replace(/^0+/, "");
-  };
+  // const removeLeadingZeroFromHex = (hexString) => {
+  //   return "0x" + hexString.slice(2).replace(/^0+/, "");
+  // };
 
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
-    const walletType = wallets[0].walletClientType;
+    // const walletType = wallets[0].walletClientType;
 
-    if (walletType === "privy") {
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "buyShares",
-        args: [uniqueId, parseInt(shares)],
-      });
+    // if (walletType === "privy") {
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "buyShares",
+      args: [uniqueId, parseInt(shares)],
+    });
 
-      const transaction = {
-        to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-        chainId: 84532,
-        data: data,
-        value: BigNumber.from(value).toHexString(),
-      };
+    const transaction = {
+      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+      chainId: 84532,
+      data: data,
+      value: BigNumber.from(value).toHexString(),
+    };
 
-      try {
-        // The returned `txReceipt` has the type `TransactionReceipt`
-        const txReceipt = await sendTransaction(transaction, buyUiConfig);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      const provider = await wallets[0].getEthereumProvider();
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "buyShares",
-        args: [uniqueId, parseInt(shares)],
-      });
-      try {
-        const txHash = await provider.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: wallets[0].address,
-              to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-              value: removeLeadingZeroFromHex(
-                BigNumber.from(value).toHexString()
-              ),
-              data: data,
-              chainId: 84532,
-            },
-          ],
-        });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      // The returned `txReceipt` has the type `TransactionReceipt`
+      const txReceipt = await sendTransaction(transaction, buyUiConfig);
+    } catch (error) {
+      console.log(error);
     }
+    // } else {
+    //   const provider = await wallets[0].getEthereumProvider();
+    //   const data = encodeFunctionData({
+    //     abi: abi,
+    //     functionName: "buyShares",
+    //     args: [uniqueId, parseInt(shares)],
+    //   });
+    //   try {
+    //     const txHash = await provider.request({
+    //       method: "eth_sendTransaction",
+    //       params: [
+    //         {
+    //           from: wallets[0].address,
+    //           to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+    //           value: removeLeadingZeroFromHex(
+    //             BigNumber.from(value).toHexString()
+    //           ),
+    //           data: data,
+    //           chainId: 84532,
+    //         },
+    //       ],
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
     setOpenBuyModal(false);
   };
 
   // Function to sell certain amount of shares
   const sell = async (shares, sellUiConfig) => {
-    const walletType = wallets[0].walletClientType;
+    // const walletType = wallets[0].walletClientType;
 
-    if (walletType === "privy") {
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "sellShares",
-        args: [uniqueId, parseInt(shares)],
-      });
+    // if (walletType === "privy") {
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "sellShares",
+      args: [uniqueId, parseInt(shares)],
+    });
 
-      const transaction = {
-        to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-        chainId: 84532,
-        data: data,
-      };
-      try {
-        // The returned `txReceipt` has the type `TransactionReceipt`
-        const txReceipt = await sendTransaction(transaction, sellUiConfig);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      const provider = await wallets[0].getEthereumProvider();
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "sellShares",
-        args: [uniqueId, parseInt(shares)],
-      });
-      try {
-        const txHash = await provider.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: wallets[0].address,
-              to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-              data: data,
-              chainId: 84532,
-            },
-          ],
-        });
-      } catch (error) {
-        console.log(error);
-      }
+    const transaction = {
+      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+      chainId: 84532,
+      data: data,
+    };
+    try {
+      // The returned `txReceipt` has the type `TransactionReceipt`
+      const txReceipt = await sendTransaction(transaction, sellUiConfig);
+    } catch (error) {
+      console.log(error);
     }
+    // } else {
+    //   const provider = await wallets[0].getEthereumProvider();
+    //   const data = encodeFunctionData({
+    //     abi: abi,
+    //     functionName: "sellShares",
+    //     args: [uniqueId, parseInt(shares)],
+    //   });
+    //   try {
+    //     const txHash = await provider.request({
+    //       method: "eth_sendTransaction",
+    //       params: [
+    //         {
+    //           from: wallets[0].address,
+    //           to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+    //           data: data,
+    //           chainId: 84532,
+    //         },
+    //       ],
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
     setOpenSellModal(false);
   };
 
   // Function to claim the accumulated fees for current card
   const claim = async () => {
-    const walletType = wallets[0].walletClientType;
+    // const walletType = wallets[0].walletClientType;
 
-    if (walletType === "privy") {
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "claim",
-        args: [uniqueId],
-      });
+    // if (walletType === "privy") {
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "claim",
+      args: [uniqueId],
+    });
 
-      const transaction = {
-        to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-        chainId: 84532,
-        data: data,
-      };
+    const transaction = {
+      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+      chainId: 84532,
+      data: data,
+    };
 
-      try {
-        // The returned `txReceipt` has the type `TransactionReceipt`
-        const claimUI = await getClaimUiConfig();
-        const txReceipt = await sendTransaction(transaction, claimUI);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      const provider = await wallets[0].getEthereumProvider();
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "claim",
-        args: [uniqueId],
-      });
-      try {
-        const txHash = await provider.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: wallets[0].address,
-              to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-              data: data,
-              chainId: 84532,
-            },
-          ],
-        });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      // The returned `txReceipt` has the type `TransactionReceipt`
+      const claimUI = await getClaimUiConfig();
+      const txReceipt = await sendTransaction(transaction, claimUI);
+    } catch (error) {
+      console.log(error);
     }
+    // } else {
+    //   const provider = await wallets[0].getEthereumProvider();
+    //   const data = encodeFunctionData({
+    //     abi: abi,
+    //     functionName: "claim",
+    //     args: [uniqueId],
+    //   });
+    //   try {
+    //     const txHash = await provider.request({
+    //       method: "eth_sendTransaction",
+    //       params: [
+    //         {
+    //           from: wallets[0].address,
+    //           to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+    //           data: data,
+    //           chainId: 84532,
+    //         },
+    //       ],
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   };
 
   // Function to fetch current card share price from blockchain

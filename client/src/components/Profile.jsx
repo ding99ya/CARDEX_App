@@ -229,53 +229,53 @@ function Profile() {
     }
   };
 
-  const removeLeadingZeroFromHex = (hexString) => {
-    return "0x" + hexString.slice(2).replace(/^0+/, "");
-  };
+  // const removeLeadingZeroFromHex = (hexString) => {
+  //   return "0x" + hexString.slice(2).replace(/^0+/, "");
+  // };
 
   const transfer = async (
     destinationAddress,
     transferAmount,
     transferUiConfig
   ) => {
-    if (walletType === "privy") {
-      const transaction = {
-        to: destinationAddress,
-        chainId: 84532,
-        value: BigNumber.from(transferAmount).toHexString(),
-      };
+    // if (walletType === "privy") {
+    const transaction = {
+      to: destinationAddress,
+      chainId: 84532,
+      value: BigNumber.from(transferAmount).toHexString(),
+    };
 
-      try {
-        const txReceipt = await sendTransaction(transaction, transferUiConfig);
-        const balance = await web3.eth.getBalance(embeddedWalletAddress);
-        const balanceToBigNumber = BigNumber.from(balance);
-        const oneEther = BigNumber.from("1000000000000000000");
-        const balanceInETH =
-          Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
-        setUserETHBalance(balanceInETH);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      const provider = await wallets[0].getEthereumProvider();
-      try {
-        const txHash = await provider.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: wallets[0].address,
-              to: destinationAddress,
-              value: removeLeadingZeroFromHex(
-                BigNumber.from(transferAmount).toHexString()
-              ),
-              chainId: 84532,
-            },
-          ],
-        });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      const txReceipt = await sendTransaction(transaction, transferUiConfig);
+      const balance = await web3.eth.getBalance(embeddedWalletAddress);
+      const balanceToBigNumber = BigNumber.from(balance);
+      const oneEther = BigNumber.from("1000000000000000000");
+      const balanceInETH =
+        Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
+      setUserETHBalance(balanceInETH);
+    } catch (error) {
+      console.log(error);
     }
+    // } else {
+    //   const provider = await wallets[0].getEthereumProvider();
+    //   try {
+    //     const txHash = await provider.request({
+    //       method: "eth_sendTransaction",
+    //       params: [
+    //         {
+    //           from: wallets[0].address,
+    //           to: destinationAddress,
+    //           value: removeLeadingZeroFromHex(
+    //             BigNumber.from(transferAmount).toHexString()
+    //           ),
+    //           chainId: 84532,
+    //         },
+    //       ],
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
     // The returned `txReceipt` has the type `TransactionReceipt`
     setOpenWithdrawModal(false);
   };
@@ -321,51 +321,51 @@ function Profile() {
 
   // Function to claim the accumulated fees for current card
   const claim = async () => {
-    if (walletType === "privy") {
-      const uniqueIds = userCards.map((card) => Number(card.uniqueId));
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "batchClaim",
-        args: [uniqueIds],
-      });
+    // if (walletType === "privy") {
+    const uniqueIds = userCards.map((card) => Number(card.uniqueId));
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "batchClaim",
+      args: [uniqueIds],
+    });
 
-      const transaction = {
-        to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-        chainId: 84532,
-        data: data,
-      };
+    const transaction = {
+      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+      chainId: 84532,
+      data: data,
+    };
 
-      try {
-        // The returned `txReceipt` has the type `TransactionReceipt`
-        const claimUI = await getClaimUiConfig();
-        const txReceipt = await sendTransaction(transaction, claimUI);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      const provider = await wallets[0].getEthereumProvider();
-      const uniqueIds = userCards.map((card) => Number(card.uniqueId));
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "batchClaim",
-        args: [uniqueIds],
-      });
-      try {
-        const txHash = await provider.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: wallets[0].address,
-              to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-              data: data,
-              chainId: 84532,
-            },
-          ],
-        });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      // The returned `txReceipt` has the type `TransactionReceipt`
+      const claimUI = await getClaimUiConfig();
+      const txReceipt = await sendTransaction(transaction, claimUI);
+    } catch (error) {
+      console.log(error);
     }
+    // } else {
+    //   const provider = await wallets[0].getEthereumProvider();
+    //   const uniqueIds = userCards.map((card) => Number(card.uniqueId));
+    //   const data = encodeFunctionData({
+    //     abi: abi,
+    //     functionName: "batchClaim",
+    //     args: [uniqueIds],
+    //   });
+    //   try {
+    //     const txHash = await provider.request({
+    //       method: "eth_sendTransaction",
+    //       params: [
+    //         {
+    //           from: wallets[0].address,
+    //           to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+    //           data: data,
+    //           chainId: 84532,
+    //         },
+    //       ],
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   };
 
   const subscribe = async () => {

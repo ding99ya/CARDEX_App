@@ -332,97 +332,112 @@ function CardPage({ category }) {
   };
 
   // If a hex string begins with "0x0..." the function will turn it to "0x..."
-  const removeLeadingZeroFromHex = (hexString) => {
-    return "0x" + hexString.slice(2).replace(/^0+/, "");
-  };
+  // const removeLeadingZeroFromHex = (hexString) => {
+  //   return "0x" + hexString.slice(2).replace(/^0+/, "");
+  // };
 
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
-    const walletType = wallets[0].walletClientType;
+    // const walletType = wallets[0].walletClientType;
 
-    if (walletType === "privy") {
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "buyShares",
-        args: [currentBuyCardId, parseInt(shares)],
-      });
+    // if (walletType === "privy") {
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "buyShares",
+      args: [currentBuyCardId, parseInt(shares)],
+    });
 
-      const transaction = {
-        to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-        chainId: 84532,
-        data: data,
-        value: ethers.BigNumber.from(value).toHexString(),
-      };
+    const transaction = {
+      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+      chainId: 84532,
+      data: data,
+      value: ethers.BigNumber.from(value).toHexString(),
+    };
 
-      try {
-        // The returned `txReceipt` has the type `TransactionReceipt`
-        const txReceipt = await sendTransaction(transaction, buyUiConfig);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      const provider = await wallets[0].getEthereumProvider();
-
-      const currentChainId = await provider.request({ method: "eth_chainId" });
-      const normalizedChainId = currentChainId.toString().startsWith("0x")
-        ? parseInt(currentChainId.toString(), 16) // Convert hex to decimal
-        : parseInt(currentChainId.toString());
-      if (normalizedChainId !== 84532) {
-        try {
-          await provider.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId: "0x14A34" }], // Chain ID 84532 in hexadecimal
-          });
-        } catch (switchError) {
-          if (switchError.code === 4902) {
-            try {
-              await provider.request({
-                method: "wallet_addEthereumChain",
-                params: [
-                  {
-                    chainId: "0x14A34", // Base Sepolia testnet (chain ID 84532 in hex)
-                    chainName: "Base Sepolia",
-                    nativeCurrency: {
-                      name: "ETH",
-                      symbol: "ETH",
-                      decimals: 18,
-                    },
-                    rpcUrls: ["https://sepolia.base.org"],
-                    blockExplorerUrls: ["https://sepolia-explorer.base.org"],
-                  },
-                ],
-              });
-            } catch (addError) {
-              console.error(addError);
-            }
-          }
-        }
-      }
-
-      const data = encodeFunctionData({
-        abi: abi,
-        functionName: "buyShares",
-        args: [currentBuyCardId, parseInt(shares)],
-      });
-      try {
-        const txHash = await provider.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: wallets[0].address,
-              to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-              value: removeLeadingZeroFromHex(
-                ethers.BigNumber.from(value).toHexString()
-              ),
-              data: data,
-              chainId: 84532,
-            },
-          ],
-        });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      // The returned `txReceipt` has the type `TransactionReceipt`
+      const txReceipt = await sendTransaction(transaction, buyUiConfig);
+    } catch (error) {
+      console.log(error);
     }
+    // } else {
+    //   const provider = await wallets[0].getEthereumProvider();
+
+    // const provider = new WalletConnectProvider({
+    //   rpc: {
+    //     84532: "https://sepolia.base.org",
+    //   },
+    //   chainId: 84532,
+    // });
+
+    // const provider = await EthereumProvider.init({
+    //   projectId: "7038399f9dc465c8fde109e0b9a09230",
+    //   chains: [84532],
+    //   showQrModal: true,
+    // });
+    // await provider.enable();
+
+    //   const currentChainId = await provider.request({ method: "eth_chainId" });
+    //   const normalizedChainId = currentChainId.startsWith("0x")
+    //     ? parseInt(currentChainId, 16) // Convert hex to decimal
+    //     : parseInt(currentChainId);
+    //   if (normalizedChainId !== 84532) {
+    //     try {
+    //       alert(`switching network`);
+    //       await provider.request({
+    //         method: "wallet_switchEthereumChain",
+    //         params: [{ chainId: "0x14A34" }],
+    //       });
+    //     } catch (switchError) {
+    //       if (switchError.code === 4902) {
+    //         try {
+    //           await provider.request({
+    //             method: "wallet_addEthereumChain",
+    //             params: [
+    //               {
+    //                 chainId: "0x14A34", // Base Sepolia testnet (chain ID 84532 in hex)
+    //                 chainName: "Base Sepolia",
+    //                 nativeCurrency: {
+    //                   name: "ETH",
+    //                   symbol: "ETH",
+    //                   decimals: 18,
+    //                 },
+    //                 rpcUrls: ["https://sepolia.base.org"],
+    //                 blockExplorerUrls: ["https://sepolia-explorer.base.org"],
+    //               },
+    //             ],
+    //           });
+    //         } catch (addError) {
+    //           console.error(addError);
+    //         }
+    //       }
+    //     }
+    //   }
+
+    //   const data = encodeFunctionData({
+    //     abi: abi,
+    //     functionName: "buyShares",
+    //     args: [currentBuyCardId, parseInt(shares)],
+    //   });
+    //   try {
+    //     const txHash = await provider.request({
+    //       method: "eth_sendTransaction",
+    //       params: [
+    //         {
+    //           from: wallets[0].address,
+    //           to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
+    //           value: removeLeadingZeroFromHex(
+    //             ethers.BigNumber.from(value).toHexString()
+    //           ),
+    //           data: data,
+    //           chainId: 84532,
+    //         },
+    //       ],
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
     setOpenBuyModal(false);
   };
