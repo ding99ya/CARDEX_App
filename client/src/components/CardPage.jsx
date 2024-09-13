@@ -367,7 +367,6 @@ function CardPage({ category }) {
       const normalizedChainId = currentChainId.toString().startsWith("0x")
         ? parseInt(currentChainId.toString(), 16) // Convert hex to decimal
         : parseInt(currentChainId.toString());
-      alert(normalizedChainId);
       if (normalizedChainId !== 84532) {
         try {
           await provider.request({
