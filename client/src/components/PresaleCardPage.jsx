@@ -154,49 +154,50 @@ function PresaleCardPage({ category }) {
   }
 
   useEffect(() => {
-    setCards([
-      // Initialized cards array to make the HTML render to default format
-      {
-        name: "Card 1",
-        photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
-        uniqueId: "1",
-        price: 0,
-        lastPrice: 0,
-        trend: 0.0,
-        shares: 0,
-        category: "card",
-      },
-      {
-        name: "Card 2",
-        photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
-        uniqueId: "2",
-        price: 0,
-        lastPrice: 0,
-        trend: 0.0,
-        shares: 0,
-        category: "card",
-      },
-      {
-        name: "Card 3",
-        photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
-        uniqueId: "3",
-        price: 0,
-        lastPrice: 0,
-        trend: 0.0,
-        shares: 0,
-        category: "card",
-      },
-      {
-        name: "Card 4",
-        photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
-        uniqueId: "4",
-        price: 0,
-        lastPrice: 0,
-        trend: 0.0,
-        shares: 0,
-        category: "card",
-      },
-    ]);
+    setCards([]);
+    // setCards([
+    //   // Initialized cards array to make the HTML render to default format
+    //   {
+    //     name: "Card 1",
+    //     photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+    //     uniqueId: "1",
+    //     price: 0,
+    //     lastPrice: 0,
+    //     trend: 0.0,
+    //     shares: 0,
+    //     category: "card",
+    //   },
+    //   {
+    //     name: "Card 2",
+    //     photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+    //     uniqueId: "2",
+    //     price: 0,
+    //     lastPrice: 0,
+    //     trend: 0.0,
+    //     shares: 0,
+    //     category: "card",
+    //   },
+    //   {
+    //     name: "Card 3",
+    //     photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+    //     uniqueId: "3",
+    //     price: 0,
+    //     lastPrice: 0,
+    //     trend: 0.0,
+    //     shares: 0,
+    //     category: "card",
+    //   },
+    //   {
+    //     name: "Card 4",
+    //     photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
+    //     uniqueId: "4",
+    //     price: 0,
+    //     lastPrice: 0,
+    //     trend: 0.0,
+    //     shares: 0,
+    //     category: "card",
+    //   },
+    // ]);
 
     window.scrollTo(0, 0);
 
