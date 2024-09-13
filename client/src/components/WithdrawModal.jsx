@@ -13,7 +13,7 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
     description:
       "Transfer " +
       transferAmount.toString() +
-      " to " +
+      " ETH to " +
       destinationAddress.toString(),
     buttonText: "Transfer",
   };
