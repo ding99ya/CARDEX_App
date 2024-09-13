@@ -193,6 +193,19 @@ function CardDetailPage() {
           };
         });
         fetchUserShares();
+        const fetchFirstActivity = async () => {
+          const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
+            params: { page: 1, limit: 1 },
+          });
+          console.log(response.data[0]);
+          setActivities((prevActivities) => [
+            response.data[0],
+            ...prevActivities,
+          ]);
+        };
+        setTimeout(() => {
+          fetchFirstActivity();
+        }, 2000);
       }
     });
   }
