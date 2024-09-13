@@ -363,45 +363,42 @@ function CardPage({ category }) {
     } else {
       const provider = await wallets[0].getEthereumProvider();
 
-      // const currentChainId = await provider.request({ method: "eth_chainId" });
-      // alert(currentChainId);
-      // alert(currentChainId.toString());
-      // const normalizedChainId = currentChainId.toString().startsWith("0x")
-      //   ? parseInt(currentChainId.toString(), 16) // Convert hex to decimal
-      //   : parseInt(currentChainId.toString());
-      // alert(normalizedChainId);
-      // if (normalizedChainId !== 84532) {
-      //   try {
-      //     alert(`switching network`);
-      //     await provider.request({
-      //       method: "wallet_switchEthereumChain",
-      //       params: [{ chainId: "0x14A34" }], // Chain ID 84532 in hexadecimal
-      //     });
-      //   } catch (switchError) {
-      //     if (switchError.code === 4902) {
-      //       try {
-      //         await provider.request({
-      //           method: "wallet_addEthereumChain",
-      //           params: [
-      //             {
-      //               chainId: "0x14A34", // Base Sepolia testnet (chain ID 84532 in hex)
-      //               chainName: "Base Sepolia",
-      //               nativeCurrency: {
-      //                 name: "ETH",
-      //                 symbol: "ETH",
-      //                 decimals: 18,
-      //               },
-      //               rpcUrls: ["https://sepolia.base.org"],
-      //               blockExplorerUrls: ["https://sepolia-explorer.base.org"],
-      //             },
-      //           ],
-      //         });
-      //       } catch (addError) {
-      //         console.error(addError);
-      //       }
-      //     }
-      //   }
-      // }
+      const currentChainId = await provider.request({ method: "eth_chainId" });
+      const normalizedChainId = currentChainId.toString().startsWith("0x")
+        ? parseInt(currentChainId.toString(), 16) // Convert hex to decimal
+        : parseInt(currentChainId.toString());
+      alert(normalizedChainId);
+      if (normalizedChainId !== 84532) {
+        try {
+          await provider.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: "0x14A34" }], // Chain ID 84532 in hexadecimal
+          });
+        } catch (switchError) {
+          if (switchError.code === 4902) {
+            try {
+              await provider.request({
+                method: "wallet_addEthereumChain",
+                params: [
+                  {
+                    chainId: "0x14A34", // Base Sepolia testnet (chain ID 84532 in hex)
+                    chainName: "Base Sepolia",
+                    nativeCurrency: {
+                      name: "ETH",
+                      symbol: "ETH",
+                      decimals: 18,
+                    },
+                    rpcUrls: ["https://sepolia.base.org"],
+                    blockExplorerUrls: ["https://sepolia-explorer.base.org"],
+                  },
+                ],
+              });
+            } catch (addError) {
+              console.error(addError);
+            }
+          }
+        }
+      }
 
       const data = encodeFunctionData({
         abi: abi,
