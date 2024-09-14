@@ -31,7 +31,7 @@ function Market() {
 
   return (
     <div className="bg-white flex items-center justify-center">
-      <div class="container mx-auto px-4 lg:px-0">
+      <div class="container mx-auto px-2 lg:px-0">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"
