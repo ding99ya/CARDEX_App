@@ -8,7 +8,7 @@ function Layout() {
     <div className="pl-0 pr-0 pt-4 pb-4 flex flex-col min-h-screen">
       <Header />
 
-      <main className="flex-grow mb-16 lg:mb-0 mt-12 lg:mt-24 overflow-auto">
+      <main className="flex-grow mb-14 lg:mb-0 mt-12 lg:mt-24 overflow-auto">
         <Outlet />
       </main>
 
