@@ -48,7 +48,7 @@ const LeaderboardUser = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-2">
       <span
         // onClick={() => handleBackClick()}
         onClick={goBack}
@@ -57,7 +57,7 @@ const LeaderboardUser = () => {
         &lt; Back
       </span>
       <table
-        className="min-w-full rounded-xl p-2 bg-blue-100 border border-gray-300"
+        className="min-w-full rounded-xl p-2 bg-blue-100"
         style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
       >
         <thead className="bg-white h-8 text-gray-500 text-sm font-open-sans rounded-t-xl rounded-b-xl">
