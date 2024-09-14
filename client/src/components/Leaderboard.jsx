@@ -82,7 +82,7 @@ const Leaderboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-2">
       <div class="w-full">
         <div className="flex justify-between items-center mb-4">
           <div className="ml-auto flex items-center bg-gray-200 rounded-full px-2 py-0">
@@ -227,7 +227,7 @@ const Leaderboard = () => {
       </table> */}
 
       <table
-        className="min-w-full rounded-xl p-2 bg-blue-100 border border-gray-300"
+        className="min-w-full rounded-xl p-2 bg-blue-100"
         style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
       >
         <thead className="bg-white h-8 text-gray-500 text-sm font-open-sans rounded-t-xl rounded-b-xl">
