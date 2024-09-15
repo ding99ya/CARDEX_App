@@ -644,7 +644,7 @@ function CardPage({ category }) {
                       : card.rarity === "LEGEND"
                       ? "bg-amber-300"
                       : "bg-gray-400"
-                  } text-white font-bold rounded-full text-center`}
+                  } text-white font-bold rounded-xl text-center`}
                 >
                   {card.rarity}
                 </span>
@@ -675,7 +675,7 @@ function CardPage({ category }) {
                   setCurrentBuyCardPhoto(card.photo);
                   setOpenBuyModal(true);
                 }}
-                className="w-full bg-blue-400 text-white font-bold px-4 py-2 mx-4 mb-2 rounded-xl hover:bg-blue-400 hover:text-white"
+                className="w-full bg-blue-400 text-white font-bold px-4 py-2 mx-4 mb-2 rounded-full hover:bg-blue-400 hover:text-white"
               >
                 Buy
               </button>
