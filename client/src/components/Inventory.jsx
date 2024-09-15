@@ -298,7 +298,7 @@ function Inventory() {
                               : item.rarity === "LEGEND"
                               ? "bg-amber-300"
                               : "bg-gray-400"
-                          } text-white font-bold rounded-full text-center`}
+                          } text-white font-bold rounded-lg text-center`}
                         >
                           {item.rarity}
                         </span>

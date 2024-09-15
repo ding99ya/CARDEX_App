@@ -640,7 +640,7 @@ function Profile() {
               </span>
               <button
                 onClick={() => claim()}
-                className="bg-blue-400 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-500 hover:text-white transition duration-300"
+                className="bg-blue-400 text-white font-semibold py-2 px-4 rounded-xl hover:bg-blue-500 hover:text-white transition duration-300"
               >
                 Claim All
               </button>
@@ -657,7 +657,7 @@ function Profile() {
               </span>
               <button
                 onClick={() => claim()}
-                className="bg-blue-400 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-500 hover:text-white transition duration-300"
+                className="bg-blue-400 text-white font-semibold py-2 px-4 rounded-xl hover:bg-blue-500 hover:text-white transition duration-300"
               >
                 Claim All
               </button>
@@ -712,7 +712,7 @@ function Profile() {
                               : item.rarity === "LEGEND"
                               ? "bg-amber-300"
                               : "bg-gray-400"
-                          } text-white font-bold rounded-full text-center`}
+                          } text-white font-bold rounded-lg text-center`}
                         >
                           {item.rarity}
                         </span>
