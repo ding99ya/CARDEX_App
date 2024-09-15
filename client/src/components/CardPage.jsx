@@ -644,7 +644,7 @@ function CardPage({ category }) {
                       : card.rarity === "LEGEND"
                       ? "bg-amber-300"
                       : "bg-gray-400"
-                  } text-white font-bold rounded-xl text-center`}
+                  } text-white font-bold rounded-l text-center`}
                 >
                   {card.rarity}
                 </span>
