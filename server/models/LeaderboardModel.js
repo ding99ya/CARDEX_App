@@ -8,6 +8,7 @@ const leaderboardSchema = new mongoose.Schema({
   profilePhoto: String,
   rank: Number,
   paperPoints: Number,
+  currentPoints: Number,
 });
 
 const LeaderboardModel = mongoose.model("leaderboard", leaderboardSchema);
