@@ -19,6 +19,7 @@ const leaderboardSchema = new mongoose.Schema({
   profilePhoto: String,
   rank: Number,
   paperPoints: Number,
+  currentPoints: Number,
 });
 
 // Create the model for the prices collection
@@ -36,16 +37,29 @@ const createLeaderboard = async () => {
   const exampleLeaderboard = [];
 
   for (let i = 0; i < 50; i++) {
-    if (i % 2 === 0) {
+    if (i === 0) {
       exampleLeaderboard.push({
         DID: exampleDID1,
         walletAddress: exampleWalletAddress1,
+        name: exampleUserName1,
+        userName: exampleUserName1,
+        profilePhoto:
+          "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg",
+        rank: i + 1,
+        paperPoints: 100 - i,
+        currentPoints: 100 - i,
+      });
+    } else if (i % 2 === 0) {
+      exampleLeaderboard.push({
+        DID: exampleDID1,
+        walletAddress: exampleWalletAddress2,
         name: exampleUserName1 + "-" + i.toString(),
         userName: exampleUserName1,
         profilePhoto:
           "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg",
         rank: i + 1,
         paperPoints: 100 - i,
+        currentPoints: 100 - i,
       });
     } else {
       exampleLeaderboard.push({
@@ -54,9 +68,10 @@ const createLeaderboard = async () => {
         name: exampleUserName2 + "-" + i.toString(),
         userName: exampleUserName2,
         profilePhoto:
-          "https://pbs.twimg.com/profile_images/1778774373890916352/hPFMHE0-_normal.jpg",
+          "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg",
         rank: i + 1,
         paperPoints: 100 - i,
+        currentPoints: 100 - i,
       });
     }
   }
