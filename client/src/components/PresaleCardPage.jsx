@@ -426,7 +426,7 @@ function PresaleCardPage({ category }) {
         cards.length === 0 ? "bg-white" : "bg-gray-100"
       }`}
     >
-      <div className="flex flex-row items-center justify-between space-x-2 px-10 pt-2 lg:mx-12">
+      <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 mx-4 lg:mx-12">
         <span
           // onClick={() => handleBackClick()}
           onClick={goBack}
