@@ -422,7 +422,7 @@ function PresaleCardPage({ category }) {
 
   return (
     <div
-      className={`min-h-screen mx-10 lg:mx-auto ${
+      className={`min-h-screen px-10 ${
         cards.length === 0 ? "bg-white" : "bg-gray-100"
       }`}
     >
