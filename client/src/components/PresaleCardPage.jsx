@@ -3,9 +3,10 @@ import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import abi from "../CardexV1.json";
 import axios from "axios";
+import classNames from "classnames";
 import { encodeFunctionData } from "viem";
 import PresaleBuyModal from "./PresaleBuyModal.jsx";
-import sortingIcon from "./Sorting.svg";
+import PresaleIneligibleModal from "./PresaleIneligibleModal.jsx";
 import { useNavigation } from "./NavigationContext";
 import PresaleCard from "./PresaleCard.png";
 import ComingSoon from "./ComingSoon.png";
@@ -43,18 +44,16 @@ function PresaleCardPage({ category }) {
   // cards array includes info about a card, it will be used to render the page
   const [cards, setCards] = useState([]);
 
-  // selectedSort be used to determine which sort method is currently being used
-  const [selectedSort, setSelectedSort] = useState({
-    label: "Latest",
-    sortKey: "ipoTime",
-    ascending: false,
-  });
-  const [sortIsOpen, setSortIsOpen] = useState(false);
+  const [canRegister, setCanRegister] = useState(false);
+  const [canPresale, setCanPresale] = useState(false);
 
   const [openBuyModal, setOpenBuyModal] = useState(false);
   const [currentBuyCardId, setCurrentBuyCardId] = useState("");
   const [currentBuyCardName, setCurrentBuyCardName] = useState("");
   const [currentBuyCardPhoto, setCurrentBuyCardPhoto] = useState("");
+
+  const [openPresaleIneligibleModal, setOpenPresaleIneligibleModal] =
+    useState(false);
 
   // hasMounted variable is used to ensure the useEffect relies on cardsResponse is only triggered once
   const hasMounted = useRef(false);
@@ -153,104 +152,98 @@ function PresaleCardPage({ category }) {
     return eventSubscription;
   }
 
+  const checkCanRegisterAndPresale = () => {
+    const now = new Date();
+
+    // Convert current time to US CST (Central Standard Time)
+    const cstTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "America/Chicago" })
+    );
+
+    const currentDay = cstTime.getDay(); // 0 is Sunday, 6 is Saturday
+    const currentHour = cstTime.getHours(); // Get the hour in CST
+
+    // Check if today is Friday or Saturday and if the current time is after 2 PM for Friday
+    if ((currentDay === 5 && currentHour >= 14) || currentDay === 3) {
+      setCanRegister(true);
+    } else {
+      setCanRegister(false);
+    }
+
+    // Check if today is Sunday
+    if (currentDay === 0) {
+      setCanPresale(true);
+    } else {
+      setCanPresale(false);
+    }
+  };
+
+  const checkEligibleUser = async () => {
+    try {
+      const presaleUserResponse = await axios.get(
+        `/api/presaleusers/check-presaleuser/${embeddedWalletAddress}`
+      );
+
+      if (presaleUserResponse.data.exists) {
+        console.log("You are eligible for presale!");
+        setIsEligibleUser(true);
+      } else {
+        console.log("You are not eligible for presale!");
+        setIsEligibleUser(false);
+      }
+    } catch (error) {
+      console.error(`Error checking presale user:`, error);
+    }
+  };
+
+  const checkUserShares = async () => {
+    cardsResponse.map(async (card, index) => {
+      const userOwnedShares = await fetchUserShares(card.uniqueId);
+      console.log(userOwnedShares);
+      if (Number(userOwnedShares) > 0) {
+        console.log(`Own card ${card.uniqueId}`);
+        setUserOwnedCards((prevOwnedCards) => [
+          ...prevOwnedCards,
+          card.uniqueId,
+        ]);
+      }
+    });
+  };
+
   useEffect(() => {
     setCards([]);
-    // setCards([
-    //   // Initialized cards array to make the HTML render to default format
-    //   {
-    //     name: "Card 1",
-    //     photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
-    //     uniqueId: "1",
-    //     price: 0,
-    //     lastPrice: 0,
-    //     trend: 0.0,
-    //     shares: 0,
-    //     category: "card",
-    //   },
-    //   {
-    //     name: "Card 2",
-    //     photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
-    //     uniqueId: "2",
-    //     price: 0,
-    //     lastPrice: 0,
-    //     trend: 0.0,
-    //     shares: 0,
-    //     category: "card",
-    //   },
-    //   {
-    //     name: "Card 3",
-    //     photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
-    //     uniqueId: "3",
-    //     price: 0,
-    //     lastPrice: 0,
-    //     trend: 0.0,
-    //     shares: 0,
-    //     category: "card",
-    //   },
-    //   {
-    //     name: "Card 4",
-    //     photo: "https://cardsimage.s3.amazonaws.com/default/loading.jpg",
-    //     uniqueId: "4",
-    //     price: 0,
-    //     lastPrice: 0,
-    //     trend: 0.0,
-    //     shares: 0,
-    //     category: "card",
-    //   },
-    // ]);
-
     window.scrollTo(0, 0);
-
-    // Fetch cards array and render the cards name, image...etc
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`/api/cards/category/${"presale"}`);
-
-        setCardsResponse(response.data);
-        setCards(response.data);
-      } catch (error) {
-        console.error(`Error fetching presale cards:`, error);
-      }
-    };
-    fetchData();
+    checkCanRegisterAndPresale();
   }, []);
 
   useEffect(() => {
-    if (hasMounted.current) {
-      const checkEligibleUser = async () => {
+    const fetchRegister = async () => {
+      if (canRegister) {
+        checkEligibleUser();
+      }
+    };
+    fetchRegister();
+  }, [canRegister]);
+
+  useEffect(() => {
+    const fetchPresale = async () => {
+      if (canPresale) {
         try {
-          const presaleUserResponse = await axios.get(
-            `/api/presaleusers/check-presaleuser/${embeddedWalletAddress}`
-          );
+          const response = await axios.get(`/api/cards/category/${"presale"}`);
 
-          if (presaleUserResponse.data.exists) {
-            console.log("You are eligible for presale!");
-            setIsEligibleUser(true);
-          } else {
-            console.log("You are not eligible for presale!");
-            setIsEligibleUser(false);
-          }
+          setCardsResponse(response.data);
+          setCards(response.data);
         } catch (error) {
-          console.error(`Error checking presale user:`, error);
+          console.error(`Error fetching presale cards:`, error);
         }
-      };
+      }
+    };
+    fetchPresale();
+  }, [canPresale]);
 
+  useEffect(() => {
+    if (hasMounted.current) {
       checkEligibleUser();
-
-      const checkUserShares = async () => {
-        cardsResponse.map(async (card, index) => {
-          const userOwnedShares = await fetchUserShares(card.uniqueId);
-          console.log(userOwnedShares);
-          if (Number(userOwnedShares) > 0) {
-            console.log(`Own card ${card.uniqueId}`);
-            setUserOwnedCards((prevOwnedCards) => [
-              ...prevOwnedCards,
-              card.uniqueId,
-            ]);
-          }
-        });
-      };
-
       checkUserShares();
     } else {
       hasMounted.current = true;
@@ -332,6 +325,41 @@ function PresaleCardPage({ category }) {
     return holders;
   };
 
+  const joinPresale = async () => {
+    try {
+      const fetchedLeaderboardData = await axios.get(
+        `/api/leaderboard/${embeddedWalletAddress}`
+      );
+      if (
+        fetchedLeaderboardData.data.currentPoints <
+        parseInt(process.env.REACT_APP_PRESALE_POINTS)
+      ) {
+        // alert("Not enough points!");
+        setOpenPresaleIneligibleModal(true);
+        // return;
+      } else {
+        const updateLeaderboardResponse = await axios.patch(
+          `/api/leaderboard/update`,
+          {
+            walletAddress: embeddedWalletAddress.toString(),
+            currentPoints: parseInt(
+              parseInt(fetchedLeaderboardData.data.currentPoints) -
+                parseInt(process.env.REACT_APP_PRESALE_POINTS)
+            ),
+          }
+        );
+
+        const updatePresaleResponse = await axios.post(`/api/presaleusers`, {
+          walletAddress: embeddedWalletAddress.toString(),
+        });
+
+        setIsEligibleUser(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Function to buy certain amount of shares
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
@@ -392,93 +420,6 @@ function PresaleCardPage({ category }) {
     navigate(`/market`);
   };
 
-  // Function triggered when remove sort button is clicked, will reset the order based on card id
-  const handleRemoveSort = () => {
-    const sortedCards = [...cards].sort(
-      (a, b) => Number(a.uniqueId) - Number(b.uniqueId)
-    );
-    setCards(sortedCards);
-  };
-
-  // Function to sort the cards based on certain rule
-  function sortCards(label, by, ascending = true) {
-    if (by === "none") {
-      handleRemoveSort();
-      setSelectedSort(null);
-    } else {
-      const sortedCards = [...cards].sort((a, b) => {
-        if (by === "ipoTime") {
-          return ascending
-            ? new Date(a.ipoTime) - new Date(b.ipoTime)
-            : new Date(b.ipoTime) - new Date(a.ipoTime);
-        } else {
-          return ascending ? a[by] - b[by] : b[by] - a[by];
-        }
-      });
-
-      setCards(sortedCards);
-      setSelectedSort({ label: label, sortkey: by, ascending: ascending });
-    }
-  }
-
-  const handleSortSelection = (option) => {
-    setSelectedSort(option);
-    sortCards(option.label, option.sortKey, option.ascending);
-    setSortIsOpen(false);
-  };
-
-  const sortOptions = [
-    { label: "Latest", sortKey: "ipoTime", ascending: false },
-    { label: "Price", sortKey: "price", ascending: false },
-    { label: "Price", sortKey: "price", ascending: true },
-    { label: "Holder", sortKey: "shares", ascending: false },
-    { label: "Holder", sortKey: "shares", ascending: true },
-  ];
-
-  const sortUpArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-black"
-    >
-      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
-    </svg>
-  );
-
-  const sortDownArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-black"
-    >
-      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
-    </svg>
-  );
-
-  const upArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-green-500"
-    >
-      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
-    </svg>
-  );
-
-  const downArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-red-500"
-    >
-      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
-    </svg>
-  );
-
   return (
     <div
       className={`min-h-screen mx-auto ${
@@ -497,8 +438,27 @@ function PresaleCardPage({ category }) {
 
       {cards.length === 0 ? (
         // Show the "Coming Soon" image when there are no cards
-        <div className="flex justify-center items-center w-full mt-20 lg:mt-0">
-          <img src={ComingSoon} alt="Coming Soon" className="w-1/2 h-auto" />
+        <div className="flex flex-col justify-center items-center w-full mt-20 lg:mt-0">
+          <img
+            src={ComingSoon}
+            alt="Coming Soon"
+            className="w-1/2 h-auto mb-4"
+          />
+          {canRegister && (
+            <button
+              onClick={() => joinPresale()}
+              className={classNames("w-1/2 px-4 py-2 font-bold rounded-full", {
+                "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
+                  !isEligibleUser,
+                "bg-blue-200 text-gray-200": isEligibleUser,
+              })}
+              disabled={isEligibleUser}
+            >
+              {isEligibleUser
+                ? "Already Join Presale"
+                : "Join Presale with 10 Pts"}
+            </button>
+          )}
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
@@ -608,6 +568,19 @@ function PresaleCardPage({ category }) {
             fetchCost={fetchCost}
             cardName={currentBuyCardName}
             cardPhoto={currentBuyCardPhoto}
+            className="z-60"
+          />
+        </div>
+      )}
+
+      {/* Presale Ineligible Modal */}
+      {openPresaleIneligibleModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-60">
+          <PresaleIneligibleModal
+            open={openPresaleIneligibleModal}
+            onClose={() => {
+              setOpenPresaleIneligibleModal(false);
+            }}
             className="z-60"
           />
         </div>

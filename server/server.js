@@ -510,6 +510,27 @@ app.get("/api/leaderboard/containusername/:userName", async (req, res) => {
   }
 });
 
+app.patch("/api/leaderboard/update", async (req, res) => {
+  const { walletAddress, currentPoints } = req.body;
+
+  try {
+    const leaderboardUser = await LeaderboardModel.findOneAndUpdate(
+      { walletAddress: walletAddress },
+      { $set: { currentPoints: currentPoints } },
+      { new: true }
+    );
+
+    if (!leaderboardUser) {
+      return res.status(404).json({ message: "User in leaderboard not found" });
+    }
+
+    res.status(200).json(leaderboardUser);
+  } catch (error) {
+    console.error("Error in /api/leaderboard/update", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.get("/api/invitecodes/:invitecode", async (req, res) => {
   try {
     const code = await InviteCodeModel.findOne({ code: req.params.invitecode });
@@ -563,6 +584,22 @@ app.get(
     }
   }
 );
+
+app.post("/api/presaleusers", async (req, res) => {
+  const { walletAddress } = req.body;
+
+  try {
+    let presaleUser = new PresaleUserModel({
+      walletAddress: walletAddress,
+    });
+    await presaleUser.save();
+
+    res.status(200).json(presaleUser);
+  } catch (error) {
+    console.error("Error in /api/presaleusers:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 webpush.setVapidDetails(
   "mailto:ding99ya@gmail.com", // This should be your contact email
