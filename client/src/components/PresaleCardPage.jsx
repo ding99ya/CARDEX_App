@@ -171,7 +171,7 @@ function PresaleCardPage({ category }) {
     }
 
     // Check if today is Sunday
-    if (currentDay === 1) {
+    if (currentDay === 0) {
       setCanPresale(true);
     } else {
       setCanPresale(false);
@@ -442,16 +442,19 @@ function PresaleCardPage({ category }) {
           <img
             src={ComingSoon}
             alt="Coming Soon"
-            className="w-1/2 h-auto mb-4"
+            className="w-full lg:w-1/2 h-auto mb-4"
           />
           {canRegister && (
             <button
               onClick={() => joinPresale()}
-              className={classNames("w-1/2 px-4 py-2 font-bold rounded-full", {
-                "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
-                  !isEligibleUser,
-                "bg-blue-200 text-gray-200": isEligibleUser,
-              })}
+              className={classNames(
+                "w-full lg:w-1/2 px-4 py-2 font-bold rounded-full",
+                {
+                  "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
+                    !isEligibleUser,
+                  "bg-blue-200 text-gray-200": isEligibleUser,
+                }
+              )}
               disabled={isEligibleUser}
             >
               {isEligibleUser
