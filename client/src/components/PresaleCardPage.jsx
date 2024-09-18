@@ -164,14 +164,14 @@ function PresaleCardPage({ category }) {
     const currentHour = cstTime.getHours(); // Get the hour in CST
 
     // Check if today is Friday or Saturday and if the current time is after 2 PM for Friday
-    if ((currentDay === 5 && currentHour >= 14) || currentDay === 3) {
+    if ((currentDay === 5 && currentHour >= 14) || currentDay === 6) {
       setCanRegister(true);
     } else {
       setCanRegister(false);
     }
 
     // Check if today is Sunday
-    if (currentDay === 0) {
+    if (currentDay === 3) {
       setCanPresale(true);
     } else {
       setCanPresale(false);
