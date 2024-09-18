@@ -164,14 +164,14 @@ function PresaleCardPage({ category }) {
     const currentHour = cstTime.getHours(); // Get the hour in CST
 
     // Check if today is Friday or Saturday and if the current time is after 2 PM for Friday
-    if ((currentDay === 5 && currentHour >= 14) || currentDay === 6) {
+    if ((currentDay === 5 && currentHour >= 14) || currentDay === 3) {
       setCanRegister(true);
     } else {
       setCanRegister(false);
     }
 
     // Check if today is Sunday
-    if (currentDay === 3) {
+    if (currentDay === 0) {
       setCanPresale(true);
     } else {
       setCanPresale(false);
@@ -438,7 +438,7 @@ function PresaleCardPage({ category }) {
 
       {cards.length === 0 ? (
         // Show the "Coming Soon" image when there are no cards
-        <div className="flex flex-col justify-center items-center w-full mt-20 lg:mt-0">
+        <div className="flex flex-col justify-center items-center w-full mt-20 px-10 lg:px-0 lg:mt-0">
           <img
             src={ComingSoon}
             alt="Coming Soon"
