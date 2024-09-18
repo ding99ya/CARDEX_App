@@ -426,7 +426,7 @@ function PresaleCardPage({ category }) {
         cards.length === 0 ? "bg-white" : "bg-gray-100"
       }`}
     >
-      <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 mx-4 lg:mx-12">
+      <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 lg:mx-12">
         <span
           // onClick={() => handleBackClick()}
           onClick={goBack}
@@ -442,13 +442,13 @@ function PresaleCardPage({ category }) {
           <img
             src={ComingSoon}
             alt="Coming Soon"
-            className="w-full lg:w-1/2 h-auto mb-4 mx-10 lg:mx-0"
+            className="w-full lg:w-1/2 h-auto mb-4"
           />
           {canRegister && (
             <button
               onClick={() => joinPresale()}
               className={classNames(
-                "w-full lg:w-1/2 px-4 py-2 font-bold rounded-full mx-10 lg:mx-0",
+                "w-full lg:w-1/2 px-4 py-2 font-bold rounded-full",
                 {
                   "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
                     !isEligibleUser,
@@ -459,7 +459,7 @@ function PresaleCardPage({ category }) {
             >
               {isEligibleUser
                 ? "Already Join Presale"
-                : "Join Presale with 10 Pts"}
+                : `Join Presale with ${process.env.REACT_APP_PRESALE_POINTS} Pts`}
             </button>
           )}
         </div>
