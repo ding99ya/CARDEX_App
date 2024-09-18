@@ -442,13 +442,13 @@ function PresaleCardPage({ category }) {
           <img
             src={ComingSoon}
             alt="Coming Soon"
-            className="w-full lg:w-1/2 h-auto mb-4"
+            className="w-full lg:w-1/2 h-auto mb-4 mx-10 lg:mx-0"
           />
           {canRegister && (
             <button
               onClick={() => joinPresale()}
               className={classNames(
-                "w-full lg:w-1/2 px-4 py-2 font-bold rounded-full",
+                "w-full lg:w-1/2 px-4 py-2 font-bold rounded-full mx-10 lg:mx-0",
                 {
                   "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
                     !isEligibleUser,
