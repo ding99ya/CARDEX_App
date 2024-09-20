@@ -94,9 +94,9 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
       >
         <div className="max-w-full">
           <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
-            <div className="text-left text-lg font-bold mb-2">{cardName}</div>
+            <div className="text-left text-md font-bold mb-2">{cardName}</div>
 
-            <div className="flex justify-between items-center mt-6 mb-4">
+            <div className="flex justify-between items-center mt-6 mb-2">
               <span className="text-sm">Buy Amount</span>
               <span className="w-1/5">
                 <input
