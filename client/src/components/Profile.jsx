@@ -517,7 +517,9 @@ function Profile() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-400">{shortAddress}</span>
+              <span className="text-sm font-semibold text-gray-400">
+                {shortAddress}
+              </span>
               <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setHover(true)}
