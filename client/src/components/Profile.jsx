@@ -65,6 +65,7 @@ function Profile() {
 
   const [currentInviteCode, setCurrentInviteCode] = useState("");
   const [currentUsername, setCurrentUsername] = useState("");
+  const [totalUserPaperPoint, setTotalUserPaperPoint] = useState(0);
   const [currentUserPaperPoint, setCurrentUserPaperPoint] = useState(0);
 
   const [hover, setHover] = useState(false);
@@ -117,7 +118,8 @@ function Profile() {
         const fetchedLeaderboardData = await axios.get(
           `/api/leaderboard/${embeddedWalletAddress}`
         );
-        setCurrentUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
+        setTotalUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
+        setCurrentUserPaperPoint(fetchedLeaderboardData.data.currentPoints);
       } catch (error) {
         console.error(
           `Error fetching user ${embeddedWalletAddress} leaderboard`,
@@ -515,7 +517,9 @@ function Profile() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <span className="text-sm">{shortAddress}</span>
+              <span className="text-sm font-semibold text-gray-400">
+                {shortAddress}
+              </span>
               <span
                 className="relative cursor-pointer"
                 onMouseEnter={() => setHover(true)}
@@ -540,7 +544,7 @@ function Profile() {
           <div className="flex flex-col items-end justify-center">
             <button
               onClick={toggleSubscription}
-              className={`py-1 rounded-full text-sm font-semibold text-gray-500 transition-colors duration-200 ease-in-out mt-2 flex items-center space-x-2`}
+              className={`py-1 rounded-full text-sm font-semibold text-gray-400 transition-colors duration-200 ease-in-out mt-2 flex items-center space-x-2`}
             >
               <img
                 src={isSubscribed ? NotificationOff : NotificationOn}
@@ -563,59 +567,75 @@ function Profile() {
         </div>
 
         <div className="mt-6">
-          <div className="mb-4 border border-gray-300 rounded-3xl bg-gray-100">
-            <div className="flex justify-between w-full mt-4 mx-4">
-              <span className="text-base font-semibold text-gray-400">
+          <div className="flex flex-col items-left mb-4 border border-gray-300 rounded-3xl bg-white">
+            <div className="flex items-left space-x-2 mb-2 mx-4">
+              <span className="relative mt-2">
+                <img src={Wallet} alt="Wallet" className="w-8 h-8" />
+              </span>
+              <span className="text-md text-black font-semibold mt-3">
+                Card Points
+              </span>
+            </div>
+            <div className="flex justify-between w-full mt-2 mx-4">
+              <span className="text-sm font-semibold text-gray-400">
                 Invite Code:
               </span>
-              <span className="text-base font-semibold text-gray-400 pr-8">
+              <span className="text-sm font-semibold text-gray-400 pr-8">
                 {currentInviteCode}
               </span>
             </div>
             <div className="flex justify-between w-full mt-2 mx-4">
-              <span className="text-base font-semibold text-gray-400">
-                Paper Points:
+              <span className="text-sm font-semibold text-gray-400">
+                Total Earned Card:
               </span>
-              <span className="text-base font-semibold text-gray-400 pr-8">
-                {currentUserPaperPoint} Pts
+              <span className="text-sm font-semibold text-gray-400 pr-8">
+                {totalUserPaperPoint} Pts
               </span>
             </div>
             <div className="flex justify-between w-full mt-2 mx-4 mb-4">
+              <span className="text-sm font-semibold text-gray-400">
+                Current Card:
+              </span>
+              <span className="text-sm font-semibold text-gray-400 pr-8">
+                {currentUserPaperPoint} Pts
+              </span>
+            </div>
+            {/* <div className="flex justify-between w-full mt-2 mx-4 mb-4">
               <span className="text-base font-semibold text-gray-400">
                 Inventory Worth:
               </span>
               <span className="text-base font-semibold text-gray-400 pr-8">
                 {totalWorth} ETH
               </span>
-            </div>
+            </div> */}
           </div>
           <div className="flex flex-col items-left border border-gray-300 rounded-3xl bg-white">
             <div className="flex items-left space-x-2 mb-2 mx-4">
               <span className="relative mt-2">
-                <img src={Wallet} alt="Wallet" className="w-10 h-10" />
+                <img src={Wallet} alt="Wallet" className="w-8 h-8" />
               </span>
-              <span className="text-xl text-black font-semibold mt-4">
+              <span className="text-md text-black font-semibold mt-3">
                 Wallet
               </span>
             </div>
             <div className="flex justify-between w-full mx-4">
-              <span className="text-base font-semibold text-gray-500">
+              <span className="text-sm font-semibold text-gray-400">
                 Balance:
               </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
+              <span className="text-sm font-semibold text-gray-400 pr-8">
                 {userETHBalance} ETH
               </span>
             </div>
             <div className="flex justify-between items-center space-x-2 mt-4 mx-4">
               <button
                 onClick={() => setOpenDepositModal(true)}
-                className="w-1/2 bg-blue-400 text-white font-semibold items-center px-4 py-2 rounded-full hover:bg-blue-500 hover:text-white"
+                className="w-1/2 bg-blue-400 text-white font-semibold items-center px-4 py-1 rounded-full hover:bg-blue-500 hover:text-white text-sm"
               >
                 Deposit
               </button>
               <button
                 onClick={() => setOpenWithdrawModal(true)}
-                className="w-1/2 bg-white text-black font-semibold items-center border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black"
+                className="w-1/2 bg-white text-black font-semibold items-center border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.25rem-2px)] rounded-full hover:bg-gray-200 hover:text-black text-sm"
               >
                 Withdraw
               </button>
@@ -623,7 +643,7 @@ function Profile() {
             <div className="flex justify-center my-4 mx-4">
               <button
                 onClick={handleLogout}
-                className="w-full bg-red-500 text-white font-semibold px-4 py-2 rounded-full"
+                className="w-full bg-red-500 text-white font-semibold px-4 py-1 rounded-full text-sm"
               >
                 LOG OUT
               </button>
