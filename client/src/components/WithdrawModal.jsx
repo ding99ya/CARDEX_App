@@ -38,10 +38,10 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
-          <div className="flex flex-col justify-center text-center mt-4 px-4 lg:px-8 py-4">
+          <div className="flex flex-col justify-center text-center mt-2 px-4 lg:px-8 py-4">
             <div className="text-left text-xl font-bold">WITHDRAW</div>
-            <div className="flex flex-col mt-4 mb-2">
-              <span className="text-base mt-2 text-left">Address</span>
+            <div className="flex flex-col mt-2 mb-2">
+              <span className="text-sm mt-2 text-left">Address</span>
               <span className="w-full">
                 <input
                   className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-left pl-4 mt-2"
@@ -53,7 +53,7 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
               </span>
             </div>
             <div className="flex flex-col mb-2">
-              <span className="text-base mt-2 text-left">Amount</span>
+              <span className="text-sm mt-2 text-left">Amount</span>
               <span className="w-full">
                 <input
                   className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-left pl-4 mt-2"
@@ -69,7 +69,7 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
                 />
               </span>
             </div>
-            <div className="flex justify-between items-center mt-2">
+            <div className="text-sm font-semibold flex justify-between items-center mt-2">
               Current Balance: {userBalance} ETH
             </div>
           </div>
@@ -103,13 +103,13 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
                 )
               }
             >
-              <span className="font-semibold">Transfer</span>
+              <span className="text-sm font-semibold">Transfer</span>
             </button>
             <button
               className="w-1/3 py-1 bg-white box-border border border-gray-300 text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={onClose}
             >
-              <span className="font-semibold">Cancel</span>
+              <span className="text-sm font-semibold">Cancel</span>
             </button>
           </div>
         </div>
