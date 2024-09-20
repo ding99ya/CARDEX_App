@@ -71,12 +71,12 @@ const SellModal = ({
       >
         <div className="w-full">
           <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
-            <div className="text-left text-xl font-bold mb-2">{cardName}</div>
+            <div className="text-left text-md font-bold mb-2">{cardName}</div>
             <div className="flex justify-between items-center mt-6 mb-4">
-              <span className="text-base">Sell Amount</span>
+              <span className="text-sm">Sell Amount</span>
               <span className="w-1/5">
                 <input
-                  className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
+                  className="text-sm border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
                   type="number"
                   value={number}
                   min={0}
@@ -88,8 +88,8 @@ const SellModal = ({
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-base">Total Profit: </span>
-              <span className="text-base font-semibold">
+              <span className="text-sm">Total Profit: </span>
+              <span className="text-sm font-semibold">
                 {profit.toFixed(3)} ETH
               </span>
             </div>
@@ -118,13 +118,13 @@ const SellModal = ({
               }
               onClick={() => sell(number, sellUiConfig)}
             >
-              <span className="font-semibold">Sell</span>
+              <span className="text-xs font-semibold">Sell</span>
             </button>
             <button
               className="w-1/3 py-1 bg-white box-border border border-gray-300 text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={completeClose}
             >
-              <span className="font-semibold">Cancel</span>
+              <span className="text-xs">Cancel</span>
             </button>
           </div>
         </div>
