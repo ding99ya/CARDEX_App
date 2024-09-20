@@ -28,11 +28,13 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="w-full">
-          <div className="flex flex-col justify-center text-center mt-4 px-4 lg:px-8 py-4">
+          <div className="flex flex-col justify-center text-center mt-2 px-4 lg:px-8 py-4">
             <div className="text-left text-xl font-bold mb-2">DEPOSIT</div>
 
-            <div className="flex flex-col items-start space-y-2 mt-4">
-              <p>Transfer ETH on Base network to </p>
+            <div className="flex flex-col items-start space-y-2 mt-2">
+              <p className="text-xs lg:text-sm">
+                Transfer ETH on Base network to{" "}
+              </p>
               <div className="flex items-center">
                 <p className="text-xs lg:text-sm">{embeddedWalletAddress}</p>
                 <span
@@ -60,7 +62,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
                 className="w-full px-4 py-1 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                 onClick={() => fundWallet(embeddedWalletAddress.toString())}
               >
-                <span className="font-semibold">Transfer</span>
+                <span className="text-sm font-semibold">Transfer</span>
               </button>
 
               <div className="w-full flex justify-center mt-2">
@@ -74,7 +76,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
                     )
                   }
                 >
-                  <span className="font-semibold">Bridge</span>
+                  <span className="text-sm font-semibold">Bridge</span>
                 </button>
               </div>
               <div className="w-full flex justify-center mt-2">
@@ -82,7 +84,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
                   className="w-full px-4 py-1 mb-4 border border-gray-300 font-semibold rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
                   onClick={onClose}
                 >
-                  <span className="font-semibold">Cancel</span>
+                  <span className="text-sm font-semibold">Cancel</span>
                 </button>
               </div>
             </div>
