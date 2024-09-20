@@ -649,7 +649,7 @@ function Profile() {
             <div className="flex justify-center my-4 mx-4">
               <button
                 onClick={handleLogout}
-                className="w-full bg-white text-black px-4 py-1 rounded-full text-sm"
+                className="w-full bg-white border border-gray-300 text-black px-4 py-1 rounded-full text-sm"
               >
                 LOG OUT
               </button>
