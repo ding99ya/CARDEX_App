@@ -88,12 +88,12 @@ const PresaleBuyModal = ({
                 type="number"
                 value={number}
                 min={1}
-                max={2}
+                max={3 - currentShare}
                 onChange={(e) => {
                   setNumber(parseInt(e.target.value));
                 }}
               />
-              <span className="ml-2">/&nbsp;2</span>
+              <span className="ml-2">/&nbsp;{3 - currentShare}</span>
             </span>
           </div>
           <div className="flex justify-between items-center mb-2">
@@ -111,14 +111,14 @@ const PresaleBuyModal = ({
                     !(
                       isNaN(number) ||
                       number === 0 ||
-                      number > 2 - currentShare
+                      number > 3 - currentShare
                     ),
                   "bg-blue-200 text-gray-200":
-                    isNaN(number) || number === 0 || number > 2 - currentShare,
+                    isNaN(number) || number === 0 || number > 3 - currentShare,
                 }
               )}
               // disabled={hasShare}
-              disabled={isNaN(number) || number > 2 - currentShare}
+              disabled={isNaN(number) || number > 3 - currentShare}
               onClick={async () => {
                 const buyCost = await calculateCost();
                 buy(number, buyCost, buyUiConfig);
