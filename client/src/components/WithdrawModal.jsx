@@ -109,7 +109,7 @@ const WithdrawModal = ({ open, onClose, transfer, userBalance }) => {
               className="w-1/3 py-1 bg-white box-border border border-gray-300 text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={onClose}
             >
-              <span className="text-sm font-semibold">Cancel</span>
+              <span className="text-sm">Cancel</span>
             </button>
           </div>
         </div>
