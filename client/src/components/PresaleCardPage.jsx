@@ -465,7 +465,7 @@ function PresaleCardPage({ category }) {
                 <div className="flex justify-center items-center w-full relative">
                   <button
                     disabled={true}
-                    className="w-full bg-blue-200 text-white font-bold px-4 py-2 mx-4 mb-2 rounded-full"
+                    className="w-full bg-blue-200 text-white font-bold px-4 py-1 mx-4 mb-2 rounded-full"
                   >
                     Ineligible
                   </button>
