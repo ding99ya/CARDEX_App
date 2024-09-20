@@ -12,6 +12,8 @@ import NotificationOff from "./NotificationOff.png";
 import PresaleCard from "./PresaleCard.png";
 import DepositModal from "./DepositModal.jsx";
 import WithdrawModal from "./WithdrawModal.jsx";
+import SubscribeModal from "./SubscribeModal.jsx";
+import UnsubscribeModal from "./UnsubscribeModal.jsx";
 import abi from "../CardexV1.json";
 import { useNavigation } from "./NavigationContext";
 import { encodeFunctionData } from "viem";
@@ -92,6 +94,8 @@ function Profile() {
 
   const [openDepositModal, setOpenDepositModal] = useState(false);
   const [openWithdrawModal, setOpenWithdrawModal] = useState(false);
+  const [openSubscribeModal, setOpenSubscribeModal] = useState(false);
+  const [openUnsubscribeModal, setOpenUnsubscribeModal] = useState(false);
 
   useEffect(() => {
     // Fetch users positions (card ids and corresponding shares)
@@ -415,7 +419,8 @@ function Profile() {
         subscription: subscription,
       });
       setIsSubscribed(true);
-      alert("You have successfully subscribed to notifications!");
+      // alert("You have successfully subscribed to notifications!");
+      setOpenSubscribeModal(true);
     } catch (error) {
       alert("Failed to subscribe to notifications. Please try again.");
     }
@@ -429,7 +434,8 @@ function Profile() {
         await subscription.unsubscribe();
         await axios.post("/api/unsubscribe", subscription);
         setIsSubscribed(false);
-        alert("You have successfully unsubscribed from notifications.");
+        // alert("You have successfully unsubscribed from notifications.");
+        setOpenUnsubscribeModal(true);
       }
     } catch (error) {
       console.error("Error unsubscribing from notifications:", error);
@@ -802,6 +808,38 @@ function Profile() {
           }}
           transfer={transfer}
           userBalance={Number(userETHBalance)}
+          className="z-50"
+        />
+      )}
+
+      {/* Dark Overlay */}
+      {openSubscribeModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+      )}
+
+      {/* Withdraw Modal */}
+      {openSubscribeModal && (
+        <SubscribeModal
+          open={openSubscribeModal}
+          onClose={() => {
+            setOpenSubscribeModal(false);
+          }}
+          className="z-50"
+        />
+      )}
+
+      {/* Dark Overlay */}
+      {openUnsubscribeModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+      )}
+
+      {/* Withdraw Modal */}
+      {openUnsubscribeModal && (
+        <UnsubscribeModal
+          open={openUnsubscribeModal}
+          onClose={() => {
+            setOpenUnsubscribeModal(false);
+          }}
           className="z-50"
         />
       )}
