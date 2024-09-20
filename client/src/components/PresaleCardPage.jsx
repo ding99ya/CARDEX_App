@@ -81,7 +81,7 @@ function PresaleCardPage({ category }) {
     }
 
     // Check if today is Sunday
-    if (currentDay === 4) {
+    if (currentDay === 0) {
       setCanPresale(true);
     } else {
       setCanPresale(false);
