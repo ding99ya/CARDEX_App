@@ -243,26 +243,24 @@ function ViewProfile() {
         <div className="mt-6">
           <div className="mb-4">
             <div className="flex justify-between w-full mt-2 mx-4">
-              <span className="text-base font-semibold text-gray-500">
+              <span className="text-sm font-semibold text-gray-400">
                 Paper Points:
               </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
+              <span className="text-sm font-semibold text-gray-400 pr-8">
                 {leaderboardUser.paperPoints} Pts
               </span>
             </div>
             <div className="flex justify-between w-full mt-2 mx-4">
-              <span className="text-base font-semibold text-gray-500">
+              <span className="text-sm font-semibold text-gray-400">
                 Inventory Worth:
               </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
+              <span className="text-sm font-semibold text-gray-400 pr-8">
                 {totalWorth} ETH
               </span>
             </div>
             <div className="flex justify-between w-full mt-2 mx-4">
-              <span className="text-base font-semibold text-gray-500">
-                Rank:
-              </span>
-              <span className="text-base font-semibold text-gray-500 pr-8">
+              <span className="text-sm font-semibold text-gray-400">Rank:</span>
+              <span className="text-sm font-semibold text-gray-400 pr-8">
                 #{leaderboardUser.rank}
               </span>
             </div>
