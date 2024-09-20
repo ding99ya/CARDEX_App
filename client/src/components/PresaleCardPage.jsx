@@ -452,8 +452,8 @@ function PresaleCardPage({ category }) {
                     disabled={loadCardShares(card.uniqueId) >= 3}
                     className={`w-full font-bold px-4 py-2 mx-4 mb-2 rounded-full ${
                       loadCardShares(card.uniqueId) >= 3
-                        ? "bg-blue-200 text-white"
-                        : "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                        ? "bg-blue-200 text-white text-sm"
+                        : "bg-blue-400 text-white text-sm hover:bg-blue-500 hover:text-white"
                     }`}
                   >
                     {loadCardShares(card.uniqueId) >= 3

@@ -675,7 +675,7 @@ function CardPage({ category }) {
                   setCurrentBuyCardPhoto(card.photo);
                   setOpenBuyModal(true);
                 }}
-                className="w-full bg-blue-400 text-white font-bold px-4 py-1 mx-4 mb-2 rounded-full hover:bg-blue-400 hover:text-white"
+                className="w-full bg-blue-400 text-sm text-white font-bold px-4 py-1 mx-4 mb-2 rounded-full hover:bg-blue-400 hover:text-white"
               >
                 Buy
               </button>
