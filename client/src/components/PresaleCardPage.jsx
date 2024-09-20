@@ -39,7 +39,9 @@ function PresaleCardPage({ category }) {
 
   const [isEligibleUser, setIsEligibleUser] = useState(false);
 
-  const [userOwnedCards, setUserOwnedCards] = useState([]);
+  const [userOwnedCards, setUserOwnedCards] = useState([
+    { id: "0", shares: 0 },
+  ]);
 
   // cards array includes info about a card, it will be used to render the page
   const [cards, setCards] = useState([]);
@@ -60,98 +62,6 @@ function PresaleCardPage({ category }) {
 
   const navigate = useNavigate();
 
-  // function to add listener to Buy() event onchain so that Buy() event can trigger price, share holders update
-  function addBuyListener() {
-    const eventSubscription = contract.events.Buy({}, async (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        const cardID = data.returnValues[0];
-
-        const index = cards.findIndex(
-          (card) => card.uniqueId === cardID.toString()
-        );
-
-        if (index !== -1) {
-          const q = Math.pow(
-            cards[index].ipoSharesPrice / cards[index].initialSharesPrice,
-            1 / cards[index].ipoShares
-          );
-          const currentHolders = data.returnValues[4];
-
-          const a = cards[index].initialSharesPrice;
-          const b = Math.pow(q, Number(currentHolders) + 1);
-          const c = Math.pow(q, Number(currentHolders));
-          const d = q - 1;
-
-          const currentPrice = ((a * (b - c)) / d).toFixed(4);
-          const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
-
-          setCards((prevCards) =>
-            prevCards.map((card) =>
-              card.uniqueId === cardID.toString()
-                ? {
-                    ...card,
-                    price: currentPrice,
-                    trend: currentTrend,
-                    shares: Number(currentHolders),
-                  }
-                : card
-            )
-          );
-        }
-      }
-    });
-
-    return eventSubscription;
-  }
-
-  // function to add listener to Sell() event onchain so that Sell() event can trigger price, share holders update
-  function addSellListener() {
-    const eventSubscription = contract.events.Sell({}, async (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        const cardID = data.returnValues[0];
-
-        const index = cards.findIndex(
-          (card) => card.uniqueId === cardID.toString()
-        );
-
-        if (index !== -1) {
-          const q = Math.pow(
-            cards[index].ipoSharesPrice / cards[index].initialSharesPrice,
-            1 / cards[index].ipoShares
-          );
-          const currentHolders = data.returnValues[4];
-
-          const a = cards[index].initialSharesPrice;
-          const b = Math.pow(q, Number(currentHolders) + 1);
-          const c = Math.pow(q, Number(currentHolders));
-          const d = q - 1;
-
-          const currentPrice = ((a * (b - c)) / d).toFixed(4);
-          const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
-
-          setCards((prevCards) =>
-            prevCards.map((card) =>
-              card.uniqueId === cardID.toString()
-                ? {
-                    ...card,
-                    price: currentPrice,
-                    trend: currentTrend,
-                    shares: Number(currentHolders),
-                  }
-                : card
-            )
-          );
-        }
-      }
-    });
-
-    return eventSubscription;
-  }
-
   const checkCanRegisterAndPresale = () => {
     const now = new Date();
 
@@ -171,7 +81,7 @@ function PresaleCardPage({ category }) {
     }
 
     // Check if today is Sunday
-    if (currentDay === 3) {
+    if (currentDay === 4) {
       setCanPresale(true);
     } else {
       setCanPresale(false);
@@ -185,10 +95,8 @@ function PresaleCardPage({ category }) {
       );
 
       if (presaleUserResponse.data.exists) {
-        console.log("You are eligible for presale!");
         setIsEligibleUser(true);
       } else {
-        console.log("You are not eligible for presale!");
         setIsEligibleUser(false);
       }
     } catch (error) {
@@ -199,14 +107,11 @@ function PresaleCardPage({ category }) {
   const checkUserShares = async () => {
     cardsResponse.map(async (card, index) => {
       const userOwnedShares = await fetchUserShares(card.uniqueId);
-      console.log(userOwnedShares);
-      if (Number(userOwnedShares) > 0) {
-        console.log(`Own card ${card.uniqueId}`);
-        setUserOwnedCards((prevOwnedCards) => [
-          ...prevOwnedCards,
-          card.uniqueId,
-        ]);
-      }
+
+      setUserOwnedCards((prevOwnedCards) => [
+        ...prevOwnedCards,
+        { id: card.uniqueId, shares: Number(userOwnedShares) },
+      ]);
     });
   };
 
@@ -325,6 +230,11 @@ function PresaleCardPage({ category }) {
     return holders;
   };
 
+  const loadCardShares = (cardId) => {
+    const card = userOwnedCards.find((item) => item.id === cardId);
+    return !!card ? card.shares : 0;
+  };
+
   const joinPresale = async () => {
     try {
       const fetchedLeaderboardData = await axios.get(
@@ -402,6 +312,16 @@ function PresaleCardPage({ category }) {
         ...prevOwnedCards,
         currentBuyCardId.toString(),
       ]);
+      setUserOwnedCards((prevOwnedCards) =>
+        prevOwnedCards.map((card) =>
+          card.id === currentBuyCardId.toString()
+            ? {
+                ...card,
+                shares: Number(card.shares) + Number(shares),
+              }
+            : card
+        )
+      );
     } catch (error) {
       console.log(error);
     }
@@ -526,19 +446,19 @@ function PresaleCardPage({ category }) {
                       event.stopPropagation();
                       setCurrentBuyCardId(card.uniqueId);
                       setCurrentBuyCardName("Unknown Presale");
-                      setCurrentBuyCardPhoto(card.photo);
+                      setCurrentBuyCardPhoto(PresaleCard);
                       setOpenBuyModal(true);
                     }}
-                    disabled={userOwnedCards.includes(card.uniqueId)}
+                    disabled={loadCardShares(card.uniqueId) >= 2}
                     className={`w-full font-bold px-4 py-2 mx-4 mb-2 rounded-full ${
-                      userOwnedCards.includes(card.uniqueId)
+                      loadCardShares(card.uniqueId) >= 2
                         ? "bg-blue-200 text-white"
                         : "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                     }`}
                   >
-                    {userOwnedCards.includes(card.uniqueId)
-                      ? "Own 1/1"
-                      : "Buy 1/1"}
+                    {loadCardShares(card.uniqueId) >= 2
+                      ? "Own 2/2"
+                      : `Buy ${loadCardShares(card.uniqueId)}/2`}
                   </button>
                 </div>
               ) : (
@@ -571,6 +491,7 @@ function PresaleCardPage({ category }) {
             fetchCost={fetchCost}
             cardName={currentBuyCardName}
             cardPhoto={currentBuyCardPhoto}
+            currentShare={Number(loadCardShares(currentBuyCardId))}
             className="z-60"
           />
         </div>

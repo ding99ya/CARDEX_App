@@ -10,6 +10,7 @@ const PresaleBuyModal = ({
   fetchCost,
   cardName,
   cardPhoto,
+  currentShare,
 }) => {
   const [number, setNumber] = useState(1);
   const [cost, setCost] = useState(0);
@@ -81,7 +82,19 @@ const PresaleBuyModal = ({
 
           <div className="flex justify-between items-center mt-6 mb-4">
             <span className="text-base">Buy Amount</span>
-            <span className="text-base font-semibold">{number}</span>
+            <span className="text-base font-semibold w-1/5 inline-flex items-center">
+              <input
+                className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
+                type="number"
+                value={number}
+                min={1}
+                max={2}
+                onChange={(e) => {
+                  setNumber(parseInt(e.target.value));
+                }}
+              />
+              <span className="ml-2">/&nbsp;2</span>
+            </span>
           </div>
           <div className="flex justify-between items-center mb-2">
             <span className="text-base">Total Cost </span>
@@ -95,21 +108,26 @@ const PresaleBuyModal = ({
                 "w-2/3 py-2 font-semibold rounded-full flex items-center justify-center",
                 {
                   "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
-                    !(isNaN(number) || number === 0),
-                  "bg-blue-200 text-gray-200": isNaN(number) || number === 0,
+                    !(
+                      isNaN(number) ||
+                      number === 0 ||
+                      number > 2 - currentShare
+                    ),
+                  "bg-blue-200 text-gray-200":
+                    isNaN(number) || number === 0 || number > 2 - currentShare,
                 }
               )}
-              disabled={hasShare}
+              // disabled={hasShare}
+              disabled={isNaN(number) || number > 2 - currentShare}
               onClick={async () => {
                 const buyCost = await calculateCost();
-                console.log(buyCost);
                 buy(number, buyCost, buyUiConfig);
               }}
             >
               <span className="font-semibold">Buy</span>
             </button>
             <button
-              className="w-1/3 py-2 bg-white box-border border-2 border-black text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
+              className="w-1/3 py-2 bg-white box-border border border-gray-300 text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={completeClose}
             >
               <span className="font-semibold">Cancel</span>
@@ -117,6 +135,19 @@ const PresaleBuyModal = ({
           </div>
         </div>
       </div>
+      <style jsx>{`
+        /* Chrome, Safari, Edge, Opera */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+      `}</style>
     </div>
   );
 };
