@@ -576,7 +576,7 @@ function Profile() {
                 Card Points
               </span>
             </div>
-            <div className="flex justify-between w-full mt-2 mx-4">
+            <div className="flex justify-between w-full mx-4">
               <span className="text-sm font-semibold text-gray-400">
                 Invite Code:
               </span>
