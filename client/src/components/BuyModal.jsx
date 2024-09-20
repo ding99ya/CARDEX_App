@@ -94,13 +94,13 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
       >
         <div className="max-w-full">
           <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
-            <div className="text-left text-xl font-bold mb-2">{cardName}</div>
+            <div className="text-left text-lg font-bold mb-2">{cardName}</div>
 
             <div className="flex justify-between items-center mt-6 mb-4">
-              <span className="text-base">Buy Amount</span>
+              <span className="text-sm">Buy Amount</span>
               <span className="w-1/5">
                 <input
-                  className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
+                  className="text-sm border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
                   type="number"
                   value={number}
                   min={1}
@@ -111,12 +111,12 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
               </span>
             </div>
             <div className="mb-4">
-              <span className="text-base block mb-2 text-left">Slippage</span>
+              <span className="text-sm block mb-2 text-left">Slippage</span>
               <div className="flex border-2 border-gray-300 rounded-xl overflow-hidden w-full">
                 {percentageOptions.map((percentage, index) => (
                   <button
                     key={percentage}
-                    className={`flex-1 py-2 text-base font-semibold ${
+                    className={`flex-1 py-1 text-sm font-semibold ${
                       selectedPercentage === percentage
                         ? "bg-blue-400 text-white border-black"
                         : "bg-white text-black hover:bg-gray-100"
@@ -131,8 +131,8 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
               </div>
             </div>
             <div className="flex justify-between">
-              <span className="text-base">Total Cost </span>
-              <span className="text-base font-semibold">
+              <span className="text-sm">Total Cost </span>
+              <span className="text-sm font-semibold">
                 {costInETH.toFixed(3)} ETH
               </span>
             </div>
@@ -154,13 +154,13 @@ const BuyModal = ({ open, onClose, buy, fetchCost, cardName, cardPhoto }) => {
                 buy(number, buyCost, buyUiConfig);
               }}
             >
-              <span className="font-semibold">Buy</span>
+              <span className="text-xs font-semibold">Buy</span>
             </button>
             <button
               className="w-1/3 py-1 bg-white box-border border border-gray-300 text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={completeClose}
             >
-              <span className="font-semibold">Cancel</span>
+              <span className="text-xs">Cancel</span>
             </button>
           </div>
         </div>
