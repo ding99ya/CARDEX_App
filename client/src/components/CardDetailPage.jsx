@@ -657,13 +657,13 @@ function CardDetailPage() {
           <div className="flex justify-between items-center space-x-2 mt-4 mb-2">
             <button
               onClick={() => setOpenBuyModal(true)}
-              className="w-1/3 bg-blue-400 text-white font-bold px-4 py-2 rounded-full  hover:bg-blue-500 hover:text-white"
+              className="w-1/3 bg-blue-400 text-white font-bold px-4 py-1 rounded-full  hover:bg-blue-500 hover:text-white"
             >
               Buy
             </button>
             <button
               onClick={() => setOpenSellModal(true)}
-              className={classNames("w-1/3 px-4 py-2 font-bold rounded-full", {
+              className={classNames("w-1/3 px-4 py-1 font-bold rounded-full", {
                 "bg-blue-400 text-white hover:bg-blue-500 hover:text-white": !(
                   userShares === 0 || card.shares === 0
                 ),
@@ -677,7 +677,7 @@ function CardDetailPage() {
 
             <button
               onClick={() => claim()}
-              className="w-1/3 bg-white text-black font-bold border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black"
+              className="w-1/3 bg-white text-black font-bold border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.25rem-2px)] rounded-full hover:bg-gray-200 hover:text-black"
             >
               Claim
             </button>

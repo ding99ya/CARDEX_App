@@ -57,7 +57,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
             </div>
             <div className="flex flex-col items-center space-y-2 mt-4 w-full max-w-xs mx-auto">
               <button
-                className="w-full px-4 py-2 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                className="w-full px-4 py-1 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                 onClick={() => fundWallet(embeddedWalletAddress.toString())}
               >
                 <span className="font-semibold">Transfer</span>
@@ -65,7 +65,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
 
               <div className="w-full flex justify-center mt-2">
                 <button
-                  className="w-full px-4 py-2 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                  className="w-full px-4 py-1 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                   onClick={() =>
                     window.open(
                       "https://bridge.base.org/deposit",
@@ -79,7 +79,7 @@ const DepositModal = ({ open, onClose, embeddedWalletAddress, fundWallet }) => {
               </div>
               <div className="w-full flex justify-center mt-2">
                 <button
-                  className="w-full px-4 py-2 mb-4 border border-gray-300 font-semibold rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
+                  className="w-full px-4 py-1 mb-4 border border-gray-300 font-semibold rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
                   onClick={onClose}
                 >
                   <span className="font-semibold">Cancel</span>
