@@ -635,13 +635,13 @@ function Profile() {
             <div className="flex justify-between items-center space-x-2 mt-4 mx-4">
               <button
                 onClick={() => setOpenDepositModal(true)}
-                className="w-1/2 bg-blue-400 text-white font-semibold items-center px-4 py-1 rounded-full hover:bg-blue-500 hover:text-white text-sm"
+                className="w-1/2 bg-blue-400 text-white font-semibold items-center px-4 py-2 rounded-full hover:bg-blue-500 hover:text-white text-sm"
               >
                 Deposit
               </button>
               <button
                 onClick={() => setOpenWithdrawModal(true)}
-                className="w-1/2 bg-white text-black font-semibold items-center border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.25rem-2px)] rounded-full hover:bg-gray-200 hover:text-black text-sm"
+                className="w-1/2 bg-white text-black font-semibold items-center border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.55rem-2px)] rounded-full hover:bg-gray-200 hover:text-black text-sm"
               >
                 Withdraw
               </button>
@@ -649,7 +649,7 @@ function Profile() {
             <div className="flex justify-center my-4 mx-4">
               <button
                 onClick={handleLogout}
-                className="w-full bg-red-500 text-white font-semibold px-4 py-1 rounded-full text-sm"
+                className="w-full bg-white text-black px-4 py-1 rounded-full text-sm"
               >
                 LOG OUT
               </button>
