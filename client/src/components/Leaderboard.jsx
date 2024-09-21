@@ -83,7 +83,7 @@ const Leaderboard = () => {
 
   return (
     <div className="container mx-auto p-2">
-      <div class="w-full">
+      {/* <div class="w-full">
         <div className="flex justify-between items-center mb-4">
           <div className="ml-auto flex items-center bg-gray-200 rounded-full px-2 py-0">
             <input
@@ -110,7 +110,7 @@ const Leaderboard = () => {
             </svg>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div class="w-full px-2 mb-4 border border-gray-300 rounded-xl">
         <div class="grid grid-cols-2 w-full">
@@ -226,45 +226,76 @@ const Leaderboard = () => {
         </tbody>
       </table> */}
 
-      <table
-        className="min-w-full rounded-xl p-2 bg-blue-100"
-        style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
-      >
-        <thead className="bg-white h-8 text-gray-500 text-sm font-open-sans rounded-t-xl rounded-b-xl">
-          <tr>
-            <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
-              Rank
-            </th>
-            <th className="py-2 px-4 text-left">User</th>
-            <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
-              Points
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr
-              key={user.rank}
-              className={`cursor-pointer h-16 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
-                index === users.length - 1 ? "rounded-b-xl" : ""
-              }
+      <div class="rounded-xl bg-blue-100">
+        <div class="w-full">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center bg-white rounded-full mt-3 mx-2 px-2 py-0 w-full">
+              <input
+                type="text"
+                placeholder="Search by username"
+                value={username}
+                onChange={handleUsernameChange}
+                className="bg-white outline-none flex-grow px-2 py-1 rounded-full w-full"
+              />
+              <svg
+                className="w-5 h-5 text-black cursor-pointer"
+                onClick={handleSearchUser}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-4.35-4.35m1.39-5.09A7.5 7.5 0 1110.5 3.5a7.5 7.5 0 017.5 7.5z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <table
+          className="min-w-full rounded-xl p-2 bg-blue-100"
+          style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
+        >
+          <thead className="bg-white h-12 text-black text-sm font-open-sans rounded-t-xl rounded-b-xl">
+            <tr>
+              <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
+                Rank
+              </th>
+              <th className="py-2 px-4 text-left">User</th>
+              <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
+                Points
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr
+                key={user.rank}
+                className={`cursor-pointer h-16 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
+                  index === users.length - 1 ? "rounded-b-xl" : ""
+                }
               `}
-              onClick={() => handleUserClick(user)}
-            >
-              <td className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl`}>
-                <div className="flex items-center">
-                  <span
-                    className={`text-blue-600 rounded-full px-2 text-center border border-blue-600 ${
-                      index === 0
-                        ? "bg-yellow-300 border-transparent"
-                        : index === 1
-                        ? "bg-slate-300 border-transparent"
-                        : index === 2
-                        ? "bg-amber-600 border-transparent"
-                        : ""
-                    }`}
-                  >{`#${user.rank}`}</span>
-                  {/* {index === 0 && (
+                onClick={() => handleUserClick(user)}
+              >
+                <td
+                  className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl`}
+                >
+                  <div className="flex items-center">
+                    <span
+                      className={`text-black rounded-full px-2 text-center ${
+                        index === 0
+                          ? "bg-yellow-300 border-transparent"
+                          : index === 1
+                          ? "bg-slate-300 border-transparent"
+                          : index === 2
+                          ? "bg-amber-600 border-transparent"
+                          : ""
+                      }`}
+                    >{`#${user.rank}`}</span>
+                    {/* {index === 0 && (
                     <img
                       src={GoldMedal}
                       alt="Gold Medal"
@@ -285,10 +316,10 @@ const Leaderboard = () => {
                       className="w-6 h-6 ml-1"
                     />
                   )} */}
-                </div>
-              </td>
-              <td className="py-4 px-3 text-left">
-                {/* <div className="flex items-center">
+                  </div>
+                </td>
+                <td className="py-4 px-3 text-left">
+                  {/* <div className="flex items-center">
                   <img
                     src={user.profilePhoto}
                     alt={`${user.name}'s profile`}
@@ -297,45 +328,46 @@ const Leaderboard = () => {
                   {user.name}
                 </div> */}
 
-                <div className="flex items-start space-x-2">
-                  <span
-                    className="w-8 h-8 bg-center bg-cover rounded-full mr-1"
-                    style={{
-                      backgroundImage: `url(${user.profilePhoto})`, // Use an object with backgroundImage property
-                    }}
-                  ></span>
-                  <div className="flex flex-col">
-                    <span className="text-black font-helvetica-neue font-semibold">
-                      {user.name}
-                    </span>
-                    <div
-                      className="flex items-center cursor-pointer rounded-full"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        handleTwitterImageClick(
-                          "https://x.com/" + user.userName
-                        );
+                  <div className="flex items-start space-x-2">
+                    <span
+                      className="w-8 h-8 bg-center bg-cover rounded-full mr-1"
+                      style={{
+                        backgroundImage: `url(${user.profilePhoto})`, // Use an object with backgroundImage property
                       }}
-                    >
-                      <img
-                        src={TwitterLogo}
-                        alt="Twitter"
-                        className="w-2 h-2 mr-1"
-                      />
-                      <span className="text-gray-400 font-open-sans text-xs">
-                        @{user.userName}
+                    ></span>
+                    <div className="flex flex-col">
+                      <span className="text-black font-helvetica-neue font-semibold">
+                        {user.name}
                       </span>
+                      <div
+                        className="flex items-center cursor-pointer rounded-full"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleTwitterImageClick(
+                            "https://x.com/" + user.userName
+                          );
+                        }}
+                      >
+                        <img
+                          src={TwitterLogo}
+                          alt="Twitter"
+                          className="w-2 h-2 mr-1"
+                        />
+                        <span className="text-gray-400 font-open-sans text-xs">
+                          @{user.userName}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </td>
-              <td className="py-4 px-3 text-center rounded-tr-xl rounded-br-xl">
-                {user.paperPoints} Pts
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                </td>
+                <td className="py-4 px-3 text-center rounded-tr-xl rounded-br-xl">
+                  {user.paperPoints} Pts
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
