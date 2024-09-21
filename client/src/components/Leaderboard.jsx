@@ -19,6 +19,7 @@ const Leaderboard = () => {
 
   const [currentUsername, setCurrentUsername] = useState("");
   const [currentUserRank, setCurrentUserRank] = useState(0);
+  const [totalUserPaperPoint, setTotalUserPaperPoint] = useState(0);
   const [currentUserPaperPoint, setCurrentUserPaperPoint] = useState(0);
 
   const { user } = usePrivy();
@@ -44,7 +45,8 @@ const Leaderboard = () => {
         );
         setCurrentUsername(response.data.userName);
         setCurrentUserRank(response.data.rank);
-        setCurrentUserPaperPoint(response.data.paperPoints);
+        setTotalUserPaperPoint(response.data.paperPoints);
+        setCurrentUserPaperPoint(response.data.currentPoints);
       } catch (error) {
         console.error("Error fetching current user leaderboard data", error);
       }
@@ -83,80 +85,60 @@ const Leaderboard = () => {
 
   return (
     <div className="container mx-auto p-2">
-      {/* <div class="w-full">
-        <div className="flex justify-between items-center mb-4">
-          <div className="ml-auto flex items-center bg-gray-200 rounded-full px-2 py-0">
-            <input
-              type="text"
-              placeholder="Search by username"
-              value={username}
-              onChange={handleUsernameChange}
-              className="bg-gray-200 outline-none flex-grow px-2 py-1 rounded-full"
-            />
-            <svg
-              className="w-5 h-5 text-black cursor-pointer"
-              onClick={handleSearchUser}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-4.35-4.35m1.39-5.09A7.5 7.5 0 1110.5 3.5a7.5 7.5 0 017.5 7.5z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div> */}
-
       <div class="w-full px-2 mb-4 border border-gray-300 rounded-xl">
-        <div class="grid grid-cols-2 w-full">
-          <div className="flex items-start space-x-2 my-4">
-            <span
-              className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
-              style={{
-                backgroundImage: user.twitter
-                  ? `url(${user.twitter.profilePictureUrl})`
-                  : `url(${"https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg"})`,
-              }}
-            ></span>
-            <div className="flex flex-col mt-1">
-              <span className="text-xl text-black font-helvetica-neue font-semibold">
-                {user.twitter.name}
-              </span>
-              <div
-                className="flex items-center cursor-pointer rounded-full"
-                onClick={() =>
-                  handleTwitterImageClick(
-                    "https://x.com/" + user.twitter.username
-                  )
-                }
-              >
-                <img src={TwitterLogo} alt="Twitter" className="w-3 h-3 mr-1" />
-                <span className="text-gray-400 font-open-sans text-xs">
-                  @{user.twitter.username}
+        <div class="grid grid-cols-1 lg:grid-cols-2 w-full">
+          <div class="flex w-full items-center justify-between">
+            <div className="flex items-start space-x-2 my-4">
+              <span
+                className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
+                style={{
+                  backgroundImage: user.twitter
+                    ? `url(${user.twitter.profilePictureUrl})`
+                    : `url(${"https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg"})`,
+                }}
+              ></span>
+              <div className="flex flex-col mt-1">
+                <span className="text-xl text-black font-helvetica-neue font-semibold">
+                  {user.twitter.name}
                 </span>
+                <div
+                  className="flex items-center cursor-pointer rounded-full"
+                  onClick={() =>
+                    handleTwitterImageClick(
+                      "https://x.com/" + user.twitter.username
+                    )
+                  }
+                >
+                  <img
+                    src={TwitterLogo}
+                    alt="Twitter"
+                    className="w-3 h-3 mr-1"
+                  />
+                  <span className="text-gray-400 font-open-sans text-xs">
+                    @{user.twitter.username}
+                  </span>
+                </div>
               </div>
             </div>
+            <span class="font-open-sans text-xl font-semibold text-black mr-2 mt-2">
+              Rank #{currentUserRank}
+            </span>
           </div>
-          <div class="flex flex-col w-full justify-center border border-gray-300 rounded-xl bg-gray-100 my-4">
-            <div class="flex w-full justify-between items-center mb-2">
-              <span class="font-open-sans text-base font-semibold text-gray-400 ml-2 mt-2">
-                Rank
+          <div class="flex flex-col w-full justify-center border border-gray-300 rounded-xl my-4">
+            <div class="flex w-full justify-between items-center">
+              <span class="font-open-sans text-base text-gray-400 ml-4 mt-2 mb-2">
+                Total Earned Card
               </span>
-              <span class="font-open-sans text-base font-semibold text-gray-400 mr-2 mt-2">
-                #{currentUserRank}
+              <span class="font-open-sans text-xl text-black mr-4 mb-2">
+                {totalUserPaperPoint} Pts
               </span>
             </div>
 
             <div class="flex w-full justify-between items-center">
-              <span class="font-open-sans text-base font-semibold text-gray-400 ml-2 mb-2">
-                Points
+              <span class="font-open-sans text-base text-gray-400 ml-4 mb-2">
+                Current Card
               </span>
-              <span class="font-open-sans text-base font-semibold text-gray-400 mr-2 mb-2">
+              <span class="font-open-sans text-xl text-black mr-4 mb-2">
                 {currentUserPaperPoint} Pts
               </span>
             </div>
