@@ -16,7 +16,7 @@ const PresaleIneligibleModal = ({ open, onClose }) => {
       >
         <div className="w-full">
           <div className="flex flex-col justify-center text-center mt-4 px-4 lg:px-8 py-4">
-            <div className="text-left text-xl font-bold mb-2">
+            <div className="text-left text-md font-bold mb-2">
               Insufficient Points
             </div>
 
@@ -30,7 +30,7 @@ const PresaleIneligibleModal = ({ open, onClose }) => {
                   className="w-full px-4 py-1 mb-4 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                   onClick={onClose}
                 >
-                  <span className="font-semibold">Cancel</span>
+                  <span className="text-sm">Close</span>
                 </button>
               </div>
             </div>

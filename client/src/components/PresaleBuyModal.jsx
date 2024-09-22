@@ -78,13 +78,13 @@ const PresaleBuyModal = ({
         className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
         <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
-          <div className="text-left text-xl font-bold mb-2">{cardName}</div>
+          <div className="text-left text-md font-bold mb-2">{cardName}</div>
 
           <div className="flex justify-between items-center mt-6 mb-4">
-            <span className="text-base">Buy Amount</span>
-            <span className="text-base font-semibold w-1/5 inline-flex items-center">
+            <span className="text-sm">Buy Amount</span>
+            <span className="text-sm font-semibold w-1/5 inline-flex items-center">
               <input
-                className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
+                className="text-sm border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
                 type="number"
                 value={number}
                 min={1}
@@ -97,8 +97,8 @@ const PresaleBuyModal = ({
             </span>
           </div>
           <div className="flex justify-between items-center mb-2">
-            <span className="text-base">Total Cost </span>
-            <span className="text-base font-semibold">
+            <span className="text-sm">Total Cost </span>
+            <span className="text-sm font-semibold">
               {costInETH.toFixed(3)} ETH
             </span>
           </div>
@@ -124,13 +124,13 @@ const PresaleBuyModal = ({
                 buy(number, buyCost, buyUiConfig);
               }}
             >
-              <span className="font-semibold">Buy</span>
+              <span className="text-sm font-semibold">Buy</span>
             </button>
             <button
               className="w-1/3 py-1 bg-white box-border border border-gray-300 text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={completeClose}
             >
-              <span className="font-semibold">Cancel</span>
+              <span className="text-sm">Cancel</span>
             </button>
           </div>
         </div>
