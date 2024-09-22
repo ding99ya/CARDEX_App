@@ -641,26 +641,26 @@ function CardDetailPage() {
               </span>
             </div>
             <div className="flex justify-between w-full mt-1">
-              <span className="text-xs lg:text-sm font-semibold font-helvetica">
+              <span className="text-sm font-semibold font-helvetica">
                 Price:
               </span>
-              <span className="text-xs lg:text-sm font-semibold font-helvetica">
+              <span className="text-sm font-semibold font-helvetica">
                 {card.price} ETH
               </span>
             </div>
             <div className="flex justify-between w-full mt-1">
-              <span className="text-xs lg:text-sm font-semibold font-helvetica">
+              <span className="text-sm font-semibold font-helvetica">
                 Holders:
               </span>
-              <span className="text-xs lg:text-sm font-semibold font-helvetica">
+              <span className="text-sm font-semibold font-helvetica">
                 {card.shares}
               </span>
             </div>
             <div className="flex justify-between w-full mt-1">
-              <span className="text-xs lg:text-sm font-semibold font-helvetica">
+              <span className="text-sm font-semibold font-helvetica">
                 Position:
               </span>
-              <span className="text-xs lg:text-sm font-semibold font-helvetica">
+              <span className="text-sm font-semibold font-helvetica">
                 {userShares}
               </span>
             </div>
