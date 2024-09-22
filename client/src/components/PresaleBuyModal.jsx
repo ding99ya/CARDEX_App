@@ -77,7 +77,7 @@ const PresaleBuyModal = ({
         }}
         className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white shadow-xl rounded-3xl"
       >
-        <div className="flex flex-col justify-center text-center mt-4 p-4 px-8">
+        <div className="flex flex-col justify-center text-center mt-2 p-4 px-8">
           <div className="text-left text-md font-bold mb-2">{cardName}</div>
 
           <div className="flex justify-between items-center mt-6 mb-4">
@@ -105,7 +105,7 @@ const PresaleBuyModal = ({
           <div className="flex justify-between space-x-2 py-2 items-stretch mb-2">
             <button
               className={classNames(
-                "w-2/3 py-1 font-semibold rounded-full flex items-center justify-center",
+                "w-2/3 py-2 font-semibold rounded-full flex items-center justify-center",
                 {
                   "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
                     !(
@@ -127,7 +127,7 @@ const PresaleBuyModal = ({
               <span className="text-sm font-semibold">Buy</span>
             </button>
             <button
-              className="w-1/3 py-1 bg-white box-border border border-gray-300 text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
+              className="w-1/3 py-2 bg-white box-border border border-gray-300 text-black rounded-full flex items-center justify-center hover:bg-gray-200 hover:text-black"
               onClick={completeClose}
             >
               <span className="text-sm">Cancel</span>
