@@ -52,10 +52,16 @@ function Profile() {
       )}`
     : "0x0";
   const twitterProfilePhoto = user
-    ? user.twitter.profilePictureUrl
-    : "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg";
-  const twitterName = user ? user.twitter.name : "";
-  const twitterUsername = user ? user.twitter.username : "";
+    ? !!user.twitter
+      ? user.twitter.profilePictureUrl
+      : ""
+    : "";
+  const twitterName = user ? (!!user.twitter ? user.twitter.name : "") : "";
+  const twitterUsername = user
+    ? !!user.twitter
+      ? user.twitter.username
+      : ""
+    : "";
 
   const hasMounted = useRef(false);
   const Navigate = useNavigate();
@@ -497,16 +503,23 @@ function Profile() {
               <span
                 className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
                 style={{
-                  backgroundImage: `url(${twitterProfilePhoto})`,
+                  backgroundImage: twitterLinked
+                    ? `url(${twitterProfilePhoto})`
+                    : `url(${PresaleCard})`,
                 }}
               ></span>
               <div className="flex flex-col mt-1">
                 <span className="text-xl text-black font-helvetica-neue font-semibold">
-                  {twitterName}
+                  {currentUsername}
                 </span>
                 <div
-                  className="flex items-center cursor-pointer rounded-full"
+                  className={`flex items-center cursor-pointer rounded-full ${
+                    twitterLinked
+                      ? "visible opacity-100"
+                      : "invisible opacity-0"
+                  }`}
                   onClick={() =>
+                    twitterLinked &
                     handleTwitterImageClick("https://x.com/" + twitterUsername)
                   }
                 >
@@ -549,13 +562,24 @@ function Profile() {
 
           <div className="flex flex-col items-end justify-center">
             <button
+              onClick={linkOrUnlinkTwitter}
+              className={`text-xs font-semibold text-gray-400 transition-colors duration-200 ease-in-out mt-1 flex items-center space-x-2`}
+            >
+              <img
+                src={TwitterLogo}
+                alt={twitterLinked ? "Unlink" : "Link"}
+                className="w-3 h-3 mr-4"
+              />
+              {twitterLinked ? "Unlink" : "Link"}
+            </button>
+            <button
               onClick={toggleSubscription}
-              className={`py-1 rounded-full text-sm font-semibold text-gray-400 transition-colors duration-200 ease-in-out mt-2 flex items-center space-x-2`}
+              className={`rounded-full text-xs font-semibold text-gray-400 transition-colors duration-200 ease-in-out mt-1 flex items-center space-x-2`}
             >
               <img
                 src={isSubscribed ? NotificationOff : NotificationOn}
                 alt={isSubscribed ? "Turn Off" : "Turn On"}
-                className="w-5 h-5 mr-1"
+                className="w-4 h-4 mr-1"
               />
               {isSubscribed ? "Turn Off" : "Turn On"}
             </button>
@@ -563,7 +587,7 @@ function Profile() {
             {walletType === "privy" && (
               <span
                 onClick={exportWallet}
-                className="cursor-pointer text-sm text-blue-600 mt-5"
+                className="cursor-pointer text-sm text-blue-600 mt-3"
                 style={{ textDecoration: "underline" }}
               >
                 Export Key
