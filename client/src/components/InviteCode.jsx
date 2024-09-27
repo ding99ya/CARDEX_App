@@ -37,7 +37,7 @@ const InviteCode = () => {
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
       } else if (response.data.invited && response.data.username.length === 0) {
-        navigate("/login/usertwitter");
+        navigate("/login/username");
       } else if (!response.data.invited) {
         navigate("/login/invite");
       }
@@ -127,7 +127,7 @@ const InviteCode = () => {
           invited: true,
           cardInventory: [],
         });
-        navigate("/login/usertwitter");
+        navigate("/login/username");
       } catch (error) {
         console.log(error);
       }

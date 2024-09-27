@@ -21,7 +21,7 @@ const Login = () => {
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
       } else if (response.data.invited && response.data.username.length === 0) {
-        navigate("/login/usertwitter");
+        navigate("/login/username");
       } else if (!response.data.invited) {
         navigate("/login/invite");
       }

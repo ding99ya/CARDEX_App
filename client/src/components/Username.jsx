@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import classNames from "classnames";
 import UsernameNotification from "./UsernameNotification.jsx";
+import CardexWebsite from "./CardexWebsite.jpg";
+import OnboardBg from "./OnboardBg.png";
 import "../index.css";
 
 const Username = () => {
@@ -145,35 +147,56 @@ const Username = () => {
   };
 
   if (!ready) {
-    return <div>Not Ready</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img src="/Loading.gif" alt="Loading..." />
+      </div>
+    );
   }
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100 rounded-10xl">
-      <div className="bg-white p-4 mx-5 rounded-lg shadow-xl text-center">
+    <div
+      className="flex justify-center items-center min-h-screen bg-gray-100"
+      style={{
+        backgroundImage: `url(${OnboardBg})`,
+        backgroundSize: "cover", // Make sure the background covers the entire div
+        backgroundPosition: "center", // Center the background image
+      }}
+    >
+      <div className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center">
         {/* <h1 className="text-4xl mb-4 font-bold">INPUT YOUR USERNAME</h1> */}
-        <p className="mb-8 font-helvetica-neue font-semibold text-xl">
-          Input your username below, you can't change it later
-        </p>
-        <div className="flex justify-between items-center mt-4 mb-2">
-          <span className="sm:w-3/5 mx-auto">
-            <input
-              className="text-base border-2 border-black bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
-              type="string"
-              value={username}
-              onChange={handleUsernameChange}
-              placeholder="Your Username"
-            />
-          </span>
+        <div className="flex justify-center items-center mb-8">
+          <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
         </div>
-        <p className="mb-8">Username length must be in 3 to 10 characters.</p>
+        <p className="mt-4 mb-4 font-open-sans font-semibold text-base">
+          Input username below, it can't changed later
+        </p>
+        <div className="w-full mb-2">
+          {/* <span className="sm:w-3/5 mx-auto"> */}
+          <input
+            className="text-base border-2 border-gray-300 bg-gray-100 w-full py-1 appearance-none rounded-xl text-center font-semibold"
+            type="string"
+            value={username}
+            onChange={handleUsernameChange}
+            placeholder="Your Username"
+          />
+          {/* </span> */}
+        </div>
+        <p className="mb-8">Username must be in 3 to 10 characters.</p>
         <button
           className={classNames(
-            "w-1/3 font-bold font-helvetica-neue border border-black px-2 py-2 rounded-full transition duration-300 ease-in-out",
+            "w-full font-bold font-helvetica-neue px-2 py-2 mb-2 rounded-full transition duration-300 ease-in-out",
             {
-              "border border-black bg-white text-black hover:bg-black hover:text-white":
+              "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
                 !!valid,
-              "border border-black bg-gray-200 text-black": !valid,
+              "bg-blue-200 text-white": !valid,
             }
           )}
           disabled={!valid}
@@ -182,9 +205,13 @@ const Username = () => {
         >
           Continue
         </button>
-        <p className="underline cursor-pointer" onClick={handleLogout}>
-          login
-        </p>
+        <button
+          onClick={handleLogout}
+          className="w-full bg-white text-black border-2 border-black font-bold font-helvetica-neue px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black transition duration-300 ease-in-out"
+          type="button"
+        >
+          Log Out
+        </button>
       </div>
       {notification && (
         <div className="absolute inset-0 flex justify-center items-center">
