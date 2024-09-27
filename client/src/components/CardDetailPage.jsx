@@ -627,7 +627,7 @@ function CardDetailPage() {
           <div className="text-center w-full">
             <div className="flex justify-end w-full">
               <span
-                className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                className={`text-sm font-helvetica inline-block px-4 py-1 ${
                   card.rarity === "RARE"
                     ? "bg-sky-300"
                     : card.rarity === "EPIC"
@@ -669,7 +669,7 @@ function CardDetailPage() {
           <div className="flex justify-between items-center space-x-2 mt-4 mb-2">
             <button
               onClick={() => setOpenBuyModal(true)}
-              className="w-1/3 bg-blue-400 text-white text-sm font-bold px-4 py-2 rounded-full  hover:bg-blue-500 hover:text-white"
+              className="w-1/3 bg-blue-400 text-sm text-white font-bold px-4 py-2 rounded-full  hover:bg-blue-500 hover:text-white"
             >
               Buy
             </button>
@@ -691,7 +691,7 @@ function CardDetailPage() {
 
             <button
               onClick={() => claim()}
-              className="w-1/3 bg-white text-sm text-black border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.55rem-2px)] rounded-full hover:bg-gray-200 hover:text-black"
+              className="w-1/3 bg-white text-sm text-black border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black"
             >
               Claim
             </button>
@@ -766,15 +766,15 @@ function CardDetailPage() {
                               <span>{formatTime(activity.time)}</span>
                             </div>
                           </td>
-                          <td className="py-2 text-left">
-                            <div className="flex items-center justify-start">
-                              <img
+                          <td className="py-2 pl-4 text-left">
+                            {/* <div className="flex items-center justify-start"> */}
+                            {/* <img
                                 src={activity.profilePhoto}
                                 alt={`${activity.name}'s profile`}
                                 className="w-6 h-6 rounded-full mr-2"
-                              />
-                              <span>{activity.name}</span>
-                            </div>
+                              /> */}
+                            <span>{activity.username}</span>
+                            {/* </div> */}
                           </td>
                           <td
                             className={`py-2 text-center ${
@@ -827,12 +827,12 @@ function CardDetailPage() {
                       >
                         <td className="py-2 pl-4 text-left">
                           <div className="flex items-center">
-                            <img
+                            {/* <img
                               src={holder.profilePhoto}
                               alt={`${holder.name}'s profile`}
                               className="w-6 h-6 rounded-full mr-2"
-                            />
-                            {holder.name}
+                            /> */}
+                            {holder.username}
                           </div>
                         </td>
                         <td className="py-2 text-center">

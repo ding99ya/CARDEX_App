@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 const activitySchema = new mongoose.Schema({
   time: { type: Date, required: true },
-  name: { type: String, required: true },
   username: { type: String, required: true },
-  profilePhoto: { type: String, required: true },
   isBuy: { type: Boolean, require: true },
   shares: { type: Number, required: true },
   ethAmount: { type: Number, required: true },
