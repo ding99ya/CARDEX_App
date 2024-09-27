@@ -5,6 +5,7 @@ import GoldMedal from "./GoldMedal.svg";
 import SilverMedal from "./SilverMedal.svg";
 import BronzeMedal from "./BronzeMedal.svg";
 import TwitterLogo from "./TwitterLogo.png";
+import PresaleCard from "./PresaleCard.png";
 import { useNavigation } from "./NavigationContext";
 import axios from "axios";
 
@@ -94,18 +95,25 @@ const Leaderboard = () => {
                 style={{
                   backgroundImage: user.twitter
                     ? `url(${user.twitter.profilePictureUrl})`
-                    : `url(${"https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg"})`,
+                    : `url(${PresaleCard})`,
                 }}
               ></span>
               <div className="flex flex-col mt-1">
                 <span className="text-xl text-black font-helvetica-neue font-semibold">
-                  {user.twitter.name}
+                  {currentUsername}
                 </span>
                 <div
-                  className="flex items-center cursor-pointer rounded-full"
+                  className={`flex items-center cursor-pointer rounded-full ${
+                    !!user.twitter
+                      ? "visible opacity-100"
+                      : "invisible opacity-0"
+                  }`}
                   onClick={() =>
+                    !!user.twitter &
                     handleTwitterImageClick(
-                      "https://x.com/" + user.twitter.username
+                      "https://x.com/" + !!user.twitter
+                        ? user.twitter.username
+                        : ""
                     )
                   }
                 >
@@ -115,7 +123,7 @@ const Leaderboard = () => {
                     className="w-3 h-3 mr-1"
                   />
                   <span className="text-gray-400 font-open-sans text-xs">
-                    @{user.twitter.username}
+                    @{!!user.twitter ? user.twitter.username : ""}
                   </span>
                 </div>
               </div>
