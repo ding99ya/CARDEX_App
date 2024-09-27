@@ -98,7 +98,9 @@ const Username = () => {
           const leaderboardResponse = await axios.post("/api/leaderboard", {
             DID: user.id,
             walletAddress: user.wallet.address.toString(),
+            name: "",
             userName: username,
+            profilePhoto: "",
             paperPoints: 101, // Update to 0 later, 101 for test to show the new user on leaderboard
           });
 

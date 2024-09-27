@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ETHSymbol from "./ETHSymbol.png";
 import TwitterLogo from "./TwitterLogo.png";
+import PresaleCard from "./PresaleCard.png";
 import { useNavigation } from "./NavigationContext";
 
 function ViewProfile() {
@@ -208,15 +209,19 @@ function ViewProfile() {
             <span
               className="w-12 h-12 bg-center bg-cover rounded-full mt-1"
               style={{
-                backgroundImage: `url(${twitterProfilePhoto})`,
+                backgroundImage: hasTwitter
+                  ? `url(${twitterProfilePhoto})`
+                  : `url(${PresaleCard})`,
               }}
             ></span>
             <div className="flex flex-col mt-1">
               <span className="text-xl text-black font-helvetica-neue font-semibold">
-                {twitterName}
+                {username}
               </span>
               <div
-                className="flex items-center cursor-pointer rounded-full"
+                className={`flex items-center cursor-pointer rounded-full ${
+                  hasTwitter ? "visible opacity-100" : "invisible opacity-0"
+                }`}
                 onClick={handleTwitterImageClick}
               >
                 <img src={TwitterLogo} alt="Twitter" className="w-3 h-3 mr-1" />

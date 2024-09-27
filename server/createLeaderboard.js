@@ -41,10 +41,9 @@ const createLeaderboard = async () => {
       exampleLeaderboard.push({
         DID: exampleDID1,
         walletAddress: exampleWalletAddress1,
-        name: exampleUserName1,
+        name: "",
         userName: exampleUserName1,
-        profilePhoto:
-          "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg",
+        profilePhoto: "",
         rank: i + 1,
         paperPoints: 100 - i,
         currentPoints: 100 - i,
@@ -53,10 +52,9 @@ const createLeaderboard = async () => {
       exampleLeaderboard.push({
         DID: exampleDID1,
         walletAddress: exampleWalletAddress2,
-        name: exampleUserName1 + "-" + i.toString(),
+        name: "",
         userName: exampleUserName1,
-        profilePhoto:
-          "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg",
+        profilePhoto: "",
         rank: i + 1,
         paperPoints: 100 - i,
         currentPoints: 100 - i,
@@ -65,7 +63,7 @@ const createLeaderboard = async () => {
       exampleLeaderboard.push({
         DID: exampleDID2,
         walletAddress: exampleWalletAddress2,
-        name: exampleUserName2 + "-" + i.toString(),
+        name: exampleUserName2,
         userName: exampleUserName2,
         profilePhoto:
           "https://pbs.twimg.com/profile_images/1647822798566424576/ZfLTwjSK_normal.jpg",

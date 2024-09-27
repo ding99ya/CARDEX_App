@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TwitterLogo from "./TwitterLogo.png";
+import PresaleCard from "./PresaleCard.png";
 import { useNavigation } from "./NavigationContext";
 import axios from "axios";
 
@@ -131,15 +132,22 @@ const LeaderboardUser = () => {
                   <span
                     className="w-8 h-8 bg-center bg-cover rounded-full mr-1"
                     style={{
-                      backgroundImage: `url(${user.profilePhoto})`, // Use an object with backgroundImage property
+                      backgroundImage:
+                        user.profilePhoto !== ""
+                          ? `url(${user.profilePhoto})`
+                          : `url(${PresaleCard})`,
                     }}
                   ></span>
                   <div className="flex flex-col">
                     <span className="text-black font-helvetica-neue font-semibold">
-                      {user.name}
+                      {user.userName}
                     </span>
                     <div
-                      className="flex items-center cursor-pointer rounded-full"
+                      className={`flex items-center cursor-pointer rounded-full ${
+                        user.name !== ""
+                          ? "visible opacity-100"
+                          : "invisible opacity-0"
+                      }`}
                       onClick={(event) => {
                         event.stopPropagation();
                         handleTwitterImageClick(

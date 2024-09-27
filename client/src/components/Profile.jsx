@@ -219,6 +219,24 @@ function Profile() {
     }
   }, [inventory]);
 
+  useEffect(() => {
+    if (hasMounted.current) {
+      const updateLeaderboardNameAndProfile = async () => {
+        const updateLeaderboardResponse = await axios.patch(
+          `/api/leaderboard/nameandprofilephoto`,
+          {
+            walletAddress: user.wallet.address.toString(),
+            name: !!user.twitter ? user.twitter.username.toString() : "",
+            profilePhoto: !!user.twitter
+              ? user.twitter.profilePictureUrl.toString()
+              : "",
+          }
+        );
+      };
+      updateLeaderboardNameAndProfile();
+    }
+  }, [twitterLinked]);
+
   const handleCardClick = (card) => {
     if (card.category !== "presale") {
       navigateTo(`/cards/${card.uniqueId}`);
@@ -231,12 +249,12 @@ function Profile() {
     window.open(twitterURL, "_blank");
   };
 
-  const linkOrUnlinkTwitter = () => {
+  const linkOrUnlinkTwitter = async () => {
     if (!user.twitter) {
       linkTwitter();
       setTwitterLinked(true);
     } else if (!!user.twitter) {
-      unlinkTwitter(user.twitter.subject);
+      await unlinkTwitter(user.twitter.subject);
       setTwitterLinked(false);
     }
   };

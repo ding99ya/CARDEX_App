@@ -322,20 +322,25 @@ const Leaderboard = () => {
                     <span
                       className="w-8 h-8 bg-center bg-cover rounded-full mr-1"
                       style={{
-                        backgroundImage: `url(${user.profilePhoto})`, // Use an object with backgroundImage property
+                        backgroundImage:
+                          user.profilePhoto !== ""
+                            ? `url(${user.profilePhoto})`
+                            : `url(${PresaleCard})`,
                       }}
                     ></span>
                     <div className="flex flex-col">
                       <span className="text-black font-helvetica-neue font-semibold">
-                        {user.name}
+                        {user.userName}
                       </span>
                       <div
-                        className="flex items-center cursor-pointer rounded-full"
+                        className={`flex items-center cursor-pointer rounded-full ${
+                          user.name !== ""
+                            ? "visible opacity-100"
+                            : "invisible opacity-0"
+                        }`}
                         onClick={(event) => {
                           event.stopPropagation();
-                          handleTwitterImageClick(
-                            "https://x.com/" + user.userName
-                          );
+                          handleTwitterImageClick("https://x.com/" + user.name);
                         }}
                       >
                         <img
@@ -344,7 +349,7 @@ const Leaderboard = () => {
                           className="w-2 h-2 mr-1"
                         />
                         <span className="text-gray-400 font-open-sans text-xs">
-                          @{user.userName}
+                          @{user.name}
                         </span>
                       </div>
                     </div>

@@ -472,12 +472,12 @@ app.get("/api/leaderboard/byname/:userName", async (req, res) => {
   }
 });
 
-app.get("/api/leaderboard/containname/:name", async (req, res) => {
-  const { name } = req.params;
+app.get("/api/leaderboard/containname/:username", async (req, res) => {
+  const { username } = req.params;
   try {
     // Use regex to perform a case-insensitive search
     const users = await LeaderboardModel.find({
-      name: { $regex: name, $options: "i" },
+      userName: { $regex: username, $options: "i" },
     });
 
     if (users.length === 0) {
@@ -527,6 +527,33 @@ app.patch("/api/leaderboard/update", async (req, res) => {
     res.status(200).json(leaderboardUser);
   } catch (error) {
     console.error("Error in /api/leaderboard/update", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.patch("/api/leaderboard/nameandprofilephoto", async (req, res) => {
+  const { walletAddress, name, profilePhoto } = req.body;
+
+  // if (!walletAddress || !username) {
+  //   return res
+  //     .status(400)
+  //     .json({ message: "walletAddress and username are required" });
+  // }
+
+  try {
+    const leaderboardUser = await LeaderboardModel.findOneAndUpdate(
+      { walletAddress: walletAddress },
+      { $set: { name: name, profilePhoto: profilePhoto } },
+      { new: true }
+    );
+
+    if (!leaderboardUser) {
+      return res.status(404).json({ message: "User in leaderboard not found" });
+    }
+
+    res.status(200).json(leaderboardUser);
+  } catch (error) {
+    console.error("Error in /api/leaderboard/nameandprofilephoto", error);
     res.status(500).json({ message: error.message });
   }
 });
