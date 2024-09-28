@@ -213,7 +213,13 @@ function Profile() {
           console.error(`Error fetching cards info`, error);
         }
       };
-      fetchCardPosition();
+
+      const mediaQuery = window.matchMedia("(min-width: 1024px)");
+      const isLargeScreen = mediaQuery.matches;
+
+      if (isLargeScreen) {
+        fetchCardPosition();
+      }
     } else {
       hasMounted.current = true;
     }
