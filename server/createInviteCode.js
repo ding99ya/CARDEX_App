@@ -16,6 +16,7 @@ const inviteCodeSchema = new mongoose.Schema({
   createdAt: String,
   lastUpdatedAt: String,
   currentUsage: Number,
+  totalUsage: Number,
 });
 
 const inviteCode = mongoose.model("inviteCodes", inviteCodeSchema);
@@ -25,8 +26,9 @@ const createInviteCode = async () => {
     DID: "clvoc7dzr00ftne36qf962c4u",
     code: "eHrjdc",
     createdAt: "2024-06-08",
-    lastUpdatedAt: "2024-06-08",
+    lastUpdatedAt: "Thu, 26 Sep 2024 21:19:29 GMT",
     currentUsage: 1,
+    totalUsage: 15,
   });
 
   try {

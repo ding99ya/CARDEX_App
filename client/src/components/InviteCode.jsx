@@ -84,6 +84,7 @@ const InviteCode = () => {
             code: inviteCode.toString(),
             lastUpdatedAt: currentDate.toUTCString(),
             currentUsage: 1,
+            totalUsage: response.data.totalUsage + 1,
           }
         );
         setIsValidCode(true);
@@ -95,6 +96,7 @@ const InviteCode = () => {
               code: inviteCode.toString(),
               lastUpdatedAt: response.data.lastUpdatedAt,
               currentUsage: response.data.currentUsage + 1,
+              totalUsage: response.data.totalUsage + 1,
             }
           );
           setIsValidCode(true);

@@ -6,6 +6,7 @@ const inviteCodeSchema = new mongoose.Schema({
   createdAt: String,
   lastUpdatedAt: String,
   currentUsage: Number,
+  totalUsage: Number,
 });
 
 const InviteCodeModel = mongoose.model("invitecodes", inviteCodeSchema);

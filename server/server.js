@@ -209,7 +209,8 @@ app.post("/api/users", async (req, res) => {
 });
 
 app.post("/api/invitecodes", async (req, res) => {
-  const { DID, code, createdAt, lastUpdatedAt, currentUsage } = req.body;
+  const { DID, code, createdAt, lastUpdatedAt, currentUsage, totalUsage } =
+    req.body;
 
   try {
     let inviteCode = new InviteCodeModel({
@@ -218,6 +219,7 @@ app.post("/api/invitecodes", async (req, res) => {
       createdAt: createdAt,
       lastUpdatedAt: lastUpdatedAt,
       currentUsage: currentUsage,
+      totalUsage: totalUsage,
     });
     await inviteCode.save();
 
@@ -572,12 +574,18 @@ app.get("/api/invitecodes/:invitecode", async (req, res) => {
 });
 
 app.patch("/api/invitecodes/updatedandusage", async (req, res) => {
-  const { code, lastUpdatedAt, currentUsage } = req.body;
+  const { code, lastUpdatedAt, currentUsage, totalUsage } = req.body;
 
   try {
     const inviteCode = await InviteCodeModel.findOneAndUpdate(
       { code: code },
-      { $set: { lastUpdatedAt: lastUpdatedAt, currentUsage: currentUsage } },
+      {
+        $set: {
+          lastUpdatedAt: lastUpdatedAt,
+          currentUsage: currentUsage,
+          totalUsage: totalUsage,
+        },
+      },
       { new: true }
     );
 

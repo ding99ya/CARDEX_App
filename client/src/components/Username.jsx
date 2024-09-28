@@ -101,7 +101,7 @@ const Username = () => {
             name: "",
             userName: username,
             profilePhoto: "",
-            paperPoints: 101, // Update to 0 later, 101 for test to show the new user on leaderboard
+            paperPoints: 0, // Update to 0 later, 101 for test to show the new user on leaderboard
           });
 
           const generatedCode = generateInviteCode();
@@ -125,6 +125,7 @@ const Username = () => {
               createdAt: now.toUTCString(),
               lastUpdatedAt: now.toUTCString(),
               currentUsage: 0,
+              totalUsage: 0,
             }
           );
 
