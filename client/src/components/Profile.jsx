@@ -588,7 +588,7 @@ function Profile() {
               <img
                 src={TwitterLogo}
                 alt={twitterLinked ? "Unlink" : "Link"}
-                className="w-3 h-3 mr-4"
+                className="w-3 h-3 mr-1"
               />
               {twitterLinked ? "Unlink" : "Link"}
             </button>
@@ -607,7 +607,7 @@ function Profile() {
             {walletType === "privy" && (
               <span
                 onClick={exportWallet}
-                className="cursor-pointer text-sm text-blue-600 mt-3"
+                className="cursor-pointer text-sm text-blue-600 mt-4"
                 style={{ textDecoration: "underline" }}
               >
                 Export Key
