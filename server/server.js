@@ -415,8 +415,15 @@ app.get("/api/leaderboard", async (req, res) => {
 });
 
 app.post("/api/leaderboard", async (req, res) => {
-  const { DID, walletAddress, name, userName, profilePhoto, paperPoints } =
-    req.body;
+  const {
+    DID,
+    walletAddress,
+    name,
+    userName,
+    profilePhoto,
+    paperPoints,
+    currentPoints,
+  } = req.body;
 
   // if (!DID || !walletAddress || !userName || paperPoints === undefined) {
   //   return res.status(400).json({ message: "All fields are required" });
@@ -435,6 +442,7 @@ app.post("/api/leaderboard", async (req, res) => {
       profilePhoto: profilePhoto,
       rank: count + 1, // Rank is the current count + 1
       paperPoints: paperPoints,
+      currentPoints: currentPoints,
     });
 
     // Save the new leaderboard object to the database
