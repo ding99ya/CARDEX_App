@@ -594,7 +594,7 @@ function Profile() {
             </button>
             <button
               onClick={toggleSubscription}
-              className={`rounded-full text-xs font-semibold text-gray-400 transition-colors duration-200 ease-in-out mt-1 flex items-center space-x-2`}
+              className={`rounded-full text-xs font-semibold text-gray-400 transition-colors duration-200 ease-in-out mt-2 flex items-center space-x-2`}
             >
               <img
                 src={isSubscribed ? NotificationOff : NotificationOn}
@@ -607,7 +607,7 @@ function Profile() {
             {walletType === "privy" && (
               <span
                 onClick={exportWallet}
-                className="cursor-pointer text-sm text-blue-600 mt-4"
+                className="cursor-pointer text-sm text-blue-600 mt-3"
                 style={{ textDecoration: "underline" }}
               >
                 Export Key
