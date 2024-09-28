@@ -215,12 +215,16 @@ function ViewProfile() {
               }}
             ></span>
             <div className="flex flex-col mt-1">
-              <span className="text-xl text-black font-helvetica-neue font-semibold">
+              <span
+                className={`text-xl text-black font-helvetica-neue font-semibold ${
+                  hasTwitter ? "mt-0" : "mt-2"
+                }`}
+              >
                 {username}
               </span>
               <div
                 className={`flex items-center cursor-pointer rounded-full ${
-                  hasTwitter ? "visible opacity-100" : "invisible opacity-0"
+                  hasTwitter ? "block" : "hidden"
                 }`}
                 onClick={handleTwitterImageClick}
               >

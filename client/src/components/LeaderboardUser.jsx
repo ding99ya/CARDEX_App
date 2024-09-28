@@ -139,14 +139,16 @@ const LeaderboardUser = () => {
                     }}
                   ></span>
                   <div className="flex flex-col">
-                    <span className="text-black font-helvetica-neue font-semibold">
+                    <span
+                      className={`text-black font-helvetica-neue font-semibold ${
+                        user.name !== "" ? "mt-0" : "mt-1"
+                      }`}
+                    >
                       {user.userName}
                     </span>
                     <div
                       className={`flex items-center cursor-pointer rounded-full ${
-                        user.name !== ""
-                          ? "visible opacity-100"
-                          : "invisible opacity-0"
+                        user.name !== "" ? "block" : "hidden"
                       }`}
                       onClick={(event) => {
                         event.stopPropagation();
