@@ -46,6 +46,8 @@ function Inventory() {
   const hasMounted = useRef(false);
   const Navigate = useNavigate();
 
+  const [loadInventory, setLoadInventory] = useState(false);
+
   const [inventory, setInventory] = useState([]);
   const [userCards, setUserCards] = useState([]);
   const [totalWorth, setTotalWorth] = useState(0);
@@ -54,11 +56,13 @@ function Inventory() {
     // Fetch users positions (card ids and corresponding shares)
     const fetchUserPosition = async () => {
       try {
+        setLoadInventory(true);
         const response = await axios.get(
           `/api/users/${embeddedWalletAddress.toString()}`
         );
 
         setInventory(response.data.cardInventory);
+        setLoadInventory(false);
       } catch (error) {
         console.error(
           `Error fetching user ${embeddedWalletAddress} card inventory`,
@@ -214,6 +218,21 @@ function Inventory() {
     //   }
     // }
   };
+
+  if (loadInventory) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img src="/Loading.gif" alt="Loading..." />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-gray-100">
