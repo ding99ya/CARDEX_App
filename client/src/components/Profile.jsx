@@ -72,6 +72,7 @@ function Profile() {
   };
 
   const [currentInviteCode, setCurrentInviteCode] = useState("");
+  const [currentInviteCodeUsage, setCurrentInviteCodeUsage] = useState(0);
   const [currentUsername, setCurrentUsername] = useState("");
   const [totalUserPaperPoint, setTotalUserPaperPoint] = useState(0);
   const [currentUserPaperPoint, setCurrentUserPaperPoint] = useState(0);
@@ -111,9 +112,9 @@ function Profile() {
           `/api/users/${embeddedWalletAddress.toString()}`
         );
 
-        setInventory(response.data.cardInventory);
-        setCurrentUsername(response.data.username);
         setCurrentInviteCode(response.data.inviteCode);
+        setCurrentUsername(response.data.username);
+        setInventory(response.data.cardInventory);
       } catch (error) {
         console.error(
           `Error fetching user ${embeddedWalletAddress} card inventory`,
@@ -173,6 +174,18 @@ function Profile() {
 
   useEffect(() => {
     if (hasMounted.current) {
+      const fetchInviteCodeUsage = async () => {
+        try {
+          const response = await axios.get(
+            `/api/invitecodes/${currentInviteCode.toString()}`
+          );
+          setCurrentInviteCodeUsage(response.data.totalUsage);
+        } catch (error) {
+          console.error("Error fetching invite code usage:", error);
+        }
+      };
+      fetchInviteCodeUsage();
+
       const fetchCardPosition = async () => {
         try {
           const userCardIds = inventory.map((card) => card.uniqueId.toString());
@@ -496,28 +509,6 @@ function Profile() {
     return outputArray;
   }
 
-  const upArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-green-500"
-    >
-      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
-    </svg>
-  );
-
-  const downArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-4 h-4 text-red-500"
-    >
-      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
-    </svg>
-  );
-
   return (
     <div className="flex flex-col lg:flex-row px-2 lg:px-0 min-h-screen bg-white lg:bg-gray-100">
       <div className="w-full lg:w-1/4 p-4 bg-white border border-gray-300 rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
@@ -638,6 +629,14 @@ function Profile() {
               </span>
               <span className="text-sm font-semibold text-gray-400 pr-8">
                 {currentInviteCode}
+              </span>
+            </div>
+            <div className="flex justify-between w-full mt-2 mx-4">
+              <span className="text-sm font-semibold text-gray-400">
+                Total Referal:
+              </span>
+              <span className="text-sm font-semibold text-gray-400 pr-8">
+                {currentInviteCodeUsage}
               </span>
             </div>
             <div className="flex justify-between w-full mt-2 mx-4">
