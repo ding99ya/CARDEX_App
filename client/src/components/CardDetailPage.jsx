@@ -192,20 +192,39 @@ function CardDetailPage() {
             shares: currentHolders,
           };
         });
+
         fetchUserShares();
+
         const fetchFirstActivity = async () => {
-          const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
-            params: { page: 1, limit: 1 },
-          });
-          console.log(response.data[0]);
-          setActivities((prevActivities) => [
-            response.data[0],
-            ...prevActivities,
-          ]);
+          try {
+            const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
+              params: { page: 1, limit: 1 },
+            });
+            setActivities((prevActivities) => [
+              response.data[0],
+              ...prevActivities,
+            ]);
+          } catch (error) {
+            console.error(error);
+          }
         };
+
+        const fetchCardHolders = async () => {
+          try {
+            const response = await axios.get(`/api/cardholders/${uniqueId}`);
+            setHolders(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+
         setTimeout(() => {
           fetchFirstActivity();
         }, 2000);
+
+        setTimeout(() => {
+          fetchCardHolders();
+        }, 3000);
       }
     });
   }
