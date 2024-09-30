@@ -251,7 +251,7 @@ const Leaderboard = () => {
           className="min-w-full rounded-xl p-2 bg-blue-100"
           style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
         >
-          <thead className="bg-white h-12 text-black text-sm rounded-t-xl rounded-b-xl">
+          {/* <thead className="bg-white h-12 text-black text-sm rounded-t-xl rounded-b-xl">
             <tr>
               <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
                 RANK
@@ -261,7 +261,7 @@ const Leaderboard = () => {
                 POINTS
               </th>
             </tr>
-          </thead>
+          </thead> */}
           <tbody>
             {users.map((user, index) => (
               <tr
