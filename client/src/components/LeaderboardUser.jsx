@@ -64,11 +64,11 @@ const LeaderboardUser = () => {
         <thead className="bg-white h-8 text-gray-500 text-sm font-open-sans rounded-t-xl rounded-b-xl">
           <tr>
             <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
-              Rank
+              RANK
             </th>
-            <th className="py-2 px-4 text-left">User</th>
+            <th className="py-2 px-4 text-left">USER</th>
             <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
-              Points
+              POINTS
             </th>
           </tr>
         </thead>
@@ -85,14 +85,14 @@ const LeaderboardUser = () => {
               <td className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl`}>
                 <div className="flex items-center">
                   <span
-                    className={`text-blue-600 rounded-full px-2 text-center border border-blue-600 ${
-                      user.rank === 1
-                        ? "bg-yellow-300 border-transparent"
-                        : user.rank === 2
-                        ? "bg-slate-300 border-transparent"
-                        : user.rank === 3
-                        ? "bg-amber-600 border-transparent"
-                        : ""
+                    className={`rounded-full px-2 text-center ${
+                      index === 0
+                        ? "text-yellow-300 font-semibold"
+                        : index === 1
+                        ? "text-slate-300 font-semibold"
+                        : index === 2
+                        ? "text-amber-600 font-semibold"
+                        : "text-black"
                     }`}
                   >{`#${user.rank}`}</span>
                   {/* {index === 0 && (

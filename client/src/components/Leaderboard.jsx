@@ -251,14 +251,14 @@ const Leaderboard = () => {
           className="min-w-full rounded-xl p-2 bg-blue-100"
           style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
         >
-          <thead className="bg-white h-12 text-black text-sm font-open-sans rounded-t-xl rounded-b-xl">
+          <thead className="bg-white h-12 text-black text-sm rounded-t-xl rounded-b-xl">
             <tr>
               <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
-                Rank
+                RANK
               </th>
-              <th className="py-2 px-4 text-left">User</th>
+              <th className="py-2 px-4 text-left">USER</th>
               <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
-                Points
+                POINTS
               </th>
             </tr>
           </thead>
@@ -277,14 +277,14 @@ const Leaderboard = () => {
                 >
                   <div className="flex items-center">
                     <span
-                      className={`text-black rounded-full px-2 text-center ${
+                      className={`rounded-full px-2 text-center ${
                         index === 0
-                          ? "bg-yellow-300 border-transparent"
+                          ? "text-yellow-300 font-semibold"
                           : index === 1
-                          ? "bg-slate-300 border-transparent"
+                          ? "text-slate-300 font-semibold"
                           : index === 2
-                          ? "bg-amber-600 border-transparent"
-                          : ""
+                          ? "text-amber-600 font-semibold"
+                          : "text-black"
                       }`}
                     >{`#${user.rank}`}</span>
                     {/* {index === 0 && (
