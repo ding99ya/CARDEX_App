@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,6 +9,8 @@ import "../index.css";
 const Login = () => {
   const { ready, authenticated, login, user } = usePrivy();
   const navigate = useNavigate();
+
+  const [promptVisible, setPromptVisible] = useState(false);
 
   const fetchUserAndNavigate = async () => {
     try {
@@ -36,6 +38,23 @@ const Login = () => {
     }
   };
 
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(navigator.userAgent);
+  }
+
+  function isInStandaloneMode() {
+    return "standalone" in window.navigator && window.navigator.standalone;
+  }
+
+  useEffect(() => {
+    // Check if the user is on iOS Safari and hasn't installed the PWA yet
+    if (isIOS() && !isInStandaloneMode()) {
+      setPromptVisible(true);
+    } else {
+      console.log("This device not in iOS");
+    }
+  }, []);
+
   useEffect(() => {
     if (ready && authenticated && user) {
       fetchUserAndNavigate();
@@ -50,7 +69,30 @@ const Login = () => {
     }
   };
 
-  if (!ready) {
+  if (promptVisible) {
+    return (
+      <div
+        className="flex justify-center items-center min-h-screen bg-gray-100"
+        style={{
+          backgroundImage: `url(${OnboardBg})`,
+          backgroundSize: "cover", // Make sure the background covers the entire div
+          backgroundPosition: "center", // Center the background image
+        }}
+      >
+        <div className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center z-10">
+          <div className="flex justify-center items-center mb-10">
+            <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
+          </div>
+
+          <p className="mb-8 font-open-sans font-bold text-base">
+            Please install it on phone
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!promptVisible && !ready) {
     return (
       <div
         style={{
@@ -65,7 +107,7 @@ const Login = () => {
     );
   }
 
-  if (ready && !authenticated) {
+  if (!promptVisible && ready && !authenticated) {
     return (
       <div
         className="flex justify-center items-center min-h-screen bg-gray-100"
