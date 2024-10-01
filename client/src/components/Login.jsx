@@ -84,18 +84,21 @@ const Login = () => {
             <img src={CardexWebsite} alt="Cardex" className="h-10 w-auto" />
           </div>
 
-          <p className="mb-2 font-open-sans font-bold text-xl">
+          <p className="mb-2 font-open-sans font-bold text-lg">
             Install Cardex on Home Screen
           </p>
 
-          <p className="mb-2 font-open-sans text-base">
+          <p className="mb-2 font-open-sans text-base text-left">
             To install the app, you need to add this website to your home
             screen.
           </p>
 
-          <p className="mb-2 font-open-sans text-base">
+          <p className="mb-2 font-open-sans text-base text-left">
             In your Safari browser menu, tap the Share icon and choose Add to
-            Home Screen in the options. Then open Cardex app on your home screen
+            Home Screen in the options.
+          </p>
+          <p className="mb-2 font-open-sans text-base text-left">
+            Then open Cardex app on your home screen.
           </p>
         </div>
       </div>
