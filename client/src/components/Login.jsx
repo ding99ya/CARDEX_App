@@ -80,12 +80,22 @@ const Login = () => {
         }}
       >
         <div className="w-full max-w-[calc(100%-1rem)] sm:max-w-md bg-white p-10 rounded-3xl shadow-xl text-center z-10">
-          <div className="flex justify-center items-center mb-10">
-            <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
+          <div className="flex justify-center items-center mb-4">
+            <img src={CardexWebsite} alt="Cardex" className="h-10 w-auto" />
           </div>
 
-          <p className="mb-8 font-open-sans font-bold text-base">
-            Please install it on phone
+          <p className="mb-2 font-open-sans font-bold text-xl">
+            Install Cardex on Home Screen
+          </p>
+
+          <p className="mb-2 font-open-sans text-base">
+            To install the app, you need to add this website to your home
+            screen.
+          </p>
+
+          <p className="mb-2 font-open-sans text-base">
+            In your Safari browser menu, tap the Share icon and choose Add to
+            Home Screen in the options. Then open Cardex app on your home screen
           </p>
         </div>
       </div>
