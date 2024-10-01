@@ -84,7 +84,7 @@ const Login = () => {
             <img src={CardexWebsite} alt="Cardex" className="h-10 w-auto" />
           </div>
 
-          <p className="mb-4 font-open-sans font-bold text-lg">
+          <p className="mb-4 font-open-sans font-bold text-lg text-left">
             Install Cardex on Home Screen
           </p>
 
