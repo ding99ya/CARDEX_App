@@ -118,6 +118,10 @@ root.render(
       // Create embedded wallets for users who don't have a wallet
       embeddedWallets: {
         createOnLogin: "users-without-wallets",
+        priceDisplay: {
+          primary: "native-token",
+          secondary: "fiat-currency",
+        },
       },
       defaultChain: baseSepolia,
       supportedChains: [baseSepolia, base, mainnet],
