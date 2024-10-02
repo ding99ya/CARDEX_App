@@ -59,7 +59,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full mt-2 lg:mt-2 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
+            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Presale")}
             style={{
               backgroundImage: `url(${CardexPresaleExtension})`,

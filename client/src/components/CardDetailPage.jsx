@@ -710,7 +710,7 @@ function CardDetailPage() {
 
             <button
               onClick={() => claim()}
-              className="w-1/3 bg-white text-sm text-black border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black"
+              className="w-1/3 bg-white text-sm text-black border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-1px)] rounded-full hover:bg-gray-200 hover:text-black"
             >
               Claim
             </button>
