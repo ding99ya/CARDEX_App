@@ -59,7 +59,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full my-2 lg:my-4 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
+            className="w-full my-1 lg:my-2 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Presale")}
             style={{
               backgroundImage: `url(${CardexPresaleExtension})`,
@@ -108,7 +108,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full my-2 lg:my-4 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
+            className="w-full my-1 lg:my-2 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Pokemon")}
             style={{
               backgroundImage: `url(${CardexPokemonExtension})`,
@@ -157,7 +157,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full my-2 lg:my-4 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
+            className="w-full my-1 lg:my-2 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Basketball")}
             style={{
               backgroundImage: `url(${CardexSportsExtension})`,
@@ -206,7 +206,7 @@ function Market() {
             </div>
           </div> */}
           <div
-            className="w-full my-2 lg:my-4 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
+            className="w-full my-1 lg:my-2 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
             onClick={() => navigateTo("/Market/Baseball")}
             style={{
               backgroundImage: `url(${CardexSportsExtension})`,
