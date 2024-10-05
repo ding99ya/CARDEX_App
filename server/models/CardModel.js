@@ -13,9 +13,6 @@ const CardSchema = new mongoose.Schema(
     lastPrice: Number,
     trend: Number,
     shares: Number,
-    initialSharesPrice: Number,
-    ipoSharesPrice: Number,
-    ipoShares: Number,
   },
   { collection: "cards" }
 );
