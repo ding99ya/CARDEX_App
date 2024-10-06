@@ -229,7 +229,7 @@ function CardPage({ category }) {
       {
         name: "Card 5",
         photo: PresaleCard,
-        uniqueId: "4",
+        uniqueId: "5",
         price: 0,
         shares: 0,
         category: "card",
