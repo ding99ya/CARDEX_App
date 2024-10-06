@@ -20,8 +20,6 @@ const CardSchema = new mongoose.Schema({
   ipoTime: String,
   price: Number,
   category: String,
-  lastPrice: Number,
-  trend: Number,
   shares: Number,
 });
 
@@ -43,9 +41,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:43 GMT",
     price: 0.02,
     category: "pokemon",
-    lastPrice: 0.011,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -59,9 +55,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:48 GMT",
     price: 0.075,
     category: "pokemon",
-    lastPrice: 0.0103,
     shares: 0,
-    trend: 3,
   });
 
   exampleCard.push({
@@ -75,9 +69,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:45 GMT",
     price: 0.01,
     category: "pokemon",
-    lastPrice: 0.0107,
     shares: 0,
-    trend: 17,
   });
 
   exampleCard.push({
@@ -91,9 +83,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:52 GMT",
     price: 0.023,
     category: "pokemon",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 17,
   });
 
   exampleCard.push({
@@ -107,9 +97,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:39 GMT",
     price: 0.05,
     category: "pokemon",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -123,9 +111,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:43 GMT",
     price: 0.007,
     category: "basketball",
-    lastPrice: 0.0103,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -139,9 +125,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:48 GMT",
     price: 0.01,
     category: "basketball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -155,9 +139,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:45 GMT",
     price: 0.02,
     category: "basketball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -171,9 +153,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:52 GMT",
     price: 0.04,
     category: "basketball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -187,9 +167,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:39 GMT",
     price: 0.01,
     category: "basketball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -203,9 +181,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:43 GMT",
     price: 0.06,
     category: "baseball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -219,9 +195,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:48 GMT",
     price: 0.015,
     category: "baseball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -235,9 +209,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:45 GMT",
     price: 0.03,
     category: "baseball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -251,9 +223,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:52 GMT",
     price: 0.01,
     category: "baseball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -267,9 +237,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:39 GMT",
     price: 0.01,
     category: "baseball",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -283,9 +251,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:43 GMT",
     price: 0.08,
     category: "presale",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -299,9 +265,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:43 GMT",
     price: 0.07,
     category: "presale",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   exampleCard.push({
@@ -315,9 +279,7 @@ const createCard = async () => {
     ipoTime: "Fri, 14 Jun 2024 16:51:43 GMT",
     price: 0.06,
     category: "presale",
-    lastPrice: 0.01,
     shares: 0,
-    trend: 0,
   });
 
   try {

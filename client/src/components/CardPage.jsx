@@ -126,7 +126,6 @@ function CardPage({ category }) {
       if (index !== -1) {
         const currentHolders = Number(updatedCard.shares);
         const currentPrice = Number(updatedCard.price);
-        const currentTrend = getTrend(currentPrice, cards[index].lastPrice);
 
         setCards((prevCards) =>
           prevCards.map((card) =>
@@ -134,7 +133,6 @@ function CardPage({ category }) {
               ? {
                   ...card,
                   price: currentPrice,
-                  trend: currentTrend,
                   shares: Number(currentHolders),
                 }
               : card
@@ -201,8 +199,6 @@ function CardPage({ category }) {
         photo: PresaleCard,
         uniqueId: "1",
         price: 0,
-        lastPrice: 0,
-        trend: 0.0,
         shares: 0,
         category: "card",
       },
@@ -211,8 +207,6 @@ function CardPage({ category }) {
         photo: PresaleCard,
         uniqueId: "2",
         price: 0,
-        lastPrice: 0,
-        trend: 0.0,
         shares: 0,
         category: "card",
       },
@@ -221,8 +215,6 @@ function CardPage({ category }) {
         photo: PresaleCard,
         uniqueId: "3",
         price: 0,
-        lastPrice: 0,
-        trend: 0.0,
         shares: 0,
         category: "card",
       },
@@ -231,8 +223,14 @@ function CardPage({ category }) {
         photo: PresaleCard,
         uniqueId: "4",
         price: 0,
-        lastPrice: 0,
-        trend: 0.0,
+        shares: 0,
+        category: "card",
+      },
+      {
+        name: "Card 5",
+        photo: PresaleCard,
+        uniqueId: "4",
+        price: 0,
         shares: 0,
         category: "card",
       },
@@ -316,12 +314,12 @@ function CardPage({ category }) {
   };
 
   // Function to get Up/Down trend of a card in percentage compared to the price from last day
-  const getTrend = (currentPrice, lastPrice) => {
-    const priceTrend = (((currentPrice - lastPrice) / lastPrice) * 100).toFixed(
-      2
-    );
-    return priceTrend;
-  };
+  // const getTrend = (currentPrice, lastPrice) => {
+  //   const priceTrend = (((currentPrice - lastPrice) / lastPrice) * 100).toFixed(
+  //     2
+  //   );
+  //   return priceTrend;
+  // };
 
   // Function to get shares being bought
   // This method is not currently used because the holders will be directly fetched from the web socket events

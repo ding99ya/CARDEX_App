@@ -184,11 +184,9 @@ function CardDetailPage() {
         setCard((prevCard) => {
           const currentHolders = Number(updatedCard.shares);
           const currentPrice = Number(updatedCard.price);
-          const currentTrend = getTrend(currentPrice, prevCard.lastPrice);
           return {
             ...prevCard,
             price: currentPrice,
-            trend: currentTrend,
             shares: currentHolders,
           };
         });
