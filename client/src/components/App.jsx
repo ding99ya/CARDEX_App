@@ -60,6 +60,14 @@ function App() {
               }
             />
             <Route
+              path="/market/sports"
+              element={
+                <ProtectedRoute>
+                  <CardPage category="sports" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/market/basketball"
               element={
                 <ProtectedRoute>

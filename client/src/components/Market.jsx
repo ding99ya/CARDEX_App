@@ -158,7 +158,7 @@ function Market() {
           </div> */}
           <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
-            onClick={() => navigateTo("/Market/Basketball")}
+            onClick={() => navigateTo("/Market/Sports")}
             style={{
               backgroundImage: `url(${CardexSportsExtension})`,
               backgroundSize: "cover",
@@ -173,9 +173,9 @@ function Market() {
               {/* Text div removed */}
               <button
                 className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full w-full max-w-xs text-center hover:bg-white hover:text-black transition duration-300 ease-in-out"
-                onClick={() => navigateTo("/Market/Basketball")}
+                onClick={() => navigateTo("/Market/Sports")}
               >
-                BASKETBALL
+                SPORTS
               </button>
             </div>
           </div>
@@ -205,29 +205,6 @@ function Market() {
               </button>
             </div>
           </div> */}
-          <div
-            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out"
-            onClick={() => navigateTo("/Market/Baseball")}
-            style={{
-              backgroundImage: `url(${CardexSportsExtension})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="relative w-full pb-[50.0%] lg:pb-[50.0%]">
-              {/* Image div removed since the background image is now on the parent div */}
-            </div>
-
-            <div className="p-4 flex justify-center w-full">
-              {/* Text div removed */}
-              <button
-                className="text-2xl text-white font-bold font-helvetica-neue px-4 py-1 rounded-full w-full max-w-xs text-center hover:bg-white hover:text-black transition duration-300 ease-in-out"
-                onClick={() => navigateTo("/Market/Baseball")}
-              >
-                BASEBALL
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

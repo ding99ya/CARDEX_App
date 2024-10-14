@@ -19,7 +19,7 @@ const alchemyKey =
 const web3 = createAlchemyWeb3(alchemyKey);
 
 // CardexV1 address on Base Sepolia
-const CONTRACT_ADDR = "0x0B6afc7727A30B867533d70d0d08F40d5cF07Ea9";
+const CONTRACT_ADDR = "0xcE1159D7C4B27644D8A0388C815B3De09fad4B46";
 
 // CardexV1 contract instance
 const contract = new web3.eth.Contract(abi, CONTRACT_ADDR);
@@ -322,6 +322,30 @@ const updateOrCreateCardActivity = async (
   }
 };
 
+// Function to add the card shares to initial owner inventory
+const updateUsersWhenIPO = async (walletAddress, uniqueId, shares) => {
+  try {
+    // Find the user document corresponding to the walletAddress
+    const user = await users.findOne({ walletAddress });
+
+    if (!user) {
+      console.log("This user should already exist", walletAddress);
+    } else {
+      // If buying and card doesn't exist, add the new card to the inventory
+      user.cardInventory.push({ uniqueId, shares });
+      await user.save();
+      console.log(
+        `Added Card ${uniqueId} to user's ${walletAddress} inventory`
+      );
+    }
+  } catch (error) {
+    console.error(
+      `Error updatiing user's ${walletAddress} inventory for Card ${uniqueId} with error: `,
+      error
+    );
+  }
+};
+
 // Note: update user related may be separated from card update in production
 // Function to update a user's card inventory when buy
 const updateUsersWhenBuy = async (walletAddress, uniqueId, shares) => {
@@ -438,6 +462,12 @@ const updateUsersWhenSell = async (walletAddress, uniqueId, shares) => {
   }
 };
 
+// Function to fetch card
+const loadCard = async (id) => {
+  const card = await contract.methods.cards(id).call();
+  return card;
+};
+
 // Function to fetch current card share price from blockchain
 const loadCurrentPrice = async (id) => {
   const initialPrice = await contract.methods.getBuyPrice(id, 1).call();
@@ -454,6 +484,12 @@ const loadShareHolders = async (id) => {
 const loadUserShares = async (id, address) => {
   const userShares = await contract.methods.sharesBalance(id, address).call();
   return userShares.toString();
+};
+
+// Function to get card information
+const getCard = async (id) => {
+  const card = await loadCard(id);
+  return card;
 };
 
 // Function to transfer current price to a format with 3 decimals (X.XXX ETH)
@@ -479,6 +515,93 @@ const getTrend = (currentPrice, lastPrice) => {
   );
   return Number(priceTrend).toFixed(2);
 };
+
+// function to add listener to IPOCard() event onchain so that IPOCard() event can trigger update for cards, prices and users
+function addCardIPOListener() {
+  console.log("Card IPO Listener Started");
+  contract.events.IPOCard({}, async (error, data) => {
+    if (error) {
+      console.log(`Error when listening to IPO Card event: `, error);
+    } else {
+      try {
+        const cardID = data.returnValues[0];
+
+        const initialOwner = data.returnValues[1];
+
+        const initialOwnerShares = data.returnValues[2];
+
+        const newIPOCard = await getCard(Number(cardID));
+
+        console.log(initialOwner);
+        console.log(initialOwnerShares);
+        console.log(newIPOCard);
+        console.log(newIPOCard.cardName.toString());
+        console.log(newIPOCard.category.toString());
+        console.log(newIPOCard.rarity);
+        console.log(newIPOCard.frontImage.toString());
+        console.log(newIPOCard.backImage.toString());
+        console.log(newIPOCard.tradeStage);
+
+        let rarity;
+
+        if (Number(rarity) === 0) {
+          rarity = "RARE";
+        } else if (Number(rarity) === 1) {
+          rarity = "EPIC";
+        } else if (Number(rarity) === 2) {
+          rarity = "LEGEND";
+        } else if (Number(rarity) === 3) {
+          rarity = "ULTRA";
+        } else {
+          rarity = "RARE";
+        }
+
+        const now = new Date();
+
+        const price = await getPrice(Number(cardID));
+
+        if (Number(newIPOCard.tradeStage) === 1) {
+          const card = new Card({
+            name: newIPOCard.cardName.toString(),
+            photo: newIPOCard.frontImage.toString(),
+            backPhoto: newIPOCard.backImage.toString(),
+            uniqueId: cardID.toString(),
+            rarity: rarity,
+            ipoTime: now.toUTCString(),
+            price: Number(price),
+            category: newIPOCard.category.toString(),
+            shares: 0,
+          });
+          await card.save();
+        } else {
+          const card = new Card({
+            name: newIPOCard.cardName.toString(),
+            photo: newIPOCard.frontImage.toString(),
+            backPhoto: newIPOCard.backImage.toString(),
+            uniqueId: cardID.toString(),
+            rarity: rarity,
+            ipoTime: now.toUTCString(),
+            price: Number(price),
+            category: "presale",
+            shares: 0,
+          });
+          await card.save();
+        }
+
+        updateUsersWhenIPO(
+          initialOwner,
+          cardID.toString(),
+          Number(initialOwnerShares)
+        );
+      } catch (error) {
+        console.log(
+          `Error when listening to IPOCard event for card and try to update for: `,
+          error
+        );
+      }
+    }
+  });
+}
 
 // function to add listener to Trade() event onchain so that Trade() event can trigger update for cards, prices and users
 function addTradeListener() {
@@ -516,14 +639,6 @@ function addTradeListener() {
           Number(currentPrice),
           Number(currentShareHolders)
         );
-
-        // const currentTime = new Date();
-
-        // updateOrCreatePrice(
-        //   cardID.toString(),
-        //   Number(currentPrice),
-        //   currentTime
-        // );
 
         const currentTraderShares = await loadUserShares(
           Number(cardID),
@@ -667,6 +782,8 @@ function addSellListener() {
 
 // addBuyListener();
 // addSellListener();
+
+addCardIPOListener();
 
 addTradeListener();
 
