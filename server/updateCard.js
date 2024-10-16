@@ -3,7 +3,6 @@ const abi = require("./CardexV1.json");
 const axios = require("axios");
 
 const mongoose = require("mongoose");
-// const CardModel = require("./models/CardModel");
 require("dotenv").config();
 
 // Connect to MongoDB
@@ -14,12 +13,11 @@ mongoose
 
 // Alchemy configuration to fetch info from blockchain and set up info
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-const alchemyKey =
-  "wss://base-sepolia.g.alchemy.com/v2/wMbCgZrHMGP75QlXkB6LtcKOKDb4BHfg";
+const alchemyKey = process.env.ALCHEMY_KEY;
 const web3 = createAlchemyWeb3(alchemyKey);
 
 // CardexV1 address on Base Sepolia
-const CONTRACT_ADDR = "0xcE1159D7C4B27644D8A0388C815B3De09fad4B46";
+const CONTRACT_ADDR = process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR;
 
 // CardexV1 contract instance
 const contract = new web3.eth.Contract(abi, CONTRACT_ADDR);
@@ -35,6 +33,11 @@ const cardSchema = new mongoose.Schema({
   price: Number,
   category: String,
   shares: Number,
+  currentScore: Number,
+  avgScore: Number,
+  currentTournamentScore: Number,
+  avgTournamentScore: Number,
+  dayScore: Number,
 });
 
 // Create the model
@@ -89,7 +92,7 @@ const cardHolderSchema = new mongoose.Schema({
 // Create the model for the card holders collection
 const cardHolders = mongoose.model("cardHolders", cardHolderSchema);
 
-// Define the activities schems
+// Define the activities schemas
 const activitySchema = new mongoose.Schema({
   time: { type: Date, required: true },
   username: { type: String, required: true },
@@ -111,7 +114,7 @@ const CardActivity = mongoose.model("cardActivity", cardActivitySchema);
 const updateCard = async (uniqueId, newPrice, newShares) => {
   try {
     // find the card with specific uniqueId and then update it
-    const updateResult = await Card.updateOne(
+    await Card.updateOne(
       { uniqueId: uniqueId },
       { $set: { price: newPrice, shares: newShares } }
     );
@@ -119,6 +122,79 @@ const updateCard = async (uniqueId, newPrice, newShares) => {
     console.log(`Card ${uniqueId} info updated`);
   } catch (err) {
     console.error(`Error updating Card ${uniqueId} info with error:  `, err);
+  }
+};
+
+// Function to update the info for a specific card including different scores
+const updateCardScore = async (uniqueId, shares) => {
+  try {
+    // find the card with specific uniqueId
+    const card = await Card.findOne({ uniqueId: uniqueId });
+
+    const cardIPOTime = new Date(card.ipoTime);
+    const currentTime = new Date();
+
+    // In production need to calculate after 3 days price stable period
+    // if (currentTime - cardIPOTime > 3 * 24 * 1000 * 60 * 60) {
+    let deltaScore;
+
+    if (card.rarity === "RARE") {
+      deltaScore = 6 * shares;
+    } else if (card.rarity === "EPIC") {
+      deltaScore = 16 * shares;
+    } else if (card.rarity === "LEGEND") {
+      deltaScore = 36 * shares;
+    }
+
+    const newDailyScore = card.dayScore + deltaScore;
+
+    // In production need to calculate after 3 days price stable period
+    const differenceInDays = Math.floor(
+      (currentTime - cardIPOTime) / (24 * 1000 * 60 * 60)
+    );
+
+    const newCurrentScore = Number(
+      (card.avgScore * differenceInDays + newDailyScore) /
+        (differenceInDays + 1)
+    ).toFixed(2);
+
+    // Convert current time to US CST (Central Standard Time)
+    const cstTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "America/Chicago" })
+    );
+
+    const currentDay = cstTime.getDay(); // 0 is Sunday, 6 is Saturday
+    const currentHour = cstTime.getHours(); // Get the hour in CST
+
+    let newCurrentTournamentScore = card.currentTournamentScore;
+
+    if (
+      (currentDay > 0 && currentDay < 4) ||
+      (currentDay === 4 && currentHour < 12)
+    ) {
+      const tournamentStartDays = currentDay - 1;
+
+      newCurrentTournamentScore = Number(
+        (card.avgTournamentScore * tournamentStartDays + newDailyScore) /
+          (tournamentStartDays + 1)
+      ).toFixed(2);
+    }
+
+    await Card.updateOne(
+      { uniqueId: uniqueId },
+      {
+        $set: {
+          currentScore: newCurrentScore,
+          currentTournamentScore: newCurrentTournamentScore,
+          dayScore: newDailyScore,
+        },
+      }
+    );
+    // }
+
+    console.log(`Card ${uniqueId} score updated`);
+  } catch (err) {
+    console.error(`Error updating Card ${uniqueId} score with error:  `, err);
   }
 };
 
@@ -252,7 +328,7 @@ const updateCardHoldersAndActivity = async (
         deltaShares,
         ethAmount
       );
-    } else if (user && user.DID === "0") {
+    } else {
       // const name = walletAddress.slice(0, 6);
       const username = walletAddress.slice(0, 6);
       // const profilePhoto =
@@ -286,7 +362,7 @@ const updateOrCreateCardActivity = async (
     const existingCardActivity = await CardActivity.findOne({ uniqueId });
 
     if (existingCardActivity) {
-      // If the document exists, update the priceHistory
+      // If the document exists, update the activity history
       existingCardActivity.activity.unshift({
         time: time,
         username: username,
@@ -331,7 +407,7 @@ const updateUsersWhenIPO = async (walletAddress, uniqueId, shares) => {
     if (!user) {
       console.log("This user should already exist", walletAddress);
     } else {
-      // If buying and card doesn't exist, add the new card to the inventory
+      // add the new card to the inventory
       user.cardInventory.push({ uniqueId, shares });
       await user.save();
       console.log(
@@ -353,19 +429,20 @@ const updateUsersWhenBuy = async (walletAddress, uniqueId, shares) => {
     // Find the user document corresponding to the walletAddress
     const user = await users.findOne({ walletAddress });
 
-    if (!user) {
-      // walletAddress doesn't exist in db but is buying, need to create a new record
-      const newUser = new users({
-        DID: "0",
-        walletAddress: walletAddress,
-        username: "BT",
-        invited: false,
-        inviteCode: "",
-        cardInventory: [{ uniqueId: uniqueId, shares: shares }],
-      });
-      await newUser.save();
-      console.log("User created successfully for Buy event: ", newUser);
-    } else {
+    // if (!user) {
+    //   // walletAddress doesn't exist in db but is buying, need to create a new record
+    //   const newUser = new users({
+    //     DID: "0",
+    //     walletAddress: walletAddress,
+    //     username: "BT",
+    //     invited: false,
+    //     inviteCode: "",
+    //     cardInventory: [{ uniqueId: uniqueId, shares: shares }],
+    //   });
+    //   await newUser.save();
+    //   console.log("User created successfully for Buy event: ", newUser);
+    // } else {
+    if (user) {
       // Find the card inventory corresponding to the uniqueId
       const cardIndex = user.cardInventory.findIndex(
         (card) => card.uniqueId === uniqueId
@@ -404,19 +481,20 @@ const updateUsersWhenSell = async (walletAddress, uniqueId, shares) => {
     // Find the user document corresponding to the walletAddress
     const user = await users.findOne({ walletAddress });
 
-    if (!user) {
-      // walletAddress doesn't exist in db but is selling, need to create a new record
-      const newUser = new users({
-        DID: "0",
-        walletAddress: walletAddress,
-        username: "BT",
-        invited: false,
-        inviteCode: "",
-        cardInventory: [{ uniqueId: uniqueId, shares: shares }],
-      });
-      await newUser.save();
-      console.log("User created successfully for Sell event: ", newUser);
-    } else {
+    // if (!user) {
+    //   // walletAddress doesn't exist in db but is selling, need to create a new record
+    //   const newUser = new users({
+    //     DID: "0",
+    //     walletAddress: walletAddress,
+    //     username: "BT",
+    //     invited: false,
+    //     inviteCode: "",
+    //     cardInventory: [{ uniqueId: uniqueId, shares: shares }],
+    //   });
+    //   await newUser.save();
+    //   console.log("User created successfully for Sell event: ", newUser);
+    // } else {
+    if (user) {
       // Find the card inventory corresponding to the uniqueId
       const cardIndex = user.cardInventory.findIndex(
         (card) => card.uniqueId === uniqueId
@@ -424,15 +502,11 @@ const updateUsersWhenSell = async (walletAddress, uniqueId, shares) => {
 
       if (cardIndex === -1) {
         // If selling and card doesn't exist, add the new card to the inventory
-        user.cardInventory.push({ uniqueId, shares });
-        await user.save();
-        if (user.cardInventory[cardIndex].shares === 0) {
-          user.cardInventory.splice(cardIndex, 1);
-          console.log(
-            `Removed Card ${uniqueId} from user's ${walletAddress} inventory as shares dropped to 0`
-          );
+        if (shares > 0) {
+          user.cardInventory.push({ uniqueId, shares });
+          await user.save();
         }
-        await user.save();
+
         console.log(
           `Added Card ${uniqueId} to user's ${walletAddress} inventory`
         );
@@ -497,7 +571,9 @@ const getPrice = async (id) => {
   const price = await loadCurrentPrice(id);
   const priceToBigNumber = BigNumber.from(price);
   const oneEther = BigNumber.from("1000000000000000000");
-  const priceInETH = Number(priceToBigNumber.mul(10000).div(oneEther)) / 10000;
+  const priceInETH = Number(
+    Number(priceToBigNumber.mul(1000).div(oneEther)) / 1000
+  ).toFixed(3);
 
   return priceInETH;
 };
@@ -544,13 +620,13 @@ function addCardIPOListener() {
 
         let rarity;
 
-        if (Number(rarity) === 0) {
+        if (Number(newIPOCard.rarity) === 0) {
           rarity = "RARE";
-        } else if (Number(rarity) === 1) {
+        } else if (Number(newIPOCard.rarity) === 1) {
           rarity = "EPIC";
-        } else if (Number(rarity) === 2) {
+        } else if (Number(newIPOCard.rarity) === 2) {
           rarity = "LEGEND";
-        } else if (Number(rarity) === 3) {
+        } else if (Number(newIPOCard.rarity) === 3) {
           rarity = "ULTRA";
         } else {
           rarity = "RARE";
@@ -571,6 +647,11 @@ function addCardIPOListener() {
             price: Number(price),
             category: newIPOCard.category.toString(),
             shares: 0,
+            currentScore: 0,
+            avgScore: 0,
+            currentTournamentScore: 0,
+            avgTournamentScore: 0,
+            dayScore: 0,
           });
           await card.save();
         } else {
@@ -584,6 +665,11 @@ function addCardIPOListener() {
             price: Number(price),
             category: "presale",
             shares: 0,
+            currentScore: 0,
+            avgScore: 0,
+            currentTournamentScore: 0,
+            avgTournamentScore: 0,
+            dayScore: 0,
           });
           await card.save();
         }
@@ -629,16 +715,18 @@ function addTradeListener() {
 
         const currentShareHolders = await getHolders(Number(cardID));
 
-        const card = await Card.findOne(
-          { uniqueId: cardID.toString() },
-          "lastPrice"
-        );
+        // const card = await Card.findOne(
+        //   { uniqueId: cardID.toString() },
+        //   "lastPrice"
+        // );
 
         updateCard(
           cardID.toString(),
           Number(currentPrice),
           Number(currentShareHolders)
         );
+
+        updateCardScore(cardID.toString(), Number(deltaShares));
 
         const currentTraderShares = await loadUserShares(
           Number(cardID),

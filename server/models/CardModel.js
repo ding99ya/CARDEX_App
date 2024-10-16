@@ -11,6 +11,11 @@ const CardSchema = new mongoose.Schema(
     price: Number,
     category: String,
     shares: Number,
+    currentScore: Number,
+    avgScore: Number,
+    currentTournamentScore: Number,
+    avgTournamentScore: Number,
+    dayScore: Number,
   },
   { collection: "cards" }
 );
