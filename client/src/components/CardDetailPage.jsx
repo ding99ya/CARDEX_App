@@ -693,11 +693,12 @@ function CardDetailPage() {
             <button
               onClick={() => setOpenSellModal(true)}
               className={classNames(
-                "w-1/2 px-4 py-2 text-sm font-bold rounded-full",
+                "w-1/2 px-4 py-2 text-sm font-bold rounded-full border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-1px)]",
                 {
-                  "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
-                    !(userShares === 0 || card.shares === 0),
-                  "bg-blue-200 text-gray-200":
+                  "bg-white text-black hover:bg-gray-200": !(
+                    userShares === 0 || card.shares === 0
+                  ),
+                  "bg-white text-gray-200":
                     userShares === 0 || card.shares === 0,
                 }
               )}
