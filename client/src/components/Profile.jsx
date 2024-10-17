@@ -709,16 +709,16 @@ function Profile() {
       <div className="hidden lg:block w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
         {userCards.length === 0 ? (
           <div>
-            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
+            <div className="bg-white text-black flex justify-start items-center p-4 rounded-2xl mt-4 lg:mx-6">
               <span className="font-semibold text-base">
                 Inventory Worth: {totalWorth} ETH
               </span>
-              <button
+              {/* <button
                 onClick={() => claim()}
                 className="bg-blue-400 text-white font-semibold py-1 px-4 rounded-xl hover:bg-blue-500 hover:text-white transition duration-300"
               >
                 Claim All
-              </button>
+              </button> */}
             </div>
             <div className="flex flex-col items-center">
               <p className="text-lg mt-6">Empty Collectible Inventory</p>
@@ -726,16 +726,16 @@ function Profile() {
           </div>
         ) : (
           <div>
-            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
+            <div className="bg-white text-black flex justify-start items-center p-4 rounded-2xl mt-4 lg:mx-6">
               <span className="font-semibold text-base">
                 Inventory Worth: {totalWorth} ETH
               </span>
-              <button
+              {/* <button
                 onClick={() => claim()}
                 className="bg-blue-400 text-white font-semibold py-1 px-4 rounded-xl hover:bg-blue-500 hover:text-white transition duration-300"
               >
                 Claim All
-              </button>
+              </button> */}
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:px-4">
