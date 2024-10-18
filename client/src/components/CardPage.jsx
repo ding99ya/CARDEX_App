@@ -177,6 +177,27 @@ function CardPage({ category }) {
           )
         );
       }
+
+      const index2 = searchCards.findIndex(
+        (card) => card.uniqueId === cardID.toString()
+      );
+
+      if (index2 !== -1) {
+        const currentHolders = Number(updatedCard.shares);
+        const currentPrice = Number(updatedCard.price);
+
+        setSearchCards((prevCards) =>
+          prevCards.map((card) =>
+            card.uniqueId === cardID.toString()
+              ? {
+                  ...card,
+                  price: currentPrice,
+                  shares: Number(currentHolders),
+                }
+              : card
+          )
+        );
+      }
     });
   }
 
