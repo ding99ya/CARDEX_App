@@ -746,7 +746,7 @@ function CardPage({ category }) {
         </span>
 
         <div className="flex items-center space-x-2 lg:space-x-4 self-end lg:self-auto w-full justify-end">
-          <div className="flex items-center bg-white rounded-md mx-2 px-2 py-1 w-full lg:w-[200px]">
+          <div className="flex items-center bg-white rounded-md px-2 py-1 w-full lg:w-[200px]">
             <input
               type="text"
               placeholder="Search"
