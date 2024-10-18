@@ -494,8 +494,8 @@ function CardPage({ category }) {
     { label: "Latest", sortKey: "ipoTime", ascending: false },
     { label: "Price", sortKey: "price", ascending: false },
     { label: "Price", sortKey: "price", ascending: true },
-    { label: "Holder", sortKey: "shares", ascending: false },
-    { label: "Holder", sortKey: "shares", ascending: true },
+    { label: "Score", sortKey: "currentScore", ascending: false },
+    { label: "Score", sortKey: "currentScore", ascending: true },
   ];
 
   const sortUpArrow = (
