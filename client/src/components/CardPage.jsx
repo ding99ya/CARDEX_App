@@ -628,7 +628,7 @@ function CardPage({ category }) {
 
   return (
     <div className="min-h-screen mx-auto bg-gray-100">
-      <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-4 lg:mx-12 space-y-4 lg:space-y-0 lg:space-x-2">
+      {/* <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-4 lg:mx-12 space-y-4 lg:space-y-0 lg:space-x-2">
         <span
           onClick={goBack}
           className="cursor-pointer inline-block text-black py-2 mt-3 lg:mb-2 font-semibold whitespace-nowrap self-start lg:self-auto"
@@ -689,6 +689,79 @@ function CardPage({ category }) {
                     <button
                       onClick={() => handleSortSelection(option)}
                       className="flex items-center w-full px-2 lg:px-4 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
+                    >
+                      {option.label}{" "}
+                      {option.label !== "Latest" &&
+                        (option.ascending ? sortUpArrow : sortDownArrow)}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div> */}
+
+      <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-12 lg:mx-0 space-y-4 lg:space-y-0 lg:space-x-2">
+        <span
+          onClick={goBack}
+          className="cursor-pointer inline-block text-black py-2 mt-3 lg:mb-2 font-semibold whitespace-nowrap self-start lg:self-auto"
+        >
+          &lt; Back
+        </span>
+
+        <div className="flex items-center space-x-2 lg:space-x-4 self-end lg:self-auto w-full justify-end">
+          {/* Filter Button */}
+          <div className="relative inline-block text-left">
+            <button
+              onClick={() => setFilterIsOpen(!filterIsOpen)}
+              className="inline-flex items-center justify-between w-[90px] px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
+            >
+              <span className="flex items-center whitespace-nowrap">
+                {selectedFilter.label}
+              </span>
+              <img
+                src={sortingIcon}
+                alt="Filter Icon"
+                className="w-5 h-5 ml-1"
+              />
+            </button>
+            {filterIsOpen && (
+              <div className="absolute right-0 z-10 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                {filterOptions.map((option, index) => (
+                  <div key={index} className="py-1">
+                    <button
+                      onClick={() => handleFilterSelection(option)}
+                      className="flex items-center w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
+                    >
+                      {option.label}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Sort Button */}
+          <div className="relative inline-block text-left">
+            <button
+              onClick={() => setSortIsOpen(!sortIsOpen)}
+              className="inline-flex items-center justify-between w-[90px] px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
+            >
+              <span className="flex items-center whitespace-nowrap">
+                {selectedSort.label}{" "}
+                {selectedSort.label !== "Latest" &&
+                  (selectedSort.ascending ? sortUpArrow : sortDownArrow)}
+              </span>
+              <img src={sortingIcon} alt="Sort Icon" className="w-5 h-5 ml-1" />
+            </button>
+            {sortIsOpen && (
+              <div className="absolute right-0 z-10 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                {sortOptions.map((option, index) => (
+                  <div key={index} className="py-1">
+                    <button
+                      onClick={() => handleSortSelection(option)}
+                      className="flex items-center w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
                     >
                       {option.label}{" "}
                       {option.label !== "Latest" &&
