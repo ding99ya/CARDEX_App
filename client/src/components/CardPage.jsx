@@ -42,6 +42,16 @@ function CardPage({ category }) {
   // cards array includes info about a card, it will be used to render the page
   const [cards, setCards] = useState([]);
 
+  const [filteredCards, setFilteredCards] = useState([]);
+
+  // selectedFilter be used to determine which filter method is currently being used
+  const [selectedFilter, setSelectedFilter] = useState({
+    label: "All",
+  });
+
+  // filterIsOpen is used to control if the filter list should be opened
+  const [filterIsOpen, setFilterIsOpen] = useState(false);
+
   // selectedSort be used to determine which sort method is currently being used
   const [selectedSort, setSelectedSort] = useState({
     label: "Latest",
@@ -140,6 +150,27 @@ function CardPage({ category }) {
           )
         );
       }
+
+      const index1 = cardsResponse.findIndex(
+        (card) => card.uniqueId === cardID.toString()
+      );
+
+      if (index1 !== -1) {
+        const currentHolders = Number(updatedCard.shares);
+        const currentPrice = Number(updatedCard.price);
+
+        setCardsResponse((prevCards) =>
+          prevCards.map((card) =>
+            card.uniqueId === cardID.toString()
+              ? {
+                  ...card,
+                  price: currentPrice,
+                  shares: Number(currentHolders),
+                }
+              : card
+          )
+        );
+      }
     });
   }
 
@@ -202,6 +233,7 @@ function CardPage({ category }) {
         price: 0,
         shares: 0,
         category: "card",
+        currentScore: 0,
       },
       {
         name: "Card 2",
@@ -210,6 +242,7 @@ function CardPage({ category }) {
         price: 0,
         shares: 0,
         category: "card",
+        currentScore: 0,
       },
       {
         name: "Card 3",
@@ -218,6 +251,7 @@ function CardPage({ category }) {
         price: 0,
         shares: 0,
         category: "card",
+        currentScore: 0,
       },
       {
         name: "Card 4",
@@ -226,6 +260,7 @@ function CardPage({ category }) {
         price: 0,
         shares: 0,
         category: "card",
+        currentScore: 0,
       },
       {
         name: "Card 5",
@@ -234,6 +269,7 @@ function CardPage({ category }) {
         price: 0,
         shares: 0,
         category: "card",
+        currentScore: 0,
       },
     ]);
 
@@ -271,6 +307,22 @@ function CardPage({ category }) {
       hasMounted.current = true;
     }
   }, [cardsResponse]);
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      const sortedCards = [...filteredCards].sort((a, b) => {
+        if (selectedSort.sortKey === "ipoTime") {
+          return new Date(b.ipoTime) - new Date(a.ipoTime);
+        } else {
+          return selectedSort.ascending
+            ? a[selectedSort.sortKey] - b[selectedSort.sortKey]
+            : b[selectedSort.sortKey] - a[selectedSort.sortKey];
+        }
+      });
+
+      setCards(sortedCards);
+    }
+  }, [filteredCards]);
 
   // Function to load current price for a specific card
   const loadCurrentPrice = async (cardId) => {
@@ -455,6 +507,34 @@ function CardPage({ category }) {
   //   navigate(`/market`);
   // };
 
+  // Function to filter the cards based on certain rule
+  function filterCards(by) {
+    if (by === "All") {
+      setFilteredCards(cardsResponse);
+      // setCards(cardsResponse);
+    } else {
+      const filteredCards = cardsResponse.filter((card) => {
+        return card.rarity === by.toUpperCase();
+      });
+
+      // setCards(filteredCards);
+      setFilteredCards(filteredCards);
+    }
+  }
+
+  const handleFilterSelection = (option) => {
+    setSelectedFilter(option);
+    filterCards(option.label);
+    setFilterIsOpen(false);
+  };
+
+  const filterOptions = [
+    { label: "All" },
+    { label: "Rare" },
+    { label: "Epic" },
+    { label: "Legend" },
+  ];
+
   // Function triggered when remove sort button is clicked, will reset the order based on card id
   const handleRemoveSort = () => {
     const sortedCards = [...cards].sort(
@@ -480,7 +560,7 @@ function CardPage({ category }) {
       });
 
       setCards(sortedCards);
-      setSelectedSort({ label: label, sortkey: by, ascending: ascending });
+      setSelectedSort({ label: label, sortKey: by, ascending: ascending });
     }
   }
 
@@ -548,15 +628,46 @@ function CardPage({ category }) {
 
   return (
     <div className="min-h-screen mx-auto bg-gray-100">
-      <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 mx-4 lg:mx-12">
+      <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-4 lg:mx-12 space-y-4 lg:space-y-0 lg:space-x-2">
         <span
           onClick={goBack}
-          className="cursor-pointer inline-block text-black py-2 mt-3 mb-2 font-semibold whitespace-nowrap"
+          className="cursor-pointer inline-block text-black py-2 mt-3 lg:mb-2 font-semibold whitespace-nowrap self-start lg:self-auto"
         >
           &lt; Back
         </span>
-        <div className="flex items-center space-x-2 lg:space-x-4">
-          <p className="text-base font-semibold">Sort by</p>
+        <div className="flex items-center space-x-2 lg:space-x-4 self-end lg:self-auto">
+          {/* <p className="text-base font-semibold">Sort by</p> */}
+
+          <div className="relative inline-block text-left">
+            <button
+              onClick={() => setFilterIsOpen(!filterIsOpen)}
+              className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              <span className="flex items-center whitespace-nowrap">
+                {selectedFilter.label}
+              </span>
+              <img
+                src={sortingIcon}
+                alt="Filter Icon"
+                className="w-5 h-5 ml-2 -mr-1"
+              />
+            </button>
+            {filterIsOpen && (
+              <div className="absolute right-0 z-10 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                {filterOptions.map((option, index) => (
+                  <div key={index} className="py-1">
+                    <button
+                      onClick={() => handleFilterSelection(option)}
+                      className="flex items-center w-full px-4 py-2 text-sm text-black hover:bg-gray-100"
+                    >
+                      {option.label}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           <div className="relative inline-block text-left">
             <button
               onClick={() => setSortIsOpen(!sortIsOpen)}
