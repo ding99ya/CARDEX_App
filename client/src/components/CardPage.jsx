@@ -702,7 +702,7 @@ function CardPage({ category }) {
         </div>
       </div> */}
 
-      <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-2 lg:mx-12 space-y-4 lg:space-y-0 lg:space-x-2">
+      <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-1 lg:mx-12 space-y-4 lg:space-y-0 lg:space-x-2">
         <span
           onClick={goBack}
           className="cursor-pointer inline-block text-black py-2 mt-3 lg:mb-2 font-semibold whitespace-nowrap self-start lg:self-auto"
