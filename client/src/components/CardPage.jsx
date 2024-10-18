@@ -635,13 +635,13 @@ function CardPage({ category }) {
         >
           &lt; Back
         </span>
-        <div className="flex items-center space-x-2 lg:space-x-4 self-end lg:self-auto">
+        <div className="flex items-center lg:space-x-4 self-end lg:self-auto">
           {/* <p className="text-base font-semibold">Sort by</p> */}
 
           <div className="relative inline-block text-left">
             <button
               onClick={() => setFilterIsOpen(!filterIsOpen)}
-              className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="inline-flex items-center justify-between w-20 lg:w-full px-2 lg:px-4 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
             >
               <span className="flex items-center whitespace-nowrap">
                 {selectedFilter.label}
@@ -649,7 +649,7 @@ function CardPage({ category }) {
               <img
                 src={sortingIcon}
                 alt="Filter Icon"
-                className="w-5 h-5 ml-2 -mr-1"
+                className="w-5 h-5 ml-1 mr-1"
               />
             </button>
             {filterIsOpen && (
@@ -658,7 +658,7 @@ function CardPage({ category }) {
                   <div key={index} className="py-1">
                     <button
                       onClick={() => handleFilterSelection(option)}
-                      className="flex items-center w-full px-4 py-2 text-sm text-black hover:bg-gray-100"
+                      className="flex items-center w-full px-2 lg:px-4 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
                     >
                       {option.label}
                     </button>
@@ -671,7 +671,7 @@ function CardPage({ category }) {
           <div className="relative inline-block text-left">
             <button
               onClick={() => setSortIsOpen(!sortIsOpen)}
-              className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="inline-flex items-center justify-between w-20 lg:w-full px-2 lg:px-4 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
             >
               <span className="flex items-center whitespace-nowrap">
                 {selectedSort.label}{" "}
@@ -681,7 +681,7 @@ function CardPage({ category }) {
               <img
                 src={sortingIcon}
                 alt="Sort Icon"
-                className={"w-5 h-5 ml-2 -mr-1"}
+                className={"w-5 h-5 ml-1 mr-1"}
               />
             </button>
             {sortIsOpen && (
@@ -690,7 +690,7 @@ function CardPage({ category }) {
                   <div key={index} className="py-1">
                     <button
                       onClick={() => handleSortSelection(option)}
-                      className="flex items-center w-full px-4 py-2 text-sm text-black hover:bg-gray-100"
+                      className="flex items-center w-full px-2 lg:px-4 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
                     >
                       {option.label}{" "}
                       {option.label !== "Latest" &&
