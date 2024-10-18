@@ -44,6 +44,10 @@ function CardPage({ category }) {
 
   const [filteredCards, setFilteredCards] = useState([]);
 
+  const [showSearchCards, setShowSearchCards] = useState(false);
+
+  const [searchCards, setSearchCards] = useState([]);
+
   // selectedFilter be used to determine which filter method is currently being used
   const [selectedFilter, setSelectedFilter] = useState({
     label: "All",
@@ -61,6 +65,8 @@ function CardPage({ category }) {
 
   // sortIsOpen is used to control if the sort list should be opened
   const [sortIsOpen, setSortIsOpen] = useState(false);
+
+  const [searchCardName, setSearchCardName] = useState("");
 
   // openBuyModal is used to control if the buy modal window be displayed
   const [openBuyModal, setOpenBuyModal] = useState(false);
@@ -525,6 +531,9 @@ function CardPage({ category }) {
   const handleFilterSelection = (option) => {
     setSelectedFilter(option);
     filterCards(option.label);
+    setSearchCardName("");
+    setSearchCards([]);
+    setShowSearchCards(false);
     setFilterIsOpen(false);
   };
 
@@ -567,6 +576,9 @@ function CardPage({ category }) {
   const handleSortSelection = (option) => {
     setSelectedSort(option);
     sortCards(option.label, option.sortKey, option.ascending);
+    setSearchCardName("");
+    setSearchCards([]);
+    setShowSearchCards(false);
     setSortIsOpen(false);
   };
 
@@ -599,6 +611,29 @@ function CardPage({ category }) {
       <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
     </svg>
   );
+
+  const handleSearchCardNameChange = (e) => {
+    const name = e.target.value;
+    setSearchCardName(name);
+
+    if (name === "") {
+      setShowSearchCards(false);
+      setSearchCards([]);
+    }
+  };
+
+  const handleSearchCard = () => {
+    if (searchCardName === "") {
+      setShowSearchCards(false);
+      return;
+    }
+    const lowerSearch = searchCardName.toLowerCase();
+
+    setSearchCards(
+      cards.filter((card) => card.name.toLowerCase().includes(lowerSearch))
+    );
+    setShowSearchCards(true);
+  };
 
   // Trend Up arrow
   // Deprecated
@@ -711,7 +746,31 @@ function CardPage({ category }) {
         </span>
 
         <div className="flex items-center space-x-2 lg:space-x-4 self-end lg:self-auto w-full justify-end">
-          {/* Filter Button */}
+          <div className="flex items-center bg-white rounded-md mx-2 px-2 py-1 w-full lg:w-[200px]">
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchCardName}
+              onChange={handleSearchCardNameChange}
+              className="bg-white outline-none flex-grow px-2 py-1 rounded-md w-full text-xs"
+            />
+            <svg
+              className="w-4 h-4 text-black cursor-pointer"
+              onClick={handleSearchCard}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-4.35-4.35m1.39-5.09A7.5 7.5 0 1110.5 3.5a7.5 7.5 0 017.5 7.5z"
+              ></path>
+            </svg>
+          </div>
+
           <div className="relative inline-block text-left">
             <button
               onClick={() => setFilterIsOpen(!filterIsOpen)}
@@ -742,7 +801,6 @@ function CardPage({ category }) {
             )}
           </div>
 
-          {/* Sort Button */}
           <div className="relative inline-block text-left">
             <button
               onClick={() => setSortIsOpen(!sortIsOpen)}
@@ -776,71 +834,79 @@ function CardPage({ category }) {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
-        {cards.map((card, index) => (
-          <div
-            key={card.uniqueId}
-            id={`card${card.uniqueId}`}
-            onClick={() => navigateTo(`/cards/${card.uniqueId}`)}
-            className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
-            style={{
-              borderTopLeftRadius: "1.25rem",
-              borderBottomLeftRadius: "1.25rem",
-              borderTopRightRadius: "1.25rem",
-              borderBottomRightRadius: "1.25rem",
-            }}
-          >
-            <div className="flex justify-center items-center relative">
-              <img
-                src={card.photo}
-                alt={card.name}
-                className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105"
-                style={{ aspectRatio: "2 / 3" }}
-              />
+        {showSearchCards ? (
+          searchCards.length === 0 ? (
+            <div className="flex flex-col mx-auto items-center">
+              <p className="text-lg mt-6">No cards found</p>
             </div>
-            <div className="mt-2 mb-1 text-left px-4">
-              <span
-                className="w-full font-helvetica-neue text-sm font-bold"
+          ) : (
+            searchCards.map((card, index) => (
+              <div
+                key={card.uniqueId}
+                id={`card${card.uniqueId}`}
+                onClick={() => navigateTo(`/cards/${card.uniqueId}`)}
+                className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
                 style={{
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 2,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  width: "100%",
-                  whiteSpace: "normal",
+                  borderTopLeftRadius: "1.25rem",
+                  borderBottomLeftRadius: "1.25rem",
+                  borderTopRightRadius: "1.25rem",
+                  borderBottomRightRadius: "1.25rem",
                 }}
               >
-                {card.name}
-              </span>
-            </div>
-
-            <div className="p-2 text-center w-full">
-              <div className="flex justify-between w-full px-2">
-                <div className={"flex items-center"}>
-                  <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
-                  <span className="font-open-sans text-sm">
-                    {card.currentScore}
+                <div className="flex justify-center items-center relative">
+                  <img
+                    src={card.photo}
+                    alt={card.name}
+                    className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105"
+                    style={{ aspectRatio: "2 / 3" }}
+                  />
+                </div>
+                <div className="mt-2 mb-1 text-left px-4">
+                  <span
+                    className="w-full font-helvetica-neue text-sm font-bold"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      width: "100%",
+                      whiteSpace: "normal",
+                    }}
+                  >
+                    {card.name}
                   </span>
                 </div>
-                <span
-                  className={`text-xs font-helvetica inline-block px-4 py-1 ${
-                    card.rarity === "RARE"
-                      ? "bg-sky-300"
-                      : card.rarity === "EPIC"
-                      ? "bg-purple-300"
-                      : card.rarity === "LEGEND"
-                      ? "bg-amber-300"
-                      : "bg-gray-400"
-                  } text-white font-semibold rounded-lg text-center`}
-                >
-                  {card.rarity}
-                </span>
-              </div>
-              <div className="flex justify-between w-full px-2 mt-1">
-                <span className="text-sm font-helvetica">Price:</span>
-                <span className="text-sm font-helvetica">{card.price} ETH</span>
-              </div>
-              {/* <div className="flex justify-end items-center w-full px-2 mt-1">
+
+                <div className="p-2 text-center w-full">
+                  <div className="flex justify-between w-full px-2">
+                    <div className={"flex items-center"}>
+                      <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
+                      <span className="font-open-sans text-sm">
+                        {card.currentScore}
+                      </span>
+                    </div>
+                    <span
+                      className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                        card.rarity === "RARE"
+                          ? "bg-sky-300"
+                          : card.rarity === "EPIC"
+                          ? "bg-purple-300"
+                          : card.rarity === "LEGEND"
+                          ? "bg-amber-300"
+                          : "bg-gray-400"
+                      } text-white font-semibold rounded-lg text-center`}
+                    >
+                      {card.rarity}
+                    </span>
+                  </div>
+                  <div className="flex justify-between w-full px-2 mt-1">
+                    <span className="text-sm font-helvetica">Price:</span>
+                    <span className="text-sm font-helvetica">
+                      {card.price} ETH
+                    </span>
+                  </div>
+                  {/* <div className="flex justify-end items-center w-full px-2 mt-1">
                 <span className="text-sm font-helvetica">{card.trend}%</span>
                 {card.trend > 0 ? (
                   <span className="ml-2">{upArrow}</span>
@@ -848,27 +914,127 @@ function CardPage({ category }) {
                   <span className="ml-2">{downArrow}</span>
                 )}
               </div> */}
-              <div className="flex justify-between w-full px-2 mt-1">
-                <span className="text-sm font-helvetica">Holders:</span>
-                <span className="text-sm font-helvetica">{card.shares}</span>
+                  <div className="flex justify-between w-full px-2 mt-1">
+                    <span className="text-sm font-helvetica">Holders:</span>
+                    <span className="text-sm font-helvetica">
+                      {card.shares}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center w-full relative">
+                  <button
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setCurrentBuyCardId(card.uniqueId);
+                      setCurrentBuyCardName(card.name);
+                      setCurrentBuyCardPhoto(card.photo);
+                      setOpenBuyModal(true);
+                    }}
+                    className="w-full bg-blue-400 text-sm text-white font-bold px-4 py-1 mx-4 mb-2 rounded-full hover:bg-blue-400 hover:text-white"
+                  >
+                    Buy
+                  </button>
+                </div>
+              </div>
+            ))
+          )
+        ) : (
+          cards.map((card, index) => (
+            <div
+              key={card.uniqueId}
+              id={`card${card.uniqueId}`}
+              onClick={() => navigateTo(`/cards/${card.uniqueId}`)}
+              className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl hover:border-gray-500 group"
+              style={{
+                borderTopLeftRadius: "1.25rem",
+                borderBottomLeftRadius: "1.25rem",
+                borderTopRightRadius: "1.25rem",
+                borderBottomRightRadius: "1.25rem",
+              }}
+            >
+              <div className="flex justify-center items-center relative">
+                <img
+                  src={card.photo}
+                  alt={card.name}
+                  className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105"
+                  style={{ aspectRatio: "2 / 3" }}
+                />
+              </div>
+              <div className="mt-2 mb-1 text-left px-4">
+                <span
+                  className="w-full font-helvetica-neue text-sm font-bold"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 2,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    width: "100%",
+                    whiteSpace: "normal",
+                  }}
+                >
+                  {card.name}
+                </span>
+              </div>
+
+              <div className="p-2 text-center w-full">
+                <div className="flex justify-between w-full px-2">
+                  <div className={"flex items-center"}>
+                    <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
+                    <span className="font-open-sans text-sm">
+                      {card.currentScore}
+                    </span>
+                  </div>
+                  <span
+                    className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                      card.rarity === "RARE"
+                        ? "bg-sky-300"
+                        : card.rarity === "EPIC"
+                        ? "bg-purple-300"
+                        : card.rarity === "LEGEND"
+                        ? "bg-amber-300"
+                        : "bg-gray-400"
+                    } text-white font-semibold rounded-lg text-center`}
+                  >
+                    {card.rarity}
+                  </span>
+                </div>
+                <div className="flex justify-between w-full px-2 mt-1">
+                  <span className="text-sm font-helvetica">Price:</span>
+                  <span className="text-sm font-helvetica">
+                    {card.price} ETH
+                  </span>
+                </div>
+                {/* <div className="flex justify-end items-center w-full px-2 mt-1">
+                <span className="text-sm font-helvetica">{card.trend}%</span>
+                {card.trend > 0 ? (
+                  <span className="ml-2">{upArrow}</span>
+                ) : (
+                  <span className="ml-2">{downArrow}</span>
+                )}
+              </div> */}
+                <div className="flex justify-between w-full px-2 mt-1">
+                  <span className="text-sm font-helvetica">Holders:</span>
+                  <span className="text-sm font-helvetica">{card.shares}</span>
+                </div>
+              </div>
+              <div className="flex justify-center items-center w-full relative">
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setCurrentBuyCardId(card.uniqueId);
+                    setCurrentBuyCardName(card.name);
+                    setCurrentBuyCardPhoto(card.photo);
+                    setOpenBuyModal(true);
+                  }}
+                  className="w-full bg-blue-400 text-sm text-white font-bold px-4 py-1 mx-4 mb-2 rounded-full hover:bg-blue-400 hover:text-white"
+                >
+                  Buy
+                </button>
               </div>
             </div>
-            <div className="flex justify-center items-center w-full relative">
-              <button
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setCurrentBuyCardId(card.uniqueId);
-                  setCurrentBuyCardName(card.name);
-                  setCurrentBuyCardPhoto(card.photo);
-                  setOpenBuyModal(true);
-                }}
-                className="w-full bg-blue-400 text-sm text-white font-bold px-4 py-1 mx-4 mb-2 rounded-full hover:bg-blue-400 hover:text-white"
-              >
-                Buy
-              </button>
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
       {/* Buy Modal */}
