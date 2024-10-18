@@ -9,6 +9,7 @@ import BuyModal from "./BuyModal.jsx";
 import sortingIcon from "./Sorting.svg";
 import PresaleCard from "./PresaleCard.png";
 import { useNavigation } from "./NavigationContext";
+import Score from "./Score.png";
 import "../index.css";
 
 const ethers = require("ethers");
@@ -632,7 +633,13 @@ function CardPage({ category }) {
             </div>
 
             <div className="p-2 text-center w-full">
-              <div className="flex justify-end w-full px-2">
+              <div className="flex justify-between w-full px-2">
+                <div className={"flex items-center"}>
+                  <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
+                  <span className="font-open-sans text-sm">
+                    {card.currentScore}
+                  </span>
+                </div>
                 <span
                   className={`text-xs font-helvetica inline-block px-4 py-1 ${
                     card.rarity === "RARE"
@@ -642,7 +649,7 @@ function CardPage({ category }) {
                       : card.rarity === "LEGEND"
                       ? "bg-amber-300"
                       : "bg-gray-400"
-                  } text-white font-bold rounded-lg text-center`}
+                  } text-white font-semibold rounded-lg text-center`}
                 >
                   {card.rarity}
                 </span>
