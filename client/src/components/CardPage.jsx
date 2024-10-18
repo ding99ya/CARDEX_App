@@ -635,13 +635,11 @@ function CardPage({ category }) {
         >
           &lt; Back
         </span>
-        <div className="flex items-center lg:space-x-4 self-end lg:self-auto">
-          {/* <p className="text-base font-semibold">Sort by</p> */}
-
+        <div className="flex items-center space-x-2 lg:space-x-4 self-end lg:self-auto">
           <div className="relative inline-block text-left">
             <button
               onClick={() => setFilterIsOpen(!filterIsOpen)}
-              className="inline-flex items-center justify-between w-20 lg:w-full px-2 lg:px-4 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="inline-flex items-center justify-between w-22 lg:w-full px-2 lg:px-4 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
             >
               <span className="flex items-center whitespace-nowrap">
                 {selectedFilter.label}
@@ -671,7 +669,7 @@ function CardPage({ category }) {
           <div className="relative inline-block text-left">
             <button
               onClick={() => setSortIsOpen(!sortIsOpen)}
-              className="inline-flex items-center justify-between w-20 lg:w-full px-2 lg:px-4 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="inline-flex items-center justify-between w-22 lg:w-full px-2 lg:px-4 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50"
             >
               <span className="flex items-center whitespace-nowrap">
                 {selectedSort.label}{" "}
