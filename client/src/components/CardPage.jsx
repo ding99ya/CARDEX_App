@@ -702,7 +702,7 @@ function CardPage({ category }) {
         </div>
       </div> */}
 
-      <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-4 lg:mx-12 space-y-4 lg:space-y-0 lg:space-x-2">
+      <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-2 lg:mx-12 space-y-4 lg:space-y-0 lg:space-x-2">
         <span
           onClick={goBack}
           className="cursor-pointer inline-block text-black py-2 mt-3 lg:mb-2 font-semibold whitespace-nowrap self-start lg:self-auto"
@@ -715,7 +715,7 @@ function CardPage({ category }) {
           <div className="relative inline-block text-left">
             <button
               onClick={() => setFilterIsOpen(!filterIsOpen)}
-              className="inline-flex items-center justify-between w-[90px] px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
+              className="inline-flex items-center justify-between w-[86px] lg:w-full px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
             >
               <span className="flex items-center whitespace-nowrap">
                 {selectedFilter.label}
@@ -732,7 +732,7 @@ function CardPage({ category }) {
                   <div key={index} className="py-1">
                     <button
                       onClick={() => handleFilterSelection(option)}
-                      className="flex items-center w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
+                      className="flex items-center w-[86px] lg:w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
                     >
                       {option.label}
                     </button>
@@ -746,7 +746,7 @@ function CardPage({ category }) {
           <div className="relative inline-block text-left">
             <button
               onClick={() => setSortIsOpen(!sortIsOpen)}
-              className="inline-flex items-center justify-between w-[90px] px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
+              className="inline-flex items-center justify-between w-[90px] lg:w-full px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
             >
               <span className="flex items-center whitespace-nowrap">
                 {selectedSort.label}{" "}
@@ -761,7 +761,7 @@ function CardPage({ category }) {
                   <div key={index} className="py-1">
                     <button
                       onClick={() => handleSortSelection(option)}
-                      className="flex items-center w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
+                      className="flex items-center w-[90px] lg:w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
                     >
                       {option.label}{" "}
                       {option.label !== "Latest" &&
