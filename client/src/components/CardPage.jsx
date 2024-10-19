@@ -908,7 +908,7 @@ function CardPage({ category }) {
                       </span>
                     </div>
                     <span
-                      className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                      className={`text-xs font-helvetica inline-block px-2 py-1 ${
                         card.rarity === "RARE"
                           ? "bg-sky-300"
                           : card.rarity === "EPIC"
@@ -1009,7 +1009,7 @@ function CardPage({ category }) {
                     </span>
                   </div>
                   <span
-                    className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                    className={`text-xs font-helvetica inline-block px-2 py-1 ${
                       card.rarity === "RARE"
                         ? "bg-sky-300"
                         : card.rarity === "EPIC"
