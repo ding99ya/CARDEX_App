@@ -786,7 +786,7 @@ function Profile() {
                             className="w-5 h-5 mr-1"
                           />
                           <span className="font-open-sans text-sm">
-                            {card.currentScore}
+                            {item.currentScore}
                           </span>
                         </div>
                         <span
