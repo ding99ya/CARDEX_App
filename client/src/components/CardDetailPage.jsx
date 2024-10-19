@@ -13,6 +13,7 @@ import io from "socket.io-client";
 import InfiniteScroll from "react-infinite-scroll-component";
 import moment from "moment";
 import PresaleCard from "./PresaleCard.png";
+import Score from "./Score.png";
 import { useNavigation } from "./NavigationContext";
 import "../index.css";
 
@@ -642,7 +643,13 @@ function CardDetailPage() {
           <h2 className="text-xl lg:text-2xl font-bold mb-4">{card.name}</h2>
 
           <div className="text-center w-full">
-            <div className="flex justify-end w-full">
+            <div className="flex justify-between w-full mb-2">
+              <div className={"flex items-center"}>
+                <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
+                <span className="font-open-sans text-base">
+                  {card.currentScore}
+                </span>
+              </div>
               <span
                 className={`text-sm font-helvetica inline-block px-4 py-1 ${
                   card.rarity === "RARE"
