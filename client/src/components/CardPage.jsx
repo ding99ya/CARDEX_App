@@ -758,7 +758,6 @@ function CardPage({ category }) {
           </div>
         </div>
       </div> */}
-
       <div className="flex flex-col lg:flex-row items-center justify-between px-2 pt-2 mx-1 lg:mx-12 space-y-4 lg:space-y-0 lg:space-x-2">
         <span
           onClick={goBack}
@@ -855,14 +854,14 @@ function CardPage({ category }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
-        {showSearchCards ? (
-          searchCards.length === 0 ? (
-            <div className="flex flex-col mx-auto items-center">
-              <p className="text-lg mt-6">No cards found</p>
-            </div>
-          ) : (
-            searchCards.map((card, index) => (
+      {showSearchCards ? (
+        searchCards.length === 0 ? (
+          <div className="flex flex-col items-center justify-center w-full">
+            <p className="text-lg mt-6">No cards found</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
+            {searchCards.map((card, index) => (
               <div
                 key={card.uniqueId}
                 id={`card${card.uniqueId}`}
@@ -958,10 +957,12 @@ function CardPage({ category }) {
                   </button>
                 </div>
               </div>
-            ))
-          )
-        ) : (
-          cards.map((card, index) => (
+            ))}
+          </div>
+        )
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
+          {cards.map((card, index) => (
             <div
               key={card.uniqueId}
               id={`card${card.uniqueId}`}
@@ -1055,9 +1056,9 @@ function CardPage({ category }) {
                 </button>
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Buy Modal */}
       {openBuyModal && (
