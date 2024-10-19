@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import { encodeFunctionData } from "viem";
 import BuyModal from "./BuyModal.jsx";
 import sortingIcon from "./Sorting.svg";
+import filterIcon from "./Filter.png";
 import PresaleCard from "./PresaleCard.png";
 import { useNavigation } from "./NavigationContext";
 import Score from "./Score.png";
@@ -767,13 +768,13 @@ function CardPage({ category }) {
         </span>
 
         <div className="flex items-center space-x-2 lg:space-x-4 self-end lg:self-auto w-full justify-end">
-          <div className="flex items-center bg-white rounded-md px-2 py-1 w-full lg:w-[200px]">
+          <div className="flex items-center bg-white rounded-md px-2 py-1 w-full lg:w-[300px]">
             <input
               type="text"
               placeholder="Search"
               value={searchCardName}
               onChange={handleSearchCardNameChange}
-              className="bg-white outline-none flex-grow px-2 py-1 rounded-md w-full text-xs"
+              className="bg-white outline-none flex-grow px-2 py-1 rounded-md w-full text-xs lg:text-sm"
             />
             <svg
               className="w-4 h-4 text-black cursor-pointer"
@@ -801,7 +802,7 @@ function CardPage({ category }) {
                 {selectedFilter.label}
               </span>
               <img
-                src={sortingIcon}
+                src={filterIcon}
                 alt="Filter Icon"
                 className="w-5 h-5 ml-1"
               />
