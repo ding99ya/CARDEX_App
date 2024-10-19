@@ -9,6 +9,7 @@ import Wallet from "./Wallet.jpg";
 import TwitterLogo from "./TwitterLogo.png";
 import NotificationOn from "./NotificationOn.png";
 import NotificationOff from "./NotificationOff.png";
+import Score from "./Score.png";
 import PresaleCard from "./PresaleCard.png";
 import DepositModal from "./DepositModal.jsx";
 import WithdrawModal from "./WithdrawModal.jsx";
@@ -777,9 +778,19 @@ function Profile() {
                       </span>
                     </div>
                     <div className="p-2 text-center w-full">
-                      <div className="flex justify-end w-full px-2">
+                      <div className="flex justify-between w-full px-2">
+                        <div className={"flex items-center"}>
+                          <img
+                            src={Score}
+                            alt="Score"
+                            className="w-5 h-5 mr-1"
+                          />
+                          <span className="font-open-sans text-sm">
+                            {card.currentScore}
+                          </span>
+                        </div>
                         <span
-                          className={`text-xs font-helvetica inline-block px-4 py-1 ${
+                          className={`text-xs font-helvetica inline-block px-2 py-1 ${
                             item.rarity === "RARE"
                               ? "bg-sky-300"
                               : item.rarity === "EPIC"
