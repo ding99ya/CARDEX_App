@@ -449,7 +449,7 @@ const Leaderboard = () => {
                   <td className="py-4 px-3 text-center hidden lg:table-cell">
                     {card.price} ETH
                   </td>
-                  <td className="py-4 px-6 pr-8 text-left rounded-tr-xl rounded-br-xl">
+                  <td className="py-4 px-6 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl">
                     <div className={"flex items-center"}>
                       <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
                       <span className="font-open-sans text-sm">
