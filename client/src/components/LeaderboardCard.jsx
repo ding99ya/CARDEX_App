@@ -91,12 +91,17 @@ const LeaderboardCard = () => {
               </td>
               <td className="py-4 px-2 text-left">
                 <div className="flex items-start space-x-2">
-                  <span
+                  {/* <span
                     className="w-9 h-12 bg-center bg-cover mr-1"
                     style={{
                       backgroundImage: `url(${card.photo})`,
                     }}
-                  ></span>
+                  ></span> */}
+                  <img
+                    src={card.photo}
+                    alt={card.name}
+                    className="w-9 h-12 object-cover mr-1"
+                  />
                   <div className="flex flex-col items-start">
                     <span
                       className={`text-black font-helvetica-neue font-semibold`}
