@@ -6,6 +6,7 @@ import SilverMedal from "./SilverMedal.svg";
 import BronzeMedal from "./BronzeMedal.svg";
 import TwitterLogo from "./TwitterLogo.png";
 import PresaleCard from "./PresaleCard.png";
+import Score from "./Score.png";
 import { useNavigation } from "./NavigationContext";
 import axios from "axios";
 
@@ -15,13 +16,21 @@ const Leaderboard = () => {
   // users is the variable containing all users info displayed in leaderboard
   const [users, setUsers] = useState([]);
 
+  // cards is the variable containing all cards info displayed in leaderboard
+  const [cards, setCards] = useState([]);
+
   // username is used for search feature
   const [username, setUsername] = useState("");
+
+  // cardname is used for search feature
+  const [cardname, setCardname] = useState("");
 
   const [currentUsername, setCurrentUsername] = useState("");
   const [currentUserRank, setCurrentUserRank] = useState(0);
   const [totalUserPaperPoint, setTotalUserPaperPoint] = useState(0);
   const [currentUserPaperPoint, setCurrentUserPaperPoint] = useState(0);
+
+  const [activeTab, setActiveTab] = useState("players");
 
   const { user } = usePrivy();
   const embeddedWalletAddress = user ? user.wallet.address : 0;
@@ -35,7 +44,7 @@ const Leaderboard = () => {
         const response = await axios.get("/api/leaderboard");
         setUsers(response.data);
       } catch (error) {
-        console.error("Error fetching leaderboard data", error);
+        console.error("Error fetching leaderboard data for users", error);
       }
     };
 
@@ -78,6 +87,28 @@ const Leaderboard = () => {
     //   state: { from: location.pathname },
     // });
     navigateTo(`/leaderboard/${username}`);
+  };
+
+  const fetchCards = async () => {
+    try {
+      const response = await axios.get(`/api/sortCards`);
+      setCards(response.data);
+    } catch (error) {
+      console.error("Error fetching leaderboard data for cards", error);
+    }
+  };
+
+  const handleCardClick = (card) => {
+    navigateTo(`/cards/${card.uniqueId}`);
+  };
+
+  const handleCardnameChange = (e) => {
+    const name = e.target.value;
+    setCardname(name);
+  };
+
+  const handleSearchCard = () => {
+    navigateTo(`/leaderboard/cards/${cardname}`);
   };
 
   const handleTwitterImageClick = (twitterURL) => {
@@ -156,102 +187,69 @@ const Leaderboard = () => {
         </div>
       </div>
 
-      {/* <table
-        className="min-w-full bg-white border border-black rounded-xl overflow-hidden"
-        style={{ borderCollapse: "separate", borderSpacing: 0 }}
-      >
-        <thead className="bg-gray-100 rounded-t-xl h-16 text-gray-500 text-sm font-open-sans">
-          <tr>
-            <th className="py-2 px-4 text-left">Rank</th>
-            <th className="py-2 px-4 text-left">User</th>
-            <th className="py-2 px-4 text-center">Total Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr
-              key={user.rank}
-              className={`cursor-pointer h-14 text-sm font-open-sans ${
-                index === users.length - 1 ? "rounded-b-xl" : ""
-              } ${index % 2 === 1 ? "bg-gray-100" : "bg-white"}`}
-              onClick={() => handleUserClick(user)}
-            >
-              <td className="py-2 px-4 text-left">
-                <div className="flex items-center">
-                  <span>#{user.rank}</span>
-                  {index === 0 && (
-                    <img
-                      src={GoldMedal}
-                      alt="Gold Medal"
-                      className="w-6 h-6 ml-2"
-                    />
-                  )}
-                  {index === 1 && (
-                    <img
-                      src={SilverMedal}
-                      alt="Silver Medal"
-                      className="w-6 h-6 ml-2"
-                    />
-                  )}
-                  {index === 2 && (
-                    <img
-                      src={BronzeMedal}
-                      alt="Bronze Medal"
-                      className="w-6 h-6 ml-2"
-                    />
-                  )}
-                </div>
-              </td>
-              <td className="py-2 px-4 text-left">
-                <div className="flex items-center">
-                  <img
-                    src={user.profilePhoto}
-                    alt={`${user.name}'s profile`}
-                    className="w-6 h-6 rounded-full mr-1"
-                  />
-                  {user.name}
-                </div>
-              </td>
-              <td className="py-2 px-4 text-center">{user.paperPoints} Pts</td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
+      <div className="flex border-b-0 mb-2">
+        <button
+          className={`py-2 px-4 mx-10 lg:mx-0 font-semibold w-full lg:w-auto ${
+            activeTab === "players"
+              ? "border-b-2 border-blue-500 text-blue-500"
+              : "text-gray-500"
+          }`}
+          onClick={() => setActiveTab("players")}
+        >
+          Players
+        </button>
+        <button
+          className={`py-2 px-4 mx-10 lg:mx-0 font-semibold w-full lg:w-auto ${
+            activeTab === "cards"
+              ? "border-b-2 border-blue-500 text-blue-500"
+              : "text-gray-500"
+          }`}
+          onClick={() => {
+            setActiveTab("cards");
+            if (activeTab !== "cards") {
+              fetchCards();
+            }
+          }}
+        >
+          Cards
+        </button>
+      </div>
 
-      <div class="rounded-xl bg-blue-100">
-        <div class="w-full">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center bg-white rounded-full mt-3 mx-2 px-2 py-0 w-full">
-              <input
-                type="text"
-                placeholder="Search by username"
-                value={username}
-                onChange={handleUsernameChange}
-                className="bg-white outline-none flex-grow px-2 py-1 rounded-full w-full"
-              />
-              <svg
-                className="w-5 h-5 text-black cursor-pointer"
-                onClick={handleSearchUser}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-4.35-4.35m1.39-5.09A7.5 7.5 0 1110.5 3.5a7.5 7.5 0 017.5 7.5z"
-                ></path>
-              </svg>
+      {activeTab === "players" && (
+        <div class="rounded-xl bg-blue-100">
+          <div class="w-full">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center bg-white rounded-xl mt-3 mx-2 px-2 py-0 w-full">
+                <input
+                  type="text"
+                  placeholder="Search by username"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  className="bg-white outline-none flex-grow px-2 py-1 rounded-full w-full"
+                />
+                <svg
+                  className="w-5 h-5 text-black cursor-pointer"
+                  onClick={handleSearchUser}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-4.35-4.35m1.39-5.09A7.5 7.5 0 1110.5 3.5a7.5 7.5 0 017.5 7.5z"
+                  ></path>
+                </svg>
+              </div>
             </div>
           </div>
-        </div>
-        <table
-          className="min-w-full rounded-xl p-2 bg-blue-100"
-          style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
-        >
-          {/* <thead className="bg-white h-12 text-black text-sm rounded-t-xl rounded-b-xl">
+          <table
+            className="min-w-full rounded-xl p-2 bg-blue-100"
+            style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
+          >
+            {/* <thead className="bg-white h-12 text-black text-sm rounded-t-xl rounded-b-xl">
             <tr>
               <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
                 RANK
@@ -262,111 +260,204 @@ const Leaderboard = () => {
               </th>
             </tr>
           </thead> */}
-          <tbody>
-            {users.map((user, index) => (
-              <tr
-                key={user.rank}
-                className={`cursor-pointer h-16 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
-                  index === users.length - 1 ? "rounded-b-xl" : ""
-                }
+            <tbody>
+              {users.map((user, index) => (
+                <tr
+                  key={user.rank}
+                  className={`cursor-pointer h-16 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
+                    index === users.length - 1 ? "rounded-b-xl" : ""
+                  }
               `}
-                onClick={() => handleUserClick(user)}
-              >
-                <td
-                  className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl`}
+                  onClick={() => handleUserClick(user)}
                 >
-                  <div className="flex items-center">
-                    <span
-                      className={`rounded-full px-2 text-center ${
-                        index === 0
-                          ? "text-yellow-300 font-semibold"
-                          : index === 1
-                          ? "text-slate-300 font-semibold"
-                          : index === 2
-                          ? "text-amber-600 font-semibold"
-                          : "text-black"
-                      }`}
-                    >{`#${user.rank}`}</span>
-                    {/* {index === 0 && (
-                    <img
-                      src={GoldMedal}
-                      alt="Gold Medal"
-                      className="w-6 h-6 ml-1"
-                    />
-                  )}
-                  {index === 1 && (
-                    <img
-                      src={SilverMedal}
-                      alt="Silver Medal"
-                      className="w-6 h-6 ml-1"
-                    />
-                  )}
-                  {index === 2 && (
-                    <img
-                      src={BronzeMedal}
-                      alt="Bronze Medal"
-                      className="w-6 h-6 ml-1"
-                    />
-                  )} */}
-                  </div>
-                </td>
-                <td className="py-4 px-3 text-left">
-                  {/* <div className="flex items-center">
-                  <img
-                    src={user.profilePhoto}
-                    alt={`${user.name}'s profile`}
-                    className="w-8 h-8 rounded-full mr-2"
-                  />
-                  {user.name}
-                </div> */}
-
-                  <div className="flex items-start space-x-2">
-                    <span
-                      className="w-8 h-8 bg-center bg-cover rounded-full mr-1"
-                      style={{
-                        backgroundImage:
-                          user.profilePhoto !== ""
-                            ? `url(${user.profilePhoto})`
-                            : `url(${PresaleCard})`,
-                      }}
-                    ></span>
-                    <div className="flex flex-col">
+                  <td
+                    className={`py-4 px-3 text-left rounded-tl-xl rounded-bl-xl`}
+                  >
+                    <div className="flex items-center">
                       <span
-                        className={`text-black font-helvetica-neue font-semibold ${
-                          user.name !== "" ? "mt-0" : "mt-1"
+                        className={`rounded-full px-2 text-center ${
+                          index === 0
+                            ? "text-yellow-300 font-semibold"
+                            : index === 1
+                            ? "text-slate-300 font-semibold"
+                            : index === 2
+                            ? "text-amber-600 font-semibold"
+                            : "text-black"
                         }`}
-                      >
-                        {user.userName}
-                      </span>
-                      <div
-                        className={`flex items-center cursor-pointer rounded-full ${
-                          user.name !== "" ? "block" : "hidden"
-                        }`}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          handleTwitterImageClick("https://x.com/" + user.name);
+                      >{`#${user.rank}`}</span>
+                    </div>
+                  </td>
+                  <td className="py-4 px-3 text-left">
+                    <div className="flex items-start space-x-2">
+                      <span
+                        className="w-8 h-8 bg-center bg-cover rounded-full mr-1"
+                        style={{
+                          backgroundImage:
+                            user.profilePhoto !== ""
+                              ? `url(${user.profilePhoto})`
+                              : `url(${PresaleCard})`,
                         }}
-                      >
-                        <img
-                          src={TwitterLogo}
-                          alt="Twitter"
-                          className="w-2 h-2 mr-1"
-                        />
-                        <span className="text-gray-400 font-open-sans text-xs">
-                          @{user.name}
+                      ></span>
+                      <div className="flex flex-col">
+                        <span
+                          className={`text-black font-helvetica-neue font-semibold ${
+                            user.name !== "" ? "mt-0" : "mt-1"
+                          }`}
+                        >
+                          {user.userName}
+                        </span>
+                        <div
+                          className={`flex items-center cursor-pointer rounded-full ${
+                            user.name !== "" ? "block" : "hidden"
+                          }`}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleTwitterImageClick(
+                              "https://x.com/" + user.name
+                            );
+                          }}
+                        >
+                          <img
+                            src={TwitterLogo}
+                            alt="Twitter"
+                            className="w-2 h-2 mr-1"
+                          />
+                          <span className="text-gray-400 font-open-sans text-xs">
+                            @{user.name}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-4 px-3 text-center rounded-tr-xl rounded-br-xl">
+                    {user.paperPoints} Pts
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {activeTab === "cards" && (
+        <div class="rounded-xl bg-blue-100">
+          <div class="w-full">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center bg-white rounded-xl mt-3 mx-2 px-2 py-0 w-full">
+                <input
+                  type="text"
+                  placeholder="Search by card"
+                  value={cardname}
+                  onChange={handleCardnameChange}
+                  className="bg-white outline-none flex-grow px-2 py-1 rounded-full w-full"
+                />
+                <svg
+                  className="w-5 h-5 text-black cursor-pointer"
+                  onClick={handleSearchCard}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-4.35-4.35m1.39-5.09A7.5 7.5 0 1110.5 3.5a7.5 7.5 0 017.5 7.5z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <table
+            className="min-w-full rounded-xl p-2 bg-blue-100"
+            style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
+          >
+            <tbody>
+              {cards.map((card, index) => (
+                <tr
+                  key={card.uniqueId}
+                  className={`cursor-pointer h-26 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
+                    index === cards.length - 1 ? "rounded-b-xl" : ""
+                  }
+              `}
+                  onClick={() => handleCardClick(card)}
+                >
+                  <td
+                    className={`py-4 px-1 text-left rounded-tl-xl rounded-bl-xl`}
+                  >
+                    <div className="flex items-center">
+                      <span
+                        className={`rounded-full px-2 text-center ${
+                          index === 0
+                            ? "text-yellow-300 font-semibold"
+                            : index === 1
+                            ? "text-slate-300 font-semibold"
+                            : index === 2
+                            ? "text-amber-600 font-semibold"
+                            : "text-black"
+                        }`}
+                      >{`#${Number(index) + 1}`}</span>
+                    </div>
+                  </td>
+                  <td className="py-4 px-2 text-left">
+                    <div className="flex items-start space-x-2">
+                      <span
+                        className="w-9 h-12 bg-center bg-cover mr-1"
+                        style={{
+                          backgroundImage: `url(${card.photo})`,
+                        }}
+                      ></span>
+                      <div className="flex flex-col items-start">
+                        <span
+                          className={`text-black font-helvetica-neue font-semibold`}
+                          style={{
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            width: "75%",
+                            whiteSpace: "normal",
+                          }}
+                        >
+                          {card.name}
                         </span>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td className="py-4 px-3 text-center rounded-tr-xl rounded-br-xl">
-                  {user.paperPoints} Pts
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  </td>
+                  <td className="py-4 px-3 text-center hidden lg:table-cell">
+                    <span
+                      className={`text-xs font-helvetica inline-block px-2 py-1 ${
+                        card.rarity === "RARE"
+                          ? "bg-sky-300"
+                          : card.rarity === "EPIC"
+                          ? "bg-purple-300"
+                          : card.rarity === "LEGEND"
+                          ? "bg-amber-300"
+                          : "bg-gray-400"
+                      } text-white font-semibold rounded-lg text-center`}
+                    >
+                      {card.rarity}
+                    </span>
+                  </td>
+                  <td className="py-4 px-3 text-center hidden lg:table-cell">
+                    {card.price} ETH
+                  </td>
+                  <td className="py-4 px-6 text-left rounded-tr-xl rounded-br-xl">
+                    <div className={"flex items-center"}>
+                      <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
+                      <span className="font-open-sans text-sm">
+                        {card.currentScore}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

@@ -18,6 +18,7 @@ import ViewProfile from "./ViewProfile";
 import CardDetailPage from "./CardDetailPage";
 import PresaleCardDetailPage from "./PresaleCardDetailPage";
 import LeaderboardUser from "./LeaderboardUser";
+import LeaderboardCard from "./LeaderboardCard";
 import ProtectedRoute from "./ProtectedRoute";
 import axios from "axios";
 
@@ -152,6 +153,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <LeaderboardUser />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/leaderboard/cards/:name"
+              element={
+                <ProtectedRoute>
+                  <LeaderboardCard />
                 </ProtectedRoute>
               }
             />

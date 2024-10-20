@@ -334,6 +334,33 @@ app.get("/api/cards", async (req, res) => {
   }
 });
 
+app.get("/api/sortCards", async (req, res) => {
+  try {
+    // Fetch all cards and sort them by score in descending order (-1)
+    const cards = await CardModel.find().sort({ currentScore: -1 });
+
+    // Return the sorted cards array
+    res.json(cards);
+  } catch (error) {
+    console.error("Error in /api/cards:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/cards/searchName/:name", async (req, res) => {
+  try {
+    // Search for cards whose name contains the query string (case-insensitive)
+    const cards = await CardModel.find({
+      name: { $regex: req.params.name, $options: "i" }, // 'i' option makes it case-insensitive
+    });
+
+    res.json(cards);
+  } catch (error) {
+    console.error("Error in /api/cards/searchName:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.get("/api/cards/:uniqueId", async (req, res) => {
   try {
     const card = await CardModel.findOne({ uniqueId: req.params.uniqueId });
