@@ -422,7 +422,7 @@ const Leaderboard = () => {
                             WebkitLineClamp: 2,
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            width: "75%",
+                            width: "100%",
                             whiteSpace: "normal",
                           }}
                         >
