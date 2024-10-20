@@ -50,7 +50,7 @@ const LeaderboardCard = () => {
         &lt; Back
       </span>
       <table
-        className="min-w-full rounded-xl p-2 bg-blue-100"
+        className="min-w-full rounded-xl pl-4 pr-6 lg:px-4 py-2 bg-blue-100"
         style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
       >
         {/* <thead className="bg-white h-8 text-gray-500 text-sm font-open-sans rounded-t-xl rounded-b-xl">

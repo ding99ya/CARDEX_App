@@ -370,7 +370,7 @@ const Leaderboard = () => {
             </div>
           </div>
           <table
-            className="min-w-full rounded-xl p-2 bg-blue-100"
+            className="min-w-full rounded-xl pl-4 pr-6 lg:px-4 py-2 bg-blue-100"
             style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
           >
             <tbody>
