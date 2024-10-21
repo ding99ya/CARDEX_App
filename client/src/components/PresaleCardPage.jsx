@@ -39,9 +39,7 @@ function PresaleCardPage({ category }) {
 
   const [isEligibleUser, setIsEligibleUser] = useState(false);
 
-  const [userOwnedCards, setUserOwnedCards] = useState([
-    { id: "0", shares: 0 },
-  ]);
+  const [userOwnedCards, setUserOwnedCards] = useState([]);
 
   // cards array includes info about a card, it will be used to render the page
   const [cards, setCards] = useState([]);
@@ -62,7 +60,7 @@ function PresaleCardPage({ category }) {
 
   const navigate = useNavigate();
 
-  const checkCanRegisterAndPresale = () => {
+  const checkCanPresale = () => {
     const now = new Date();
 
     // Convert current time to US CST (Central Standard Time)
@@ -74,67 +72,81 @@ function PresaleCardPage({ category }) {
     const currentHour = cstTime.getHours(); // Get the hour in CST
 
     // Check if today is Friday or Saturday and if the current time is after 2 PM for Friday
-    if ((currentDay === 5 && currentHour >= 14) || currentDay === 6) {
-      setCanRegister(true);
-    } else {
-      setCanRegister(false);
-    }
+    // if ((currentDay === 5 && currentHour >= 14) || currentDay === 6) {
+    //   setCanRegister(true);
+    // } else {
+    //   setCanRegister(false);
+    // }
 
+    // Need to adjust the day and hours in production
     // Check if today is Sunday
-    if (currentDay === 0) {
+    if (currentDay === 1) {
       setCanPresale(true);
     } else {
       setCanPresale(false);
     }
   };
 
-  const checkEligibleUser = async () => {
-    try {
-      const presaleUserResponse = await axios.get(
-        `/api/presaleusers/check-presaleuser/${embeddedWalletAddress}`
-      );
+  // const checkEligibleUser = async () => {
+  //   try {
+  //     const presaleUserResponse = await axios.get(
+  //       `/api/presaleusers/check-presaleuser/${embeddedWalletAddress}`
+  //     );
 
-      if (presaleUserResponse.data.exists) {
-        setIsEligibleUser(true);
-      } else {
-        setIsEligibleUser(false);
-      }
-    } catch (error) {
-      console.error(`Error checking presale user:`, error);
-    }
-  };
+  //     if (presaleUserResponse.data.exists) {
+  //       setIsEligibleUser(true);
+  //     } else {
+  //       setIsEligibleUser(false);
+  //     }
+  //   } catch (error) {
+  //     console.error(`Error checking presale user:`, error);
+  //   }
+  // };
 
   const checkUserShares = async () => {
-    cardsResponse.map(async (card, index) => {
-      const userOwnedShares = await fetchUserShares(card.uniqueId);
+    // cardsResponse.map(async (card, index) => {
+    //   const userOwnedShares = await fetchUserShares(card.uniqueId);
+    //   setUserOwnedCards((prevOwnedCards) => [
+    //     ...prevOwnedCards,
+    //     { id: card.uniqueId, shares: Number(userOwnedShares) },
+    //   ]);
+    // });
 
-      setUserOwnedCards((prevOwnedCards) => [
-        ...prevOwnedCards,
-        { id: card.uniqueId, shares: Number(userOwnedShares) },
-      ]);
-    });
+    try {
+      const response = await axios.get(
+        `/api/presaleUsers/${embeddedWalletAddress}`
+      );
+
+      console.log(response.data.presaleInventory);
+
+      setUserOwnedCards(response.data.presaleInventory);
+    } catch (error) {
+      console.error(`Error checking user owned presale cards:`, error);
+    }
   };
 
   useEffect(() => {
     setCards([]);
     window.scrollTo(0, 0);
-    checkCanRegisterAndPresale();
+    checkCanPresale();
   }, []);
 
-  useEffect(() => {
-    const fetchRegister = async () => {
-      if (canRegister) {
-        checkEligibleUser();
-      }
-    };
-    fetchRegister();
-  }, [canRegister]);
+  // useEffect(() => {
+  //   const fetchRegister = async () => {
+  //     if (canRegister) {
+  //       checkEligibleUser();
+  //     }
+  //   };
+  //   fetchRegister();
+  // }, [canRegister]);
 
   useEffect(() => {
     const fetchPresale = async () => {
       if (canPresale) {
         try {
           const response = await axios.get(`/api/cards/category/${"presale"}`);
+
+          console.log(response.data);
 
           setCardsResponse(response.data);
           setCards(response.data);
@@ -143,17 +155,24 @@ function PresaleCardPage({ category }) {
         }
       }
     };
+
     fetchPresale();
   }, [canPresale]);
 
   useEffect(() => {
     if (hasMounted.current) {
-      checkEligibleUser();
+      // checkEligibleUser();
       checkUserShares();
     } else {
       hasMounted.current = true;
     }
   }, [cardsResponse]);
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      console.log(userOwnedCards);
+    }
+  }, [userOwnedCards]);
 
   // Function to load current price for a specific card
   const loadCurrentPrice = async (cardId) => {
@@ -231,8 +250,49 @@ function PresaleCardPage({ category }) {
   };
 
   const loadCardShares = (cardId) => {
-    const card = userOwnedCards.find((item) => item.id === cardId);
+    const card = userOwnedCards.find((item) => item.uniqueId === cardId);
     return !!card ? card.shares : 0;
+  };
+
+  const unlockPresale = async (cardId) => {
+    try {
+      const fetchedLeaderboardData = await axios.get(
+        `/api/leaderboard/${embeddedWalletAddress}`
+      );
+      if (fetchedLeaderboardData.data.currentPoints < 10) {
+        // alert("Not enough points!");
+        setOpenPresaleIneligibleModal(true);
+        // return;
+      } else {
+        const updateLeaderboardResponse = await axios.patch(
+          `/api/leaderboard/update`,
+          {
+            walletAddress: embeddedWalletAddress.toString(),
+            currentPoints: parseInt(
+              parseInt(fetchedLeaderboardData.data.currentPoints) - parseInt(10)
+            ),
+          }
+        );
+
+        const updatePresaleResponse = await axios.post(
+          `/api/presaleUsers/inventory`,
+          {
+            walletAddress: embeddedWalletAddress.toString(),
+            uniqueId: cardId.toString(),
+            shares: Number(0),
+          }
+        );
+
+        setUserOwnedCards((prevOwnedCards) => [
+          ...prevOwnedCards,
+          { uniqueId: cardId.toString(), shares: Number(0) },
+        ]);
+
+        // setIsEligibleUser(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const joinPresale = async () => {
@@ -271,7 +331,6 @@ function PresaleCardPage({ category }) {
   };
 
   // Function to buy certain amount of shares
-  // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
     const preSaleNonce = await contract.methods.preSaleNonce().call();
 
@@ -308,13 +367,10 @@ function PresaleCardPage({ category }) {
     try {
       // The returned `txReceipt` has the type `TransactionReceipt`
       const txReceipt = await sendTransaction(transaction, buyUiConfig);
-      setUserOwnedCards((prevOwnedCards) => [
-        ...prevOwnedCards,
-        currentBuyCardId.toString(),
-      ]);
+
       setUserOwnedCards((prevOwnedCards) =>
         prevOwnedCards.map((card) =>
-          card.id === currentBuyCardId.toString()
+          card.uniqueId === currentBuyCardId.toString()
             ? {
                 ...card,
                 shares: Number(card.shares) + Number(shares),
@@ -322,6 +378,12 @@ function PresaleCardPage({ category }) {
             : card
         )
       );
+
+      await axios.post(`/api/presaleUsers/inventory`, {
+        walletAddress: embeddedWalletAddress.toString(),
+        uniqueId: currentBuyCardId.toString(),
+        shares: Number(shares),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -364,115 +426,103 @@ function PresaleCardPage({ category }) {
             alt="Coming Soon"
             className="w-full lg:w-1/2 h-auto mb-4"
           />
-          {canRegister && (
-            <button
-              onClick={() => joinPresale()}
-              className={classNames(
-                "w-full lg:w-1/2 px-4 py-2 font-bold rounded-full",
-                {
-                  "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
-                    !isEligibleUser,
-                  "bg-blue-200 text-gray-200": isEligibleUser,
-                }
-              )}
-              disabled={isEligibleUser}
-            >
-              {isEligibleUser
-                ? "Already Join Presale"
-                : `Join Presale with ${process.env.REACT_APP_PRESALE_POINTS} Pts`}
-            </button>
-          )}
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:px-10 sm:px-2">
-          {cards.map((card, index) => (
-            <div
-              key={card.uniqueId}
-              id={`card${card.uniqueId}`}
-              className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out group"
-              style={{
-                borderTopLeftRadius: "1.25rem",
-                borderBottomLeftRadius: "1.25rem",
-                borderTopRightRadius: "1.25rem",
-                borderBottomRightRadius: "1.25rem",
-              }}
-            >
-              <div className="flex justify-center items-center relative">
-                <img
-                  src={PresaleCard}
-                  alt={card.name}
-                  className="w-1/2 object-contain mt-6 transition duration-300"
-                  style={{ aspectRatio: "2 / 3" }}
-                />
-              </div>
-              <div className="mt-2 mb-1 text-center px-4">
-                <span
-                  className="w-full font-helvetica-neue text-sm font-bold"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 2,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    width: "100%",
-                    whiteSpace: "normal",
-                  }}
-                >
-                  Presale
-                </span>
-              </div>
+          {cards.map((card, index) => {
+            const ownedCard = userOwnedCards.find(
+              (owned) => owned.uniqueId === card.uniqueId
+            );
 
-              <div className="p-2 text-center w-full">
-                <div className="flex justify-end w-full px-2">
+            let ownedShares = ownedCard ? ownedCard.shares : 0;
+
+            return (
+              <div
+                key={card.uniqueId}
+                id={`card${card.uniqueId}`}
+                className="cursor-pointer bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg lg:shadow-md overflow-hidden transition duration-300 ease-in-out group"
+                style={{
+                  borderTopLeftRadius: "1.25rem",
+                  borderBottomLeftRadius: "1.25rem",
+                  borderTopRightRadius: "1.25rem",
+                  borderBottomRightRadius: "1.25rem",
+                }}
+              >
+                <div className="flex justify-center items-center relative">
+                  <img
+                    src={PresaleCard}
+                    alt={card.name}
+                    className="w-1/2 object-contain mt-6 transition duration-300"
+                    style={{ aspectRatio: "2 / 3" }}
+                  />
+                </div>
+                <div className="mt-2 mb-1 text-center px-4">
                   <span
-                    className={`text-xs font-helvetica inline-block px-4 py-1 bg-sky-300 text-white font-bold rounded-full text-center`}
+                    className="w-full font-helvetica-neue text-sm font-bold"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      width: "100%",
+                      whiteSpace: "normal",
+                    }}
                   >
-                    ???
+                    Presale
                   </span>
                 </div>
-                <div className="flex justify-between w-full px-2 mt-1">
-                  <span className="text-sm font-helvetica">Price:</span>
-                  <span className="text-sm font-helvetica">? ETH</span>
+
+                <div className="p-2 text-center w-full">
+                  <div className="flex justify-end w-full px-2">
+                    <span
+                      className={`text-xs font-helvetica inline-block px-4 py-1 bg-sky-300 text-white font-bold rounded-full text-center`}
+                    >
+                      ???
+                    </span>
+                  </div>
+                  <div className="flex justify-between w-full px-2 mt-1">
+                    <span className="text-sm font-helvetica">Price:</span>
+                    <span className="text-sm font-helvetica">? ETH</span>
+                  </div>
+                  <div className="flex justify-between w-full px-2 mt-1">
+                    <span className="text-sm font-helvetica">Holders:</span>
+                    <span className="text-sm font-helvetica">?</span>
+                  </div>
                 </div>
-                <div className="flex justify-between w-full px-2 mt-1">
-                  <span className="text-sm font-helvetica">Holders:</span>
-                  <span className="text-sm font-helvetica">?</span>
-                </div>
+                {ownedCard ? (
+                  <div className="flex justify-center items-center w-full relative">
+                    <button
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setCurrentBuyCardId(card.uniqueId);
+                        setCurrentBuyCardName("Unknown Presale");
+                        setCurrentBuyCardPhoto(PresaleCard);
+                        setOpenBuyModal(true);
+                      }}
+                      disabled={ownedShares >= 3}
+                      className={`w-full font-bold px-4 py-1 mx-4 mb-2 rounded-full ${
+                        ownedShares >= 3
+                          ? "bg-blue-200 text-white text-sm"
+                          : "bg-blue-400 text-white text-sm hover:bg-blue-500 hover:text-white"
+                      }`}
+                    >
+                      {ownedShares >= 3 ? "Own 3/3" : `Buy ${ownedShares}/3`}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center w-full relative">
+                    <button
+                      onClick={() => unlockPresale(card.uniqueId)}
+                      className="w-full font-bold px-4 py-1 mx-4 mb-2 rounded-full bg-blue-400 text-white text-sm hover:bg-blue-500 hover:text-white"
+                    >
+                      Unlock 10
+                    </button>
+                  </div>
+                )}
               </div>
-              {isEligibleUser ? (
-                <div className="flex justify-center items-center w-full relative">
-                  <button
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setCurrentBuyCardId(card.uniqueId);
-                      setCurrentBuyCardName("Unknown Presale");
-                      setCurrentBuyCardPhoto(PresaleCard);
-                      setOpenBuyModal(true);
-                    }}
-                    disabled={loadCardShares(card.uniqueId) >= 3}
-                    className={`w-full font-bold px-4 py-1 mx-4 mb-2 rounded-full ${
-                      loadCardShares(card.uniqueId) >= 3
-                        ? "bg-blue-200 text-white text-sm"
-                        : "bg-blue-400 text-white text-sm hover:bg-blue-500 hover:text-white"
-                    }`}
-                  >
-                    {loadCardShares(card.uniqueId) >= 3
-                      ? "Own 3/3"
-                      : `Buy ${loadCardShares(card.uniqueId)}/3`}
-                  </button>
-                </div>
-              ) : (
-                <div className="flex justify-center items-center w-full relative">
-                  <button
-                    disabled={true}
-                    className="w-full bg-blue-200 text-white font-bold px-4 py-1 mx-4 mb-2 rounded-full"
-                  >
-                    Ineligible
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

@@ -635,6 +635,73 @@ app.patch("/api/invitecodes/updatedandusage", async (req, res) => {
   }
 });
 
+app.get("/api/presaleUsers/:walletAddress", async (req, res) => {
+  const { walletAddress } = req.params; // Extract wallet address from URL
+
+  try {
+    // Search for the user in the presaleUsers collection
+    let presaleUser = await PresaleUserModel.findOne({ walletAddress });
+
+    // If the user is not found, create a default object with empty presaleInventory
+    if (!presaleUser) {
+      presaleUser = {
+        walletAddress,
+        presaleInventory: [],
+      };
+    }
+
+    // Return the user object (either from DB or the default one)
+    res.json(presaleUser);
+  } catch (error) {
+    console.error("Error in /api/presaleUsers/:walletAddress:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post("/api/presaleUsers/inventory", async (req, res) => {
+  const { walletAddress, uniqueId, shares } = req.body;
+
+  try {
+    // Try to find the user by walletAddress
+    let presaleUser = await PresaleUserModel.findOne({
+      walletAddress: walletAddress,
+    });
+
+    if (!presaleUser) {
+      // If the user doesn't exist, create a new user with the given walletAddress
+      presaleUser = new PresaleUserModel({
+        walletAddress,
+        presaleInventory: [{ uniqueId, shares }],
+      });
+    } else {
+      // Check if the uniqueId already exists in the user's presaleInventory
+      const inventoryItem = presaleUser.presaleInventory.find(
+        (item) => item.uniqueId === uniqueId.toString()
+      );
+
+      if (inventoryItem) {
+        // If the item exists, add the new shares to existing shares
+        inventoryItem.shares += Number(shares);
+      } else {
+        // If the item does not exist, add a new object to presaleInventory
+        presaleUser.presaleInventory.push({
+          uniqueId: uniqueId.toString(),
+          shares: Number(shares),
+        });
+      }
+    }
+
+    // Save the user (new or updated) to the database
+    await presaleUser.save();
+
+    // Return the updated user object
+    res.json(presaleUser);
+  } catch (error) {
+    console.error("Error in /api/presaleUsers/inventory:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.get(
   "/api/presaleusers/check-presaleuser/:walletAddress",
   async (req, res) => {
