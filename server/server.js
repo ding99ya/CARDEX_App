@@ -337,7 +337,10 @@ app.get("/api/cards", async (req, res) => {
 app.get("/api/sortCards", async (req, res) => {
   try {
     // Fetch all cards and sort them by score in descending order (-1)
-    const cards = await CardModel.find().sort({ currentScore: -1 });
+    // const cards = await CardModel.find().sort({ currentScore: -1 });
+    const cards = await CardModel.find({ category: { $ne: "presale" } }).sort({
+      currentScore: -1,
+    });
 
     // Return the sorted cards array
     res.json(cards);

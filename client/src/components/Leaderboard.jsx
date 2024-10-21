@@ -374,91 +374,93 @@ const Leaderboard = () => {
             style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
           >
             <tbody>
-              {cards.map((card, index) => (
-                <tr
-                  key={card.uniqueId}
-                  className={`cursor-pointer h-26 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
-                    index === cards.length - 1 ? "rounded-b-xl" : ""
-                  }
+              {cards.map((card, index) =>
+                card.category !== "presale" ? (
+                  <tr
+                    key={card.uniqueId}
+                    className={`cursor-pointer h-26 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white ${
+                      index === cards.length - 1 ? "rounded-b-xl" : ""
+                    }
               `}
-                  onClick={() => handleCardClick(card)}
-                >
-                  <td
-                    className={`py-4 px-1 text-left rounded-tl-xl rounded-bl-xl`}
+                    onClick={() => handleCardClick(card)}
                   >
-                    <div className="flex items-center">
-                      <span
-                        className={`rounded-full px-2 text-center ${
-                          index === 0
-                            ? "text-yellow-300 font-semibold"
-                            : index === 1
-                            ? "text-slate-300 font-semibold"
-                            : index === 2
-                            ? "text-amber-600 font-semibold"
-                            : "text-black"
-                        }`}
-                      >{`#${Number(index) + 1}`}</span>
-                    </div>
-                  </td>
-                  <td className="py-4 px-2 text-left">
-                    <div className="flex items-start space-x-2">
-                      {/* <span
+                    <td
+                      className={`py-4 px-1 text-left rounded-tl-xl rounded-bl-xl`}
+                    >
+                      <div className="flex items-center">
+                        <span
+                          className={`rounded-full px-2 text-center ${
+                            index === 0
+                              ? "text-yellow-300 font-semibold"
+                              : index === 1
+                              ? "text-slate-300 font-semibold"
+                              : index === 2
+                              ? "text-amber-600 font-semibold"
+                              : "text-black"
+                          }`}
+                        >{`#${Number(index) + 1}`}</span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-2 text-left">
+                      <div className="flex items-start space-x-2">
+                        {/* <span
                         className="w-9 h-12 border border-black bg-center bg-cover mr-1"
                         style={{
                           backgroundImage: `url(${card.photo})`,
                         }}
                       ></span> */}
-                      <img
-                        src={card.photo}
-                        alt={card.name}
-                        className="w-9 h-12 object-cover mr-1"
-                      />
-                      <div className="flex flex-col items-start">
-                        <span
-                          className={`text-black font-helvetica-neue font-semibold`}
-                          style={{
-                            display: "-webkit-box",
-                            WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 2,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            width: "100%",
-                            whiteSpace: "normal",
-                          }}
-                        >
-                          {card.name}
+                        <img
+                          src={card.photo}
+                          alt={card.name}
+                          className="w-9 h-12 object-cover mr-1"
+                        />
+                        <div className="flex flex-col items-start">
+                          <span
+                            className={`text-black font-helvetica-neue font-semibold`}
+                            style={{
+                              display: "-webkit-box",
+                              WebkitBoxOrient: "vertical",
+                              WebkitLineClamp: 2,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              width: "100%",
+                              whiteSpace: "normal",
+                            }}
+                          >
+                            {card.name}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-3 text-center hidden lg:table-cell">
+                      <span
+                        className={`text-xs font-helvetica inline-block px-2 py-1 ${
+                          card.rarity === "RARE"
+                            ? "bg-sky-300"
+                            : card.rarity === "EPIC"
+                            ? "bg-purple-300"
+                            : card.rarity === "LEGEND"
+                            ? "bg-amber-300"
+                            : "bg-gray-400"
+                        } text-white font-semibold rounded-lg text-center`}
+                      >
+                        {card.rarity}
+                      </span>
+                    </td>
+                    <td className="py-4 px-3 text-center hidden lg:table-cell">
+                      {card.price} ETH
+                    </td>
+                    <td className="py-4 px-6 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl">
+                      <div className={"flex items-center"}>
+                        <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
+                        <span className="font-open-sans text-sm">
+                          {card.currentScore}
                         </span>
                       </div>
-                    </div>
-                  </td>
-                  <td className="py-4 px-3 text-center hidden lg:table-cell">
-                    <span
-                      className={`text-xs font-helvetica inline-block px-2 py-1 ${
-                        card.rarity === "RARE"
-                          ? "bg-sky-300"
-                          : card.rarity === "EPIC"
-                          ? "bg-purple-300"
-                          : card.rarity === "LEGEND"
-                          ? "bg-amber-300"
-                          : "bg-gray-400"
-                      } text-white font-semibold rounded-lg text-center`}
-                    >
-                      {card.rarity}
-                    </span>
-                  </td>
-                  <td className="py-4 px-3 text-center hidden lg:table-cell">
-                    {card.price} ETH
-                  </td>
-                  <td className="py-4 px-6 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl">
-                    <div className={"flex items-center"}>
-                      <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
-                      <span className="font-open-sans text-sm">
-                        {card.currentScore}
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ) : null
+              )}
             </tbody>
           </table>
         </div>
