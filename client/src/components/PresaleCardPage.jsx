@@ -37,14 +37,11 @@ function PresaleCardPage({ category }) {
   // Once cardsResponse is set it will trigger fetching price, share holders, etc... and update cards array
   const [cardsResponse, setCardsResponse] = useState([]);
 
-  const [isEligibleUser, setIsEligibleUser] = useState(false);
-
   const [userOwnedCards, setUserOwnedCards] = useState([]);
 
   // cards array includes info about a card, it will be used to render the page
   const [cards, setCards] = useState([]);
 
-  const [canRegister, setCanRegister] = useState(false);
   const [canPresale, setCanPresale] = useState(false);
 
   const [openBuyModal, setOpenBuyModal] = useState(false);
@@ -71,13 +68,6 @@ function PresaleCardPage({ category }) {
     const currentDay = cstTime.getDay(); // 0 is Sunday, 6 is Saturday
     const currentHour = cstTime.getHours(); // Get the hour in CST
 
-    // Check if today is Friday or Saturday and if the current time is after 2 PM for Friday
-    // if ((currentDay === 5 && currentHour >= 14) || currentDay === 6) {
-    //   setCanRegister(true);
-    // } else {
-    //   setCanRegister(false);
-    // }
-
     // Need to adjust the day and hours in production
     // Check if today is Sunday
     if (currentDay === 1) {
@@ -87,37 +77,11 @@ function PresaleCardPage({ category }) {
     }
   };
 
-  // const checkEligibleUser = async () => {
-  //   try {
-  //     const presaleUserResponse = await axios.get(
-  //       `/api/presaleusers/check-presaleuser/${embeddedWalletAddress}`
-  //     );
-
-  //     if (presaleUserResponse.data.exists) {
-  //       setIsEligibleUser(true);
-  //     } else {
-  //       setIsEligibleUser(false);
-  //     }
-  //   } catch (error) {
-  //     console.error(`Error checking presale user:`, error);
-  //   }
-  // };
-
   const checkUserShares = async () => {
-    // cardsResponse.map(async (card, index) => {
-    //   const userOwnedShares = await fetchUserShares(card.uniqueId);
-    //   setUserOwnedCards((prevOwnedCards) => [
-    //     ...prevOwnedCards,
-    //     { id: card.uniqueId, shares: Number(userOwnedShares) },
-    //   ]);
-    // });
-
     try {
       const response = await axios.get(
         `/api/presaleUsers/${embeddedWalletAddress}`
       );
-
-      console.log(response.data.presaleInventory);
 
       setUserOwnedCards(response.data.presaleInventory);
     } catch (error) {
@@ -131,22 +95,11 @@ function PresaleCardPage({ category }) {
     checkCanPresale();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchRegister = async () => {
-  //     if (canRegister) {
-  //       checkEligibleUser();
-  //     }
-  //   };
-  //   fetchRegister();
-  // }, [canRegister]);
-
   useEffect(() => {
     const fetchPresale = async () => {
       if (canPresale) {
         try {
           const response = await axios.get(`/api/cards/category/${"presale"}`);
-
-          console.log(response.data);
 
           setCardsResponse(response.data);
           setCards(response.data);
@@ -161,18 +114,11 @@ function PresaleCardPage({ category }) {
 
   useEffect(() => {
     if (hasMounted.current) {
-      // checkEligibleUser();
       checkUserShares();
     } else {
       hasMounted.current = true;
     }
   }, [cardsResponse]);
-
-  useEffect(() => {
-    if (hasMounted.current) {
-      console.log(userOwnedCards);
-    }
-  }, [userOwnedCards]);
 
   // Function to load current price for a specific card
   const loadCurrentPrice = async (cardId) => {
@@ -260,9 +206,7 @@ function PresaleCardPage({ category }) {
         `/api/leaderboard/${embeddedWalletAddress}`
       );
       if (fetchedLeaderboardData.data.currentPoints < 10) {
-        // alert("Not enough points!");
         setOpenPresaleIneligibleModal(true);
-        // return;
       } else {
         const updateLeaderboardResponse = await axios.patch(
           `/api/leaderboard/update`,
@@ -287,43 +231,6 @@ function PresaleCardPage({ category }) {
           ...prevOwnedCards,
           { uniqueId: cardId.toString(), shares: Number(0) },
         ]);
-
-        // setIsEligibleUser(true);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const joinPresale = async () => {
-    try {
-      const fetchedLeaderboardData = await axios.get(
-        `/api/leaderboard/${embeddedWalletAddress}`
-      );
-      if (
-        fetchedLeaderboardData.data.currentPoints <
-        parseInt(process.env.REACT_APP_PRESALE_POINTS)
-      ) {
-        // alert("Not enough points!");
-        setOpenPresaleIneligibleModal(true);
-        // return;
-      } else {
-        const updateLeaderboardResponse = await axios.patch(
-          `/api/leaderboard/update`,
-          {
-            walletAddress: embeddedWalletAddress.toString(),
-            currentPoints: parseInt(
-              parseInt(fetchedLeaderboardData.data.currentPoints) -
-                parseInt(process.env.REACT_APP_PRESALE_POINTS)
-            ),
-          }
-        );
-
-        const updatePresaleResponse = await axios.post(`/api/presaleusers`, {
-          walletAddress: embeddedWalletAddress.toString(),
-        });
-
-        setIsEligibleUser(true);
       }
     } catch (error) {
       console.error(error);
@@ -410,7 +317,6 @@ function PresaleCardPage({ category }) {
     >
       <div className="flex flex-row items-center justify-between space-x-2 px-2 pt-2 mx-4 lg:mx-12">
         <span
-          // onClick={() => handleBackClick()}
           onClick={goBack}
           className="cursor-pointer inline-block text-black py-2 mt-3 mb-2 font-semibold whitespace-nowrap"
         >
