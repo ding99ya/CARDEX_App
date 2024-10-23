@@ -14,6 +14,7 @@ import NotFound from "./NotFound";
 import Rank from "./Rank.jsx";
 import Profile from "./Profile";
 import Inventory from "./Inventory.jsx";
+import Play from "./Play.jsx";
 import ViewProfile from "./ViewProfile";
 import CardDetailPage from "./CardDetailPage";
 import PresaleCardDetailPage from "./PresaleCardDetailPage";
@@ -105,6 +106,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Rank />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/play"
+              element={
+                <ProtectedRoute>
+                  <Play />
                 </ProtectedRoute>
               }
             />

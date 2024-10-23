@@ -4,6 +4,7 @@ import marketIcon from "./Market.svg";
 import leaderboardIcon from "./Leaderboard.svg";
 import profileIcon from "./Profile.svg";
 import inventoryIcon from "./Inventory.svg";
+import playIcon from "./Play.png";
 import CardexWebsite from "./CardexWebsite.jpg";
 import Cardex from "./Cardex.jpg";
 import { useNavigation } from "./NavigationContext";
@@ -91,6 +92,19 @@ function Header() {
                   }`}
                 >
                   RANK
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Play"
+                  onClick={() => handleButtonClick("PLAY")}
+                  className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
+                    selectedButton === "PLAY"
+                      ? "bg-blue-400 text-white"
+                      : "bg-white text-blue-400 hover:bg-gray-100"
+                  }`}
+                >
+                  PLAY
                 </Link>
               </li>
               <li>
@@ -199,6 +213,36 @@ function Header() {
                     }`}
                   >
                     RANK
+                  </span>
+                </Link>
+              </li>
+              <li
+                className={`flex-1 flex flex-col items-center px-2 py-2 border-b-0 ${
+                  selectedButton === "PLAY"
+                    ? "border-blue-400"
+                    : "border-transparent"
+                }`}
+              >
+                <Link
+                  to="/Play"
+                  onClick={() => handleButtonClick("PLAY")}
+                  className="flex flex-col items-center w-full h-full text-black font-bold"
+                >
+                  <img
+                    src={playIcon}
+                    alt="Play Icon"
+                    className={`w-6 h-6 mb-2 ${
+                      selectedButton === "PLAY" ? "text-black" : "text-gray-400"
+                    }`}
+                  />
+                  <span
+                    className={`font-helvetica text-xs ${
+                      selectedButton === "PLAY"
+                        ? "text-blue-400"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    PLAY
                   </span>
                 </Link>
               </li>
