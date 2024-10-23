@@ -4,7 +4,7 @@ import marketIcon from "./Market.svg";
 import leaderboardIcon from "./Leaderboard.svg";
 import profileIcon from "./Profile.svg";
 import inventoryIcon from "./Inventory.svg";
-import playIcon from "./Play.png";
+import playIcon from "./Play.svg";
 import CardexWebsite from "./CardexWebsite.jpg";
 import Cardex from "./Cardex.jpg";
 import { useNavigation } from "./NavigationContext";
