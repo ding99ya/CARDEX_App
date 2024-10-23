@@ -153,7 +153,7 @@ function Header() {
       <footer className="fixed bottom-0 left-0 right-0 bg-white w-full lg:hidden z-50">
         <div className="max-w-full w-full">
           <nav>
-            <ul className="flex justify-between w-full border-t border-t-gray-300">
+            <ul className="flex justify-evenly w-full border-t border-t-gray-300">
               <li
                 className={`flex-1 flex flex-col items-center px-2 py-2 border-b-0 ${
                   selectedButton === "MARKET"
@@ -182,7 +182,7 @@ function Header() {
                         : "text-gray-400"
                     }`}
                   >
-                    MARKET
+                    Market
                   </span>
                 </Link>
               </li>
@@ -212,7 +212,7 @@ function Header() {
                         : "text-gray-400"
                     }`}
                   >
-                    RANK
+                    Rank
                   </span>
                 </Link>
               </li>
@@ -242,7 +242,7 @@ function Header() {
                         : "text-gray-400"
                     }`}
                   >
-                    PLAY
+                    Play
                   </span>
                 </Link>
               </li>
@@ -274,7 +274,7 @@ function Header() {
                         : "text-gray-400"
                     }`}
                   >
-                    INVENTORY
+                    Inventory
                   </span>
                 </Link>
               </li>
@@ -306,7 +306,7 @@ function Header() {
                         : "text-gray-400"
                     }`}
                   >
-                    PROFILE
+                    Profile
                   </span>
                 </Link>
               </li>
