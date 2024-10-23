@@ -1,0 +1,47 @@
+<svg
+  width="200"
+  height="200"
+  viewBox="0 0 200 200"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+>
+  <!-- Pole -->
+  <rect
+    x="20"
+    y="10"
+    width="10"
+    height="180"
+    fill="white"
+    stroke="#1E3A8A"
+    stroke-width="2"
+    rx="2"
+  />
+
+  <!-- Wavy Flag Shape -->
+  <path
+    d="M30 10 Q80 30, 130 10 T180 10
+       L180 110 Q130 90, 80 110 T30 110 Z"
+    fill="#60A5FA"
+  />
+
+  <!-- Checkered Pattern -->
+  <g fill="white">
+    <rect x="40" y="20" width="20" height="20" />
+    <rect x="80" y="20" width="20" height="20" />
+    <rect x="120" y="20" width="20" height="20" />
+    <rect x="160" y="20" width="20" height="20" />
+    
+    <rect x="60" y="40" width="20" height="20" />
+    <rect x="100" y="40" width="20" height="20" />
+    <rect x="140" y="40" width="20" height="20" />
+
+    <rect x="40" y="60" width="20" height="20" />
+    <rect x="80" y="60" width="20" height="20" />
+    <rect x="120" y="60" width="20" height="20" />
+    <rect x="160" y="60" width="20" height="20" />
+    
+    <rect x="60" y="80" width="20" height="20" />
+    <rect x="100" y="80" width="20" height="20" />
+    <rect x="140" y="80" width="20" height="20" />
+  </g>
+</svg>
