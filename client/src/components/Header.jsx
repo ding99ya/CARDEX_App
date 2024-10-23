@@ -72,52 +72,52 @@ function Header() {
                 <Link
                   to="/Market"
                   onClick={() => handleButtonClick("MARKET")}
-                  className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
+                  className={`text-blue-400 font-bold rounded-full px-8 py-2 border-2 border-blue-400 font-helvetica-neue ${
                     selectedButton === "MARKET"
                       ? "bg-blue-400 text-white"
                       : "bg-white text-blue-400 hover:bg-gray-100"
                   }`}
                 >
-                  MARKET
+                  Market
                 </Link>
               </li>
               <li>
                 <Link
                   to="/Rank"
                   onClick={() => handleButtonClick("RANK")}
-                  className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
+                  className={`text-blue-400 font-bold rounded-full px-8 py-2 border-2 border-blue-400 font-helvetica-neue ${
                     selectedButton === "RANK"
                       ? "bg-blue-400 text-white"
                       : "bg-white text-blue-400 hover:bg-gray-100"
                   }`}
                 >
-                  RANK
+                  Rank
                 </Link>
               </li>
               <li>
                 <Link
                   to="/Play"
                   onClick={() => handleButtonClick("PLAY")}
-                  className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
+                  className={`text-blue-400 font-bold rounded-full px-8 py-2 border-2 border-blue-400 font-helvetica-neue ${
                     selectedButton === "PLAY"
                       ? "bg-blue-400 text-white"
                       : "bg-white text-blue-400 hover:bg-gray-100"
                   }`}
                 >
-                  PLAY
+                  Play
                 </Link>
               </li>
               <li>
                 <Link
                   to="/Profile"
                   onClick={() => handleButtonClick("PROFILE")}
-                  className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
+                  className={`text-blue-400 font-bold rounded-full px-8 py-2 border-2 border-blue-400 font-helvetica-neue ${
                     selectedButton === "PROFILE"
                       ? "bg-blue-400 text-white"
                       : "bg-white text-blue-400 hover:bg-gray-100"
                   }`}
                 >
-                  PROFILE
+                  Profile
                 </Link>
               </li>
             </ul>
