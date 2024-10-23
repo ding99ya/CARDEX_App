@@ -82,15 +82,15 @@ function Header() {
               </li>
               <li>
                 <Link
-                  to="/Leaderboard"
-                  onClick={() => handleButtonClick("LEADERBOARD")}
+                  to="/Rank"
+                  onClick={() => handleButtonClick("RANK")}
                   className={`text-blue-400 font-bold rounded-full px-8 py-3 border-2 border-blue-400 font-helvetica-neue ${
-                    selectedButton === "LEADERBOARD"
+                    selectedButton === "RANK"
                       ? "bg-blue-400 text-white"
                       : "bg-white text-blue-400 hover:bg-gray-100"
                   }`}
                 >
-                  LEADERBOARD
+                  RANK
                 </Link>
               </li>
               <li>
@@ -174,33 +174,31 @@ function Header() {
               </li>
               <li
                 className={`flex-1 flex flex-col items-center px-2 py-2 border-b-0 ${
-                  selectedButton === "LEADERBOARD"
+                  selectedButton === "RANK"
                     ? "border-blue-400"
                     : "border-transparent"
                 }`}
               >
                 <Link
-                  to="/Leaderboard"
-                  onClick={() => handleButtonClick("LEADERBOARD")}
+                  to="/Rank"
+                  onClick={() => handleButtonClick("RANK")}
                   className="flex flex-col items-center w-full h-full text-black font-bold"
                 >
                   <img
                     src={leaderboardIcon}
                     alt="Leaderboard Icon"
                     className={`w-6 h-6 mb-2 ${
-                      selectedButton === "LEADERBOARD"
-                        ? "text-black"
-                        : "text-gray-400"
+                      selectedButton === "RANK" ? "text-black" : "text-gray-400"
                     }`}
                   />
                   <span
                     className={`font-helvetica text-xs ${
-                      selectedButton === "LEADERBOARD"
+                      selectedButton === "RANK"
                         ? "text-blue-400"
                         : "text-gray-400"
                     }`}
                   >
-                    LEADERBOARD
+                    RANK
                   </span>
                 </Link>
               </li>

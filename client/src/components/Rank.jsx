@@ -10,7 +10,7 @@ import Score from "./Score.png";
 import { useNavigation } from "./NavigationContext";
 import axios from "axios";
 
-const Leaderboard = () => {
+const Rank = () => {
   const { navigateTo } = useNavigation();
 
   // users is the variable containing all users info displayed in leaderboard
@@ -469,4 +469,4 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard;
+export default Rank;

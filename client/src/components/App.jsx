@@ -11,7 +11,7 @@ import UserLinkTwitter from "./UserLinkTwitter.jsx";
 import UserDeposit from "./UserDeposit.jsx";
 import Layout from "./Layout";
 import NotFound from "./NotFound";
-import Leaderboard from "./Leaderboard";
+import Rank from "./Rank.jsx";
 import Profile from "./Profile";
 import Inventory from "./Inventory.jsx";
 import ViewProfile from "./ViewProfile";
@@ -101,10 +101,10 @@ function App() {
               }
             />
             <Route
-              path="/leaderboard"
+              path="/rank"
               element={
                 <ProtectedRoute>
-                  <Leaderboard />
+                  <Rank />
                 </ProtectedRoute>
               }
             />

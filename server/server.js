@@ -355,6 +355,7 @@ app.get("/api/cards/searchName/:name", async (req, res) => {
     // Search for cards whose name contains the query string (case-insensitive)
     const cards = await CardModel.find({
       name: { $regex: req.params.name, $options: "i" }, // 'i' option makes it case-insensitive
+      category: { $ne: "presale" },
     }).sort({ currentScore: -1 });
 
     res.json(cards);
