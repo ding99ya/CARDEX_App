@@ -17,6 +17,7 @@ import Inventory from "./Inventory.jsx";
 import Play from "./Play.jsx";
 import ViewProfile from "./ViewProfile";
 import CardDetailPage from "./CardDetailPage";
+import TournamentDetails from "./TournamentDetails";
 import PresaleCardDetailPage from "./PresaleCardDetailPage";
 import LeaderboardUser from "./LeaderboardUser";
 import LeaderboardCard from "./LeaderboardCard";
@@ -114,6 +115,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Play />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/play/tournaments/:tournamentId"
+              element={
+                <ProtectedRoute>
+                  <TournamentDetails />
                 </ProtectedRoute>
               }
             />
