@@ -41,6 +41,8 @@ function TournamentDetails() {
 
   const [activeDeckTab, setActiveDeckTab] = useState("Deck1");
 
+  const [cardUsage, setCardUsage] = useState({});
+
   const [emptyDeck, setEmptyDeck] = useState([
     {
       name: "",
@@ -178,6 +180,10 @@ function TournamentDetails() {
       return;
     }
 
+    if (cardUsage[newCard.uniqueId].available === 0) {
+      return;
+    }
+
     if (modifiedDeck.length < 5) {
       setModifiedDeck((prevDeck) => [
         ...prevDeck,
@@ -190,12 +196,19 @@ function TournamentDetails() {
         },
       ]);
     }
+
+    cardUsage[newCard.uniqueId].locked = cardUsage[newCard.uniqueId].locked + 1;
+    cardUsage[newCard.uniqueId].available =
+      cardUsage[newCard.uniqueId].available - 1;
   };
 
   const deleteCardFromDeck = (newCard) => {
     setModifiedDeck((prevDeck) =>
       prevDeck.filter((card) => card.uniqueId !== newCard.uniqueId)
     );
+    cardUsage[newCard.uniqueId].locked = cardUsage[newCard.uniqueId].locked - 1;
+    cardUsage[newCard.uniqueId].available =
+      cardUsage[newCard.uniqueId].available + 1;
   };
 
   const finishUpdatingDeck = () => {
@@ -235,6 +248,12 @@ function TournamentDetails() {
   };
 
   const cancelUpdatingDeck = () => {
+    modifiedDeck.forEach((card) => {
+      cardUsage[card.uniqueId].locked = cardUsage[card.uniqueId].locked - 1;
+      cardUsage[card.uniqueId].available =
+        cardUsage[card.uniqueId].available + 1;
+    });
+
     if (activeDeckTab === "Deck1") {
       setModifiedDeck(userDeck1);
     } else if (activeDeckTab === "Deck2") {
@@ -317,6 +336,65 @@ function TournamentDetails() {
       hasMounted.current = true;
     }
   }, [inventory]);
+
+  useEffect(() => {
+    const calculateCardAvailability = () => {
+      if (userCards.length > 0) {
+        // Loop through each deck array to count locked cards
+        userDeck1.forEach((card) => {
+          if (cardUsage[card.uniqueId]) {
+            cardUsage[card.uniqueId].locked += 1;
+          } else {
+            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+          }
+        });
+
+        userDeck2.forEach((card) => {
+          if (cardUsage[card.uniqueId]) {
+            cardUsage[card.uniqueId].locked += 1;
+          } else {
+            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+          }
+        });
+
+        userDeck3.forEach((card) => {
+          if (cardUsage[card.uniqueId]) {
+            cardUsage[card.uniqueId].locked += 1;
+          } else {
+            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+          }
+        });
+
+        userDeck4.forEach((card) => {
+          if (cardUsage[card.uniqueId]) {
+            cardUsage[card.uniqueId].locked += 1;
+          } else {
+            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+          }
+        });
+        userDeck5.forEach((card) => {
+          if (cardUsage[card.uniqueId]) {
+            cardUsage[card.uniqueId].locked += 1;
+          } else {
+            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+          }
+        });
+
+        // Loop through userCards to set available counts based on 'shares' value
+        userCards.forEach((userCard) => {
+          const lockedCount = cardUsage[userCard.uniqueId]?.locked || 0;
+          const availableCount = userCard.shares - lockedCount;
+
+          cardUsage[userCard.uniqueId] = {
+            available: availableCount,
+            locked: lockedCount,
+          };
+        });
+      }
+    };
+
+    calculateCardAvailability();
+  }, [userCards]);
 
   return (
     <div className="flex flex-col px-2 lg:px-0 lg:flex-row">
@@ -440,7 +518,6 @@ function TournamentDetails() {
         <div className="grid grid-cols-5 lg:px-4">
           {Array.from({ length: 5 }).map((_, index) => {
             const item = modifiedDeck[index] || emptyDeck[index];
-            console.log(index);
 
             return (
               <div
@@ -622,10 +699,18 @@ function TournamentDetails() {
                         </div>
                         <div className="flex justify-between w-full px-2 mt-1">
                           <span className="text-sm font-helvetica">
-                            Position:
+                            Available:
                           </span>
                           <span className="text-sm font-helvetica">
-                            {item.shares}
+                            {cardUsage[item.uniqueId].available}
+                          </span>
+                        </div>
+                        <div className="flex justify-between w-full px-2 mt-1">
+                          <span className="text-sm font-helvetica">
+                            Locked:
+                          </span>
+                          <span className="text-sm font-helvetica">
+                            {cardUsage[item.uniqueId].locked}
                           </span>
                         </div>
                         <button

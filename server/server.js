@@ -383,10 +383,12 @@ const changeStream = CardModel.watch();
 changeStream.on("change", (change) => {
   console.log("Change detected:", change);
   if (change.operationType === "update") {
-    CardModel.findById(change.documentKey._id).then((updatedCard) => {
-      console.log("Will update card");
-      io.emit("cardUpdate", updatedCard);
-    });
+    if (change.updateDescription.updatedFields.hasOwnProperty("shares")) {
+      CardModel.findById(change.documentKey._id).then((updatedCard) => {
+        console.log("Will update card");
+        io.emit("cardUpdate", updatedCard);
+      });
+    }
   }
 });
 
