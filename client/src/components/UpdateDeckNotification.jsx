@@ -12,7 +12,7 @@ const Notification = ({ message, alert, onClose }) => {
   return (
     <div
       className={`${
-        alert ? "bg-red-500 " : "bg-green-300"
+        alert ? "bg-red-500 " : "bg-green-500"
       } text-white py-2 px-4 rounded shadow-md z-50`}
     >
       <p>{message}</p>

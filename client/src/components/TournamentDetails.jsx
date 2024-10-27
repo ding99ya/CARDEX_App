@@ -638,7 +638,7 @@ function TournamentDetails() {
             Deck 5
           </button>
         </div>
-        <div className="grid grid-cols-5 lg:px-4">
+        <div className="hidden lg:grid grid-cols-5 lg:px-4">
           {Array.from({ length: 5 }).map((_, index) => {
             const item = modifiedDeck[index] || emptyDeck[index];
 
@@ -704,6 +704,71 @@ function TournamentDetails() {
             );
           })}
         </div>
+
+        <table
+          className="min-w-full rounded-xl p-2 bg-blue-100 lg:hidden"
+          style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
+        >
+          <tbody>
+            {Array.from({ length: 5 }).map((_, index) => {
+              const item = modifiedDeck[index] || emptyDeck[index];
+
+              return (
+                <tr
+                  key={index}
+                  className={`cursor-pointer h-26 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white`}
+                >
+                  <td className="py-4 px-2 text-left">
+                    <div className="flex items-center space-x-2">
+                      <img
+                        src={item.photo}
+                        alt={item.name}
+                        className="w-9 h-12 object-cover mr-1"
+                      />
+                      <div className="flex flex-col justify-center">
+                        <span
+                          className={`text-black font-helvetica-neue font-semibold`}
+                          style={{
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 1,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            width: "100%",
+                            whiteSpace: "normal",
+                          }}
+                        >
+                          {item.name}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-4 px-3 text-center">
+                    <span
+                      className={`text-xs font-helvetica inline-block px-2 py-1 ${
+                        item.rarity === "RARE"
+                          ? "bg-sky-300"
+                          : item.rarity === "EPIC"
+                          ? "bg-purple-300"
+                          : item.rarity === "LEGEND"
+                          ? "bg-amber-300"
+                          : "bg-white"
+                      } text-white font-semibold rounded-lg text-center`}
+                    >
+                      {item.rarity}
+                    </span>
+                  </td>
+                  <td className="py-4 px-6 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl">
+                    <div className={"flex items-center"}>
+                      <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
+                      <span className="font-open-sans text-sm">0</span>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
 
         {!openInventory && (
           <div className="px-4 flex justify-center w-full">
