@@ -6,6 +6,8 @@ import axios from "axios";
 import PresaleCard from "./PresaleCard.png";
 import Score from "./Score.png";
 import flagIcon from "./Flag.svg";
+import sortingIcon from "./Sorting.svg";
+import filterIcon from "./Filter.png";
 import Notification from "./UpdateDeckNotification.jsx";
 import { useNavigation } from "./NavigationContext";
 
@@ -30,6 +32,9 @@ function TournamentDetails() {
 
   const [inventory, setInventory] = useState([]);
   const [userCards, setUserCards] = useState([]);
+  const [userCardsCopy, setUserCardsCopy] = useState([]);
+  const [filteredCards, setFilteredCards] = useState([]);
+
   const [userDeck1, setUserDeck1] = useState([]);
   const [userDeck2, setUserDeck2] = useState([]);
   const [userDeck3, setUserDeck3] = useState([]);
@@ -42,6 +47,24 @@ function TournamentDetails() {
   const [activeDeckTab, setActiveDeckTab] = useState("Deck1");
 
   const [cardUsage, setCardUsage] = useState({});
+
+  // selectedFilter be used to determine which filter method is currently being used
+  const [selectedFilter, setSelectedFilter] = useState({
+    label: "All",
+  });
+
+  // filterIsOpen is used to control if the filter list should be opened
+  const [filterIsOpen, setFilterIsOpen] = useState(false);
+
+  // selectedSort be used to determine which sort method is currently being used
+  const [selectedSort, setSelectedSort] = useState({
+    label: "Score",
+    sortKey: "currentScore",
+    ascending: false,
+  });
+
+  // sortIsOpen is used to control if the sort list should be opened
+  const [sortIsOpen, setSortIsOpen] = useState(false);
 
   const [emptyDeck, setEmptyDeck] = useState([
     {
@@ -269,6 +292,45 @@ function TournamentDetails() {
     setIsUpdatingDeck(false);
   };
 
+  function filterCards(by) {
+    if (by === "All") {
+      setFilteredCards(userCardsCopy);
+    } else {
+      const filteredCards = userCardsCopy.filter((card) => {
+        return card.rarity === by.toUpperCase();
+      });
+
+      setFilteredCards(filteredCards);
+    }
+  }
+
+  const handleFilterSelection = (option) => {
+    setSelectedFilter(option);
+    filterCards(option.label);
+    setFilterIsOpen(false);
+  };
+
+  function sortCards(label, by, ascending = true) {
+    const sortedCards = [...userCards].sort((a, b) => {
+      if (by === "ipoTime") {
+        return ascending
+          ? new Date(a.ipoTime) - new Date(b.ipoTime)
+          : new Date(b.ipoTime) - new Date(a.ipoTime);
+      } else {
+        return ascending ? a[by] - b[by] : b[by] - a[by];
+      }
+    });
+
+    setUserCards(sortedCards);
+    setSelectedSort({ label: label, sortKey: by, ascending: ascending });
+  }
+
+  const handleSortSelection = (option) => {
+    setSelectedSort(option);
+    sortCards(option.label, option.sortKey, option.ascending);
+    setSortIsOpen(false);
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     checkInTournament();
@@ -326,6 +388,7 @@ function TournamentDetails() {
           }));
 
           setUserCards(fetchedUserCards);
+          setUserCardsCopy(fetchedUserCards);
         } catch (error) {
           console.error(`Error fetching cards info`, error);
         }
@@ -395,6 +458,57 @@ function TournamentDetails() {
 
     calculateCardAvailability();
   }, [userCards]);
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      const sortedCards = [...filteredCards].sort((a, b) => {
+        if (selectedSort.sortKey === "ipoTime") {
+          return new Date(b.ipoTime) - new Date(a.ipoTime);
+        } else {
+          return selectedSort.ascending
+            ? a[selectedSort.sortKey] - b[selectedSort.sortKey]
+            : b[selectedSort.sortKey] - a[selectedSort.sortKey];
+        }
+      });
+
+      setUserCards(sortedCards);
+    }
+  }, [filteredCards]);
+
+  const filterOptions = [
+    { label: "All" },
+    { label: "Rare" },
+    { label: "Epic" },
+    { label: "Legend" },
+  ];
+
+  const sortOptions = [
+    { label: "Score", sortKey: "currentScore", ascending: false },
+    { label: "Score", sortKey: "currentScore", ascending: true },
+    { label: "Latest", sortKey: "ipoTime", ascending: false },
+  ];
+
+  const sortUpArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-black"
+    >
+      <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
+    </svg>
+  );
+
+  const sortDownArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-4 h-4 text-black"
+    >
+      <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
+    </svg>
+  );
 
   return (
     <div className="flex flex-col px-2 lg:px-0 lg:flex-row">
@@ -615,10 +729,75 @@ function TournamentDetails() {
 
         {openInventory && (
           <div>
-            <div className="flex border-b-0 mb-2">
+            <div className="flex border-b-0 mb-2 mx-0 lg:mx-6">
               <button className="py-2 px-4 font-semibold border-b-2 border-blue-500 text-blue-500">
                 Inventory
               </button>
+            </div>
+            <div className="flex items-center space-x-2 px-2 lg:px-8 lg:space-x-4 self-end lg:self-auto w-full justify-end">
+              <div className="relative inline-block text-left">
+                <button
+                  onClick={() => setFilterIsOpen(!filterIsOpen)}
+                  className="inline-flex items-center justify-between w-[86px] lg:w-full px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
+                >
+                  <span className="flex items-center whitespace-nowrap">
+                    {selectedFilter.label}
+                  </span>
+                  <img
+                    src={filterIcon}
+                    alt="Filter Icon"
+                    className="w-5 h-5 ml-1"
+                  />
+                </button>
+                {filterIsOpen && (
+                  <div className="absolute right-0 z-50 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                    {filterOptions.map((option, index) => (
+                      <div key={index} className="py-1">
+                        <button
+                          onClick={() => handleFilterSelection(option)}
+                          className="flex items-center w-[86px] lg:w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
+                        >
+                          {option.label}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="relative inline-block text-left">
+                <button
+                  onClick={() => setSortIsOpen(!sortIsOpen)}
+                  className="inline-flex items-center justify-between w-[90px] lg:w-full px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
+                >
+                  <span className="flex items-center whitespace-nowrap">
+                    {selectedSort.label}{" "}
+                    {selectedSort.label !== "Latest" &&
+                      (selectedSort.ascending ? sortUpArrow : sortDownArrow)}
+                  </span>
+                  <img
+                    src={sortingIcon}
+                    alt="Sort Icon"
+                    className="w-5 h-5 ml-1"
+                  />
+                </button>
+                {sortIsOpen && (
+                  <div className="absolute right-0 z-50 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                    {sortOptions.map((option, index) => (
+                      <div key={index} className="py-1">
+                        <button
+                          onClick={() => handleSortSelection(option)}
+                          className="flex items-center w-[90px] lg:w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
+                        >
+                          {option.label}{" "}
+                          {option.label !== "Latest" &&
+                            (option.ascending ? sortUpArrow : sortDownArrow)}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
             {userCards.length === 0 ? (
               <div>
@@ -636,7 +815,7 @@ function TournamentDetails() {
                           (deckItem) => deckItem.uniqueId === item.uniqueId
                         )
                           ? "border-4 border-blue-200"
-                          : "border border-gray-300"
+                          : "border border-gray-200"
                       } bg-white mt-4 mb-2 mx-1 lg:mx-2 rounded-lg overflow-hidden transition duration-300 ease-in-out lg:hover:shadow-2xl group`}
                       key={item.uniqueId}
                       onClick={() => addCardToDeck(item)}
