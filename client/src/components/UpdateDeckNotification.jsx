@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Notification = ({ message, onClose }) => {
+const Notification = ({ message, alert, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -10,7 +10,11 @@ const Notification = ({ message, onClose }) => {
   }, [onClose]);
 
   return (
-    <div className="bg-red-500 text-white py-2 px-4 rounded shadow-md z-50">
+    <div
+      className={`${
+        alert ? "bg-red-500 " : "bg-green-300"
+      } text-white py-2 px-4 rounded shadow-md z-50`}
+    >
       <p>{message}</p>
     </div>
   );

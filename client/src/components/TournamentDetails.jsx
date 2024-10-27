@@ -30,6 +30,8 @@ function TournamentDetails() {
 
   const [isUpdatingDeck, setIsUpdatingDeck] = useState(false);
 
+  const [updatingDeckAlert, setUpdatingDeckAlert] = useState(false);
+
   const [inventory, setInventory] = useState([]);
   const [userCards, setUserCards] = useState([]);
   const [userCardsCopy, setUserCardsCopy] = useState([]);
@@ -94,8 +96,9 @@ function TournamentDetails() {
     },
   ]);
 
-  const showNotification = (message) => {
+  const showNotification = (message, alert) => {
     setNotification(message);
+    setUpdatingDeckAlert(alert);
   };
 
   const handleNotificationClose = () => {
@@ -236,7 +239,7 @@ function TournamentDetails() {
 
   const finishUpdatingDeck = () => {
     if (modifiedDeck.length != 5) {
-      showNotification("Need five cards for the deck");
+      showNotification("Need five cards for the deck", true);
       return;
     }
 
@@ -250,7 +253,7 @@ function TournamentDetails() {
     );
 
     if (rarityCount.legend > 1 || rarityCount.epic > 1) {
-      showNotification("Can have only 1 legend and 1 epic card");
+      showNotification("Can have only 1 legend and 1 epic card", true);
       return;
     }
 
@@ -268,6 +271,8 @@ function TournamentDetails() {
 
     setOpenInventory(false);
     setIsUpdatingDeck(false);
+
+    showNotification("Deck updated", false);
   };
 
   const cancelUpdatingDeck = () => {
@@ -387,8 +392,12 @@ function TournamentDetails() {
                 : item.shares,
           }));
 
-          setUserCards(fetchedUserCards);
-          setUserCardsCopy(fetchedUserCards);
+          const sortedCards = [...fetchedUserCards].sort((a, b) => {
+            return b["currentScore"] - a["currentScore"];
+          });
+
+          setUserCards(sortedCards);
+          setUserCardsCopy(sortedCards);
         } catch (error) {
           console.error(`Error fetching cards info`, error);
         }
@@ -920,6 +929,7 @@ function TournamentDetails() {
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <Notification
             message={notification}
+            alert={updatingDeckAlert}
             onClose={handleNotificationClose}
           />
         </div>
