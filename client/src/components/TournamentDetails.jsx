@@ -815,7 +815,7 @@ function TournamentDetails() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 lg:px-4">
+              <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 lg:px-4">
                 {userCards.map((item) =>
                   item.category !== "presale" ? (
                     <div
@@ -839,13 +839,13 @@ function TournamentDetails() {
                         <img
                           src={item.photo}
                           alt={item.name}
-                          className="w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
+                          className="w-2/3 lg:w-1/2 object-contain mt-6 transition duration-300 group-hover:scale-105 relative"
                           style={{ zIndex: 10, aspectRatio: "2 / 3" }}
                         />
                       </div>
                       <div className="p-2 text-left px-4">
                         <span
-                          className="w-full font-helvetica-neue text-sm font-bold"
+                          className="w-full font-helvetica-neue text-xs lg:text-sm font-bold"
                           style={{
                             display: "-webkit-box",
                             WebkitBoxOrient: "vertical",
@@ -865,9 +865,9 @@ function TournamentDetails() {
                             <img
                               src={Score}
                               alt="Score"
-                              className="w-5 h-5 mr-1"
+                              className="w-3 h-3 lg:w-5 lg:h-5 lg:mr-1"
                             />
-                            <span className="font-open-sans text-sm">
+                            <span className="font-open-sans text-xs lg:text-sm">
                               {item.currentScore}
                             </span>
                           </div>
@@ -886,18 +886,18 @@ function TournamentDetails() {
                           </span>
                         </div>
                         <div className="flex justify-between w-full px-2 mt-1">
-                          <span className="text-sm font-helvetica">
+                          <span className="text-xs lg:text-sm font-helvetica">
                             Available:
                           </span>
-                          <span className="text-sm font-helvetica">
+                          <span className="text-xs lg:text-sm font-helvetica">
                             {cardUsage[item.uniqueId].available}
                           </span>
                         </div>
                         <div className="flex justify-between w-full px-2 mt-1">
-                          <span className="text-sm font-helvetica">
+                          <span className="text-xs lg:text-sm font-helvetica">
                             Locked:
                           </span>
-                          <span className="text-sm font-helvetica">
+                          <span className="text-xs lg:text-sm font-helvetica">
                             {cardUsage[item.uniqueId].locked}
                           </span>
                         </div>
@@ -912,7 +912,7 @@ function TournamentDetails() {
                             )
                               ? "block"
                               : "invisible"
-                          } w-full bg-blue-400 text-sm text-white font-bold px-4 py-2 rounded-full hover:bg-blue-500 hover:text-white`}
+                          } w-full bg-blue-400 text-sm text-white font-bold px-4 py-1 rounded-full hover:bg-blue-500 hover:text-white`}
                         >
                           Delete
                         </button>
