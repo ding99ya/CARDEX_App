@@ -574,7 +574,7 @@ function TournamentDetails() {
             Deck 1
           </button>
           <button
-            className={`py-2 px-2 lg:px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
+            className={`py-2 lg:px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
               activeDeckTab === "Deck2"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
@@ -758,9 +758,9 @@ function TournamentDetails() {
                       {item.rarity}
                     </span>
                   </td>
-                  <td className="py-4 px-6 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl border border-black">
+                  <td className="py-4 px-2 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl border border-black">
                     <div className={"flex items-center"}>
-                      <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
+                      <img src={Score} alt="Score" className="w-3 h-3" />
                       <span className="font-open-sans text-sm">0</span>
                     </div>
                   </td>
