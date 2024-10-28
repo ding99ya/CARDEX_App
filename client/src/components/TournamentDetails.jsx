@@ -22,6 +22,8 @@ function TournamentDetails() {
   const hasMounted = useRef(false);
   const Navigate = useNavigate();
 
+  const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+
   const [openInventory, setOpenInventory] = useState(false);
 
   const [timeRemaining, setTimeRemaining] = useState("0d 00h 00m");
@@ -95,6 +97,13 @@ function TournamentDetails() {
       uniqueId: "5",
     },
   ]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   const showNotification = (message, alert) => {
     setNotification(message);
@@ -483,6 +492,18 @@ function TournamentDetails() {
       setUserCards(sortedCards);
     }
   }, [filteredCards]);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        setIsScrollToTopVisible(true);
+      } else {
+        setIsScrollToTopVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
 
   const filterOptions = [
     { label: "All" },
@@ -990,6 +1011,14 @@ function TournamentDetails() {
           </div>
         )}
       </div>
+      {isScrollToTopVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-24 right-4 border border-gray-300 bg-white text-black p-3 rounded-full focus:outline-none z-70"
+        >
+          ↑
+        </button>
+      )}
       {notification && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <Notification
