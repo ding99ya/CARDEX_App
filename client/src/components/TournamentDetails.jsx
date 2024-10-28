@@ -739,7 +739,7 @@ function TournamentDetails() {
                   key={index}
                   className={`cursor-pointer h-26 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white`}
                 >
-                  <td className="py-4 px-2 text-left border border-black">
+                  <td className="py-4 px-2 text-left rounded-tl-xl rounded-bl-xl">
                     <div className="flex items-center space-x-2">
                       <img
                         src={item.photo}
@@ -764,9 +764,9 @@ function TournamentDetails() {
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 px-3 text-center border border-black">
+                  <td className="py-4 px-3 text-center rounded-tr-xl rounded-br-xl">
                     <span
-                      className={`text-xs font-helvetica inline-block px-2 py-1 ${
+                      className={`text-xs font-helvetica inline-block px-2 py-1 mb-1 ${
                         item.rarity === "RARE"
                           ? "bg-sky-300"
                           : item.rarity === "EPIC"
@@ -778,13 +778,17 @@ function TournamentDetails() {
                     >
                       {item.rarity}
                     </span>
-                  </td>
-                  <td className="py-4 px-2 text-center rounded-tr-xl rounded-br-xl border border-black">
                     <div className={"flex items-center"}>
                       <img src={Score} alt="Score" className="w-3 h-3" />
                       <span className="font-open-sans text-sm">0</span>
                     </div>
                   </td>
+                  {/* <td className="py-4 px-2 text-center rounded-tr-xl rounded-br-xl border border-black">
+                    <div className={"flex items-center"}>
+                      <img src={Score} alt="Score" className="w-3 h-3" />
+                      <span className="font-open-sans text-sm">0</span>
+                    </div>
+                  </td> */}
                 </tr>
               );
             })}
@@ -794,7 +798,7 @@ function TournamentDetails() {
         {!openInventory && (
           <div className="px-4 flex justify-center w-full">
             <button
-              className="bg-blue-400 justify-center text-white font-bold py-2 px-6 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
+              className="bg-blue-400 justify-center text-white font-bold py-1 px-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
               onClick={() => {
                 setOpenInventory(true);
                 setIsUpdatingDeck(true);
@@ -808,13 +812,13 @@ function TournamentDetails() {
         {openInventory && (
           <div className="px-4 flex justify-between items-center">
             <button
-              className="bg-blue-400 justify-center text-white font-bold py-2 px-6 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
+              className="bg-blue-400 justify-center text-white font-bold py-1 px-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
               onClick={() => finishUpdatingDeck()}
             >
               Finish
             </button>
             <button
-              className="justify-centerfont-bold py-2 px-6 rounded-full border border-gray-300 transition duration-300 bg-white text-black hover:bg-gray-200 mt-4 mb-2"
+              className="justify-centerfont-bold py-1 px-4 rounded-full border border-gray-300 transition duration-300 bg-white text-black hover:bg-gray-200 mt-4 mb-2"
               onClick={() => cancelUpdatingDeck()}
             >
               Cancel
@@ -1014,7 +1018,7 @@ function TournamentDetails() {
       {isScrollToTopVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-24 right-4 border border-black bg-white text-black p-3 rounded-full focus:outline-none z-70"
+          className="fixed bottom-24 right-4 border border-black bg-white text-black p-3 rounded-full focus:outline-none z-50"
         >
           ↑
         </button>
