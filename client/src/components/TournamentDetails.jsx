@@ -748,11 +748,11 @@ function TournamentDetails() {
                       />
                       <div className="flex flex-col justify-center">
                         <span
-                          className={`text-black font-helvetica-neue font-semibold`}
+                          className={`text-black font-helvetica-neue font-semibold text-xs`}
                           style={{
                             display: "-webkit-box",
                             WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 1,
+                            WebkitLineClamp: 2,
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             width: "100%",
@@ -779,7 +779,7 @@ function TournamentDetails() {
                       {item.rarity}
                     </span>
                   </td>
-                  <td className="py-4 px-2 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl border border-black">
+                  <td className="py-4 px-2 text-center rounded-tr-xl rounded-br-xl border border-black">
                     <div className={"flex items-center"}>
                       <img src={Score} alt="Score" className="w-3 h-3" />
                       <span className="font-open-sans text-sm">0</span>
@@ -1014,7 +1014,7 @@ function TournamentDetails() {
       {isScrollToTopVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-24 right-4 border border-gray-300 bg-white text-black p-3 rounded-full focus:outline-none z-70"
+          className="fixed bottom-24 right-4 border border-black bg-white text-black p-3 rounded-full focus:outline-none z-70"
         >
           ↑
         </button>
