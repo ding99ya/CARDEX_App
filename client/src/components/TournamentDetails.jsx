@@ -475,7 +475,7 @@ function TournamentDetails() {
     };
 
     calculateCardAvailability();
-  }, [userCards]);
+  }, [userCardsCopy]);
 
   useEffect(() => {
     if (hasMounted.current) {
