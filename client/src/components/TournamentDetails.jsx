@@ -727,7 +727,7 @@ function TournamentDetails() {
         </div>
 
         <table
-          className="max-w-full rounded-xl p-2 bg-blue-100 lg:hidden"
+          className="min-w-full rounded-xl p-2 bg-blue-100 lg:hidden"
           style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
         >
           <tbody>
