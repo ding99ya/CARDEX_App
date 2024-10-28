@@ -558,7 +558,7 @@ function TournamentDetails() {
       <div className="w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
         <div className="flex border-b-0 mx-0 lg:mx-6 mt-2 mb-2">
           <button
-            className={`py-2 px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
+            className={`py-2 px-2 lg:px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
               activeDeckTab === "Deck1"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
@@ -574,7 +574,7 @@ function TournamentDetails() {
             Deck 1
           </button>
           <button
-            className={`py-2 px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
+            className={`py-2 px-2 lg:px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
               activeDeckTab === "Deck2"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
@@ -590,7 +590,7 @@ function TournamentDetails() {
             Deck 2
           </button>
           <button
-            className={`py-2 px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
+            className={`py-2 px-2 lg:px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
               activeDeckTab === "Deck3"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
@@ -606,7 +606,7 @@ function TournamentDetails() {
             Deck 3
           </button>
           <button
-            className={`py-2 px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
+            className={`py-2 px-2 lg:px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
               activeDeckTab === "Deck4"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
@@ -622,7 +622,7 @@ function TournamentDetails() {
             Deck 4
           </button>
           <button
-            className={`py-2 px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
+            className={`py-2 px-2 lg:px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
               activeDeckTab === "Deck5"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
@@ -718,7 +718,7 @@ function TournamentDetails() {
                   key={index}
                   className={`cursor-pointer h-26 text-sm font-open-sans rounded-t-xl rounded-b-xl bg-white`}
                 >
-                  <td className="py-4 px-2 text-left">
+                  <td className="py-4 px-2 text-left border border-black">
                     <div className="flex items-center space-x-2">
                       <img
                         src={item.photo}
@@ -743,7 +743,7 @@ function TournamentDetails() {
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 px-3 text-center">
+                  <td className="py-4 px-3 text-center border border-black">
                     <span
                       className={`text-xs font-helvetica inline-block px-2 py-1 ${
                         item.rarity === "RARE"
@@ -758,7 +758,7 @@ function TournamentDetails() {
                       {item.rarity}
                     </span>
                   </td>
-                  <td className="py-4 px-6 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl">
+                  <td className="py-4 px-6 pr-12 lg:pr-8 text-left rounded-tr-xl rounded-br-xl border border-black">
                     <div className={"flex items-center"}>
                       <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
                       <span className="font-open-sans text-sm">0</span>
