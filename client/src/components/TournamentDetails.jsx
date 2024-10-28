@@ -215,7 +215,7 @@ function TournamentDetails() {
       return;
     }
 
-    if (cardUsage[newCard.uniqueId].available === 0) {
+    if (cardUsage[newCard.uniqueId].available <= 0) {
       return;
     }
 
