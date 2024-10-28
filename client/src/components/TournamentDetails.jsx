@@ -541,8 +541,8 @@ function TournamentDetails() {
   );
 
   return (
-    <div className="flex flex-col px-2 lg:px-0 lg:flex-row">
-      <div className="w-full lg:w-1/4 bg-white border border-gray-300 rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed">
+    <div className="flex flex-col px-2 lg:px-0 lg:flex-row overflow-hidden">
+      <div className="w-full lg:w-1/4 bg-white border border-gray-300 rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed overflow-hidden">
         <span
           onClick={goBack}
           className="cursor-pointer inline-block bg-white text-black mt-2 ml-2 px-4 py-2 font-semibold whitespace-nowrap"
@@ -576,7 +576,7 @@ function TournamentDetails() {
           </div>
         </div>
       </div>
-      <div className="w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
+      <div className="w-full lg:ml-[25%] lg:w-3/4 lg:px-4 overflow-hidden">
         <div className="flex border-b-0 mx-0 lg:mx-6 mt-2 mb-2">
           <button
             className={`py-2 px-2 lg:px-4 mx-2 text-xs lg:text-base lg:mx-0 font-semibold w-full lg:w-auto ${
