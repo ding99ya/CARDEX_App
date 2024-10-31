@@ -226,7 +226,7 @@ function TournamentDetails() {
           name: newCard.name,
           uniqueId: newCard.uniqueId,
           photo: newCard.photo,
-          currentScore: 0,
+          currentTournamentScore: 0,
           rarity: newCard.rarity,
         },
       ]);
