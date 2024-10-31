@@ -230,11 +230,11 @@ function TournamentDetails() {
           rarity: newCard.rarity,
         },
       ]);
+      cardUsage[newCard.uniqueId].locked =
+        cardUsage[newCard.uniqueId].locked + 1;
+      cardUsage[newCard.uniqueId].available =
+        cardUsage[newCard.uniqueId].available - 1;
     }
-
-    cardUsage[newCard.uniqueId].locked = cardUsage[newCard.uniqueId].locked + 1;
-    cardUsage[newCard.uniqueId].available =
-      cardUsage[newCard.uniqueId].available - 1;
   };
 
   const deleteCardFromDeck = (newCard) => {
@@ -778,7 +778,11 @@ function TournamentDetails() {
                     >
                       {item.rarity}
                     </span>
-                    <div className={"flex items-center"}>
+                    <div
+                      className={`flex items-center ${
+                        modifiedDeck.length > index ? "block" : "invisible"
+                      }`}
+                    >
                       <img src={Score} alt="Score" className="w-3 h-3" />
                       <span className="font-open-sans text-sm">0</span>
                     </div>
