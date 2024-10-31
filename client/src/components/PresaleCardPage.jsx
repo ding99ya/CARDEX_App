@@ -70,7 +70,7 @@ function PresaleCardPage({ category }) {
 
     // Need to adjust the day and hours in production
     // Check if today is Sunday
-    if (currentDay === 1) {
+    if (currentDay === 3) {
       setCanPresale(true);
     } else {
       setCanPresale(false);
