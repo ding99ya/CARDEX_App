@@ -681,9 +681,7 @@ function CardDetailPage() {
               </span>
             </div>
             <div className="flex justify-between w-full mt-1">
-              <span className="text-sm font-semibold font-helvetica">
-                Position:
-              </span>
+              <span className="text-sm font-semibold font-helvetica">Own:</span>
               <span className="text-sm font-semibold font-helvetica">
                 {userShares}
               </span>

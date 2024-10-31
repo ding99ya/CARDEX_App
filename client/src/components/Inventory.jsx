@@ -350,9 +350,7 @@ function Inventory() {
                         )}
                       </div> */}
                       <div className="flex justify-between w-full px-2 mt-1">
-                        <span className="text-sm font-helvetica">
-                          Position:
-                        </span>
+                        <span className="text-sm font-helvetica">Own:</span>
                         <span className="text-sm font-helvetica">
                           {item.shares}
                         </span>
