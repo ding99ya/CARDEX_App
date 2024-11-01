@@ -646,7 +646,7 @@ function TournamentDetails() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
+      if (window.scrollY > 400) {
         setIsScrollToTopVisible(true);
       } else {
         setIsScrollToTopVisible(false);
@@ -693,17 +693,17 @@ function TournamentDetails() {
 
   return (
     <div className="flex flex-col px-2 lg:px-0 lg:flex-row overflow-hidden">
-      <div className="w-full lg:w-1/4 bg-white border border-gray-300 rounded-3xl sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed overflow-hidden">
-        <span
+      <div className="w-full lg:w-1/4 bg-white rounded-3xl border border-gray-300 sm:container sm:mx-auto mt-4 lg:mx-4 lg:my-4 lg:fixed overflow-hidden">
+        <div
           onClick={goBack}
           className="cursor-pointer inline-block bg-white text-black mt-2 ml-2 px-4 py-2 font-semibold whitespace-nowrap"
         >
           &lt; Back
-        </span>
-        <div className="justify-items-center items-center w-full mx-4">
+        </div>
+        <div className="items-center w-full mx-auto lg:mx-2">
           {/* Header */}
-          <div className="flex justify-center items-center space-x-3 mb-4">
-            <h3 className="text-4xl font-bold text-blue-400 mt-8 mb-2">
+          <div className="flex justify-center items-center space-x-1 mb-4">
+            <h3 className="text-3xl font-bold text-blue-400 mt-8 mb-2">
               Tournament #1
             </h3>
             <img src={flagIcon} alt="Flag Icon" className="mt-8 mb-2 w-8 h-8" />
@@ -953,7 +953,7 @@ function TournamentDetails() {
         {!openInventory && (
           <div className="px-4 flex justify-center w-full">
             <button
-              className="bg-blue-400 justify-center text-white font-bold py-1 px-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
+              className="bg-blue-400 justify-center text-white font-bold py-1 px-4 mx-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
               onClick={() => {
                 setOpenInventory(true);
                 setIsUpdatingDeck(true);
@@ -962,7 +962,7 @@ function TournamentDetails() {
               Submit/Update Deck
             </button>
             <button
-              className={`justify-center bg-white text-black font-bold py-1 px-4 border border-gray-300 rounded-full transition duration-300 hover:bg-gray-200 mt-4 mb-2 ${
+              className={`justify-center bg-white text-black py-1 px-4 mx-4 border border-gray-300 rounded-full transition duration-300 hover:bg-gray-200 mt-4 mb-2 ${
                 modifiedDeck.length > 0 ? "block" : "hidden"
               }`}
               onClick={() => {
@@ -975,15 +975,15 @@ function TournamentDetails() {
         )}
 
         {openInventory && (
-          <div className="px-4 flex justify-between items-center">
+          <div className="px-4 flex justify-center w-full items-center">
             <button
-              className="bg-blue-400 justify-center text-white font-bold py-1 px-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
+              className="bg-blue-400 justify-center text-white font-bold py-1 px-4 mx-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
               onClick={() => finishUpdatingDeck()}
             >
               Finish
             </button>
             <button
-              className="justify-center font-bold py-1 px-4 rounded-full border border-gray-300 transition duration-300 bg-white text-black hover:bg-gray-200 mt-4 mb-2"
+              className="justify-center py-1 px-4 mx-4 rounded-full border border-gray-300 transition duration-300 bg-white text-black hover:bg-gray-200 mt-4 mb-2"
               onClick={() => cancelUpdatingDeck()}
             >
               Cancel
