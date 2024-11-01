@@ -127,7 +127,7 @@ function Play() {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-xl border-2 border-blue-300 overflow-hidden transition duration-300 ease-in-out"
-            onClick={() => navigateTo("/Play/Tournaments/1")}
+            onClick={() => navigateTo("/Play/Register")}
             // style={{
             //   backgroundImage: `url(${CardexPokemonExtension})`,
             //   backgroundSize: "cover",

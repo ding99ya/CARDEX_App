@@ -9,9 +9,9 @@ import flagIcon from "./Flag.svg";
 import sortingIcon from "./Sorting.svg";
 import filterIcon from "./Filter.png";
 import Notification from "./UpdateDeckNotification.jsx";
-import { useNavigation } from "./NavigationContext";
+import { useNavigation } from "./NavigationContext.jsx";
 
-function TournamentDetails() {
+function RegisterTournament() {
   const { user } = usePrivy();
   const embeddedWalletAddress = user.wallet.address;
   const profilePhoto = !!user.twitter ? user.twitter.profilePictureUrl : "";
@@ -1201,4 +1201,4 @@ function TournamentDetails() {
   );
 }
 
-export default TournamentDetails;
+export default RegisterTournament;
