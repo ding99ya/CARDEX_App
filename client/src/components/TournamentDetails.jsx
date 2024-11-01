@@ -951,9 +951,9 @@ function TournamentDetails() {
         </table>
 
         {!openInventory && (
-          <div className="px-4 flex justify-center w-full">
+          <div className="px-4 flex flex-col lg:flex-row justify-center w-full">
             <button
-              className="text-sm lg:text-base bg-blue-400 justify-center text-white font-bold py-1 px-4 mx-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
+              className="bg-blue-400 justify-center text-white font-bold py-1 px-4 mx-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
               onClick={() => {
                 setOpenInventory(true);
                 setIsUpdatingDeck(true);
@@ -962,7 +962,7 @@ function TournamentDetails() {
               Submit/Update Deck
             </button>
             <button
-              className={`text-sm lg:text-base justify-center bg-white text-black py-1 px-4 mx-4 border border-gray-300 rounded-full transition duration-300 hover:bg-gray-200 mt-4 mb-2 ${
+              className={`justify-center bg-white text-black py-1 px-4 mx-4 border border-gray-300 rounded-full transition duration-300 hover:bg-gray-200 mt-2 lg:mt-4 mb-2 ${
                 modifiedDeck.length > 0 ? "block" : "hidden"
               }`}
               onClick={() => {
@@ -977,13 +977,13 @@ function TournamentDetails() {
         {openInventory && (
           <div className="px-4 flex justify-center w-full items-center">
             <button
-              className="text-sm lg:text-base bg-blue-400 justify-center text-white font-bold py-1 px-4 mx-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
+              className="bg-blue-400 justify-center text-white font-bold py-1 px-4 mx-4 rounded-full transition duration-300 hover:bg-blue-500 mt-4 mb-2"
               onClick={() => finishUpdatingDeck()}
             >
               Finish
             </button>
             <button
-              className="text-sm lg:text-base justify-center py-1 px-4 mx-4 rounded-full border border-gray-300 transition duration-300 bg-white text-black hover:bg-gray-200 mt-4 mb-2"
+              className="justify-center py-1 px-4 mx-4 rounded-full border border-gray-300 transition duration-300 bg-white text-black hover:bg-gray-200 mt-4 mb-2"
               onClick={() => cancelUpdatingDeck()}
             >
               Cancel
