@@ -14,6 +14,7 @@ const InviteCodeModel = require("./models/inviteCodeModel.js");
 const PresaleUserModel = require("./models/PresaleUserModel.js");
 const CardActivityModel = require("./models/CardActivityModel.js");
 const CardHolderModel = require("./models/CardHolderModel.js");
+const CTournamentModel = require("./models/CTournamentModel.js");
 const SubscriptionModel = require("./models/SubscriptionModel.js");
 const path = require("path");
 const axios = require("axios");
@@ -741,6 +742,100 @@ app.post("/api/presaleusers", async (req, res) => {
   } catch (error) {
     console.error("Error in /api/presaleusers:", error);
     res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/ctournament/userDecks/:walletAddress", async (req, res) => {
+  try {
+    const { walletAddress } = req.params;
+
+    // Find all documents for the given walletAddress
+    const records = await CTournamentModel.find({ walletAddress });
+
+    // If no records are found, return an empty hash table
+    if (!records.length) {
+      return res.json({});
+    }
+
+    // Transform the records into the desired hash table format
+    const deckHashTable = records.reduce((acc, record) => {
+      acc[record.deckId] = record.deck;
+      return acc;
+    }, {});
+
+    res.json(deckHashTable);
+  } catch (error) {
+    console.error("Error in /api/ctournament/userDecks/:walletAddress:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.delete("/api/ctournament/deleteDeck", async (req, res) => {
+  const { walletAddress, deckId } = req.body;
+
+  try {
+    const result = await CTournamentModel.deleteOne({
+      walletAddress: walletAddress,
+      deckId: deckId,
+    });
+
+    if (result.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({ message: "Deck not found or already deleted." });
+    }
+
+    res.json({ message: "Deck successfully deleted." });
+  } catch (error) {
+    console.error("Error in /api/ctournament/deleteDeck:", error);
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
+  }
+});
+
+app.post("/api/ctournament/updateUserDeck", async (req, res) => {
+  try {
+    const { walletAddress, username, profilePhoto, deckId, deck } = req.body;
+
+    // Check if a record exists with the given walletAddress and deckId
+    const existingRecord = await CTournamentModel.findOne({
+      walletAddress: walletAddress,
+      deckId: deckId,
+    });
+
+    if (existingRecord) {
+      // Update the existing record
+      existingRecord.username = username;
+      existingRecord.profilePhoto = profilePhoto;
+      existingRecord.totalTournamentScore = 0;
+      existingRecord.deck = deck;
+
+      await existingRecord.save();
+      res.json({
+        message: "Record updated successfully",
+        record: existingRecord,
+      });
+    } else {
+      // Create a new record
+      const newRecord = new CTournamentModel({
+        walletAddress: walletAddress,
+        username: username,
+        profilePhoto: profilePhoto,
+        deckId: deckId,
+        totalTournamentScore: 0,
+        deck: deck,
+      });
+
+      await newRecord.save();
+      res.json({
+        message: "New record created successfully",
+        record: newRecord,
+      });
+    }
+  } catch (error) {
+    console.error("Error in /api/ctournament/updateUserDeck:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

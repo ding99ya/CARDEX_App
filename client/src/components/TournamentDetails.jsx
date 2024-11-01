@@ -14,6 +14,7 @@ import { useNavigation } from "./NavigationContext";
 function TournamentDetails() {
   const { user } = usePrivy();
   const embeddedWalletAddress = user.wallet.address;
+  const profilePhoto = !!user.twitter ? user.twitter.profilePictureUrl : "";
 
   const location = useLocation();
   const { goBack, navigateTo } = useNavigation();
@@ -21,6 +22,8 @@ function TournamentDetails() {
 
   const hasMounted = useRef(false);
   const Navigate = useNavigate();
+
+  const [currentUsername, setCurrentUsername] = useState("");
 
   const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
 
@@ -246,7 +249,7 @@ function TournamentDetails() {
       cardUsage[newCard.uniqueId].available + 1;
   };
 
-  const finishUpdatingDeck = () => {
+  const finishUpdatingDeck = async () => {
     if (modifiedDeck.length != 5) {
       showNotification("Need five cards for the deck", true);
       return;
@@ -268,14 +271,49 @@ function TournamentDetails() {
 
     if (activeDeckTab === "Deck1") {
       setUserDeck1(modifiedDeck);
+      await axios.post(`/api/ctournament/updateUserDeck`, {
+        walletAddress: embeddedWalletAddress.toString(),
+        username: currentUsername,
+        profilePhoto: profilePhoto,
+        deckId: "1",
+        deck: modifiedDeck,
+      });
     } else if (activeDeckTab === "Deck2") {
       setUserDeck2(modifiedDeck);
+      await axios.post(`/api/ctournament/updateUserDeck`, {
+        walletAddress: embeddedWalletAddress.toString(),
+        username: currentUsername,
+        profilePhoto: profilePhoto,
+        deckId: "2",
+        deck: modifiedDeck,
+      });
     } else if (activeDeckTab === "Deck3") {
       setUserDeck3(modifiedDeck);
+      await axios.post(`/api/ctournament/updateUserDeck`, {
+        walletAddress: embeddedWalletAddress.toString(),
+        username: currentUsername,
+        profilePhoto: profilePhoto,
+        deckId: "3",
+        deck: modifiedDeck,
+      });
     } else if (activeDeckTab === "Deck4") {
       setUserDeck4(modifiedDeck);
+      await axios.post(`/api/ctournament/updateUserDeck`, {
+        walletAddress: embeddedWalletAddress.toString(),
+        username: currentUsername,
+        profilePhoto: profilePhoto,
+        deckId: "4",
+        deck: modifiedDeck,
+      });
     } else if (activeDeckTab === "Deck5") {
       setUserDeck5(modifiedDeck);
+      await axios.post(`/api/ctournament/updateUserDeck`, {
+        walletAddress: embeddedWalletAddress.toString(),
+        username: currentUsername,
+        profilePhoto: profilePhoto,
+        deckId: "5",
+        deck: modifiedDeck,
+      });
     }
 
     setOpenInventory(false);
@@ -285,7 +323,43 @@ function TournamentDetails() {
   };
 
   const cancelUpdatingDeck = () => {
-    modifiedDeck.forEach((card) => {
+    let currentDeckIds;
+    let currentDeck;
+
+    if (activeDeckTab === "Deck1") {
+      currentDeckIds = userDeck1.map((card) => card.uniqueId);
+      currentDeck = userDeck1;
+    } else if (activeDeckTab === "Deck2") {
+      currentDeckIds = userDeck2.map((card) => card.uniqueId);
+      currentDeck = userDeck2;
+    } else if (activeDeckTab === "Deck3") {
+      currentDeckIds = userDeck3.map((card) => card.uniqueId);
+      currentDeck = userDeck3;
+    } else if (activeDeckTab === "Deck4") {
+      currentDeckIds = userDeck4.map((card) => card.uniqueId);
+      currentDeck = userDeck4;
+    } else if (activeDeckTab === "Deck5") {
+      currentDeckIds = userDeck5.map((card) => card.uniqueId);
+      currentDeck = userDeck5;
+    }
+
+    const modifiedDeckIds = modifiedDeck.map((card) => card.uniqueId);
+
+    const filteredCurrentDeck = currentDeck.filter(
+      (card) => !modifiedDeckIds.includes(card.uniqueId)
+    );
+
+    filteredCurrentDeck.forEach((card) => {
+      cardUsage[card.uniqueId].locked = cardUsage[card.uniqueId].locked + 1;
+      cardUsage[card.uniqueId].available =
+        cardUsage[card.uniqueId].available - 1;
+    });
+
+    const filteredModifiedDeck = modifiedDeck.filter(
+      (card) => !currentDeckIds.includes(card.uniqueId)
+    );
+
+    filteredModifiedDeck.forEach((card) => {
       cardUsage[card.uniqueId].locked = cardUsage[card.uniqueId].locked - 1;
       cardUsage[card.uniqueId].available =
         cardUsage[card.uniqueId].available + 1;
@@ -304,6 +378,46 @@ function TournamentDetails() {
     }
     setOpenInventory(false);
     setIsUpdatingDeck(false);
+  };
+
+  const deleteDeck = async () => {
+    let currentDeckId;
+    let currentDeck;
+
+    if (activeDeckTab === "Deck1") {
+      currentDeckId = "1";
+      currentDeck = userDeck1;
+      setUserDeck1([]);
+    } else if (activeDeckTab === "Deck2") {
+      currentDeckId = "2";
+      currentDeck = userDeck2;
+      setUserDeck2([]);
+    } else if (activeDeckTab === "Deck3") {
+      currentDeckId = "3";
+      currentDeck = userDeck3;
+      setUserDeck3([]);
+    } else if (activeDeckTab === "Deck4") {
+      currentDeckId = "4";
+      currentDeck = userDeck4;
+      setUserDeck4([]);
+    } else if (activeDeckTab === "Deck5") {
+      currentDeckId = "5";
+      currentDeck = userDeck5;
+      setUserDeck5([]);
+    }
+
+    setModifiedDeck([]);
+
+    currentDeck.forEach((card) => {
+      cardUsage[card.uniqueId].locked = cardUsage[card.uniqueId].locked - 1;
+      cardUsage[card.uniqueId].available =
+        cardUsage[card.uniqueId].available + 1;
+    });
+
+    await axios.delete(`/api/ctournament/deleteDeck`, {
+      walletAddress: embeddedWalletAddress.toString(),
+      deckId: currentDeckId,
+    });
   };
 
   function filterCards(by) {
@@ -379,6 +493,23 @@ function TournamentDetails() {
   }, []);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          `/api/users/${embeddedWalletAddress.toString()}`
+        );
+        setCurrentUsername(response.data.username);
+      } catch (error) {
+        console.error(
+          `Error fetching user ${embeddedWalletAddress} info`,
+          error
+        );
+      }
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
     if (hasMounted.current) {
       const fetchCardPosition = async () => {
         try {
@@ -419,47 +550,67 @@ function TournamentDetails() {
   }, [inventory]);
 
   useEffect(() => {
-    const calculateCardAvailability = () => {
+    const calculateCardAvailability = async () => {
       if (userCards.length > 0) {
-        // Loop through each deck array to count locked cards
-        userDeck1.forEach((card) => {
-          if (cardUsage[card.uniqueId]) {
-            cardUsage[card.uniqueId].locked += 1;
-          } else {
-            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
-          }
-        });
+        const response = await axios.get(
+          `/api/ctournament/userDecks/${embeddedWalletAddress.toString()}`
+        );
 
-        userDeck2.forEach((card) => {
-          if (cardUsage[card.uniqueId]) {
-            cardUsage[card.uniqueId].locked += 1;
-          } else {
-            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
-          }
-        });
+        if (response.data["1"]) {
+          setUserDeck1(response.data["1"]);
+          setModifiedDeck(response.data["1"]);
+          response.data["1"].forEach((card) => {
+            if (cardUsage[card.uniqueId]) {
+              cardUsage[card.uniqueId].locked += 1;
+            } else {
+              cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+            }
+          });
+        }
 
-        userDeck3.forEach((card) => {
-          if (cardUsage[card.uniqueId]) {
-            cardUsage[card.uniqueId].locked += 1;
-          } else {
-            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
-          }
-        });
+        if (response.data["2"]) {
+          setUserDeck2(response.data["2"]);
+          response.data["2"].forEach((card) => {
+            if (cardUsage[card.uniqueId]) {
+              cardUsage[card.uniqueId].locked += 1;
+            } else {
+              cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+            }
+          });
+        }
 
-        userDeck4.forEach((card) => {
-          if (cardUsage[card.uniqueId]) {
-            cardUsage[card.uniqueId].locked += 1;
-          } else {
-            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
-          }
-        });
-        userDeck5.forEach((card) => {
-          if (cardUsage[card.uniqueId]) {
-            cardUsage[card.uniqueId].locked += 1;
-          } else {
-            cardUsage[card.uniqueId] = { available: 0, locked: 1 };
-          }
-        });
+        if (response.data["3"]) {
+          setUserDeck3(response.data["3"]);
+          response.data["3"].forEach((card) => {
+            if (cardUsage[card.uniqueId]) {
+              cardUsage[card.uniqueId].locked += 1;
+            } else {
+              cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+            }
+          });
+        }
+
+        if (response.data["4"]) {
+          setUserDeck4(response.data["4"]);
+          response.data["4"].forEach((card) => {
+            if (cardUsage[card.uniqueId]) {
+              cardUsage[card.uniqueId].locked += 1;
+            } else {
+              cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+            }
+          });
+        }
+
+        if (response.data["5"]) {
+          setUserDeck5(response.data["5"]);
+          response.data["5"].forEach((card) => {
+            if (cardUsage[card.uniqueId]) {
+              cardUsage[card.uniqueId].locked += 1;
+            } else {
+              cardUsage[card.uniqueId] = { available: 0, locked: 1 };
+            }
+          });
+        }
 
         // Loop through userCards to set available counts based on 'shares' value
         userCards.forEach((userCard) => {
@@ -585,7 +736,7 @@ function TournamentDetails() {
                 : "text-gray-500"
             }`}
             onClick={() => {
-              if (isUpdatingDeck) {
+              if (isUpdatingDeck || activeDeckTab === "Deck1") {
                 return;
               }
               setActiveDeckTab("Deck1");
@@ -601,7 +752,7 @@ function TournamentDetails() {
                 : "text-gray-500"
             }`}
             onClick={() => {
-              if (isUpdatingDeck) {
+              if (isUpdatingDeck || activeDeckTab === "Deck2") {
                 return;
               }
               setActiveDeckTab("Deck2");
@@ -617,7 +768,7 @@ function TournamentDetails() {
                 : "text-gray-500"
             }`}
             onClick={() => {
-              if (isUpdatingDeck) {
+              if (isUpdatingDeck || activeDeckTab === "Deck3") {
                 return;
               }
               setActiveDeckTab("Deck3");
@@ -633,7 +784,7 @@ function TournamentDetails() {
                 : "text-gray-500"
             }`}
             onClick={() => {
-              if (isUpdatingDeck) {
+              if (isUpdatingDeck || activeDeckTab === "Deck4") {
                 return;
               }
               setActiveDeckTab("Deck4");
@@ -649,7 +800,7 @@ function TournamentDetails() {
                 : "text-gray-500"
             }`}
             onClick={() => {
-              if (isUpdatingDeck) {
+              if (isUpdatingDeck || activeDeckTab === "Deck5") {
                 return;
               }
               setActiveDeckTab("Deck5");
@@ -810,6 +961,16 @@ function TournamentDetails() {
             >
               Submit/Update Deck
             </button>
+            <button
+              className={`justify-center bg-white text-black font-bold py-1 px-4 border border-gray-300 rounded-full transition duration-300 hover:bg-gray-200 mt-4 mb-2 ${
+                modifiedDeck.length > 0 ? "block" : "hidden"
+              }`}
+              onClick={() => {
+                deleteDeck();
+              }}
+            >
+              Delete Deck
+            </button>
           </div>
         )}
 
@@ -822,7 +983,7 @@ function TournamentDetails() {
               Finish
             </button>
             <button
-              className="justify-centerfont-bold py-1 px-4 rounded-full border border-gray-300 transition duration-300 bg-white text-black hover:bg-gray-200 mt-4 mb-2"
+              className="justify-center font-bold py-1 px-4 rounded-full border border-gray-300 transition duration-300 bg-white text-black hover:bg-gray-200 mt-4 mb-2"
               onClick={() => cancelUpdatingDeck()}
             >
               Cancel
