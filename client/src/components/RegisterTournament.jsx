@@ -557,9 +557,9 @@ function RegisterTournament() {
         );
 
         if (response.data["1"]) {
-          setUserDeck1(response.data["1"]);
-          setModifiedDeck(response.data["1"]);
-          response.data["1"].forEach((card) => {
+          setUserDeck1(response.data["1"].deck);
+          setModifiedDeck(response.data["1"].deck);
+          response.data["1"].deck.forEach((card) => {
             if (cardUsage[card.uniqueId]) {
               cardUsage[card.uniqueId].locked += 1;
             } else {
@@ -569,8 +569,8 @@ function RegisterTournament() {
         }
 
         if (response.data["2"]) {
-          setUserDeck2(response.data["2"]);
-          response.data["2"].forEach((card) => {
+          setUserDeck2(response.data["2"].deck);
+          response.data["2"].deck.forEach((card) => {
             if (cardUsage[card.uniqueId]) {
               cardUsage[card.uniqueId].locked += 1;
             } else {
@@ -580,8 +580,8 @@ function RegisterTournament() {
         }
 
         if (response.data["3"]) {
-          setUserDeck3(response.data["3"]);
-          response.data["3"].forEach((card) => {
+          setUserDeck3(response.data["3"].deck);
+          response.data["3"].deck.forEach((card) => {
             if (cardUsage[card.uniqueId]) {
               cardUsage[card.uniqueId].locked += 1;
             } else {
@@ -591,8 +591,8 @@ function RegisterTournament() {
         }
 
         if (response.data["4"]) {
-          setUserDeck4(response.data["4"]);
-          response.data["4"].forEach((card) => {
+          setUserDeck4(response.data["4"].deck);
+          response.data["4"].deck.forEach((card) => {
             if (cardUsage[card.uniqueId]) {
               cardUsage[card.uniqueId].locked += 1;
             } else {
@@ -602,8 +602,8 @@ function RegisterTournament() {
         }
 
         if (response.data["5"]) {
-          setUserDeck5(response.data["5"]);
-          response.data["5"].forEach((card) => {
+          setUserDeck5(response.data["5"].deck);
+          response.data["5"].deck.forEach((card) => {
             if (cardUsage[card.uniqueId]) {
               cardUsage[card.uniqueId].locked += 1;
             } else {

@@ -18,6 +18,7 @@ import Play from "./Play.jsx";
 import ViewProfile from "./ViewProfile";
 import CardDetailPage from "./CardDetailPage";
 import RegisterTournament from "./RegisterTournament.jsx";
+import ViewTournament from "./ViewTournament.jsx";
 import PresaleCardDetailPage from "./PresaleCardDetailPage";
 import LeaderboardUser from "./LeaderboardUser";
 import LeaderboardCard from "./LeaderboardCard";
@@ -123,6 +124,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <RegisterTournament />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/play/view"
+              element={
+                <ProtectedRoute>
+                  <ViewTournament />
                 </ProtectedRoute>
               }
             />

@@ -13,6 +13,7 @@ const CTournamentSchema = new mongoose.Schema({
   username: { type: String, required: true },
   profilePhoto: { type: String, required: false },
   deckId: { type: String, required: true },
+  rank: { type: Number, required: true },
   totalTournamentScore: { type: Number, required: true },
   deck: { type: [deckSchema], required: true },
 });

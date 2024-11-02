@@ -351,6 +351,22 @@ app.get("/api/sortCards", async (req, res) => {
   }
 });
 
+app.get("/api/sortTournamentCards", async (req, res) => {
+  try {
+    // Fetch all cards and sort them by score in descending order (-1)
+    // const cards = await CardModel.find().sort({ currentScore: -1 });
+    const cards = await CardModel.find({ category: { $ne: "presale" } }).sort({
+      currentTournamentScore: -1,
+    });
+
+    // Return the sorted cards array
+    res.json(cards);
+  } catch (error) {
+    console.error("Error in /api/sortTournamentCards:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.get("/api/cards/searchName/:name", async (req, res) => {
   try {
     // Search for cards whose name contains the query string (case-insensitive)
@@ -759,13 +775,32 @@ app.get("/api/ctournament/userDecks/:walletAddress", async (req, res) => {
 
     // Transform the records into the desired hash table format
     const deckHashTable = records.reduce((acc, record) => {
-      acc[record.deckId] = record.deck;
+      acc[record.deckId] = {
+        deck: record.deck,
+        rank: record.rank,
+        totalTournamentScore: record.totalTournamentScore,
+      };
       return acc;
     }, {});
 
     res.json(deckHashTable);
   } catch (error) {
     console.error("Error in /api/ctournament/userDecks/:walletAddress:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/api/ctournament/players/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    const players = await CTournamentModel.find({
+      username: { $regex: username, $options: "i" },
+    });
+
+    res.json(players);
+  } catch (error) {
+    console.error("Error in /api/ctournament/userDecks/:username:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -808,6 +843,7 @@ app.post("/api/ctournament/updateUserDeck", async (req, res) => {
       // Update the existing record
       existingRecord.username = username;
       existingRecord.profilePhoto = profilePhoto;
+      existingRecord.rank = 0;
       existingRecord.totalTournamentScore = 0;
       existingRecord.deck = deck;
 
@@ -823,6 +859,7 @@ app.post("/api/ctournament/updateUserDeck", async (req, res) => {
         username: username,
         profilePhoto: profilePhoto,
         deckId: deckId,
+        rank: 0,
         totalTournamentScore: 0,
         deck: deck,
       });
@@ -836,6 +873,24 @@ app.post("/api/ctournament/updateUserDeck", async (req, res) => {
   } catch (error) {
     console.error("Error in /api/ctournament/updateUserDeck:", error);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/api/sortTournamentDecks", async (req, res) => {
+  try {
+    // Fetch all cards and sort them by score in descending order (-1)
+    // const cards = await CardModel.find().sort({ currentScore: -1 });
+    const decks = await CTournamentModel.find()
+      .sort({
+        totalTournamentScore: -1,
+      })
+      .limit(30);
+
+    // Return the sorted cards array
+    res.json(decks);
+  } catch (error) {
+    console.error("Error in /api/sortTournamentDecks:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
