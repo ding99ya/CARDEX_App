@@ -86,6 +86,9 @@ const Rank = () => {
     // navigate(`/leaderboard/${username}`, {
     //   state: { from: location.pathname },
     // });
+    if (username === "") {
+      return;
+    }
     navigateTo(`/leaderboard/${username}`);
   };
 
@@ -108,6 +111,9 @@ const Rank = () => {
   };
 
   const handleSearchCard = () => {
+    if (cardname === "") {
+      return;
+    }
     navigateTo(`/leaderboard/cards/${cardname}`);
   };
 
