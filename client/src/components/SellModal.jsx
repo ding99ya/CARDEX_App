@@ -7,6 +7,7 @@ const SellModal = ({
   open,
   shareHolders,
   userShares,
+  lockedShares,
   onClose,
   sell,
   fetchProfit,
@@ -102,18 +103,32 @@ const SellModal = ({
                   "bg-blue-400 text-white hover:bg-blue-500 hover:text-white":
                     !(
                       isNaN(number) ||
-                      !(number <= shareHolders && number <= userShares) ||
+                      !(
+                        number <= shareHolders &&
+                        number <= userShares &&
+                        number <=
+                          Math.min(shareHolders, userShares) - lockedShares
+                      ) ||
                       number === 0
                     ),
                   "bg-blue-200 text-white":
                     isNaN(number) ||
-                    !(number <= shareHolders && number <= userShares) ||
+                    !(
+                      number <= shareHolders &&
+                      number <= userShares &&
+                      number <=
+                        Math.min(shareHolders, userShares) - lockedShares
+                    ) ||
                     number === 0,
                 }
               )}
               disabled={
                 isNaN(number) ||
-                !(number <= shareHolders && number <= userShares) ||
+                !(
+                  number <= shareHolders &&
+                  number <= userShares &&
+                  number <= Math.min(shareHolders, userShares) - lockedShares
+                ) ||
                 number === 0
               }
               onClick={() => sell(number, sellUiConfig)}

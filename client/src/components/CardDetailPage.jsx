@@ -66,6 +66,7 @@ function CardDetailPage() {
   const [hasMore, setHasMore] = useState(true);
 
   const [holders, setHolders] = useState([]);
+  const [locked, setLocked] = useState(0);
 
   const [activeTab, setActiveTab] = useState("activity");
 
@@ -203,6 +204,7 @@ function CardDetailPage() {
               response.data[0],
               ...prevActivities,
             ]);
+            console.log("update activity");
           } catch (error) {
             console.error(error);
           }
@@ -533,6 +535,26 @@ function CardDetailPage() {
 
     fetchUserShares();
 
+    const fetchLocked = async () => {
+      try {
+        const response = await axios.get(`/api/ctournament/lockedCount`, {
+          params: {
+            walletAddress: embeddedWalletAddress,
+            uniqueId: uniqueId,
+          },
+        });
+        console.log(response.data);
+
+        setLocked(Number(response.data));
+      } catch (error) {
+        console.error(
+          `Error fetching locked number for card${uniqueId}:`,
+          error
+        );
+      }
+    };
+    fetchLocked();
+
     const fetchCardHolder = async () => {
       try {
         const response = await axios.get(`/api/cardholders/${uniqueId}`);
@@ -686,6 +708,14 @@ function CardDetailPage() {
                 {userShares}
               </span>
             </div>
+            <div className="flex justify-between w-full mt-1">
+              <span className="text-sm font-semibold font-helvetica">
+                Locked:
+              </span>
+              <span className="text-sm font-semibold font-helvetica">
+                {locked}
+              </span>
+            </div>
           </div>
 
           <div className="flex justify-between items-center space-x-2 mt-4 mb-2">
@@ -701,13 +731,19 @@ function CardDetailPage() {
                 "w-1/2 px-4 py-2 text-sm font-bold rounded-full border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-1px)]",
                 {
                   "bg-white text-black hover:bg-gray-200": !(
-                    userShares === 0 || card.shares === 0
+                    userShares === 0 ||
+                    card.shares === 0 ||
+                    userShares <= locked
                   ),
                   "bg-white text-gray-200":
-                    userShares === 0 || card.shares === 0,
+                    userShares === 0 ||
+                    card.shares === 0 ||
+                    userShares <= locked,
                 }
               )}
-              disabled={userShares === 0 || card.shares === 0}
+              disabled={
+                userShares === 0 || card.shares === 0 || userShares <= locked
+              }
             >
               Sell
             </button>
@@ -887,7 +923,8 @@ function CardDetailPage() {
       <SellModal
         open={openSellModal}
         shareHolders={card.shares}
-        userShares={userShares}
+        userShares={userShares - locked}
+        lockedShares={locked}
         onClose={() => setOpenSellModal(false)}
         sell={sell}
         fetchProfit={fetchProfit}

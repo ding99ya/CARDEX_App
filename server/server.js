@@ -805,6 +805,35 @@ app.get("/api/ctournament/players/:username", async (req, res) => {
   }
 });
 
+app.get("/api/ctournament/lockedCount", async (req, res) => {
+  try {
+    const { walletAddress, uniqueId } = req.query;
+
+    // Fetch all CTournament objects for the given walletAddress
+    const tournaments = await CTournamentModel.find({
+      walletAddress: walletAddress,
+    });
+
+    // Initialize a count variable
+    let lockedCount = 0;
+
+    // Loop through each tournament and each deck item to count occurrences of the uniqueId
+    tournaments.forEach((tournament) => {
+      tournament.deck.forEach((card) => {
+        if (card.uniqueId === uniqueId.toString()) {
+          lockedCount += 1;
+        }
+      });
+    });
+
+    // Return the total count
+    res.json(lockedCount);
+  } catch (error) {
+    console.error("Error in /api/ctournament/lockedCount:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 app.delete("/api/ctournament/deleteDeck", async (req, res) => {
   const { walletAddress, deckId } = req.body;
 
