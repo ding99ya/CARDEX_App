@@ -661,7 +661,7 @@ function ViewTournament() {
               </div>
             </div>
             <table
-              className="min-w-full rounded-xl p-2 bg-blue-100"
+              className="min-w-full rounded-xl p-2 bg-blue-100 mb-4"
               style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
             >
               <tbody>
@@ -924,7 +924,7 @@ function ViewTournament() {
               </div>
             </div> */}
             <table
-              className="min-w-full rounded-xl p-2 bg-blue-100"
+              className="min-w-full rounded-xl p-2 bg-blue-100 mb-4"
               style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
             >
               <tbody>
