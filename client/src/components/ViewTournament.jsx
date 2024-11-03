@@ -740,7 +740,7 @@ function ViewTournament() {
                           <td className="text-center rounded-tr-xl rounded-br-xl">
                             <div className="flex items-center">
                               <span
-                                className={`font-open-sans text-sm font-bold transform ${
+                                className={`font-open-sans text-sm font-bold transform mr-2 ${
                                   expandedRow === index
                                     ? "-rotate-90"
                                     : "rotate-90"
