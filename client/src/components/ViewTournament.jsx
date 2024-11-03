@@ -602,7 +602,7 @@ function ViewTournament() {
           </tbody>
         </table>
 
-        <div className="flex border-b-0 mx-0 lg:mx-6 mb-2">
+        <div className="flex border-b-0 mx-0 lg:mx-6 mt-4 mb-2">
           <button
             className={`py-2 px-4 mx-10 lg:mx-0 font-semibold w-full lg:w-auto ${
               activeTab === "players"
@@ -667,7 +667,7 @@ function ViewTournament() {
               <tbody>
                 {showSearchPlayers && searchedPlayers.length === 0 ? (
                   <tr>
-                    <td colSpan="3" className="text-center py-4">
+                    <td colSpan="4" className="text-center py-4">
                       No corresponding players
                     </td>
                   </tr>
@@ -725,7 +725,7 @@ function ViewTournament() {
                               </div>
                             </div>
                           </td>
-                          <td className="py-4 px-3 text-center rounded-tr-xl rounded-br-xl">
+                          <td className="py-4 px-3 text-center">
                             <div className={`flex items-center`}>
                               <img
                                 src={Score}
@@ -737,11 +737,24 @@ function ViewTournament() {
                               </span>
                             </div>
                           </td>
+                          <td className="text-center rounded-tr-xl rounded-br-xl">
+                            <div className="flex items-center">
+                              <span
+                                className={`font-open-sans text-sm transform ${
+                                  expandedRow === index
+                                    ? "-rotate-90"
+                                    : "rotate-90"
+                                }`}
+                              >
+                                {">"}
+                              </span>
+                            </div>
+                          </td>
                         </tr>
 
                         {expandedRow === index && (
                           <tr>
-                            <td colSpan="3">
+                            <td colSpan="4">
                               <div className="hidden lg:grid grid-cols-5 lg:px-4">
                                 {player.deck.map((item, dIndex) => {
                                   return (
