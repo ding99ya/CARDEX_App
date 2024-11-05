@@ -1123,7 +1123,7 @@ function RegisterTournament() {
                               className="w-3 h-3 lg:w-5 lg:h-5 lg:mr-1"
                             />
                             <span className="font-open-sans text-xs lg:text-sm">
-                              {item.currentScore}
+                              {Math.ceil(item.currentScore)}
                             </span>
                           </div>
                           <span
