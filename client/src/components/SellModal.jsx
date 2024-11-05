@@ -106,8 +106,7 @@ const SellModal = ({
                       !(
                         number <= shareHolders &&
                         number <= userShares &&
-                        number <=
-                          Math.min(shareHolders, userShares) - lockedShares
+                        number <= userShares - lockedShares
                       ) ||
                       number === 0
                     ),
@@ -116,8 +115,7 @@ const SellModal = ({
                     !(
                       number <= shareHolders &&
                       number <= userShares &&
-                      number <=
-                        Math.min(shareHolders, userShares) - lockedShares
+                      number <= userShares - lockedShares
                     ) ||
                     number === 0,
                 }
@@ -127,7 +125,7 @@ const SellModal = ({
                 !(
                   number <= shareHolders &&
                   number <= userShares &&
-                  number <= Math.min(shareHolders, userShares) - lockedShares
+                  number <= userShares - lockedShares
                 ) ||
                 number === 0
               }
