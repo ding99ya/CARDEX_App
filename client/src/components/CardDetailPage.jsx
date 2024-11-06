@@ -923,7 +923,7 @@ function CardDetailPage() {
       <SellModal
         open={openSellModal}
         shareHolders={card.shares}
-        userShares={userShares - locked}
+        userShares={userShares}
         lockedShares={locked}
         onClose={() => setOpenSellModal(false)}
         sell={sell}
