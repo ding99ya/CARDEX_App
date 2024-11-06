@@ -728,7 +728,7 @@ function CardDetailPage() {
             <button
               onClick={() => setOpenSellModal(true)}
               className={classNames(
-                "w-1/2 px-4 py-2 text-sm font-bold rounded-full border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-1px)]",
+                "w-1/2 px-4 py-2 text-sm rounded-full border border-gray-300 px-[calc(1rem-2px)] py-[calc(0.5rem-1px)]",
                 {
                   "bg-white text-black hover:bg-gray-200": !(
                     userShares === 0 ||
