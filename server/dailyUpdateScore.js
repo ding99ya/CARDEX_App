@@ -30,6 +30,12 @@ require("dotenv").config();
 
       const newCurrentScore = newAvgScore;
 
+      const cstTime = new Date(
+        currentTime.toLocaleString("en-US", { timeZone: "America/Chicago" })
+      );
+
+      const currentDay = cstTime.getDay();
+
       const tournamentStartDays = currentDay - 1;
 
       const newAvgTournamentScore = Number(
