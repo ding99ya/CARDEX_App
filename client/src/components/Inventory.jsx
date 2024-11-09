@@ -316,7 +316,7 @@ function Inventory() {
                             className="w-5 h-5 mr-1"
                           />
                           <span className="font-open-sans text-sm">
-                            {Math.ceil(item.currentScore)}
+                            {Math.round(item.currentScore)}
                           </span>
                         </div>
                         <span

@@ -457,7 +457,7 @@ function ViewTournament() {
             Total Score:{" "}
             {`${
               currentDeckTotalScore !== undefined
-                ? Math.ceil(currentDeckTotalScore)
+                ? Math.round(currentDeckTotalScore)
                 : "N/A"
             }`}
           </div>
@@ -509,7 +509,7 @@ function ViewTournament() {
                   >
                     <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
                     <span className="font-open-sans text-sm">
-                      {Math.ceil(item.currentTournamentScore)}
+                      {Math.round(item.currentTournamentScore)}
                     </span>
                   </div>
                   <span
@@ -590,7 +590,7 @@ function ViewTournament() {
                     >
                       <img src={Score} alt="Score" className="w-3 h-3" />
                       <span className="font-open-sans text-sm">
-                        {Math.ceil(item.currentTournamentScore)}
+                        {Math.round(item.currentTournamentScore)}
                       </span>
                     </div>
                   </td>
@@ -737,7 +737,7 @@ function ViewTournament() {
                                 className="w-5 h-5 mr-1"
                               />
                               <span className="font-open-sans text-sm">
-                                {Math.ceil(player.totalTournamentScore)}
+                                {Math.round(player.totalTournamentScore)}
                               </span>
                             </div>
                           </td>
@@ -807,7 +807,7 @@ function ViewTournament() {
                                             className="w-5 h-5 mr-1"
                                           />
                                           <span className="font-open-sans text-sm">
-                                            {Math.ceil(
+                                            {Math.round(
                                               item.currentTournamentScore
                                             )}
                                           </span>
@@ -891,7 +891,7 @@ function ViewTournament() {
                                               className="w-3 h-3"
                                             />
                                             <span className="font-open-sans text-sm">
-                                              {Math.ceil(
+                                              {Math.round(
                                                 item.currentTournamentScore
                                               )}
                                             </span>
@@ -1024,7 +1024,7 @@ function ViewTournament() {
                             className="w-5 h-5 mr-1"
                           />
                           <span className="font-open-sans text-sm">
-                            {Math.ceil(card.currentTournamentScore)}
+                            {Math.round(card.currentTournamentScore)}
                           </span>
                         </div>
                       </td>

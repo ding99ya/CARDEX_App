@@ -904,7 +904,7 @@ function CardPage({ category }) {
                     <div className={"flex items-center"}>
                       <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
                       <span className="font-open-sans text-sm">
-                        {Math.ceil(card.currentScore)}
+                        {Math.round(card.currentScore)}
                       </span>
                     </div>
                     <span
@@ -1005,7 +1005,7 @@ function CardPage({ category }) {
                   <div className={"flex items-center"}>
                     <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
                     <span className="font-open-sans text-sm">
-                      {Math.ceil(card.currentScore)}
+                      {Math.round(card.currentScore)}
                     </span>
                   </div>
                   <span

@@ -145,7 +145,7 @@ const LeaderboardCard = () => {
                   <div className={"flex items-center"}>
                     <img src={Score} alt="Score" className="w-5 h-5 mr-1" />
                     <span className="font-open-sans text-sm">
-                      {card.currentScore}
+                      {Math.round(card.currentScore)}
                     </span>
                   </div>
                 </td>
