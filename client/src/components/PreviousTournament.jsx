@@ -123,7 +123,7 @@ function PreviousTournament() {
     const fetchPreviousRewards = async () => {
       try {
         const response = await fetch(
-          `/api/ptournament/previousRewards/${embeddedWalletAddress}`
+          `https://cardex-backend-api-97f9d94676f3.herokuapp.com/api/ptournament/previousRewards/${embeddedWalletAddress}`
         );
         console.log(response);
         const data = await response.json();
