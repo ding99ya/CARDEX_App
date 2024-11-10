@@ -125,7 +125,9 @@ function PreviousTournament() {
         const response = await fetch(
           `/api/ptournament/previousRewards/${embeddedWalletAddress}`
         );
+        console.log(response);
         const data = await response.json();
+        console.log(data);
         const previousRewards = data.previousRewards;
 
         const options = [];
