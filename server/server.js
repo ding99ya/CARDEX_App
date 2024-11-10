@@ -931,6 +931,8 @@ app.get("/api/ptournament/previousRewards/:walletAddress", async (req, res) => {
     // Find the document by walletAddress
     const tournament = await PTournamentModel.findOne({ walletAddress });
 
+    res.setHeader("Content-Type", "application/json");
+
     // If not found, return an empty array for previousRewards
     if (!tournament) {
       return res.json({ previousRewards: [] });
