@@ -15,6 +15,7 @@ const PresaleUserModel = require("./models/PresaleUserModel.js");
 const CardActivityModel = require("./models/CardActivityModel.js");
 const CardHolderModel = require("./models/CardHolderModel.js");
 const CTournamentModel = require("./models/CTournamentModel.js");
+const PTournamentModel = require("./models/PTournamentModel.js");
 const SubscriptionModel = require("./models/SubscriptionModel.js");
 const path = require("path");
 const axios = require("axios");
@@ -920,6 +921,26 @@ app.get("/api/sortTournamentDecks", async (req, res) => {
   } catch (error) {
     console.error("Error in /api/sortTournamentDecks:", error);
     res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/ptournament/previousRewards/:walletAddress", async (req, res) => {
+  try {
+    const { walletAddress } = req.params;
+
+    // Find the document by walletAddress
+    const tournament = await PTournamentModel.findOne({ walletAddress });
+
+    // If not found, return an empty array for previousRewards
+    if (!tournament) {
+      return res.json({ previousRewards: [] });
+    }
+
+    // If found, return the previousRewards array
+    res.json({ previousRewards: tournament.previousRewards });
+  } catch (error) {
+    console.error("Error in /api/ptournament/previousRewards:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

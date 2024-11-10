@@ -22,6 +22,7 @@ import ViewTournament from "./ViewTournament.jsx";
 import PresaleCardDetailPage from "./PresaleCardDetailPage";
 import LeaderboardUser from "./LeaderboardUser";
 import LeaderboardCard from "./LeaderboardCard";
+import PreviousTournament from "./PreviousTournament";
 import ProtectedRoute from "./ProtectedRoute";
 import axios from "axios";
 
@@ -132,6 +133,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ViewTournament />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/play/history"
+              element={
+                <ProtectedRoute>
+                  <PreviousTournament />
                 </ProtectedRoute>
               }
             />

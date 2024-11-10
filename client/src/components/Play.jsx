@@ -122,49 +122,61 @@ function Play() {
   }, []);
 
   return (
-    <div className="bg-white flex items-center justify-center">
-      <div class="container mx-auto px-2 lg:px-0">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div
-            className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-xl border-2 border-blue-300 overflow-hidden transition duration-300 ease-in-out"
-            onClick={() => navigateTo("/Play/View")}
-            // style={{
-            //   backgroundImage: `url(${CardexPokemonExtension})`,
-            //   backgroundSize: "cover",
-            //   backgroundPosition: "center",
-            // }}
+    <div>
+      <div>
+        <div className="bg-white text-blue-400 flex justify-between items-center border-2 border-blue-300 p-4 rounded-xl mt-4 mx-2 lg:mx-24">
+          <span className="font-semibold text-base">Previous Tournaments</span>
+          <button
+            onClick={() => navigateTo("/Play/History")}
+            className="bg-blue-400 text-white text-sm font-semibold py-1 px-4 rounded-xl hover:bg-blue-500 hover:text-white transition duration-300"
           >
-            {/* Header */}
-            <div className="flex justify-center items-center space-x-3 mb-4">
-              <h3 className="text-4xl font-bold text-blue-400 mt-8 mb-2">
-                Tournament #1
-              </h3>
-              <img
-                src={flagIcon}
-                alt="Flag Icon"
-                className="mt-8 mb-2 w-8 h-8"
-              />
-            </div>
+            View All
+          </button>
+        </div>
+      </div>
+      <div className="bg-white flex items-center justify-center">
+        <div class="container mx-auto px-2 lg:px-0">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div
+              className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-xl border-2 border-blue-300 overflow-hidden transition duration-300 ease-in-out"
+              onClick={() => navigateTo("/Play/View")}
+              // style={{
+              //   backgroundImage: `url(${CardexPokemonExtension})`,
+              //   backgroundSize: "cover",
+              //   backgroundPosition: "center",
+              // }}
+            >
+              {/* Header */}
+              <div className="flex justify-center items-center space-x-3 mb-4">
+                <h3 className="text-4xl font-bold text-blue-400 mt-8 mb-2">
+                  Tournament #1
+                </h3>
+                <img
+                  src={flagIcon}
+                  alt="Flag Icon"
+                  className="mt-8 mb-2 w-8 h-8"
+                />
+              </div>
 
-            {/* Badges */}
-            <div className="flex justify-center space-x-4 mb-4">
-              <span className="bg-amber-300 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                1 Legend Max
-              </span>
-              <span className="bg-purple-300 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                1 Epic Max
-              </span>
-            </div>
+              {/* Badges */}
+              <div className="flex justify-center space-x-4 mb-4">
+                <span className="bg-amber-300 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                  1 Legend Max
+                </span>
+                <span className="bg-purple-300 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                  1 Epic Max
+                </span>
+              </div>
 
-            {/* Timer */}
-            <div className="px-4 flex justify-center w-full">
-              <p className="text-blue-400 justify-center font-semibold mb-4">
-                {timeRemaining}
-              </p>
-            </div>
+              {/* Timer */}
+              <div className="px-4 flex justify-center w-full">
+                <p className="text-blue-400 justify-center font-semibold mb-4">
+                  {timeRemaining}
+                </p>
+              </div>
 
-            {/* Rewards */}
-            {/* <div className="flex items-center justify-evenly bg-white/70 rounded-lg p-3 mb-6">
+              {/* Rewards */}
+              {/* <div className="flex items-center justify-evenly bg-white/70 rounded-lg p-3 mb-6">
               <div className="flex items-center space-x-2">
                 <span className="text-lg font-bold text-blue-800">70000</span>
                 <img
@@ -206,11 +218,12 @@ function Play() {
               />
             </div> */}
 
-            {/* View Leaderboard Button */}
-            <div className="px-4 flex justify-center w-full">
-              <button className="bg-blue-400 justify-center text-white font-bold py-2 px-6 rounded-full transition duration-300 hover:bg-blue-500 mb-10">
-                {inTournament ? "View Tournament" : "Submit Deck"}
-              </button>
+              {/* View Leaderboard Button */}
+              <div className="px-4 flex justify-center w-full">
+                <button className="bg-blue-400 justify-center text-white font-bold py-2 px-6 rounded-full transition duration-300 hover:bg-blue-500 mb-10">
+                  {inTournament ? "View Tournament" : "Submit Deck"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
