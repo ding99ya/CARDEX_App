@@ -946,6 +946,32 @@ app.get("/api/ptournament/previousRewards/:walletAddress", async (req, res) => {
   }
 });
 
+app.post("/api/ptournament/setClaimedReward", async (req, res) => {
+  try {
+    const { walletAddress, tournamentId } = req.body;
+
+    const updatedTournament = await PTournamentModel.findOneAndUpdate(
+      {
+        walletAddress: walletAddress,
+        "previousRewards.tournamentId": tournamentId,
+      },
+      { $set: { "previousRewards.$.claimedReward": true } },
+      { new: true }
+    );
+
+    if (!updatedTournament) {
+      return res
+        .status(404)
+        .json({ message: "Tournament or wallet not found" });
+    }
+
+    res.json(updatedTournament);
+  } catch (error) {
+    console.error("Error in /api/ptournament/claimReward:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 webpush.setVapidDetails(
   "mailto:ding99ya@gmail.com", // This should be your contact email
   vapidPublicKey,

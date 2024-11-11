@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useLocation, useParams } from "react-router-dom";
 import { encodeFunctionData } from "viem";
+import { ethers } from "ethers";
 import { Contract, providers, BigNumber } from "ethers";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
-import abi from "../CardexV1.json";
+import abi from "../PrizePool.json";
 import axios from "axios";
 import sortingIcon from "./Sorting.svg";
 import { useNavigation } from "./NavigationContext";
@@ -26,115 +27,157 @@ function PreviousTournament() {
 
   const { goBack, navigateTo } = useNavigation();
 
-  // CardexV1 contract instance
-  const contract = new web3.eth.Contract(
+  // CardexV1 prize pool contract
+  const prizePoolContract = new web3.eth.Contract(
     abi,
-    process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR
+    process.env.REACT_APP_CARDEXV1_PRIZE_POOL_ADDR
   );
 
   const [filterOptions, setFilterOptions] = useState([]);
   const [previousRewardsData, setPreviousRewardsData] = useState([]);
 
-  //   const [tournamentData, setTournamentData] = useState([
-  //     {
-  //       deckId: "1",
-  //       rank: 3,
-  //       ETHReward: 0.15,
-  //       points: 260000,
-  //       presalePoints: 6000,
-  //     },
-  //     {
-  //       deckId: "2",
-  //       rank: 2,
-  //       ETHReward: 0.15,
-  //       points: 275000,
-  //       presalePoints: 6000,
-  //     },
-  //     {
-  //       deckId: "3",
-  //       rank: 7,
-  //       ETHReward: 0.05,
-  //       points: 200000,
-  //       presalePoints: 5000,
-  //     },
-  //   ]);
+  // const [tournamentData, setTournamentData] = useState([
+  //   {
+  //     deckId: "1",
+  //     rank: 3,
+  //     ETHReward: 0.15,
+  //     points: 260000,
+  //     presalePoints: 6000,
+  //   },
+  //   {
+  //     deckId: "2",
+  //     rank: 2,
+  //     ETHReward: 0.15,
+  //     points: 275000,
+  //     presalePoints: 6000,
+  //   },
+  //   {
+  //     deckId: "3",
+  //     rank: 7,
+  //     ETHReward: 0.05,
+  //     points: 200000,
+  //     presalePoints: 5000,
+  //   },
+  // ]);
 
   const [tournamentData, setTournamentData] = useState([]);
 
   const [selectedFilter, setSelectedFilter] = useState({
     label: "Tournament",
     id: "0",
+    claimedReward: true,
   });
+
+  const [selectedFilterETHReward, setSelectedFilterETHReward] = useState(0);
 
   const [filterIsOpen, setFilterIsOpen] = useState(false);
 
   const handleFilterSelection = (option) => {
     setSelectedFilter(option);
     setTournamentData(previousRewardsData[option.id]);
+    setSelectedFilterETHReward(
+      Math.floor(
+        previousRewardsData[option.id].reduce(
+          (total, item) => total + item.ETHReward,
+          0
+        ) * 1000
+      ) / 1000
+    );
     setFilterIsOpen(false);
   };
 
-  // UI Configuration for Privy prompt when claiming fees
-  //   const getClaimUiConfig = async () => {
-  //     const userFee = await fetchFee();
-  //     const userFeeToBigNumber = BigNumber.from(userFee);
-  //     const oneEther = BigNumber.from("1000000000000000000");
-  //     const userFeeInETH =
-  //       Number(userFeeToBigNumber.mul(10000).div(oneEther)) / 10000;
+  //   UI Configuration for Privy prompt when claiming fees
+  const getClaimUiConfig = async () => {
+    return {
+      header: "Tournament Reward",
+      description: "Claim " + selectedFilterETHReward + " ETH",
+      //   transactionInfo: {
+      //     contractInfo: {
+      //       imgUrl: card.photo,
+      //     },
+      //   },
+      buttonText: "Claim",
+    };
+  };
 
-  //     return {
-  //       header: card.name,
-  //       description: "Claim " + userFeeInETH + " ETH",
-  //       transactionInfo: {
-  //         contractInfo: {
-  //           imgUrl: card.photo,
-  //         },
-  //       },
-  //       buttonText: "Claim",
-  //     };
-  //   };
+  //   Function to claim the accumulated fees for current card
+  const claim = async () => {
+    const nonce = await prizePoolContract.methods.nonce().call();
+    const currentTournamentID = await prizePoolContract.methods
+      .currentTournamentID()
+      .call();
 
-  // Function to claim the accumulated fees for current card
-  //   const claim = async () => {
-  //     const data = encodeFunctionData({
-  //       abi: abi,
-  //       functionName: "claim",
-  //       args: [uniqueId],
-  //     });
+    const selectedFilterETHRewardInWei = ethers.utils.parseEther(
+      selectedFilterETHReward.toString()
+    );
+    console.log(selectedFilterETHRewardInWei);
 
-  //     const transaction = {
-  //       to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-  //       chainId: 84532,
-  //       data: data,
-  //     };
+    const selectedFilterETHRewardInWeiString =
+      selectedFilterETHRewardInWei.toString();
+    console.log(selectedFilterETHRewardInWeiString);
 
-  //     try {
-  //       // The returned `txReceipt` has the type `TransactionReceipt`
-  //       const claimUI = await getClaimUiConfig();
-  //       const txReceipt = await sendTransaction(transaction, claimUI);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+    const messageHash = web3.utils.keccak256(
+      web3.eth.abi.encodeParameters(
+        ["address", "uint256", "uint256", "uint256"],
+        [
+          embeddedWalletAddress.toString(),
+          currentTournamentID.toString(),
+          selectedFilterETHRewardInWeiString,
+          nonce.toString(),
+        ]
+      )
+    );
+
+    const { r, s, v } = web3.eth.accounts.sign(
+      messageHash,
+      process.env.REACT_APP_PRESALE_SIGNER_KEY
+    );
+
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "claimTournamentReward",
+      args: [currentTournamentID, selectedFilterETHRewardInWeiString, v, r, s],
+    });
+
+    const transaction = {
+      to: process.env.REACT_APP_CARDEXV1_PRIZE_POOL_ADDR,
+      chainId: 84532,
+      data: data,
+    };
+
+    try {
+      // The returned `txReceipt` has the type `TransactionReceipt`
+      const claimUI = await getClaimUiConfig();
+      const txReceipt = await sendTransaction(transaction, claimUI);
+
+      await axios.post("/api/ptournament/setClaimedReward", {
+        walletAddress: embeddedWalletAddress,
+        tournamentId: currentTournamentID,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const fetchPreviousRewards = async () => {
       try {
-        const response = await fetch(
-          `https://cardex-backend-api-97f9d94676f3.herokuapp.com/api/ptournament/previousRewards/${embeddedWalletAddress}`
+        const response = await axios.get(
+          `/api/ptournament/previousRewards/${embeddedWalletAddress}`
         );
-        const data = await response.json();
-        const previousRewards = data.previousRewards;
+        // const data = await response.json();
+        const previousRewards = response.data.previousRewards;
 
         const options = [];
         const rewardsData = {};
 
         previousRewards.forEach((reward) => {
-          options.push({
+          options.unshift({
             label: `Tournament ${reward.tournamentId}`,
             id: reward.tournamentId.toString(),
+            claimedReward: reward.claimedReward,
           });
 
           rewardsData[reward.tournamentId.toString()] = reward.rewards;
@@ -206,8 +249,15 @@ function PreviousTournament() {
             )}
           </div>
           <button
-            // onClick={() => navigateTo("/Play/History")}
-            className="bg-blue-400 text-white text-sm font-semibold py-1 px-4 rounded-xl hover:bg-blue-500 hover:text-white transition duration-300"
+            onClick={() => claim()}
+            className={`bg-blue-400 text-white text-sm font-semibold py-1 px-4 rounded-xl hover:bg-blue-500 hover:text-white transition duration-300 ${
+              selectedFilter.id ===
+                process.env.REACT_APP_LATEST_FINISHED_TOURNAMENT_ID.toString() &&
+              selectedFilter.claimedReward === false &&
+              selectedFilterETHReward > 0
+                ? "visible"
+                : "invisible"
+            }`}
           >
             Claim Rewards
           </button>
