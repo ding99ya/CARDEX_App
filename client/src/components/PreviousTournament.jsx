@@ -36,30 +36,6 @@ function PreviousTournament() {
   const [filterOptions, setFilterOptions] = useState([]);
   const [previousRewardsData, setPreviousRewardsData] = useState([]);
 
-  // const [tournamentData, setTournamentData] = useState([
-  //   {
-  //     deckId: "1",
-  //     rank: 3,
-  //     ETHReward: 0.15,
-  //     points: 260000,
-  //     presalePoints: 6000,
-  //   },
-  //   {
-  //     deckId: "2",
-  //     rank: 2,
-  //     ETHReward: 0.15,
-  //     points: 275000,
-  //     presalePoints: 6000,
-  //   },
-  //   {
-  //     deckId: "3",
-  //     rank: 7,
-  //     ETHReward: 0.05,
-  //     points: 200000,
-  //     presalePoints: 5000,
-  //   },
-  // ]);
-
   const [tournamentData, setTournamentData] = useState([]);
 
   const [selectedFilter, setSelectedFilter] = useState({
@@ -91,11 +67,6 @@ function PreviousTournament() {
     return {
       header: "Tournament Reward",
       description: "Claim " + selectedFilterETHReward + " ETH",
-      //   transactionInfo: {
-      //     contractInfo: {
-      //       imgUrl: card.photo,
-      //     },
-      //   },
       buttonText: "Claim",
     };
   };
@@ -110,11 +81,9 @@ function PreviousTournament() {
     const selectedFilterETHRewardInWei = ethers.utils.parseEther(
       selectedFilterETHReward.toString()
     );
-    console.log(selectedFilterETHRewardInWei);
 
     const selectedFilterETHRewardInWeiString =
       selectedFilterETHRewardInWei.toString();
-    console.log(selectedFilterETHRewardInWeiString);
 
     const messageHash = web3.utils.keccak256(
       web3.eth.abi.encodeParameters(
@@ -154,6 +123,19 @@ function PreviousTournament() {
         walletAddress: embeddedWalletAddress,
         tournamentId: currentTournamentID,
       });
+
+      setSelectedFilter((prevFilter) => ({
+        ...prevFilter,
+        claimedReward: true,
+      }));
+
+      setFilterOptions((prevOptions) =>
+        prevOptions.map((option) =>
+          option.id === selectedFilter.id
+            ? { ...option, claimedReward: true }
+            : option
+        )
+      );
     } catch (error) {
       console.log(error);
     }
