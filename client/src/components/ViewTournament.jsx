@@ -18,6 +18,8 @@ function ViewTournament() {
 
   const [username, setUsername] = useState("");
 
+  const [cardname, setCardname] = useState("");
+
   const [showSearchPlayers, setShowSearchPlayers] = useState(false);
 
   const [searchedPlayers, setSearchedPlayers] = useState([]);
@@ -29,6 +31,8 @@ function ViewTournament() {
   const [playersRank, setPlayersRank] = useState([]);
 
   const [cardsRank, setCardsRank] = useState([]);
+
+  const [cardsRankCopy, setCardsRankCopy] = useState([]);
 
   const [expandedRow, setExpandedRow] = useState(null);
 
@@ -131,7 +135,12 @@ function ViewTournament() {
   const fetchCards = async () => {
     try {
       const response = await axios.get(`/api/sortTournamentCards`);
-      setCardsRank(response.data);
+      const sortedCards = response.data.map((card, index) => ({
+        ...card,
+        rank: index + 1,
+      }));
+      setCardsRank(sortedCards);
+      setCardsRankCopy(sortedCards);
     } catch (error) {
       console.error("Error fetching tournament data for cards", error);
     }
@@ -139,6 +148,29 @@ function ViewTournament() {
 
   const handleCardClick = (card) => {
     navigateTo(`/cards/${card.uniqueId}`);
+  };
+
+  const handleCardnameChange = (e) => {
+    const name = e.target.value;
+    setCardname(name);
+
+    if (name === "") {
+      setCardsRank(cardsRankCopy);
+    }
+  };
+
+  const handleSearchCard = () => {
+    if (cardname === "") {
+      return;
+    }
+
+    const lowerSearch = cardname.toLowerCase();
+
+    setCardsRank(
+      cardsRankCopy.filter((card) =>
+        card.name.toLowerCase().includes(lowerSearch)
+      )
+    );
   };
 
   const checkInTournament = () => {
@@ -916,19 +948,19 @@ function ViewTournament() {
 
         {activeTab === "cards" && (
           <div class="rounded-xl bg-blue-100 mx-0 lg:mx-6">
-            {/* <div class="w-full">
+            <div class="w-full">
               <div className="flex justify-between items-center">
                 <div className="flex items-center bg-white rounded-xl mt-3 mx-2 px-2 py-0 w-full">
                   <input
                     type="text"
                     placeholder="Search by card"
-                    // value={cardname}
-                    // onChange={handleCardnameChange}
+                    value={cardname}
+                    onChange={handleCardnameChange}
                     className="bg-white outline-none flex-grow px-2 py-1 rounded-full w-full"
                   />
                   <svg
                     className="w-5 h-5 text-black cursor-pointer"
-                    // onClick={handleSearchCard}
+                    onClick={handleSearchCard}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -943,7 +975,7 @@ function ViewTournament() {
                   </svg>
                 </div>
               </div>
-            </div> */}
+            </div>
             <table
               className="min-w-full rounded-xl p-2 bg-blue-100 mb-4"
               style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
@@ -965,15 +997,15 @@ function ViewTournament() {
                         <div className="flex items-center">
                           <span
                             className={`rounded-full px-2 text-center ${
-                              index === 0
+                              card.rank === 0
                                 ? "text-yellow-300 font-semibold"
-                                : index === 1
+                                : card.rank === 1
                                 ? "text-slate-300 font-semibold"
-                                : index === 2
+                                : card.rank === 2
                                 ? "text-amber-600 font-semibold"
                                 : "text-black"
                             }`}
-                          >{`#${Number(index) + 1}`}</span>
+                          >{`#${card.rank}`}</span>
                         </div>
                       </td>
                       <td className="py-4 px-2 text-left">
