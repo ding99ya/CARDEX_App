@@ -18,6 +18,7 @@ const Rank = () => {
 
   // cards is the variable containing all cards info displayed in leaderboard
   const [cards, setCards] = useState([]);
+  const [cardsCopy, setCardsCopy] = useState([]);
 
   // username is used for search feature
   const [username, setUsername] = useState("");
@@ -95,7 +96,12 @@ const Rank = () => {
   const fetchCards = async () => {
     try {
       const response = await axios.get(`/api/sortCards`);
-      setCards(response.data);
+      const sortedCards = response.data.map((card, index) => ({
+        ...card,
+        rank: index + 1,
+      }));
+      setCards(sortedCards);
+      setCardsCopy(sortedCards);
     } catch (error) {
       console.error("Error fetching leaderboard data for cards", error);
     }
@@ -108,13 +114,22 @@ const Rank = () => {
   const handleCardnameChange = (e) => {
     const name = e.target.value;
     setCardname(name);
+
+    if (name === "") {
+      setCards(cardsCopy);
+    }
   };
 
   const handleSearchCard = () => {
     if (cardname === "") {
       return;
     }
-    navigateTo(`/leaderboard/cards/${cardname}`);
+
+    const lowerSearch = cardname.toLowerCase();
+
+    setCards(
+      cardsCopy.filter((card) => card.name.toLowerCase().includes(lowerSearch))
+    );
   };
 
   const handleTwitterImageClick = (twitterURL) => {
@@ -396,15 +411,15 @@ const Rank = () => {
                       <div className="flex items-center">
                         <span
                           className={`rounded-full px-2 text-center ${
-                            index === 0
+                            card.rank === 0
                               ? "text-yellow-300 font-semibold"
-                              : index === 1
+                              : card.rank === 1
                               ? "text-slate-300 font-semibold"
-                              : index === 2
+                              : card.rank === 2
                               ? "text-amber-600 font-semibold"
                               : "text-black"
                           }`}
-                        >{`#${Number(index) + 1}`}</span>
+                        >{`#${card.rank}`}</span>
                       </div>
                     </td>
                     <td className="py-4 px-2 text-left">
