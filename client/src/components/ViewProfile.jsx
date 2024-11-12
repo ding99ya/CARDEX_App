@@ -5,6 +5,8 @@ import axios from "axios";
 import ETHSymbol from "./ETHSymbol.png";
 import TwitterLogo from "./TwitterLogo.png";
 import PresaleCard from "./PresaleCard.png";
+import sortingIcon from "./Sorting.svg";
+import filterIcon from "./Filter.png";
 import Score from "./Score.png";
 import { useNavigation } from "./NavigationContext";
 
@@ -32,7 +34,23 @@ function ViewProfile() {
   });
   const [inventory, setInventory] = useState([]);
   const [userCards, setUserCards] = useState([]);
+  const [userCardsCopy, setUserCardsCopy] = useState([]);
+  const [filteredUserCards, setFilteredUserCards] = useState([]);
   const [totalWorth, setTotalWorth] = useState(0);
+
+  const [selectedFilter, setSelectedFilter] = useState({
+    label: "All",
+  });
+
+  const [filterIsOpen, setFilterIsOpen] = useState(false);
+
+  const [sortIsOpen, setSortIsOpen] = useState(false);
+
+  const [selectedSort, setSelectedSort] = useState({
+    label: "Price",
+    sortKey: "price",
+    ascending: false,
+  });
 
   useEffect(() => {
     // Fetch users positions (card ids and corresponding shares)
@@ -111,6 +129,7 @@ function ViewProfile() {
           }));
 
           setUserCards(fetchedUserCards);
+          setUserCardsCopy(fetchedUserCards);
 
           // Create a lookup object for cards
           const cardLookup = multiCardsResponse.data.reduce((acc, card) => {
@@ -134,6 +153,28 @@ function ViewProfile() {
       hasMounted.current = true;
     }
   }, [inventory]);
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      handleSortSelection({
+        label: "Price",
+        sortKey: "price",
+        ascending: false,
+      });
+    }
+  }, [userCardsCopy]);
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      const sortedCards = [...filteredUserCards].sort((a, b) => {
+        return selectedSort.ascending
+          ? a[selectedSort.sortKey] - b[selectedSort.sortKey]
+          : b[selectedSort.sortKey] - a[selectedSort.sortKey];
+      });
+
+      setUserCards(sortedCards);
+    }
+  }, [filteredUserCards]);
 
   // const handleCardClick = (card) => {
   //   if (card.category !== "presale") {
@@ -173,23 +214,70 @@ function ViewProfile() {
     }
   };
 
-  const upArrow = (
+  function filterCards(by) {
+    if (by === "All") {
+      setFilteredUserCards(userCardsCopy);
+    } else {
+      const filteredCards = userCardsCopy.filter((card) => {
+        return card.rarity === by.toUpperCase();
+      });
+
+      setFilteredUserCards(filteredCards);
+    }
+  }
+
+  const handleFilterSelection = (option) => {
+    setSelectedFilter(option);
+    filterCards(option.label);
+    setFilterIsOpen(false);
+  };
+
+  const filterOptions = [
+    { label: "All" },
+    { label: "Rare" },
+    { label: "Epic" },
+    { label: "Legend" },
+  ];
+
+  function sortCards(label, by, ascending = true) {
+    const sortedCards = [...userCards].sort((a, b) => {
+      return ascending ? a[by] - b[by] : b[by] - a[by];
+    });
+
+    setUserCards(sortedCards);
+    setSelectedSort({ label: label, sortKey: by, ascending: ascending });
+  }
+
+  const handleSortSelection = (option) => {
+    setSelectedSort(option);
+    sortCards(option.label, option.sortKey, option.ascending);
+    setSortIsOpen(false);
+  };
+
+  const sortOptions = [
+    { label: "Price", sortKey: "price", ascending: false },
+    { label: "Price", sortKey: "price", ascending: true },
+    { label: "Score", sortKey: "currentScore", ascending: false },
+    { label: "Score", sortKey: "currentScore", ascending: true },
+  ];
+
+  const sortUpArrow = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      className="w-4 h-4 text-green-500"
+      className="w-4 h-4 text-black"
     >
       <polygon points="12,2 22,12 17,12 17,22 7,22 7,12 2,12" />
     </svg>
   );
 
-  const downArrow = (
+  const sortDownArrow = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      className="w-4 h-4 text-red-500"
+      className="w-4 h-4 text-black"
     >
       <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
     </svg>
@@ -260,14 +348,14 @@ function ViewProfile() {
                 {leaderboardUser.paperPoints} Pts
               </span>
             </div>
-            <div className="flex justify-between w-full mt-2 mx-4">
+            {/* <div className="flex justify-between w-full mt-2 mx-4">
               <span className="text-sm font-semibold text-gray-400">
                 Inventory Worth:
               </span>
               <span className="text-sm font-semibold text-gray-400 pr-8">
                 {totalWorth} ETH
               </span>
-            </div>
+            </div> */}
             <div className="flex justify-between w-full mt-2 mx-4">
               <span className="text-sm font-semibold text-gray-400">Rank:</span>
               <span className="text-sm font-semibold text-gray-400 pr-8">
@@ -280,11 +368,19 @@ function ViewProfile() {
       <div className="w-full lg:ml-[25%] lg:w-3/4 lg:px-4">
         {userCards.length === 0 ? (
           // overflow-y-auto
-          <div className="flex flex-col items-center">
-            <p className="text-lg mt-6">Empty Collectible Inventory</p>
-            {/* <p className="text-gray-600">
-              You don’t have any collectibles yet.
-            </p> */}
+          // <div className="flex flex-col items-center">
+          //   <p className="text-lg mt-6">Empty Collectible Inventory</p>
+          // </div>
+          <div>
+            <div className="bg-white text-black flex justify-start items-center p-4 rounded-2xl mt-4 lg:mx-6">
+              <span className="font-semibold flex flex-col">
+                <span className="text-xs">Inventory Worth:</span>
+                <span className="text-base">{totalWorth} ETH</span>
+              </span>
+            </div>
+            <div className="flex flex-col items-center">
+              <p className="text-lg mt-6">Empty Collectible Inventory</p>
+            </div>
           </div>
         ) : (
           <div>
@@ -299,6 +395,77 @@ function ViewProfile() {
                 Claim for All
               </button>
             </div> */}
+            <div className="bg-white text-black flex justify-between items-center p-4 rounded-2xl mt-4 lg:mx-6">
+              <span className="font-semibold flex flex-col">
+                <span className="text-xs">Inventory Worth:</span>
+                <span className="text-base">{totalWorth} ETH</span>
+              </span>
+              <div className="items-center">
+                <div className="relative inline-block text-left mr-2">
+                  <button
+                    onClick={() => setFilterIsOpen(!filterIsOpen)}
+                    className="inline-flex items-center justify-between w-[86px] lg:w-full px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
+                  >
+                    <span className="flex items-center whitespace-nowrap">
+                      {selectedFilter.label}
+                    </span>
+                    <img
+                      src={filterIcon}
+                      alt="Filter Icon"
+                      className="w-5 h-5 ml-1"
+                    />
+                  </button>
+                  {filterIsOpen && (
+                    <div className="absolute right-0 z-50 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                      {filterOptions.map((option, index) => (
+                        <div key={index} className="py-1">
+                          <button
+                            onClick={() => handleFilterSelection(option)}
+                            className="flex items-center w-[86px] lg:w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
+                          >
+                            {option.label}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="relative inline-block text-left">
+                  <button
+                    onClick={() => setSortIsOpen(!sortIsOpen)}
+                    className="inline-flex items-center justify-between w-[90px] lg:w-full px-2 py-1 text-xs lg:text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 min-w-0"
+                  >
+                    <span className="flex items-center whitespace-nowrap">
+                      {selectedSort.label}{" "}
+                      {selectedSort.label !== "Latest" &&
+                        (selectedSort.ascending ? sortUpArrow : sortDownArrow)}
+                    </span>
+                    <img
+                      src={sortingIcon}
+                      alt="Sort Icon"
+                      className="w-5 h-5 ml-1"
+                    />
+                  </button>
+                  {sortIsOpen && (
+                    <div className="absolute right-0 z-50 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                      {sortOptions.map((option, index) => (
+                        <div key={index} className="py-1">
+                          <button
+                            onClick={() => handleSortSelection(option)}
+                            className="flex items-center w-[90px] lg:w-full px-2 py-1 text-xs lg:text-sm text-black hover:bg-gray-100"
+                          >
+                            {option.label}{" "}
+                            {option.label !== "Latest" &&
+                              (option.ascending ? sortUpArrow : sortDownArrow)}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:px-4">
               {userCards.map(
