@@ -627,21 +627,23 @@ function CardDetailPage() {
     ];
 
     const layout = {
-      title: "My Custom Plot",
-      xaxis: { title: "X Axis" },
-      yaxis: { title: "Y Axis" },
+      // title: "My Custom Plot",
+      // xaxis: { title: "X Axis" },
+      // yaxis: { title: "Y Axis" },
+      margin: {
+        l: 40,
+        r: 40,
+        t: 0,
+        b: 0,
+        // pad: 10,
+      },
     };
 
     // Use Plotly.newPlot to create a custom plot
-    Plotly.newPlot(
-      plotContainerRef.current,
-      data,
-      {},
-      {
-        displayModeBar: false,
-        staticPlot: true,
-      }
-    );
+    Plotly.newPlot(plotContainerRef.current, data, layout, {
+      displayModeBar: false,
+      staticPlot: true,
+    });
   }, []);
 
   const handleNextClick = () => {
@@ -822,7 +824,7 @@ function CardDetailPage() {
         <div class="flex justify-center overflow-hidden">
           <div
             ref={plotContainerRef}
-            className="w-[200%] lg:w-[140%] h-[400px] max-w-screen-lg"
+            className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
           ></div>
         </div>
 
