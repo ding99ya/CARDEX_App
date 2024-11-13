@@ -633,7 +633,7 @@ function CardDetailPage() {
     };
 
     // Use Plotly.newPlot to create a custom plot
-    Plotly.newPlot(plotContainerRef.current, data);
+    Plotly.newPlot(plotContainerRef.current, data, { displayModeBar: false });
   }, []);
 
   const handleNextClick = () => {
