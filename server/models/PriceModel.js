@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const priceHistorySchema = new mongoose.Schema({
   price: { type: Number, required: true },
-  time: { type: Date, required: true },
+  time: { type: String, required: true },
 });
 
 const pricesSchema = new mongoose.Schema({
