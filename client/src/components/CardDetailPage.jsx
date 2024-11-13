@@ -633,7 +633,14 @@ function CardDetailPage() {
     };
 
     // Use Plotly.newPlot to create a custom plot
-    Plotly.newPlot(plotContainerRef.current, data, { displayModeBar: false });
+    Plotly.newPlot(
+      plotContainerRef.current,
+      data,
+      {},
+      {
+        displayModeBar: false,
+      }
+    );
   }, []);
 
   const handleNextClick = () => {
@@ -811,8 +818,11 @@ function CardDetailPage() {
           </div>
         </div>
 
-        <div class="flex justify-center">
-          <div ref={plotContainerRef} class="w-[140%] h-[400px]"></div>
+        <div class="flex justify-center overflow-hidden">
+          <div
+            ref={plotContainerRef}
+            className="w-full lg:w-[140%] h-[400px] max-w-screen-lg"
+          ></div>
         </div>
 
         <div className="mt-8 relative z-0">
