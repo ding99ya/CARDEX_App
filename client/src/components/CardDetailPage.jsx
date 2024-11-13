@@ -15,6 +15,7 @@ import moment from "moment";
 import PresaleCard from "./PresaleCard.png";
 import Score from "./Score.png";
 import { useNavigation } from "./NavigationContext";
+import Plotly from "plotly.js-dist";
 import "../index.css";
 
 // Alchemy configuration to fetch info from blockchain and set up info
@@ -33,6 +34,8 @@ function CardDetailPage() {
   const Navigate = useNavigate();
 
   const { goBack, navigateTo } = useNavigation();
+
+  const plotContainerRef = useRef(null);
 
   // CardexV1 contract instance
   const contract = new web3.eth.Contract(
@@ -582,6 +585,57 @@ function CardDetailPage() {
     };
   }, [uniqueId]);
 
+  useEffect(() => {
+    const data = [
+      {
+        x: [
+          "2013-10-04 12:23:00",
+          "2013-10-04 12:24:13",
+          "2013-10-04 12:24:15",
+          "2013-10-04 12:24:37",
+          "2013-10-04 12:26:20",
+          "2013-10-04 12:27:25",
+          "2013-10-04 12:29:43",
+          "2013-10-04 12:31:49",
+          "2013-10-04 12:35:17",
+          "2013-10-04 12:37:18",
+          "2013-10-04 12:45:55",
+          "2013-10-04 12:51:04",
+          "2013-10-04 12:55:35",
+          "2013-10-04 13:13:28",
+          "2013-10-04 13:48:29",
+          "2013-10-04 16:27:28",
+          "2013-10-04 19:36:19",
+          "2013-10-04 21:23:00",
+          "2013-10-04 22:23:00",
+          "2013-10-04 23:35:53",
+          "2013-10-05 03:14:02",
+          "2013-10-05 05:52:09",
+          "2013-10-05 10:29:41",
+          "2013-10-05 17:42:09",
+          "2013-10-05 23:28:38",
+          "2013-10-07 22:23:00",
+        ],
+        y: [
+          1, 2, 3, 5, 6, 8, 11, 14, 16, 20, 22, 24, 26, 27, 30, 31, 29, 34, 32,
+          30, 28, 24, 27, 31, 29, 27,
+        ],
+        type: "scatter",
+        mode: "lines",
+        line: { color: "#60A5FA" },
+      },
+    ];
+
+    const layout = {
+      title: "My Custom Plot",
+      xaxis: { title: "X Axis" },
+      yaxis: { title: "Y Axis" },
+    };
+
+    // Use Plotly.newPlot to create a custom plot
+    Plotly.newPlot(plotContainerRef.current, data);
+  }, []);
+
   const handleNextClick = () => {
     setIsFront(false);
   };
@@ -755,6 +809,10 @@ function CardDetailPage() {
               Claim
             </button> */}
           </div>
+        </div>
+
+        <div class="flex justify-center">
+          <div ref={plotContainerRef} class="w-[140%] h-[400px]"></div>
         </div>
 
         <div className="mt-8 relative z-0">
