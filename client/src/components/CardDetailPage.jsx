@@ -631,10 +631,10 @@ function CardDetailPage() {
       // xaxis: { title: "X Axis" },
       // yaxis: { title: "Y Axis" },
       margin: {
-        l: 40,
-        r: 40,
+        l: 30,
+        r: 30,
         t: 0,
-        b: 0,
+        b: 40,
         // pad: 10,
       },
     };
