@@ -639,6 +639,7 @@ function CardDetailPage() {
       {},
       {
         displayModeBar: false,
+        staticPlot: true,
       }
     );
   }, []);
@@ -821,7 +822,7 @@ function CardDetailPage() {
         <div class="flex justify-center overflow-hidden">
           <div
             ref={plotContainerRef}
-            className="w-full lg:w-[140%] h-[400px] max-w-screen-lg"
+            className="w-[200%] lg:w-[140%] h-[400px] max-w-screen-lg"
           ></div>
         </div>
 
