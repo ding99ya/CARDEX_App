@@ -211,7 +211,7 @@ function Play() {
               />
             </div> */}
 
-              <div className="px-44 flex flex-col justify-center w-full">
+              <div className="px-4 flex flex-col justify-center w-full">
                 <button
                   className="bg-blue-400 justify-center text-white font-bold py-1 px-6 rounded-full transition duration-300 hover:bg-blue-500 mb-2"
                   onClick={() =>
