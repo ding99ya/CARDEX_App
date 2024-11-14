@@ -616,7 +616,7 @@ function CardDetailPage() {
               y: prices,
               type: "scatter",
               mode: "lines",
-              line: { color: "#60A5FA", shape: "spline" },
+              line: { color: "#60A5FA", shape: "spline", smoothing: 0.3 },
             },
           ];
 
