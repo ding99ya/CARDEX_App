@@ -626,7 +626,7 @@ function CardDetailPage() {
               l: 40,
               r: 20,
               t: 0,
-              b: 40,
+              b: 45,
             },
           };
 
