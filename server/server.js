@@ -444,7 +444,7 @@ app.get("/api/prices/:uniqueId", async (req, res) => {
   try {
     const price = await PriceModel.findOne({ uniqueId: req.params.uniqueId });
     if (!price) {
-      return res.status(404).json("Price not found");
+      return res.json({ priceHistory: [] });
     }
     res.json(price);
   } catch (error) {

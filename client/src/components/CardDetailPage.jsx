@@ -558,15 +558,15 @@ function CardDetailPage() {
     };
     fetchLocked();
 
-    const fetchCardHolder = async () => {
-      try {
-        const response = await axios.get(`/api/cardholders/${uniqueId}`);
-        setHolders(response.data);
-      } catch (error) {
-        console.error(`Error fetching card holders:`, error);
-      }
-    };
-    fetchCardHolder();
+    // const fetchCardHolder = async () => {
+    //   try {
+    //     const response = await axios.get(`/api/cardholders/${uniqueId}`);
+    //     setHolders(response.data);
+    //   } catch (error) {
+    //     console.error(`Error fetching card holders:`, error);
+    //   }
+    // };
+    // fetchCardHolder();
 
     const fetchInitialActivities = async () => {
       const response = await axios.get(`/api/cardactivity/${uniqueId}`, {
@@ -586,65 +586,62 @@ function CardDetailPage() {
   }, [uniqueId]);
 
   useEffect(() => {
-    const data = [
-      {
-        x: [
-          "2013-10-04 12:23:00",
-          "2013-10-04 12:24:13",
-          "2013-10-04 12:24:15",
-          "2013-10-04 12:24:37",
-          "2013-10-04 12:26:20",
-          "2013-10-04 12:27:25",
-          "2013-10-04 12:29:43",
-          "2013-10-04 12:31:49",
-          "2013-10-04 12:35:17",
-          "2013-10-04 12:37:18",
-          "2013-10-04 12:45:55",
-          "2013-10-04 12:51:04",
-          "2013-10-04 12:55:35",
-          "2013-10-04 13:13:28",
-          "2013-10-04 13:48:29",
-          "2013-10-04 16:27:28",
-          "2013-10-04 19:36:19",
-          "2013-10-04 21:23:00",
-          "2013-10-04 22:23:00",
-          "2013-10-04 23:35:53",
-          "2013-10-05 03:14:02",
-          "2013-10-05 05:52:09",
-          "2013-10-05 10:29:41",
-          "2013-10-05 17:42:09",
-          "2013-10-05 23:28:38",
-          "2013-10-07 22:23:00",
-        ],
-        y: [
-          1, 2, 3, 5, 6, 8, 11, 14, 16, 20, 22, 24, 26, 27, 30, 31, 29, 34, 32,
-          30, 28, 24, 27, 31, 29, 27,
-        ],
-        type: "scatter",
-        mode: "lines",
-        line: { color: "#60A5FA" },
-      },
-    ];
+    if (activeTab === "holders" && holders.length === 0) {
+      const fetchCardHolder = async () => {
+        try {
+          const response = await axios.get(`/api/cardholders/${uniqueId}`);
+          setHolders(response.data);
+        } catch (error) {
+          console.error(`Error fetching card holders:`, error);
+        }
+      };
 
-    const layout = {
-      // title: "My Custom Plot",
-      // xaxis: { title: "X Axis" },
-      // yaxis: { title: "Y Axis" },
-      margin: {
-        l: 30,
-        r: 30,
-        t: 0,
-        b: 40,
-        // pad: 10,
-      },
-    };
+      fetchCardHolder();
 
-    // Use Plotly.newPlot to create a custom plot
-    Plotly.newPlot(plotContainerRef.current, data, layout, {
-      displayModeBar: false,
-      staticPlot: true,
-    });
-  }, []);
+      return;
+    } else if (activeTab === "price" && plotContainerRef.current) {
+      const fetchCardPriceHistory = async () => {
+        try {
+          const response = await axios.get(`/api/prices/${uniqueId}`);
+          console.log(response.data);
+
+          const prices = response.data.priceHistory.map((item) => item.price);
+          const times = response.data.priceHistory.map((item) => item.time);
+
+          const data = [
+            {
+              x: times,
+              y: prices,
+              type: "scatter",
+              mode: "lines",
+              line: { color: "#60A5FA" },
+            },
+          ];
+
+          const layout = {
+            // title: "My Custom Plot",
+            // xaxis: { title: "X Axis" },
+            // yaxis: { title: "Y Axis" },
+            margin: {
+              l: 40,
+              r: 20,
+              t: 0,
+              b: 40,
+            },
+          };
+
+          Plotly.newPlot(plotContainerRef.current, data, layout, {
+            displayModeBar: false,
+            staticPlot: true,
+          });
+        } catch (error) {
+          console.error(`Error fetching card holders:`, error);
+        }
+      };
+
+      fetchCardPriceHistory();
+    }
+  }, [activeTab]);
 
   const handleNextClick = () => {
     setIsFront(false);
@@ -821,13 +818,6 @@ function CardDetailPage() {
           </div>
         </div>
 
-        <div class="flex justify-center overflow-hidden">
-          <div
-            ref={plotContainerRef}
-            className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
-          ></div>
-        </div>
-
         <div className="mt-8 relative z-0">
           <div className="flex border-b-0 mb-2">
             <button
@@ -849,6 +839,16 @@ function CardDetailPage() {
               onClick={() => setActiveTab("holders")}
             >
               Holders
+            </button>
+            <button
+              className={`py-2 px-4 font-semibold ${
+                activeTab === "price"
+                  ? "border-b-2 border-blue-500 text-blue-500"
+                  : "text-gray-500"
+              }`}
+              onClick={() => setActiveTab("price")}
+            >
+              Price
             </button>
           </div>
 
@@ -979,6 +979,15 @@ function CardDetailPage() {
                   )}
                 </tbody>
               </table>
+            </div>
+          )}
+
+          {activeTab === "price" && (
+            <div class="flex justify-center overflow-hidden">
+              <div
+                ref={plotContainerRef}
+                className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
+              ></div>
             </div>
           )}
         </div>
