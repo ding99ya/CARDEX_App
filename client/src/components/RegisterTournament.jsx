@@ -130,12 +130,7 @@ function RegisterTournament() {
 
     // Need to adjust the day and hours in production
     // Check if today is Sunday
-    if (
-      (currentDay === 1 && currentHour >= 9) ||
-      currentDay === 2 ||
-      currentDay === 3 ||
-      (currentDay === 4 && currentHour <= 9)
-    ) {
+    if (currentDay === 1 || currentDay === 3 || currentDay === 5) {
       setInTournament(true);
     } else {
       setInTournament(false);
@@ -690,6 +685,25 @@ function RegisterTournament() {
       <polygon points="12,22 2,12 7,12 7,2 17,2 17,12 22,12" />
     </svg>
   );
+
+  if (inTournament) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img
+          src="/Loading.gif"
+          alt="Loading..."
+          style={{ marginTop: "-20vh" }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col px-2 lg:px-0 lg:flex-row overflow-hidden">

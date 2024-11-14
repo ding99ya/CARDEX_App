@@ -26,13 +26,7 @@ function Play() {
     const currentHour = cstTime.getHours(); // Get the hour in CST
 
     // Need to adjust the day and hours in production
-    // Check if today is Sunday
-    if (
-      (currentDay === 1 && currentHour >= 9) ||
-      currentDay === 2 ||
-      currentDay === 3 ||
-      (currentDay === 4 && currentHour <= 9)
-    ) {
+    if (currentDay === 1 || currentDay === 3 || currentDay === 5) {
       setInTournament(true);
     } else {
       setInTournament(false);
@@ -139,7 +133,6 @@ function Play() {
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div
               className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-xl border-2 border-blue-300 overflow-hidden transition duration-300 ease-in-out"
-              onClick={() => navigateTo("/Play/View")}
               // style={{
               //   backgroundImage: `url(${CardexPokemonExtension})`,
               //   backgroundSize: "cover",
@@ -149,7 +142,7 @@ function Play() {
               {/* Header */}
               <div className="flex justify-center items-center space-x-3 mb-4">
                 <h3 className="text-4xl font-bold text-blue-400 mt-8 mb-2">
-                  Tournament #1
+                  Tournament #{process.env.REACT_APP_CURRENT_TOURNAMENT_ID}
                 </h3>
                 <img
                   src={flagIcon}
@@ -218,10 +211,20 @@ function Play() {
               />
             </div> */}
 
-              {/* View Leaderboard Button */}
-              <div className="px-4 flex justify-center w-full">
-                <button className="bg-blue-400 justify-center text-white font-bold py-2 px-6 rounded-full transition duration-300 hover:bg-blue-500 mb-10">
-                  {inTournament ? "View Tournament" : "Submit Deck"}
+              <div className="px-44 flex flex-col justify-center w-full">
+                <button
+                  className="bg-blue-400 justify-center text-white font-bold py-1 px-6 rounded-full transition duration-300 hover:bg-blue-500 mb-2"
+                  onClick={() =>
+                    navigateTo(inTournament ? "/Play/View" : "/Play/Register")
+                  }
+                >
+                  {inTournament ? "View" : "Join in"}
+                </button>
+                <button
+                  className="bg-blue-400 justify-center text-white font-bold py-1 px-6 rounded-full transition duration-300 hover:bg-blue-500 mb-4"
+                  onClick={() => navigateTo("/Play/Prize")}
+                >
+                  Prize
                 </button>
               </div>
             </div>
