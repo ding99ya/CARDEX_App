@@ -37,6 +37,8 @@ function CardDetailPage() {
 
   const plotContainerRef = useRef(null);
 
+  const plotContainerRef2 = useRef(null);
+
   // CardexV1 contract instance
   const contract = new web3.eth.Contract(
     abi,
@@ -626,7 +628,7 @@ function CardDetailPage() {
               l: 40,
               r: 20,
               t: 0,
-              b: 45,
+              b: 40,
             },
           };
 
@@ -635,11 +637,60 @@ function CardDetailPage() {
             staticPlot: true,
           });
         } catch (error) {
-          console.error(`Error fetching card holders:`, error);
+          console.error(`Error fetching card price history:`, error);
         }
       };
 
       fetchCardPriceHistory();
+
+      return;
+    } else if (activeTab === "rank" && plotContainerRef2.current) {
+      const fetchCardRankHistory = async () => {
+        try {
+          const response = await axios.get(`/api/historyRanks/${uniqueId}`);
+          console.log(response.data);
+
+          const ranks = response.data.historyRank.map((item) => item.rank);
+          const times = response.data.historyRank.map((item) => item.time);
+
+          const data = [
+            {
+              x: times,
+              y: ranks,
+              type: "scatter",
+              mode: "lines",
+              line: { color: "#60A5FA" },
+            },
+          ];
+
+          const layout = {
+            // title: "My Custom Plot",
+            // xaxis: { title: "X Axis" },
+            // yaxis: { title: "Y Axis" },
+            xaxis: {
+              type: "category",
+            },
+
+            margin: {
+              l: 40,
+              r: 20,
+              t: 0,
+              b: 40,
+            },
+          };
+
+          Plotly.newPlot(plotContainerRef2.current, data, layout, {
+            displayModeBar: false,
+            staticPlot: true,
+          });
+        } catch (error) {
+          console.error(`Error fetching card rank history:`, error);
+        }
+      };
+
+      fetchCardRankHistory();
+
+      return;
     }
   }, [activeTab]);
 
@@ -850,6 +901,16 @@ function CardDetailPage() {
             >
               Price
             </button>
+            <button
+              className={`py-2 px-4 font-semibold ${
+                activeTab === "rank"
+                  ? "border-b-2 border-blue-500 text-blue-500"
+                  : "text-gray-500"
+              }`}
+              onClick={() => setActiveTab("rank")}
+            >
+              Rank
+            </button>
           </div>
 
           {activeTab === "activity" && (
@@ -986,6 +1047,15 @@ function CardDetailPage() {
             <div class="flex justify-center overflow-hidden">
               <div
                 ref={plotContainerRef}
+                className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
+              ></div>
+            </div>
+          )}
+
+          {activeTab === "rank" && (
+            <div class="flex justify-center overflow-hidden">
+              <div
+                ref={plotContainerRef2}
                 className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
               ></div>
             </div>

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const historyRankSchema = new mongoose.Schema({
-  time: { type: Date, required: true },
+  time: { type: String, required: true },
   rank: { type: Number, required: true },
 });
 

@@ -14,6 +14,7 @@ const InviteCodeModel = require("./models/inviteCodeModel.js");
 const PresaleUserModel = require("./models/PresaleUserModel.js");
 const CardActivityModel = require("./models/CardActivityModel.js");
 const CardHolderModel = require("./models/CardHolderModel.js");
+const CardHistoryRankModel = require("./models/CardHistoryRankModel.js");
 const CTournamentModel = require("./models/CTournamentModel.js");
 const PTournamentModel = require("./models/PTournamentModel.js");
 const SubscriptionModel = require("./models/SubscriptionModel.js");
@@ -461,6 +462,21 @@ app.get("/api/leaderboard", async (req, res) => {
     res.json(leaderboard);
   } catch (error) {
     console.error("Error in /api/leaderboard:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/historyRanks/:uniqueId", async (req, res) => {
+  try {
+    const rank = await CardHistoryRankModel.findOne({
+      uniqueId: req.params.uniqueId,
+    });
+    if (!rank) {
+      return res.json({ historyRank: [] });
+    }
+    res.json(rank);
+  } catch (error) {
+    console.error("Error in /api/historyRanks/:uniqueId:", error);
     res.status(500).json({ message: error.message });
   }
 });
