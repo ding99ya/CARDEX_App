@@ -617,6 +617,7 @@ function CardDetailPage() {
               type: "scatter",
               mode: "lines",
               line: { color: "#60A5FA", shape: "spline", smoothing: 0.3 },
+              hovertemplate: "Price: %{y} ETH<extra></extra>",
             },
           ];
 
@@ -630,11 +631,21 @@ function CardDetailPage() {
               t: 0,
               b: 40,
             },
+            yaxis: {
+              range: [0, null],
+              fixedrange: true,
+            },
+            xaxis: {
+              fixedrange: true,
+            },
+            hovermode: "x",
+            hoverdistance: 100,
           };
 
           Plotly.newPlot(plotContainerRef.current, data, layout, {
             displayModeBar: false,
-            staticPlot: true,
+            // staticPlot: true,
+            scrollZoom: false,
           });
         } catch (error) {
           console.error(`Error fetching card price history:`, error);
@@ -660,6 +671,7 @@ function CardDetailPage() {
               type: "scatter",
               mode: "lines",
               line: { color: "#60A5FA" },
+              hovertemplate: "Rank: %{y}<extra></extra>",
             },
           ];
 
@@ -669,19 +681,25 @@ function CardDetailPage() {
             // yaxis: { title: "Y Axis" },
             xaxis: {
               type: "category",
+              fixedrange: true,
             },
-
+            yaxis: {
+              range: [0, null],
+              fixedrange: true,
+            },
             margin: {
               l: 40,
               r: 20,
               t: 0,
               b: 40,
             },
+            hovermode: "x",
+            hoverdistance: 100,
           };
 
           Plotly.newPlot(plotContainerRef2.current, data, layout, {
             displayModeBar: false,
-            staticPlot: true,
+            scrollZoom: false,
           });
         } catch (error) {
           console.error(`Error fetching card rank history:`, error);
