@@ -116,6 +116,8 @@ function Inventory() {
     { label: "Price", sortKey: "price", ascending: true },
     { label: "Score", sortKey: "currentScore", ascending: false },
     { label: "Score", sortKey: "currentScore", ascending: true },
+    { label: "Own", sortKey: "shares", ascending: true },
+    { label: "Own", sortKey: "shares", ascending: false },
   ];
 
   const sortUpArrow = (
