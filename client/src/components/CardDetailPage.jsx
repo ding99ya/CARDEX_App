@@ -638,6 +638,8 @@ function CardDetailPage() {
               fixedrange: true,
             },
             xaxis: {
+              type: "date",
+              tickformat: "%b-%d",
               fixedrange: true,
             },
             hovermode: "x",
@@ -682,7 +684,9 @@ function CardDetailPage() {
             // xaxis: { title: "X Axis" },
             // yaxis: { title: "Y Axis" },
             xaxis: {
-              type: "category",
+              type: "date",
+              tickformat: "%b-%d",
+              // type: "category",
               fixedrange: true,
             },
             yaxis: {
@@ -736,7 +740,9 @@ function CardDetailPage() {
             // xaxis: { title: "X Axis" },
             // yaxis: { title: "Y Axis" },
             xaxis: {
-              type: "category",
+              // type: "category",
+              type: "date",
+              tickformat: "%b-%d",
               fixedrange: true,
             },
             yaxis: {
