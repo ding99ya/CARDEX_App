@@ -946,7 +946,7 @@ function CardDetailPage() {
         <div className="mt-8 relative z-0">
           <div className="flex border-b-0 mb-2">
             <button
-              className={`py-2 px-4 font-semibold ${
+              className={`py-2 px-4 font-semibold text-sm ${
                 activeTab === "activity"
                   ? "border-b-2 border-blue-500 text-blue-500"
                   : "text-gray-500"
@@ -956,7 +956,7 @@ function CardDetailPage() {
               Tx
             </button>
             <button
-              className={`py-2 px-4 font-semibold ${
+              className={`py-2 px-4 font-semibold text-sm ${
                 activeTab === "holders"
                   ? "border-b-2 border-blue-500 text-blue-500"
                   : "text-gray-500"
@@ -966,7 +966,7 @@ function CardDetailPage() {
               Holders
             </button>
             <button
-              className={`py-2 px-4 font-semibold ${
+              className={`py-2 px-4 font-semibold text-sm ${
                 activeTab === "price"
                   ? "border-b-2 border-blue-500 text-blue-500"
                   : "text-gray-500"
@@ -976,7 +976,7 @@ function CardDetailPage() {
               Price
             </button>
             <button
-              className={`py-2 px-4 font-semibold ${
+              className={`py-2 px-4 font-semibold text-sm ${
                 activeTab === "score"
                   ? "border-b-2 border-blue-500 text-blue-500"
                   : "text-gray-500"
@@ -986,7 +986,7 @@ function CardDetailPage() {
               Score
             </button>
             <button
-              className={`py-2 px-4 font-semibold ${
+              className={`py-2 px-4 font-semibold text-sm ${
                 activeTab === "rank"
                   ? "border-b-2 border-blue-500 text-blue-500"
                   : "text-gray-500"
