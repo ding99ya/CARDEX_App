@@ -39,6 +39,8 @@ function CardDetailPage() {
 
   const plotContainerRef2 = useRef(null);
 
+  const plotContainerRef3 = useRef(null);
+
   // CardexV1 contract instance
   const contract = new web3.eth.Contract(
     abi,
@@ -709,6 +711,60 @@ function CardDetailPage() {
       fetchCardRankHistory();
 
       return;
+    } else if (activeTab === "score" && plotContainerRef3.current) {
+      const fetchCardScoreHistory = async () => {
+        try {
+          const response = await axios.get(`/api/historyScores/${uniqueId}`);
+          console.log(response.data);
+
+          const scores = response.data.historyScore.map((item) => item.score);
+          const times = response.data.historyScore.map((item) => item.time);
+
+          const data = [
+            {
+              x: times,
+              y: scores,
+              type: "scatter",
+              mode: "lines",
+              line: { color: "#60A5FA", shape: "spline", smoothing: 0.3 },
+              hovertemplate: "Score: %{y}<extra></extra>",
+            },
+          ];
+
+          const layout = {
+            // title: "My Custom Plot",
+            // xaxis: { title: "X Axis" },
+            // yaxis: { title: "Y Axis" },
+            xaxis: {
+              type: "category",
+              fixedrange: true,
+            },
+            yaxis: {
+              range: [0, null],
+              fixedrange: true,
+            },
+            margin: {
+              l: 40,
+              r: 20,
+              t: 0,
+              b: 40,
+            },
+            hovermode: "x",
+            hoverdistance: 100,
+          };
+
+          Plotly.newPlot(plotContainerRef3.current, data, layout, {
+            displayModeBar: false,
+            scrollZoom: false,
+          });
+        } catch (error) {
+          console.error(`Error fetching card score history:`, error);
+        }
+      };
+
+      fetchCardScoreHistory();
+
+      return;
     }
   }, [activeTab]);
 
@@ -921,6 +977,16 @@ function CardDetailPage() {
             </button>
             <button
               className={`py-2 px-4 font-semibold ${
+                activeTab === "score"
+                  ? "border-b-2 border-blue-500 text-blue-500"
+                  : "text-gray-500"
+              }`}
+              onClick={() => setActiveTab("score")}
+            >
+              Score
+            </button>
+            <button
+              className={`py-2 px-4 font-semibold ${
                 activeTab === "rank"
                   ? "border-b-2 border-blue-500 text-blue-500"
                   : "text-gray-500"
@@ -1074,6 +1140,15 @@ function CardDetailPage() {
             <div class="flex justify-center overflow-hidden">
               <div
                 ref={plotContainerRef2}
+                className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
+              ></div>
+            </div>
+          )}
+
+          {activeTab === "score" && (
+            <div class="flex justify-center overflow-hidden">
+              <div
+                ref={plotContainerRef3}
                 className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
               ></div>
             </div>

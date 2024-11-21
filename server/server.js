@@ -15,6 +15,7 @@ const PresaleUserModel = require("./models/PresaleUserModel.js");
 const CardActivityModel = require("./models/CardActivityModel.js");
 const CardHolderModel = require("./models/CardHolderModel.js");
 const CardHistoryRankModel = require("./models/CardHistoryRankModel.js");
+const CardHistoryScoreModel = require("./models/CardHistoryScoreModel.js");
 const CTournamentModel = require("./models/CTournamentModel.js");
 const PTournamentModel = require("./models/PTournamentModel.js");
 const SubscriptionModel = require("./models/SubscriptionModel.js");
@@ -477,6 +478,21 @@ app.get("/api/historyRanks/:uniqueId", async (req, res) => {
     res.json(rank);
   } catch (error) {
     console.error("Error in /api/historyRanks/:uniqueId:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/historyScores/:uniqueId", async (req, res) => {
+  try {
+    const score = await CardHistoryScoreModel.findOne({
+      uniqueId: req.params.uniqueId,
+    });
+    if (!score) {
+      return res.json({ historyScore: [] });
+    }
+    res.json(score);
+  } catch (error) {
+    console.error("Error in /api/historyScore/:uniqueId:", error);
     res.status(500).json({ message: error.message });
   }
 });
