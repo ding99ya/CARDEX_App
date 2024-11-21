@@ -638,8 +638,8 @@ function CardDetailPage() {
               fixedrange: true,
             },
             xaxis: {
-              type: "date",
-              tickformat: "%b-%d",
+              // type: "date",
+              // tickformat: "%b-%d",
               fixedrange: true,
             },
             hovermode: "x",
