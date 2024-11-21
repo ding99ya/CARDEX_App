@@ -953,7 +953,7 @@ function CardDetailPage() {
               }`}
               onClick={() => setActiveTab("activity")}
             >
-              Activity
+              Tx
             </button>
             <button
               className={`py-2 px-4 font-semibold ${
