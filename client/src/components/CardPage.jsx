@@ -49,6 +49,8 @@ function CardPage({ category }) {
 
   const [searchCards, setSearchCards] = useState([]);
 
+  const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+
   // selectedFilter be used to determine which filter method is currently being used
   const [selectedFilter, setSelectedFilter] = useState({
     label: "All",
@@ -351,6 +353,25 @@ function CardPage({ category }) {
       setCards(sortedCards);
     }
   }, [filteredCards]);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 400) {
+        setIsScrollToTopVisible(true);
+      } else {
+        setIsScrollToTopVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // Function to load current price for a specific card
   const loadCurrentPrice = async (cardId) => {
@@ -1080,6 +1101,15 @@ function CardPage({ category }) {
             className="z-60"
           />
         </div>
+      )}
+
+      {isScrollToTopVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-24 right-4 border-2 border-black bg-white text-black p-3 rounded-full focus:outline-none z-50"
+        >
+          ↑
+        </button>
       )}
     </div>
   );

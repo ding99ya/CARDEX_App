@@ -75,6 +75,8 @@ function CardDetailPage() {
   const [holders, setHolders] = useState([]);
   const [locked, setLocked] = useState(0);
 
+  const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+
   const [activeTab, setActiveTab] = useState("activity");
 
   const fetchActivities = async () => {
@@ -791,6 +793,25 @@ function CardDetailPage() {
     }
   }, [activeTab]);
 
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 400) {
+        setIsScrollToTopVisible(true);
+      } else {
+        setIsScrollToTopVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   const handleNextClick = () => {
     setIsFront(false);
   };
@@ -1178,6 +1199,7 @@ function CardDetailPage() {
           )}
         </div>
       </div>
+
       <BuyModal
         open={openBuyModal}
         onClose={() => setOpenBuyModal(false)}
@@ -1197,6 +1219,15 @@ function CardDetailPage() {
         cardName={card.name}
         cardPhoto={card.photo}
       />
+
+      {isScrollToTopVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-24 right-4 border-2 border-black bg-white text-black p-3 rounded-full focus:outline-none z-50"
+        >
+          ↑
+        </button>
+      )}
     </div>
   );
 }
