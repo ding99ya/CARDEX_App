@@ -1090,7 +1090,7 @@ function Profile() {
         />
       )}
 
-      {isScrollToTopVisible && (
+      {isScrollToTopVisible && !openDepositModal && !openWithdrawModal && (
         <button
           onClick={scrollToTop}
           className="fixed bottom-24 right-4 border-2 border-black bg-white text-black p-3 rounded-full focus:outline-none z-50"
