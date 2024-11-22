@@ -57,6 +57,8 @@ function Inventory() {
   const [filteredUserCards, setFilteredUserCards] = useState([]);
   const [totalWorth, setTotalWorth] = useState(0);
 
+  const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+
   const [selectedFilter, setSelectedFilter] = useState({
     label: "All",
   });
@@ -234,6 +236,25 @@ function Inventory() {
       setUserCards(sortedCards);
     }
   }, [filteredUserCards]);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 400) {
+        setIsScrollToTopVisible(true);
+      } else {
+        setIsScrollToTopVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   const handleCardClick = (card) => {
     if (card.category !== "presale") {
@@ -530,6 +551,15 @@ function Inventory() {
           </div>
         )}
       </div>
+
+      {isScrollToTopVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-24 right-4 border-2 border-black bg-white text-black p-3 rounded-full focus:outline-none z-50"
+        >
+          ↑
+        </button>
+      )}
     </div>
   );
 }

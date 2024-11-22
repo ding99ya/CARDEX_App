@@ -543,21 +543,38 @@ function CardDetailPage() {
     fetchUserShares();
 
     const fetchLocked = async () => {
-      try {
-        const response = await axios.get(`/api/ctournament/lockedCount`, {
-          params: {
-            walletAddress: embeddedWalletAddress,
-            uniqueId: uniqueId,
-          },
-        });
-        console.log(response.data);
+      const now = new Date();
 
-        setLocked(Number(response.data));
-      } catch (error) {
-        console.error(
-          `Error fetching locked number for card${uniqueId}:`,
-          error
-        );
+      const cstTime = new Date(
+        now.toLocaleString("en-US", { timeZone: "America/Chicago" })
+      );
+
+      const currentDay = cstTime.getDay();
+      const currentHour = cstTime.getHours();
+
+      if (
+        (currentDay === 4 && currentHour >= 12) ||
+        currentDay === 5 ||
+        currentDay === 6 ||
+        (currentDay === 0 && currentHour < 12)
+      ) {
+        setLocked(0);
+      } else {
+        try {
+          const response = await axios.get(`/api/ctournament/lockedCount`, {
+            params: {
+              walletAddress: embeddedWalletAddress,
+              uniqueId: uniqueId,
+            },
+          });
+
+          setLocked(Number(response.data));
+        } catch (error) {
+          console.error(
+            `Error fetching locked number for card${uniqueId}:`,
+            error
+          );
+        }
       }
     };
     fetchLocked();

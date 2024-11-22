@@ -104,6 +104,8 @@ function Profile() {
   const [totalWorth, setTotalWorth] = useState(0);
   const [userETHBalance, setUserETHBalance] = useState(0);
 
+  const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+
   const [selectedFilter, setSelectedFilter] = useState({
     label: "All",
   });
@@ -297,6 +299,25 @@ function Profile() {
       updateLeaderboardNameAndProfile();
     }
   }, [twitterLinked]);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 400) {
+        setIsScrollToTopVisible(true);
+      } else {
+        setIsScrollToTopVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   const handleCardClick = (card) => {
     if (card.category !== "presale") {
@@ -1003,7 +1024,7 @@ function Profile() {
 
       {/* Dark Overlay */}
       {openDepositModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-60"></div>
       )}
 
       {/* Deposit Modal */}
@@ -1015,13 +1036,13 @@ function Profile() {
           }}
           embeddedWalletAddress={embeddedWalletAddress}
           fundWallet={fundWallet}
-          className="z-50"
+          className="z-60"
         />
       )}
 
       {/* Dark Overlay */}
       {openWithdrawModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-60"></div>
       )}
 
       {/* Withdraw Modal */}
@@ -1033,13 +1054,13 @@ function Profile() {
           }}
           transfer={transfer}
           userBalance={Number(userETHBalance)}
-          className="z-50"
+          className="z-60"
         />
       )}
 
       {/* Dark Overlay */}
       {openSubscribeModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-60"></div>
       )}
 
       {/* Withdraw Modal */}
@@ -1049,13 +1070,13 @@ function Profile() {
           onClose={() => {
             setOpenSubscribeModal(false);
           }}
-          className="z-50"
+          className="z-60"
         />
       )}
 
       {/* Dark Overlay */}
       {openUnsubscribeModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-60"></div>
       )}
 
       {/* Withdraw Modal */}
@@ -1065,8 +1086,17 @@ function Profile() {
           onClose={() => {
             setOpenUnsubscribeModal(false);
           }}
-          className="z-50"
+          className="z-60"
         />
+      )}
+
+      {isScrollToTopVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-24 right-4 border-2 border-black bg-white text-black p-3 rounded-full focus:outline-none z-50"
+        >
+          ↑
+        </button>
       )}
     </div>
   );
