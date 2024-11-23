@@ -719,6 +719,18 @@ function ViewTournament() {
               className="min-w-full rounded-xl p-2 bg-blue-100 mb-4"
               style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
             >
+              {/* <thead className="bg-white text-blue-500 text-xs lg:text-sm font-open-sans">
+                <tr>
+                  <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
+                    Rank
+                  </th>
+                  <th className="py-2 px-4 text-left">User</th>
+                  <th className="py-2 px-4 text-center">Score</th>
+                  <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
+                    <span className="invisible">Expand</span>
+                  </th>
+                </tr>
+              </thead> */}
               <tbody>
                 {showSearchPlayers && searchedPlayers.length === 0 ? (
                   <tr>
@@ -999,6 +1011,20 @@ function ViewTournament() {
               className="min-w-full rounded-xl p-2 bg-blue-100 mb-4"
               style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
             >
+              <thead className="bg-white text-blue-500 text-xs lg:text-sm font-open-sans">
+                <tr>
+                  <th className="py-2 px-4 text-center rounded-tl-xl rounded-bl-xl">
+                    Rank
+                  </th>
+                  <th className="py-2 px-4 text-left">Card</th>
+                  <th className="py-2 px-4 text-center hidden lg:table-cell">
+                    Rarity
+                  </th>
+                  <th className="py-2 px-4 text-left rounded-tr-xl rounded-br-xl">
+                    Score
+                  </th>
+                </tr>
+              </thead>
               <tbody>
                 {cardsRank.map((card, index) =>
                   card.category !== "presale" ? (
