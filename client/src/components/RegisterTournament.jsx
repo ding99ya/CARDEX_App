@@ -409,10 +409,9 @@ function RegisterTournament() {
         cardUsage[card.uniqueId].available + 1;
     });
 
-    await axios.delete(`/api/ctournament/deleteDeck`, {
-      walletAddress: embeddedWalletAddress.toString(),
-      deckId: currentDeckId,
-    });
+    await axios.delete(
+      `/api/ctournament/deleteDeck?walletAddress=${embeddedWalletAddress.toString()}&deckId=${currentDeckId}`
+    );
   };
 
   function filterCards(by) {

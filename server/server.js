@@ -868,7 +868,7 @@ app.get("/api/ctournament/lockedCount", async (req, res) => {
 });
 
 app.delete("/api/ctournament/deleteDeck", async (req, res) => {
-  const { walletAddress, deckId } = req.body;
+  const { walletAddress, deckId } = req.query;
 
   try {
     const result = await CTournamentModel.deleteOne({
