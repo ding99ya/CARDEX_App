@@ -130,7 +130,12 @@ function RegisterTournament() {
 
     // Need to adjust the day and hours in production
     // Check if today is Sunday
-    if (currentDay === 1 || currentDay === 3 || currentDay === 5) {
+    if (
+      (currentDay === 4 && currentHour >= 12) ||
+      currentDay === 5 ||
+      currentDay === 6 ||
+      (currentDay === 0 && currentHour <= 12)
+    ) {
       setInTournament(true);
     } else {
       setInTournament(false);
@@ -172,17 +177,17 @@ function RegisterTournament() {
     const currentDay = cstTime.getDay();
     const currentHour = cstTime.getHours();
 
-    const tournamentStart = getNextOccurrence(1, 9); // Monday 9 AM
-    const tournamentEnd = getNextOccurrence(4, 9); // Thursday 9 AM
+    const tournamentStart = getNextOccurrence(4, 12);
+    const tournamentEnd = getNextOccurrence(0, 12);
 
     let target;
     let message;
 
     if (
-      (currentDay === 1 && currentHour >= 9) ||
-      currentDay === 2 ||
-      currentDay === 3 ||
-      (currentDay === 4 && currentHour <= 9)
+      (currentDay === 4 && currentHour >= 12) ||
+      currentDay === 5 ||
+      currentDay === 6 ||
+      (currentDay === 0 && currentHour < 12)
     ) {
       // Tournament is ongoing
       target = tournamentEnd;

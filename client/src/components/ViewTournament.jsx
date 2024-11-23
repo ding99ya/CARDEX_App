@@ -187,10 +187,10 @@ function ViewTournament() {
     // Need to adjust the day and hours in production
     // Check if today is Sunday
     if (
-      (currentDay === 1 && currentHour >= 9) ||
-      currentDay === 2 ||
-      currentDay === 3 ||
-      (currentDay === 4 && currentHour <= 9)
+      (currentDay === 4 && currentHour >= 12) ||
+      currentDay === 5 ||
+      currentDay === 6 ||
+      (currentDay === 0 && currentHour < 12)
     ) {
       setInTournament(true);
     } else {
@@ -233,17 +233,17 @@ function ViewTournament() {
     const currentDay = cstTime.getDay();
     const currentHour = cstTime.getHours();
 
-    const tournamentStart = getNextOccurrence(1, 9); // Monday 9 AM
-    const tournamentEnd = getNextOccurrence(4, 9); // Thursday 9 AM
+    const tournamentStart = getNextOccurrence(4, 12);
+    const tournamentEnd = getNextOccurrence(0, 12);
 
     let target;
     let message;
 
     if (
-      (currentDay === 1 && currentHour >= 9) ||
-      currentDay === 2 ||
-      currentDay === 3 ||
-      (currentDay === 4 && currentHour <= 9)
+      (currentDay === 4 && currentHour >= 12) ||
+      currentDay === 5 ||
+      currentDay === 6 ||
+      (currentDay === 0 && currentHour < 12)
     ) {
       // Tournament is ongoing
       target = tournamentEnd;
@@ -350,6 +350,25 @@ function ViewTournament() {
     };
     fetchPlayers();
   }, []);
+
+  if (!inTournament) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img
+          src="/Loading.gif"
+          alt="Loading..."
+          style={{ marginTop: "-20vh" }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col px-2 lg:px-0 lg:flex-row overflow-hidden">

@@ -14,6 +14,8 @@ function Play() {
 
   const [inTournament, setInTournament] = useState(false);
 
+  const [showTournamentButton, setShowTournamentButton] = useState(true);
+
   const checkInTournament = () => {
     const now = new Date();
 
@@ -26,10 +28,34 @@ function Play() {
     const currentHour = cstTime.getHours(); // Get the hour in CST
 
     // Need to adjust the day and hours in production
-    if (currentDay === 1 || currentDay === 3 || currentDay === 5) {
+    if (
+      (currentDay === 4 && currentHour >= 12) ||
+      currentDay === 5 ||
+      currentDay === 6 ||
+      (currentDay === 0 && currentHour < 12)
+    ) {
       setInTournament(true);
     } else {
       setInTournament(false);
+    }
+  };
+
+  const checkShowTournamentButton = () => {
+    const now = new Date();
+
+    // Convert current time to US CST (Central Standard Time)
+    const cstTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "America/Chicago" })
+    );
+
+    const currentDay = cstTime.getDay(); // 0 is Sunday, 6 is Saturday
+    const currentHour = cstTime.getHours(); // Get the hour in CST
+
+    // Need to adjust the day and hours in production
+    if (currentDay === 0 && currentHour === 12) {
+      setShowTournamentButton(false);
+    } else {
+      setShowTournamentButton(true);
     }
   };
 
@@ -68,17 +94,17 @@ function Play() {
     const currentDay = cstTime.getDay();
     const currentHour = cstTime.getHours();
 
-    const tournamentStart = getNextOccurrence(1, 9); // Monday 9 AM
-    const tournamentEnd = getNextOccurrence(4, 9); // Thursday 9 AM
+    const tournamentStart = getNextOccurrence(4, 12);
+    const tournamentEnd = getNextOccurrence(0, 12);
 
     let target;
     let message;
 
     if (
-      (currentDay === 1 && currentHour >= 9) ||
-      currentDay === 2 ||
-      currentDay === 3 ||
-      (currentDay === 4 && currentHour <= 9)
+      (currentDay === 4 && currentHour >= 12) ||
+      currentDay === 5 ||
+      currentDay === 6 ||
+      (currentDay === 0 && currentHour < 12)
     ) {
       // Tournament is ongoing
       target = tournamentEnd;
@@ -103,6 +129,7 @@ function Play() {
   useEffect(() => {
     window.scrollTo(0, 0);
     checkInTournament();
+    checkShowTournamentButton();
     setTimeRemaining(calculateTime());
   }, []);
 
@@ -213,7 +240,9 @@ function Play() {
 
               <div className="px-4 flex flex-col justify-center w-full">
                 <button
-                  className="bg-blue-400 justify-center text-white font-bold py-1 px-6 rounded-full transition duration-300 hover:bg-blue-500 mb-2"
+                  className={`bg-blue-400 justify-center text-white font-bold py-1 px-6 rounded-full transition duration-300 hover:bg-blue-500 mb-2 ${
+                    showTournamentButton ? "block" : "hidden"
+                  }`}
                   onClick={() =>
                     navigateTo(inTournament ? "/Play/View" : "/Play/Register")
                   }

@@ -1172,7 +1172,7 @@ function CardDetailPage() {
           )}
 
           {activeTab === "price" && (
-            <div class="flex justify-center overflow-hidden">
+            <div class="flex justify-center overflow-hidden mt-4">
               <div
                 ref={plotContainerRef}
                 className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
@@ -1181,7 +1181,7 @@ function CardDetailPage() {
           )}
 
           {activeTab === "rank" && (
-            <div class="flex justify-center overflow-hidden">
+            <div class="flex justify-center overflow-hidden mt-4">
               <div
                 ref={plotContainerRef2}
                 className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
@@ -1190,7 +1190,7 @@ function CardDetailPage() {
           )}
 
           {activeTab === "score" && (
-            <div class="flex justify-center overflow-hidden">
+            <div class="flex justify-center overflow-hidden mt-4">
               <div
                 ref={plotContainerRef3}
                 className="w-[200%] lg:w-[140%] h-[200px] max-w-screen-lg"
