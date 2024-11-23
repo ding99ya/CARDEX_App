@@ -6,7 +6,7 @@
     "@alch/alchemy-web3": "^1.4.7",
     "@canvasjs/react-charts": "^1.0.2",
     "@craco/craco": "^7.1.0",
-    "@privy-io/react-auth": "^1.83.1",
+    "@privy-io/react-auth": "^1.94.0",
     "@privy-io/server-auth": "^1.7.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@testing-library/jest-dom": "^5.17.0",
