@@ -719,18 +719,17 @@ function ViewTournament() {
               className="min-w-full rounded-xl p-2 bg-blue-100 mb-4"
               style={{ borderCollapse: "separate", borderSpacing: "0 10px" }}
             >
-              {/* <thead className="bg-white text-blue-500 text-xs lg:text-sm font-open-sans">
+              <thead className="bg-white text-blue-500 text-xs lg:text-sm font-open-sans">
                 <tr>
                   <th className="py-2 px-4 text-left rounded-tl-xl rounded-bl-xl">
                     Rank
                   </th>
                   <th className="py-2 px-4 text-left">User</th>
-                  <th className="py-2 px-4 text-center">Score</th>
-                  <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
-                    <span className="invisible">Expand</span>
+                  <th className="py-2 px-4 text-left rounded-tr-xl rounded-br-xl">
+                    Score
                   </th>
                 </tr>
-              </thead> */}
+              </thead>
               <tbody>
                 {showSearchPlayers && searchedPlayers.length === 0 ? (
                   <tr>
@@ -792,7 +791,7 @@ function ViewTournament() {
                               </div>
                             </div>
                           </td>
-                          <td className="py-4 px-3 text-center">
+                          <td className="py-4 px-3 text-center rounded-tr-xl rounded-br-xl">
                             <div className={`flex items-center`}>
                               <img
                                 src={Score}
@@ -804,7 +803,7 @@ function ViewTournament() {
                               </span>
                             </div>
                           </td>
-                          <td className="text-center rounded-tr-xl rounded-br-xl">
+                          {/* <td className="text-center rounded-tr-xl rounded-br-xl">
                             <div className="flex items-center">
                               <span
                                 className={`font-open-sans text-sm font-bold transform mr-2 ${
@@ -816,7 +815,7 @@ function ViewTournament() {
                                 {">"}
                               </span>
                             </div>
-                          </td>
+                          </td> */}
                         </tr>
 
                         {expandedRow === index && (
