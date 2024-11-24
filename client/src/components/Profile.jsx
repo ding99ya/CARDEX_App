@@ -6,6 +6,7 @@ import { Contract, providers, BigNumber } from "ethers";
 import axios from "axios";
 import CopyIcon from "./Copy-Icon.jpg";
 import Wallet from "./Wallet.jpg";
+import Referral from "./Referral.png";
 import TwitterLogo from "./TwitterLogo.png";
 import NotificationOn from "./NotificationOn.png";
 import NotificationOff from "./NotificationOff.png";
@@ -750,8 +751,8 @@ function Profile() {
         <div className="mt-6">
           <div className="flex flex-col items-left mb-4 border border-gray-300 rounded-3xl bg-white">
             <div className="flex items-left space-x-2 mb-2 mx-4">
-              <span className="relative mt-2">
-                <img src={Wallet} alt="Wallet" className="w-8 h-8" />
+              <span className="relative mt-3">
+                <img src={Referral} alt="Wallet" className="w-5 h-5" />
               </span>
               <span className="text-md text-black font-semibold mt-3">
                 Referral
