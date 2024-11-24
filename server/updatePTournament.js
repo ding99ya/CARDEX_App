@@ -1,14 +1,9 @@
 const mongoose = require("mongoose");
 const PTournamentModel = require("./models/PTournamentModel.js");
 const CTournamentModel = require("./models/CTournamentModel.js");
+const CardModel = require("./models/CardModel.js");
 
 require("dotenv").config();
-
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("MongoDB connected"))
-  .catch((error) => console.error("MongoDB connection error:", error));
 
 function calculateETHReward(rank) {
   let rewardETH;
@@ -72,6 +67,12 @@ function calculatePresalePoints(rank) {
 
 async function updatePTournament() {
   try {
+    // Connect to MongoDB
+    await mongoose
+      .connect(process.env.MONGO_URL)
+      .then(() => console.log("MongoDB connected"))
+      .catch((error) => console.error("MongoDB connection error:", error));
+
     const cTournaments = await CTournamentModel.find();
 
     // Group records by walletAddress
@@ -129,6 +130,33 @@ async function updatePTournament() {
   } catch (error) {
     console.error("Error updating PTournament:", error);
   } finally {
+    mongoose.connection.close();
+    console.log("MongoDB connection closed");
+  }
+
+  try {
+    // Connect to MongoDB
+    await mongoose
+      .connect(process.env.MONGO_URL)
+      .then(() => console.log("MongoDB connected"))
+      .catch((error) => console.error("MongoDB connection error:", error));
+
+    // Reset scores for all cards in the collection
+    const result = await CardModel.updateMany(
+      {}, // Match all documents
+      {
+        $set: {
+          currentTournamentScore: 0,
+          avgTournamentScore: 0,
+        },
+      }
+    );
+
+    console.log(`Updated ${result.nModified} cards successfully.`);
+  } catch (error) {
+    console.error("Error resetting tournament scores:", error);
+  } finally {
+    // Close the database connection
     mongoose.connection.close();
     console.log("MongoDB connection closed");
   }
