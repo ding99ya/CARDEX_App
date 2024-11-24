@@ -145,21 +145,21 @@ function Profile() {
     };
     fetchUserPosition();
 
-    const fetchUserLeaderboard = async () => {
-      try {
-        const fetchedLeaderboardData = await axios.get(
-          `/api/leaderboard/${embeddedWalletAddress}`
-        );
-        setTotalUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
-        setCurrentUserPaperPoint(fetchedLeaderboardData.data.currentPoints);
-      } catch (error) {
-        console.error(
-          `Error fetching user ${embeddedWalletAddress} leaderboard`,
-          error
-        );
-      }
-    };
-    fetchUserLeaderboard();
+    // const fetchUserLeaderboard = async () => {
+    //   try {
+    //     const fetchedLeaderboardData = await axios.get(
+    //       `/api/leaderboard/${embeddedWalletAddress}`
+    //     );
+    //     setTotalUserPaperPoint(fetchedLeaderboardData.data.paperPoints);
+    //     setCurrentUserPaperPoint(fetchedLeaderboardData.data.currentPoints);
+    //   } catch (error) {
+    //     console.error(
+    //       `Error fetching user ${embeddedWalletAddress} leaderboard`,
+    //       error
+    //     );
+    //   }
+    // };
+    // fetchUserLeaderboard();
 
     const fetchUserWalletBalance = async () => {
       try {
@@ -735,15 +735,15 @@ function Profile() {
               {isSubscribed ? "Turn Off" : "Turn On"}
             </button>
 
-            {walletType === "privy" && (
-              <span
-                onClick={exportWallet}
-                className="cursor-pointer text-sm text-blue-600 mt-3"
-                style={{ textDecoration: "underline" }}
-              >
-                Export Key
-              </span>
-            )}
+            {/* {walletType === "privy" && ( */}
+            <span
+              onClick={exportWallet}
+              className="cursor-pointer text-sm text-blue-600 mt-3"
+              style={{ textDecoration: "underline" }}
+            >
+              Export Key
+            </span>
+            {/* )} */}
           </div>
         </div>
 
@@ -754,7 +754,7 @@ function Profile() {
                 <img src={Wallet} alt="Wallet" className="w-8 h-8" />
               </span>
               <span className="text-md text-black font-semibold mt-3">
-                Card Points
+                Referral
               </span>
             </div>
             <div className="flex justify-between w-full mx-4">
@@ -765,7 +765,7 @@ function Profile() {
                 {currentInviteCode}
               </span>
             </div>
-            <div className="flex justify-between w-full mt-2 mx-4">
+            <div className="flex justify-between w-full mt-2 mx-4 mb-4">
               <span className="text-sm font-semibold text-gray-400">
                 Total Referal:
               </span>
@@ -773,7 +773,7 @@ function Profile() {
                 {currentInviteCodeUsage}
               </span>
             </div>
-            <div className="flex justify-between w-full mt-2 mx-4">
+            {/* <div className="flex justify-between w-full mt-2 mx-4">
               <span className="text-sm font-semibold text-gray-400">
                 Total Earned Card:
               </span>
@@ -788,7 +788,7 @@ function Profile() {
               <span className="text-sm font-semibold text-gray-400 pr-8">
                 {currentUserPaperPoint} Pts
               </span>
-            </div>
+            </div> */}
             {/* <div className="flex justify-between w-full mt-2 mx-4 mb-4">
               <span className="text-base font-semibold text-gray-400">
                 Inventory Worth:
