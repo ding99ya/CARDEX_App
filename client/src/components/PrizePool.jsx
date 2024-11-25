@@ -48,9 +48,9 @@ function PrizePool() {
                     Rank
                   </th>
                   <th className="py-2 px-4 text-center">ETH</th>
-                  <th className="py-2 px-4 text-center">Points</th>
+                  <th className="py-2 px-4 text-center">Card Points</th>
                   <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
-                    Stars
+                    Gems
                   </th>
                 </tr>
               </thead>
@@ -75,7 +75,7 @@ function PrizePool() {
                     Linear from 290000 to 230000
                   </td>
                   <td className="py-1 text-center rounded-tr-xl rounded-br-xl">
-                    6000
+                    60
                   </td>
                 </tr>
                 <tr
@@ -97,7 +97,7 @@ function PrizePool() {
                     Linear from 215000 to 155000
                   </td>
                   <td className="py-1 text-center rounded-tr-xl rounded-br-xl">
-                    5000
+                    50
                   </td>
                 </tr>
                 <tr
@@ -120,7 +120,7 @@ function PrizePool() {
                     Linear from 149000 to 105000
                   </td>
                   <td className="py-1 text-center rounded-tr-xl rounded-br-xl">
-                    2500
+                    25
                   </td>
                 </tr>
                 <tr
@@ -142,7 +142,7 @@ function PrizePool() {
                     Linear from 104000 to 60000
                   </td>
                   <td className="py-1 text-center rounded-tr-xl rounded-br-xl">
-                    1500
+                    15
                   </td>
                 </tr>
               </tbody>

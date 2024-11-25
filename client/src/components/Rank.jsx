@@ -292,7 +292,7 @@ const Rank = () => {
                   </th>
                   <th className="py-2 px-4 text-left">User</th>
                   <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
-                    Points
+                    Card Points
                   </th>
                 </tr>
               </thead>
@@ -366,7 +366,7 @@ const Rank = () => {
                       </div>
                     </td>
                     <td className="py-4 px-3 text-center rounded-tr-xl rounded-br-xl">
-                      {user.paperPoints} Pts
+                      {user.paperPoints}
                     </td>
                   </tr>
                 ))}

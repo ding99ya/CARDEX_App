@@ -70,7 +70,7 @@ function PresaleCardPage({ category }) {
 
     // Need to adjust the day and hours in production
     // Check if today is Sunday
-    if (currentDay === 3) {
+    if (currentDay === 1) {
       setCanPresale(true);
     } else {
       setCanPresale(false);
@@ -422,7 +422,7 @@ function PresaleCardPage({ category }) {
                       onClick={() => unlockPresale(card.uniqueId)}
                       className="w-full font-bold px-4 py-1 mx-4 mb-2 rounded-full bg-blue-400 text-white text-sm hover:bg-blue-500 hover:text-white"
                     >
-                      Unlock 10
+                      Unlock {`(10 Gem)`}
                     </button>
                   </div>
                 )}

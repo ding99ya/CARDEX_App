@@ -259,9 +259,9 @@ function PreviousTournament() {
                   </th>
                   <th className="py-2 px-4 text-center">Rank</th>
                   <th className="py-2 px-4 text-center">ETH</th>
-                  <th className="py-2 px-4 text-center">Points</th>
+                  <th className="py-2 px-4 text-center">Card Points</th>
                   <th className="py-2 px-4 text-center rounded-tr-xl rounded-br-xl">
-                    Stars
+                    Gems
                   </th>
                 </tr>
               </thead>
