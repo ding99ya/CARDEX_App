@@ -79,9 +79,11 @@ const UserDeposit = () => {
             </span>
           </div> */}
         <div className="flex flex-col items-start space-y-2 mt-4">
-          <p>Transfer ETH on Base network to </p>
+          <p className="text-gray-400">Transfer ETH on Base network to </p>
           <div className="flex items-center">
-            <p className="text-xs lg:text-sm">{embeddedWalletAddress}</p>
+            <p className="text-xs lg:text-sm text-gray-400">
+              {embeddedWalletAddress}
+            </p>
             <span
               className="relative cursor-pointer"
               onMouseEnter={() => setDepositHover(true)}
@@ -150,7 +152,7 @@ const UserDeposit = () => {
           </div>
           <div className="w-full flex justify-center mt-2">
             <button
-              className="w-full px-4 py-2 mb-4 border-2 border-black font-semibold rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
+              className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
               onClick={handleContinue}
             >
               <span className="font-semibold">Continue</span>
