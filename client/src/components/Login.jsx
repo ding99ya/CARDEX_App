@@ -134,14 +134,18 @@ const Login = () => {
           {/* <h4 className="text-4xl mb-4 font-helvetica-neue font-semibold">
             Welcome to CARDEX
           </h4> */}
-          <div className="flex justify-center items-center mb-10">
+          <div className="flex justify-center items-center mb-6">
             <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
           </div>
           {/* <p className="mb-8 font-open-sans font-bold text-2xl">
             Welcome to CARDEX
           </p> */}
-          <p className="mb-8 font-open-sans font-bold text-base">
-            Luxury Collectibles Launchpad
+          <p className="mb-1 font-semibold text-gray-400 text-base">
+            Trading Card Launchpad
+          </p>
+          <p className="mb-1 text-gray-400 text-base">X</p>
+          <p className="mb-6 font-semibold text-gray-400 text-base">
+            Fantasy Style Game
           </p>
           <button
             onClick={handleLogin}

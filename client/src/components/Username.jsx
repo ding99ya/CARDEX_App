@@ -179,7 +179,7 @@ const Username = () => {
         <div className="flex justify-center items-center mb-8">
           <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
         </div>
-        <p className="mt-4 mb-4 font-open-sans font-semibold text-base">
+        <p className="mt-4 mb-4 font-semibold text-gray-400 text-base">
           Input username below, it can't changed later
         </p>
         <div className="w-full mb-2">
@@ -193,7 +193,9 @@ const Username = () => {
           />
           {/* </span> */}
         </div>
-        <p className="mb-8">Username must be in 3 to 10 characters.</p>
+        <p className="mb-8 text-gray-400">
+          Username must be in 3 to 10 characters.
+        </p>
         <button
           className={classNames(
             "w-full font-bold font-helvetica-neue px-2 py-2 mb-2 rounded-full transition duration-300 ease-in-out",
@@ -211,7 +213,7 @@ const Username = () => {
         </button>
         <button
           onClick={handleLogout}
-          className="w-full bg-white text-black border-2 border-black font-bold font-helvetica-neue px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black transition duration-300 ease-in-out"
+          className="w-full bg-white text-black border border-gray-300 font-helvetica-neue px-[calc(1rem-2px)] py-[calc(0.5rem-2px)] rounded-full hover:bg-gray-200 hover:text-black transition duration-300 ease-in-out"
           type="button"
         >
           Log Out

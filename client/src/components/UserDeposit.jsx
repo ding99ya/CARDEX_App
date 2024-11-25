@@ -54,7 +54,7 @@ const UserDeposit = () => {
         <div className="flex justify-center items-center mb-8">
           <img src={CardexWebsite} alt="Cardex" className="h-14 w-auto" />
         </div>
-        <p className="mb-4 font-open-sans font-semibold text-base">
+        <p className="mb-4 font-semibold text-gray-400 text-base">
           Deposit some ETH to start trading collectible shares
         </p>
         {/* <div className="flex">
