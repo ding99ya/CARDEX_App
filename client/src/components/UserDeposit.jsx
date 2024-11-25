@@ -155,7 +155,7 @@ const UserDeposit = () => {
               className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-100 hover:text-black"
               onClick={handleContinue}
             >
-              <span className="font-semibold">Continue</span>
+              <span className="">Continue</span>
             </button>
           </div>
         </div>
