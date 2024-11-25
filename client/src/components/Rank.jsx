@@ -202,7 +202,7 @@ const Rank = () => {
                   Card Points
                 </span>
               </span>
-              <span class="text-xl text-gray-400 mr-4">
+              <span class="font-semibold text-base text-gray-400 mr-4">
                 {totalUserPaperPoint}
               </span>
             </div>
@@ -214,7 +214,7 @@ const Rank = () => {
                   Gems
                 </span>
               </span>
-              <span class="text-xl text-gray-400 mr-4 mb-2">
+              <span class="font-semibold text-base text-gray-400 mr-4 mb-2">
                 {currentUserPaperPoint}
               </span>
             </div>
