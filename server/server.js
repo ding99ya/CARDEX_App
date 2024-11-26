@@ -19,6 +19,7 @@ const CardHistoryScoreModel = require("./models/CardHistoryScoreModel.js");
 const CTournamentModel = require("./models/CTournamentModel.js");
 const PTournamentModel = require("./models/PTournamentModel.js");
 const SubscriptionModel = require("./models/SubscriptionModel.js");
+const WaitlistUserModel = require("./models/WaitlistUserModel.js");
 const path = require("path");
 const axios = require("axios");
 const webpush = require("web-push");
@@ -1071,6 +1072,40 @@ app.post("/api/unsubscribe", async (req, res) => {
   } catch (error) {
     console.error("Error removing subscription:", error);
     res.status(500).json({ error: "Failed to remove subscription" });
+  }
+});
+
+app.get("/api/waitlistUsers/total", async (req, res) => {
+  try {
+    const count = await WaitlistUserModel.countDocuments();
+    res.send(String(count));
+  } catch (error) {
+    console.error("Error in /api/waitlistUsers/total:", error);
+
+    if (error.message.includes("does not exist")) {
+      return res.send("0"); // Return "0" if collection doesn't exist
+    }
+
+    res.status(500).send("0");
+  }
+});
+
+app.post("/api/waitlistUsers", async (req, res) => {
+  const { DID, twitterName, twitterHandle, twitterProfile } = req.body;
+
+  try {
+    waitlistUser = new WaitlistUserModel({
+      DID: DID,
+      twitterName: twitterName,
+      twitterHandle: twitterHandle,
+      twitterProfile: twitterProfile,
+    });
+    await waitlistUser.save();
+
+    res.status(200).json(waitlistUser);
+  } catch (error) {
+    console.error("Error in /api/waitlistUsers:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 

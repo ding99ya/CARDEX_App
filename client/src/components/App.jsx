@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NavigationProvider } from "./NavigationContext";
+import Waitlist from "./Waitlist";
 import CardPage from "./CardPage";
 import PresaleCardPage from "./PresaleCardPage";
 import Market from "./Market.jsx";
@@ -35,6 +36,7 @@ function App() {
     <BrowserRouter>
       <NavigationProvider>
         <Routes>
+          <Route path="/waitlist" element={<Waitlist />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login/invite" element={<InviteCode />} />
           <Route path="/login/username" element={<Username />} />

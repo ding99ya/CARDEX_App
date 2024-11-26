@@ -108,7 +108,7 @@ root.render(
     appId={process.env.REACT_APP_PRIVY_APP_ID}
     config={{
       // Display email and wallet as login methods
-      loginMethods: ["email", "sms", "google"],
+      loginMethods: ["email", "sms", "google", "twitter"],
       // Customize Privy's appearance in your app
       appearance: {
         theme: "light",
