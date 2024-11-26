@@ -722,7 +722,7 @@ function RegisterTournament() {
           {/* Header */}
           <div className="flex justify-center items-center space-x-1 mb-4">
             <h3 className="text-3xl font-bold text-blue-400 mt-8 mb-2">
-              Tournament #1
+              Tournament #{process.env.REACT_APP_CURRENT_TOURNAMENT_ID}
             </h3>
             <img src={flagIcon} alt="Flag Icon" className="mt-8 mb-2 w-8 h-8" />
           </div>
