@@ -12,7 +12,7 @@ const Waitlist = () => {
 
   const [waitlistUsers, setWaitlistUsers] = useState(0);
 
-  const [loginClicked, setLoginClicked] = useState(0);
+  const [fetched, setFetched] = useState(false);
 
   const hasMounted = useRef(false);
 
@@ -27,6 +27,7 @@ const Waitlist = () => {
       try {
         const response = await axios.get(`/api/waitlistUsers/total`);
         setWaitlistUsers(Number(response.data));
+        setFetched(true);
       } catch (error) {
         console.error("Error fetching waitlist users:", error.message);
       }
@@ -110,7 +111,9 @@ const Waitlist = () => {
             }}
             className="text-base font-semibold text-blue-300"
           >
-            {Number(waitlistUsers) + 325} users already in!
+            {fetched
+              ? `${Number(waitlistUsers) + 325} users already in!`
+              : "--- users already in"}
           </p>
 
           <style>
