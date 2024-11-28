@@ -926,7 +926,7 @@ function CardDetailPage() {
             </div>
             <div className="flex justify-between w-full mt-1">
               <span className="text-sm font-semibold font-helvetica">
-                Holders:
+                Supply:
               </span>
               <span className="text-sm font-semibold font-helvetica">
                 {Number(card.shares) + 10}
