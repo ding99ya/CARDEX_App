@@ -929,7 +929,7 @@ function CardDetailPage() {
                 Holders:
               </span>
               <span className="text-sm font-semibold font-helvetica">
-                {card.shares}
+                {Number(card.shares) + 10}
               </span>
             </div>
             <div className="flex justify-between w-full mt-1">

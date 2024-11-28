@@ -961,7 +961,7 @@ function CardPage({ category }) {
                   <div className="flex justify-between w-full px-2 mt-1">
                     <span className="text-sm font-helvetica">Holders:</span>
                     <span className="text-sm font-helvetica">
-                      {card.shares}
+                      {Number(card.shares) + 10}
                     </span>
                   </div>
                 </div>
@@ -1061,7 +1061,9 @@ function CardPage({ category }) {
               </div> */}
                 <div className="flex justify-between w-full px-2 mt-1">
                   <span className="text-sm font-helvetica">Holders:</span>
-                  <span className="text-sm font-helvetica">{card.shares}</span>
+                  <span className="text-sm font-helvetica">
+                    {Number(card.shares) + 10}
+                  </span>
                 </div>
               </div>
               <div className="flex justify-center items-center w-full relative">
