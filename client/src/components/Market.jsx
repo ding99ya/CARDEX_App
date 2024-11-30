@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
 import { useWallets } from "@privy-io/react-auth";
@@ -21,17 +21,48 @@ function Market() {
 
   const { navigateTo } = useNavigation();
 
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
   const handleShopClick = (page) => {
     navigate(`${page}`);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const checkSubscriptionStatus = async () => {
+      try {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.getSubscription();
+        setIsSubscribed(!!subscription);
+        console.log(!!subscription);
+      } catch (error) {
+        console.error("Error checking subscription status:", error);
+      }
+    };
+
+    checkSubscriptionStatus();
   }, []);
 
   return (
     <div className="bg-white flex items-center justify-center">
       <div class="container mx-auto px-2 lg:px-0">
+        <div
+          className={`bg-white text-blue-300 flex justify-between border border-blue-300 items-center rounded-xl p-2 mt-2 ${
+            isSubscribed ? "hidden" : "block"
+          }`}
+        >
+          <span className="text-sm text-blue-300 font-semibold">
+            Enable Notifications to Stay Tuned
+          </span>
+
+          <button
+            onClick={() => setIsSubscribed(true)}
+            className="bg-blue-300 text-white text-sm font-semibold hover:bg-blue-400 hover:text-white transition duration-300 py-1 px-4 rounded-lg"
+          >
+            X
+          </button>
+        </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* <div
             className="w-full mt-2 lg:mt-4 cursor-pointer bg-white rounded-3xl overflow-hidden hover:bg-gray-100 transition duration-300 ease-in-out border border-gray-300"

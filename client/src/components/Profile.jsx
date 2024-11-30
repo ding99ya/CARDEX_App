@@ -730,10 +730,10 @@ function Profile() {
             >
               <img
                 src={isSubscribed ? NotificationOff : NotificationOn}
-                alt={isSubscribed ? "Turn Off" : "Turn On"}
+                alt={isSubscribed ? "Disable" : "Enable"}
                 className="w-4 h-4 mr-1"
               />
-              {isSubscribed ? "Turn Off" : "Turn On"}
+              {isSubscribed ? "Disable" : "Enable"}
             </button>
 
             {/* {walletType === "privy" && ( */}
