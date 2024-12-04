@@ -631,8 +631,8 @@ function CardPage({ category }) {
     { label: "Price", sortKey: "price", ascending: true },
     { label: "Score", sortKey: "currentScore", ascending: false },
     { label: "Score", sortKey: "currentScore", ascending: true },
-    { label: "Holder", sortKey: "shares", ascending: true },
-    { label: "Holder", sortKey: "shares", ascending: false },
+    { label: "Supply", sortKey: "shares", ascending: true },
+    { label: "Supply", sortKey: "shares", ascending: false },
   ];
 
   const sortUpArrow = (

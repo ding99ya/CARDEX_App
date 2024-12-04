@@ -644,15 +644,15 @@ function addCardIPOListener() {
         let rarity;
 
         if (Number(newIPOCard.rarity) === 0) {
-          rarity = "RARE";
+          rarity = "COMMON";
         } else if (Number(newIPOCard.rarity) === 1) {
-          rarity = "EPIC";
-        } else if (Number(newIPOCard.rarity) === 2) {
-          rarity = "LEGEND";
-        } else if (Number(newIPOCard.rarity) === 3) {
-          rarity = "ULTRA";
-        } else {
           rarity = "RARE";
+        } else if (Number(newIPOCard.rarity) === 2) {
+          rarity = "EPIC";
+        } else if (Number(newIPOCard.rarity) === 3) {
+          rarity = "LEGEND";
+        } else {
+          rarity = "COMMON";
         }
 
         const now = new Date();
