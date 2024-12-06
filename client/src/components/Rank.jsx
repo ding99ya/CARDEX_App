@@ -7,7 +7,7 @@ import BronzeMedal from "./BronzeMedal.svg";
 import Gem from "./Gem.png";
 import CardPoint from "./Cardex.jpg";
 import TwitterLogo from "./TwitterLogo.png";
-import PresaleCard from "./PresaleCard.png";
+import Avatar from "./Avatar.png";
 import Score from "./Score.png";
 import { useNavigation } from "./NavigationContext";
 import axios from "axios";
@@ -151,7 +151,7 @@ const Rank = () => {
                 style={{
                   backgroundImage: user.twitter
                     ? `url(${user.twitter.profilePictureUrl})`
-                    : `url(${PresaleCard})`,
+                    : `url(${Avatar})`,
                 }}
               ></span>
               <div className="flex flex-col mt-1">
@@ -331,7 +331,7 @@ const Rank = () => {
                             backgroundImage:
                               user.profilePhoto !== ""
                                 ? `url(${user.profilePhoto})`
-                                : `url(${PresaleCard})`,
+                                : `url(${Avatar})`,
                           }}
                         ></span>
                         <div className="flex flex-col">

@@ -5,6 +5,7 @@ import axios from "axios";
 import ETHSymbol from "./ETHSymbol.png";
 import TwitterLogo from "./TwitterLogo.png";
 import PresaleCard from "./PresaleCard.png";
+import Avatar from "./Avatar.png";
 import sortingIcon from "./Sorting.svg";
 import filterIcon from "./Filter.png";
 import Score from "./Score.png";
@@ -323,7 +324,7 @@ function ViewProfile() {
               style={{
                 backgroundImage: hasTwitter
                   ? `url(${twitterProfilePhoto})`
-                  : `url(${PresaleCard})`,
+                  : `url(${Avatar})`,
               }}
             ></span>
             <div className="flex flex-col mt-1">

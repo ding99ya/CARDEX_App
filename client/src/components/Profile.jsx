@@ -14,6 +14,7 @@ import sortingIcon from "./Sorting.svg";
 import filterIcon from "./Filter.png";
 import Score from "./Score.png";
 import PresaleCard from "./PresaleCard.png";
+import Avatar from "./Avatar.png";
 import DepositModal from "./DepositModal.jsx";
 import WithdrawModal from "./WithdrawModal.jsx";
 import SubscribeModal from "./SubscribeModal.jsx";
@@ -655,7 +656,7 @@ function Profile() {
                 style={{
                   backgroundImage: twitterLinked
                     ? `url(${twitterProfilePhoto})`
-                    : `url(${PresaleCard})`,
+                    : `url(${Avatar})`,
                 }}
               ></span>
               <div className="flex flex-col mt-1">
