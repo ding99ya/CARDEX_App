@@ -904,7 +904,9 @@ function CardDetailPage() {
               </div>
               <span
                 className={`text-sm font-helvetica inline-block px-4 py-1 ${
-                  card.rarity === "RARE"
+                  card.rarity === "COMMON"
+                    ? "bg-green-300"
+                    : card.rarity === "EPIC"
                     ? "bg-sky-300"
                     : card.rarity === "EPIC"
                     ? "bg-purple-300"
