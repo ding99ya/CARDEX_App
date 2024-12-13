@@ -511,11 +511,11 @@ function Inventory() {
                           className={`text-xs font-helvetica inline-block px-2 py-1 ${
                             item.rarity === "COMMON"
                               ? "bg-green-300"
-                              : card.rarity === "RARE"
+                              : item.rarity === "RARE"
                               ? "bg-sky-300"
-                              : card.rarity === "EPIC"
+                              : item.rarity === "EPIC"
                               ? "bg-purple-300"
-                              : card.rarity === "LEGEND"
+                              : item.rarity === "LEGEND"
                               ? "bg-amber-300"
                               : "bg-gray-400"
                           } text-white font-bold rounded-lg text-center`}
