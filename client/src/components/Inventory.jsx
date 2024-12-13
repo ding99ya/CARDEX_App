@@ -93,6 +93,7 @@ function Inventory() {
 
   const filterOptions = [
     { label: "All" },
+    { label: "Common" },
     { label: "Rare" },
     { label: "Epic" },
     { label: "Legend" },
