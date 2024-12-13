@@ -544,11 +544,13 @@ function ViewProfile() {
                           </div>
                           <span
                             className={`text-xs font-helvetica inline-block px-2 py-1 ${
-                              item.rarity === "RARE"
+                              item.rarity === "COMMON"
+                                ? "bg-green-300"
+                                : card.rarity === "RARE"
                                 ? "bg-sky-300"
-                                : item.rarity === "EPIC"
+                                : card.rarity === "EPIC"
                                 ? "bg-purple-300"
-                                : item.rarity === "LEGEND"
+                                : card.rarity === "LEGEND"
                                 ? "bg-amber-300"
                                 : "bg-gray-400"
                             } text-white font-bold rounded-lg text-center`}
