@@ -18,12 +18,12 @@ const { BigNumber } = require("bignumber.js");
 
 // Alchemy configuration to fetch info from blockchain and set up info
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-const web3 = createAlchemyWeb3(process.env.REACT_APP_ALCHEMY_KEY);
+const web3 = createAlchemyWeb3(process.env.REACT_APP_ABSTRACT_ALCHEMY_KEY);
 
 // CardexV1 contract instance
 const contract = new web3.eth.Contract(
   abi,
-  process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR
+  process.env.REACT_APP_ABSTRACT_CARDEXV1_CONTRACT_ADDR
 );
 
 const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
