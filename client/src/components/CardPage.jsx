@@ -448,8 +448,8 @@ function CardPage({ category }) {
     });
 
     const transaction = {
-      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-      chainId: 84532,
+      to: process.env.REACT_APP_ABSTRACT_CARDEXV1_CONTRACT_ADDR,
+      chainId: 11124,
       data: data,
       value: ethers.BigNumber.from(value).toHexString(),
     };

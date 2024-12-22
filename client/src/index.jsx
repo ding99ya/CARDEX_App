@@ -4,7 +4,7 @@ import App from "./components/App";
 import axios from "axios";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { AuthProvider } from "./components/AuthContext";
-import { base, baseSepolia, mainnet } from "viem/chains";
+import { base, baseSepolia, mainnet, abstractTestnet } from "viem/chains";
 import { Buffer } from "buffer";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 window.Buffer = Buffer;
@@ -123,8 +123,8 @@ root.render(
           secondary: "fiat-currency",
         },
       },
-      defaultChain: baseSepolia,
-      supportedChains: [baseSepolia, base, mainnet],
+      defaultChain: abstractTestnet,
+      supportedChains: [abstractTestnet],
     }}
   >
     <AuthProvider>

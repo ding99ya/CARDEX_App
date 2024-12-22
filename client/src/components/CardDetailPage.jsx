@@ -329,8 +329,8 @@ function CardDetailPage() {
     });
 
     const transaction = {
-      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-      chainId: 84532,
+      to: process.env.REACT_APP_ABSTRACT_CARDEXV1_CONTRACT_ADDR,
+      chainId: 11124,
       data: data,
       value: BigNumber.from(value).toHexString(),
     };
@@ -383,8 +383,8 @@ function CardDetailPage() {
     });
 
     const transaction = {
-      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-      chainId: 84532,
+      to: process.env.REACT_APP_ABSTRACT_CARDEXV1_CONTRACT_ADDR,
+      chainId: 11124,
       data: data,
     };
     try {
@@ -432,8 +432,8 @@ function CardDetailPage() {
     });
 
     const transaction = {
-      to: process.env.REACT_APP_CARDEXV1_CONTRACT_ADDR,
-      chainId: 84532,
+      to: process.env.REACT_APP_ABSTRACT_CARDEXV1_CONTRACT_ADDR,
+      chainId: 11124,
       data: data,
     };
 
