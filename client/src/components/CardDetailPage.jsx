@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useAccount, useSendTransaction } from "wagmi";
 import { useLocation, useParams } from "react-router-dom";
 import { encodeFunctionData } from "viem";
 import { Contract, providers, BigNumber } from "ethers";
@@ -25,7 +26,10 @@ const web3 = createAlchemyWeb3(process.env.REACT_APP_ABSTRACT_ALCHEMY_KEY);
 const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
 
 function CardDetailPage() {
-  const { sendTransaction, user } = usePrivy();
+  // const { sendTransaction, user } = usePrivy();
+  const { user } = usePrivy();
+  const { sendTransaction, isPending } = useSendTransaction();
+  const { address, status } = useAccount();
   const { wallets } = useWallets();
   const embeddedWalletAddress = user.wallet.address;
 
@@ -317,6 +321,30 @@ function CardDetailPage() {
   //   return "0x" + hexString.slice(2).replace(/^0+/, "");
   // };
 
+  // Function to buy certain amount of shares on Abstract Testnet
+  const buyOnAbstract = async (shares, value) => {
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "buyShares",
+      args: [uniqueId, parseInt(shares)],
+    });
+
+    const transaction = {
+      to: process.env.REACT_APP_ABSTRACT_CARDEXV1_CONTRACT_ADDR,
+      chainId: 11124,
+      data: data,
+      value: BigNumber.from(value).toHexString(),
+    };
+
+    try {
+      sendTransaction(transaction);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setOpenBuyModal(false);
+  };
+
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
     // const walletType = wallets[0].walletClientType;
@@ -369,6 +397,28 @@ function CardDetailPage() {
     // }
 
     setOpenBuyModal(false);
+  };
+
+  // Function to sell certain amount of shares on Abstract Testnet
+  const sellOnAbstract = async (shares) => {
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "sellShares",
+      args: [uniqueId, parseInt(shares)],
+    });
+
+    const transaction = {
+      to: process.env.REACT_APP_ABSTRACT_CARDEXV1_CONTRACT_ADDR,
+      chainId: 11124,
+      data: data,
+    };
+    try {
+      sendTransaction(transaction);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setOpenSellModal(false);
   };
 
   // Function to sell certain amount of shares
@@ -484,7 +534,7 @@ function CardDetailPage() {
   // Function to fetch user's current shares from blockchain
   const loadUserShares = async () => {
     const userShares = await contract.methods
-      .sharesBalance(uniqueId, embeddedWalletAddress)
+      .sharesBalance(uniqueId, address)
       .call();
     return userShares.toString();
   };
@@ -529,6 +579,10 @@ function CardDetailPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
+    console.log("User:", user);
+
+    console.log("Address:", address);
+
     // Fetch card with specific uniqueId
     const fetchCardData = async () => {
       try {
@@ -565,7 +619,7 @@ function CardDetailPage() {
         try {
           const response = await axios.get(`/api/ctournament/lockedCount`, {
             params: {
-              walletAddress: embeddedWalletAddress,
+              walletAddress: address,
               uniqueId: uniqueId,
             },
           });
@@ -1205,7 +1259,7 @@ function CardDetailPage() {
       <BuyModal
         open={openBuyModal}
         onClose={() => setOpenBuyModal(false)}
-        buy={buy}
+        buy={buyOnAbstract}
         fetchCost={fetchCost}
         cardName={card.name}
         cardPhoto={card.photo}
@@ -1216,7 +1270,7 @@ function CardDetailPage() {
         userShares={userShares}
         lockedShares={locked}
         onClose={() => setOpenSellModal(false)}
-        sell={sell}
+        sell={sellOnAbstract}
         fetchProfit={fetchProfit}
         cardName={card.name}
         cardPhoto={card.photo}
