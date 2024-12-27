@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useAbstractPrivyLogin } from "@abstract-foundation/agw-react/privy";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CardexWebsite from "./CardexWebsite.jpg";
@@ -7,7 +8,8 @@ import OnboardBg from "./OnboardBg.png";
 import "../index.css";
 
 const Login = () => {
-  const { ready, authenticated, login, user } = usePrivy();
+  const { ready, authenticated, user } = usePrivy();
+  const { login } = useAbstractPrivyLogin();
   const navigate = useNavigate();
 
   const [promptVisible, setPromptVisible] = useState(false);

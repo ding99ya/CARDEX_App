@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./components/App";
 import axios from "axios";
 import { PrivyProvider } from "@privy-io/react-auth";
+import { AbstractPrivyProvider } from "@abstract-foundation/agw-react/privy";
 import { AuthProvider } from "./components/AuthContext";
 import { base, baseSepolia, mainnet, abstractTestnet } from "viem/chains";
 import { Buffer } from "buffer";
@@ -103,8 +104,40 @@ serviceWorkerRegistration.register();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+// This is for normal Privy embedded wallets
+// root.render(
+//   <PrivyProvider
+//     appId={process.env.REACT_APP_PRIVY_APP_ID}
+//     config={{
+//       // Display email and wallet as login methods
+//       loginMethods: ["email", "sms", "google", "twitter"],
+//       // Customize Privy's appearance in your app
+//       appearance: {
+//         theme: "light",
+//         accentColor: "#676FFF",
+//         logo: "/Cardex.jpg",
+//       },
+//       // Create embedded wallets for users who don't have a wallet
+//       embeddedWallets: {
+//         createOnLogin: "users-without-wallets",
+//         priceDisplay: {
+//           primary: "native-token",
+//           secondary: "fiat-currency",
+//         },
+//       },
+//       defaultChain: abstractTestnet,
+//       supportedChains: [abstractTestnet],
+//     }}
+//   >
+//     <AuthProvider>
+//       <App />
+//     </AuthProvider>
+//   </PrivyProvider>
+// );
+
+// This is for integration of Abstract Global Wallet (AGW) into Privy app
 root.render(
-  <PrivyProvider
+  <AbstractPrivyProvider
     appId={process.env.REACT_APP_PRIVY_APP_ID}
     config={{
       // Display email and wallet as login methods
@@ -130,5 +163,5 @@ root.render(
     <AuthProvider>
       <App />
     </AuthProvider>
-  </PrivyProvider>
+  </AbstractPrivyProvider>
 );
