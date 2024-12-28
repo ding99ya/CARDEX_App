@@ -413,7 +413,7 @@ function CardDetailPage() {
       data: data,
     };
     try {
-      sendTransaction(transaction);
+      await sendTransaction(transaction);
     } catch (error) {
       console.log(error);
     }

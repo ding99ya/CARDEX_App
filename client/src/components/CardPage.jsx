@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useAccount, useSendTransaction } from "wagmi";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import abi from "../CardexV1.json";
 import axios from "axios";
@@ -29,7 +30,10 @@ const contract = new web3.eth.Contract(
 const socket = io("https://cardex-backend-api-97f9d94676f3.herokuapp.com/");
 
 function CardPage({ category }) {
-  const { sendTransaction, user } = usePrivy();
+  // const { sendTransaction, user } = usePrivy();
+  const { user } = usePrivy();
+  const { sendTransaction, isPending } = useSendTransaction();
+  const { address, status } = useAccount();
   const { wallets } = useWallets();
 
   const location = useLocation();
@@ -435,6 +439,30 @@ function CardPage({ category }) {
   // const removeLeadingZeroFromHex = (hexString) => {
   //   return "0x" + hexString.slice(2).replace(/^0+/, "");
   // };
+
+  // Function to buy certain amount of shares on Abstract Testnet
+  const buyOnAbstract = async (shares, value) => {
+    const data = encodeFunctionData({
+      abi: abi,
+      functionName: "buyShares",
+      args: [currentBuyCardId, parseInt(shares)],
+    });
+
+    const transaction = {
+      to: process.env.REACT_APP_ABSTRACT_CARDEXV1_CONTRACT_ADDR,
+      chainId: 11124,
+      data: data,
+      value: ethers.BigNumber.from(value).toHexString(),
+    };
+
+    try {
+      await sendTransaction(transaction);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setOpenBuyModal(false);
+  };
 
   // Function to buy certain amount of shares
   const buy = async (shares, value, buyUiConfig) => {
@@ -1101,7 +1129,7 @@ function CardPage({ category }) {
               setCurrentBuyCardName("");
               setCurrentBuyCardPhoto("");
             }}
-            buy={buy}
+            buy={buyOnAbstract}
             fetchCost={fetchCost}
             cardName={currentBuyCardName}
             cardPhoto={currentBuyCardPhoto}
