@@ -51,7 +51,8 @@ const Login = () => {
   useEffect(() => {
     // Check if the user is on iOS Safari and hasn't installed the PWA yet
     if (isIOS() && !isInStandaloneMode()) {
-      setPromptVisible(true);
+      // setPromptVisible(true);
+      setPromptVisible(false);
     } else {
       console.log("This device not in iOS");
     }
