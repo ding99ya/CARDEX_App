@@ -337,7 +337,7 @@ function CardDetailPage() {
     };
 
     try {
-      sendTransaction(transaction);
+      await sendTransaction(transaction);
       alert("Success buy");
     } catch (error) {
       alert(error);
