@@ -24,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
       // const wallet = user.wallet.address;
       setValidWallet(false);
     }
-  }, [ready, user, address]);
+  }, [ready, address]);
 
   useEffect(() => {
     const validateInvitedAndUsername = async () => {
