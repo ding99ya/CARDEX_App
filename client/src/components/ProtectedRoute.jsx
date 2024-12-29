@@ -19,10 +19,6 @@ const ProtectedRoute = ({ children }) => {
       setIsReady(true);
       // const wallet = user.wallet.address;
       setValidWallet(address ? true : false);
-    } else if (ready && !address) {
-      setIsReady(true);
-      // const wallet = user.wallet.address;
-      setValidWallet(false);
     }
   }, [ready, address]);
 
