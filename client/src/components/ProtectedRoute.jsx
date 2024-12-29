@@ -15,12 +15,12 @@ const ProtectedRoute = ({ children }) => {
   // const { wallets } = useWallets();
 
   useEffect(() => {
-    if (ready) {
+    if (ready && address) {
       setIsReady(true);
       // const wallet = user.wallet.address;
       setValidWallet(address ? true : false);
     }
-  }, [ready, user]);
+  }, [ready, user, address]);
 
   useEffect(() => {
     const validateInvitedAndUsername = async () => {
