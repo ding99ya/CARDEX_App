@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import classNames from "classnames";
@@ -10,6 +11,7 @@ import "../index.css";
 
 const Username = () => {
   const { ready, authenticated, login, logout, user } = usePrivy();
+  const { address, status } = useAccount();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -31,9 +33,7 @@ const Username = () => {
       }
       const embeddedWalletAddress = user.wallet.address;
 
-      const response = await axios.get(
-        `/api/users/${embeddedWalletAddress.toString()}`
-      );
+      const response = await axios.get(`/api/users/${address.toString()}`);
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
       } else if (response.data.invited && response.data.username.length === 0) {
@@ -53,12 +53,12 @@ const Username = () => {
   };
 
   useEffect(() => {
-    if (ready && authenticated) {
+    if (ready && authenticated && address) {
       fetchUserAndNavigate();
     } else if (ready && !authenticated) {
       navigate("/login");
     }
-  }, [ready, authenticated, user]);
+  }, [ready, authenticated, user, address]);
 
   const handleUsernameChange = (e) => {
     const name = e.target.value;
@@ -97,7 +97,7 @@ const Username = () => {
         } else {
           const leaderboardResponse = await axios.post("/api/leaderboard", {
             DID: user.id,
-            walletAddress: user.wallet.address.toString(),
+            walletAddress: address.toString(),
             name: "",
             userName: username,
             profilePhoto: "",
@@ -110,7 +110,7 @@ const Username = () => {
           const inviteCodeResponse = await axios.patch(
             `/api/users/nameandcode`,
             {
-              walletAddress: user.wallet.address.toString(),
+              walletAddress: address.toString(),
               username: username.toString(),
               inviteCode: generatedCode,
             }

@@ -25,37 +25,44 @@ const pricesSchema = new mongoose.Schema({
 // Create the model for the prices collection
 const Prices = mongoose.model("prices", pricesSchema);
 
-// Define the card inventory schema
-const cardInventorySchema = new mongoose.Schema({
-  uniqueId: { type: String, required: true },
-  shares: { type: Number, required: true },
-});
-
-// Define the users schema
-const usersSchema = new mongoose.Schema({
-  walletAddress: { type: String, required: true, unique: true },
-  invited: { type: Boolean, default: false },
-  paperPoints: { type: Number, required: true },
-  cardInventory: { type: [cardInventorySchema], required: true },
-});
-
-// Create the model for the prices collection
-// Create the model for the prices collection
-const users = mongoose.model("users", usersSchema);
-
 // Function to create experimental data and push it to the collection
 const createAndPushExperimentalData = async () => {
-  const uniqueId = "15";
-  const initialPrice = 0.001;
-  const initialTime = new Date("2024-05-23T01:51:41.098Z");
-  const priceStep = 0.0001;
+  const uniqueId = "9";
+  const initialPrice = 0.02;
+  const finalPrice = 1.6;
+  const initialTime = new Date("2024-12-28T01:51:41.098Z");
   const timeStep = 1000; // 1 second in milliseconds
+  const dataPoints = 150;
 
   const priceHistory = [];
+  let currentPrice = initialPrice;
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < dataPoints; i++) {
+    // Simulate realistic price movement with upward trend
+    const priceChange = Math.random() * 0.025 - 0.01; // Slightly larger fluctuations (-0.01 to +0.015)
+    currentPrice += priceChange;
+
+    // Add a strong upward movement occasionally to simulate a pump
+    if (Math.random() < 0.25) {
+      currentPrice += Math.random() * 0.07; // Larger pump
+    }
+
+    // Add a sell-off occasionally
+    if (Math.random() < 0.12) {
+      currentPrice -= Math.random() * 0.05; // Slightly larger dip
+    }
+
+    // Ensure the price stays within bounds and progresses toward the final price
+    currentPrice = Math.max(
+      currentPrice,
+      initialPrice + ((finalPrice - initialPrice) / dataPoints) * i
+    );
+
+    currentPrice = Math.min(currentPrice, finalPrice);
+
+    // Push the price and timestamp into the history
     priceHistory.push({
-      price: initialPrice + i * priceStep,
+      price: parseFloat(currentPrice.toFixed(3)), // Round to 3 decimals
       time: new Date(initialTime.getTime() + i * timeStep),
     });
   }

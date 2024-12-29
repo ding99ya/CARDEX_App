@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../index.css";
@@ -9,6 +10,7 @@ import OnboardBg from "./OnboardBg.png";
 
 const InviteCode = () => {
   const { ready, authenticated, login, logout, user } = usePrivy();
+  const { address, status } = useAccount();
   const navigate = useNavigate();
 
   const [inviteCode, setInviteCode] = useState("");
@@ -31,9 +33,7 @@ const InviteCode = () => {
       }
       const embeddedWalletAddress = user.wallet.address;
 
-      const response = await axios.get(
-        `/api/users/${embeddedWalletAddress.toString()}`
-      );
+      const response = await axios.get(`/api/users/${address.toString()}`);
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
       } else if (response.data.invited && response.data.username.length === 0) {
@@ -53,12 +53,12 @@ const InviteCode = () => {
   };
 
   useEffect(() => {
-    if (ready && authenticated) {
+    if (ready && authenticated && address) {
       fetchUserAndNavigate();
     } else if (ready && !authenticated) {
       navigate("/login");
     }
-  }, [ready, authenticated, user]);
+  }, [ready, authenticated, user, address]);
 
   const handleInviteCodeChange = (e) => {
     const code = e.target.value;
@@ -124,7 +124,7 @@ const InviteCode = () => {
       try {
         const userResponse = await axios.post(`/api/users`, {
           DID: user.id,
-          walletAddress: user.wallet.address.toString(),
+          walletAddress: address.toString(),
           username: "",
           invited: true,
           cardInventory: [],

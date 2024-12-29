@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useAccount } from "wagmi";
 import axios from "axios";
 
 const ProtectedRoute = ({ children }) => {
@@ -10,13 +11,14 @@ const ProtectedRoute = ({ children }) => {
   const [validUsername, setValidUsername] = useState(null);
 
   const { ready, authenticated, user } = usePrivy();
+  const { address, status } = useAccount();
   // const { wallets } = useWallets();
 
   useEffect(() => {
     if (ready) {
       setIsReady(true);
       // const wallet = user.wallet.address;
-      setValidWallet(user ? true : false);
+      setValidWallet(address ? true : false);
     }
   }, [ready, user]);
 
@@ -24,9 +26,8 @@ const ProtectedRoute = ({ children }) => {
     const validateInvitedAndUsername = async () => {
       if (validWallet) {
         try {
-          const response = await axios.get(
-            `/api/users/${user.wallet.address.toString()}`
-          );
+          const response = await axios.get(`/api/users/${address.toString()}`);
+          console.log(address);
 
           setValidInvited(response.data.invited);
 

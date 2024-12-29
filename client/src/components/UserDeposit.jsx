@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth";
+import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import { Contract, providers, BigNumber, utils } from "ethers";
 import CopyIcon from "./Copy-Icon.jpg";
@@ -11,6 +12,7 @@ const UserDeposit = () => {
   const navigate = useNavigate();
   const { fundWallet } = useFundWallet();
   const { ready, authenticated, login, user } = usePrivy();
+  const { address, status } = useAccount();
 
   const [embeddedWalletAddress, setEmbeddedWalletAddress] = useState("");
   const [shortAddress, setShortAddress] = useState("");
@@ -18,20 +20,16 @@ const UserDeposit = () => {
   const [depositCopied, setDepositCopied] = useState(false);
 
   useEffect(() => {
-    if (ready && authenticated) {
-      setEmbeddedWalletAddress(user.wallet.address);
+    if (ready && authenticated && address) {
+      setEmbeddedWalletAddress(address);
       setShortAddress(
-        !!user.wallet.address
-          ? `${user.wallet.address.slice(0, 10)}...${user.wallet.address.slice(
-              -8
-            )}`
-          : "0x0"
+        !!address ? `${address.slice(0, 10)}...${address.slice(-8)}` : "0x0"
       );
     }
-  }, [ready, authenticated, user]);
+  }, [ready, authenticated, user, address]);
 
   const handleDepositCopy = () => {
-    navigator.clipboard.writeText(embeddedWalletAddress).then(() => {
+    navigator.clipboard.writeText(address).then(() => {
       setDepositCopied(true);
       setTimeout(() => setDepositCopied(false), 2000);
     });
@@ -81,9 +79,7 @@ const UserDeposit = () => {
         <div className="flex flex-col items-start space-y-2 mt-4">
           <p className="text-gray-400">Transfer ETH on Base network to </p>
           <div className="flex items-center">
-            <p className="text-xs lg:text-sm text-gray-400">
-              {embeddedWalletAddress}
-            </p>
+            <p className="text-xs lg:text-sm text-gray-400">{address}</p>
             <span
               className="relative cursor-pointer"
               onMouseEnter={() => setDepositHover(true)}
@@ -132,7 +128,7 @@ const UserDeposit = () => {
         <div className="flex flex-col items-center space-y-2 mt-4 w-full max-w-xs mx-auto">
           <button
             className="w-full px-4 py-2 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
-            onClick={() => fundWallet(embeddedWalletAddress.toString())}
+            onClick={() => fundWallet(address.toString())}
           >
             <span className="font-semibold">Transfer</span>
           </button>

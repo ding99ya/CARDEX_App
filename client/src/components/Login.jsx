@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useAccount } from "wagmi";
 import { useAbstractPrivyLogin } from "@abstract-foundation/agw-react/privy";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,7 +9,9 @@ import OnboardBg from "./OnboardBg.png";
 import "../index.css";
 
 const Login = () => {
+  const { address, status } = useAccount();
   const { ready, authenticated, user } = usePrivy();
+
   const { login } = useAbstractPrivyLogin();
   const navigate = useNavigate();
 
@@ -18,9 +21,7 @@ const Login = () => {
     try {
       const embeddedWalletAddress = user.wallet.address;
 
-      const response = await axios.get(
-        `/api/users/${embeddedWalletAddress.toString()}`
-      );
+      const response = await axios.get(`/api/users/${address.toString()}`);
 
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
@@ -51,18 +52,17 @@ const Login = () => {
   useEffect(() => {
     // Check if the user is on iOS Safari and hasn't installed the PWA yet
     if (isIOS() && !isInStandaloneMode()) {
-      // setPromptVisible(true);
-      setPromptVisible(false);
+      setPromptVisible(true);
     } else {
       console.log("This device not in iOS");
     }
   }, []);
 
   useEffect(() => {
-    if (ready && authenticated && user) {
+    if (ready && authenticated && user && address) {
       fetchUserAndNavigate();
     }
-  }, [user]);
+  }, [user, address]);
 
   const handleLogin = () => {
     try {

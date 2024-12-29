@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth";
+import { useAccount, useSendTransaction } from "wagmi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { Contract, providers, BigNumber } from "ethers";
@@ -40,21 +41,22 @@ function Profile() {
 
   const { fundWallet } = useFundWallet();
 
-  const {
-    logout,
-    exportWallet,
-    sendTransaction,
-    user,
-    linkTwitter,
-    unlinkTwitter,
-  } = usePrivy();
+  // const {
+  //   logout,
+  //   exportWallet,
+  //   sendTransaction,
+  //   user,
+  //   linkTwitter,
+  //   unlinkTwitter,
+  // } = usePrivy();
+  const { logout, exportWallet, user, linkTwitter, unlinkTwitter } = usePrivy();
+  const { sendTransaction, isPending } = useSendTransaction();
+  const { address, status } = useAccount();
   const { wallets } = useWallets();
   const embeddedWalletAddress = user ? user.wallet.address : 0;
   const walletType = user ? wallets[0].walletClientType : "";
-  const shortAddress = !!embeddedWalletAddress
-    ? `${embeddedWalletAddress.slice(0, 6)}...${embeddedWalletAddress.slice(
-        -4
-      )}`
+  const shortAddress = !!address
+    ? `${address.slice(0, 6)}...${address.slice(-4)}`
     : "0x0";
   const twitterProfilePhoto = user
     ? !!user.twitter
@@ -93,7 +95,7 @@ function Profile() {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(embeddedWalletAddress).then(() => {
+    navigator.clipboard.writeText(address).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -131,18 +133,13 @@ function Profile() {
     // Fetch users positions (card ids and corresponding shares)
     const fetchUserPosition = async () => {
       try {
-        const response = await axios.get(
-          `/api/users/${embeddedWalletAddress.toString()}`
-        );
+        const response = await axios.get(`/api/users/${address.toString()}`);
 
         setCurrentInviteCode(response.data.inviteCode);
         setCurrentUsername(response.data.username);
         setInventory(response.data.cardInventory);
       } catch (error) {
-        console.error(
-          `Error fetching user ${embeddedWalletAddress} card inventory`,
-          error
-        );
+        console.error(`Error fetching user ${address} card inventory`, error);
       }
     };
     fetchUserPosition();
@@ -165,17 +162,14 @@ function Profile() {
 
     const fetchUserWalletBalance = async () => {
       try {
-        const balance = await web3.eth.getBalance(embeddedWalletAddress);
+        const balance = await web3.eth.getBalance(address);
         const balanceToBigNumber = BigNumber.from(balance);
         const oneEther = BigNumber.from("1000000000000000000");
         const balanceInETH =
           Number(balanceToBigNumber.mul(1000).div(oneEther)) / 1000;
         setUserETHBalance(balanceInETH);
       } catch (error) {
-        console.error(
-          `Error fetching user ${embeddedWalletAddress} wallet balance`,
-          error
-        );
+        console.error(`Error fetching user ${address} wallet balance`, error);
       }
     };
     fetchUserWalletBalance();
@@ -361,7 +355,7 @@ function Profile() {
 
     try {
       const txReceipt = await sendTransaction(transaction, transferUiConfig);
-      const balance = await web3.eth.getBalance(embeddedWalletAddress);
+      const balance = await web3.eth.getBalance(address);
       const balanceToBigNumber = BigNumber.from(balance);
       const oneEther = BigNumber.from("1000000000000000000");
       const balanceInETH =
@@ -398,7 +392,7 @@ function Profile() {
   const batchLoadUserFee = async () => {
     const uniqueIds = userCards.map((card) => Number(card.uniqueId));
     const userFee = await contract.methods
-      .batchGetFee(uniqueIds, embeddedWalletAddress)
+      .batchGetFee(uniqueIds, address)
       .call();
     return userFee.toString();
   };
@@ -1039,7 +1033,7 @@ function Profile() {
           onClose={() => {
             setOpenDepositModal(false);
           }}
-          embeddedWalletAddress={embeddedWalletAddress}
+          embeddedWalletAddress={address}
           fundWallet={fundWallet}
           className="z-60"
         />
