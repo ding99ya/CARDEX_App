@@ -19,7 +19,7 @@ const Login = () => {
 
   const fetchUserAndNavigate = async () => {
     try {
-      const embeddedWalletAddress = user.wallet.address;
+      // const embeddedWalletAddress = user.wallet.address;
 
       const response = await axios.get(`/api/users/${address.toString()}`);
 
@@ -59,10 +59,10 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if (ready && authenticated && user && address) {
+    if (ready && authenticated && address) {
       fetchUserAndNavigate();
     }
-  }, [user, address]);
+  }, [address]);
 
   const handleLogin = () => {
     try {
