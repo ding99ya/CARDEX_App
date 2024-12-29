@@ -10,8 +10,9 @@ const ProtectedRoute = ({ children }) => {
   const [validInvited, setValidInvited] = useState(null);
   const [validUsername, setValidUsername] = useState(null);
 
-  const { ready, authenticated, user } = usePrivy();
   const { address, status } = useAccount();
+  const { ready, authenticated, user } = usePrivy();
+
   // const { wallets } = useWallets();
 
   useEffect(() => {
@@ -19,8 +20,12 @@ const ProtectedRoute = ({ children }) => {
       setIsReady(true);
       // const wallet = user.wallet.address;
       setValidWallet(address ? true : false);
+    } else if (ready && status === "disconnected") {
+      setIsReady(true);
+      // const wallet = user.wallet.address;
+      setValidWallet(false);
     }
-  }, [ready, address]);
+  }, [ready, status]);
 
   useEffect(() => {
     const validateInvitedAndUsername = async () => {
