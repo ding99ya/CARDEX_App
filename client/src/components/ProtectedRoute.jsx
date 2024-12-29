@@ -16,6 +16,7 @@ const ProtectedRoute = ({ children }) => {
   // const { wallets } = useWallets();
 
   useEffect(() => {
+    console.log(status);
     if (ready && address) {
       setIsReady(true);
       // const wallet = user.wallet.address;
@@ -32,7 +33,6 @@ const ProtectedRoute = ({ children }) => {
       if (validWallet) {
         try {
           const response = await axios.get(`/api/users/${address.toString()}`);
-          console.log(address);
 
           setValidInvited(response.data.invited);
 
