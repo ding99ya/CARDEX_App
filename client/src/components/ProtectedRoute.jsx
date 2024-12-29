@@ -16,17 +16,16 @@ const ProtectedRoute = ({ children }) => {
   // const { wallets } = useWallets();
 
   useEffect(() => {
-    console.log(status);
     if (ready && address) {
       setIsReady(true);
       // const wallet = user.wallet.address;
       setValidWallet(address ? true : false);
-    } else if (ready && status === "disconnected") {
+    } else if (ready && !user) {
       setIsReady(true);
       // const wallet = user.wallet.address;
       setValidWallet(false);
     }
-  }, [ready, status]);
+  }, [ready, address]);
 
   useEffect(() => {
     const validateInvitedAndUsername = async () => {
