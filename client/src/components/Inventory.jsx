@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth";
+import { useAccount, useSendTransaction } from "wagmi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { Contract, providers, BigNumber } from "ethers";
@@ -43,6 +44,7 @@ function Inventory() {
     unlinkTwitter,
   } = usePrivy();
   const { wallets } = useWallets();
+  const { address, status } = useAccount();
   const embeddedWalletAddress = user ? user.wallet.address : 0;
   const walletType = user ? wallets[0].walletClientType : "";
 
@@ -150,17 +152,12 @@ function Inventory() {
     const fetchUserPosition = async () => {
       try {
         setLoadInventory(true);
-        const response = await axios.get(
-          `/api/users/${embeddedWalletAddress.toString()}`
-        );
+        const response = await axios.get(`/api/users/${address.toString()}`);
 
         setInventory(response.data.cardInventory);
         setLoadInventory(false);
       } catch (error) {
-        console.error(
-          `Error fetching user ${embeddedWalletAddress} card inventory`,
-          error
-        );
+        console.error(`Error fetching user ${address} card inventory`, error);
       }
     };
     fetchUserPosition();
@@ -270,7 +267,7 @@ function Inventory() {
     const uniqueIds = userCards.map((card) => Number(card.uniqueId));
     console.log(uniqueIds);
     const userFee = await contract.methods
-      .batchGetFee(uniqueIds, embeddedWalletAddress)
+      .batchGetFee(uniqueIds, address)
       .call();
     return userFee.toString();
   };
