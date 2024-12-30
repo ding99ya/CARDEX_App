@@ -55,6 +55,7 @@ const Username = () => {
   };
 
   useEffect(() => {
+    console.log("In username the address is: ", address);
     if (ready && authenticated) {
       fetchUserAndNavigate();
     } else if (ready && !authenticated) {

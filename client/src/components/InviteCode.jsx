@@ -46,7 +46,7 @@ const InviteCode = () => {
     } catch (error) {
       if (error.response && error.response.status === 404) {
         // User not found, handle the 404 error
-        navigate("/login/invite");
+        // navigate("/login/invite");
       } else {
         // Other errors (e.g., network errors, server errors)
         console.error("Error fetching user:", error.message);
@@ -55,11 +55,13 @@ const InviteCode = () => {
   };
 
   useEffect(() => {
+    console.log("In invite code the address is: ", address);
     if (ready && authenticated) {
       fetchUserAndNavigate();
-    } else if (ready && !authenticated) {
-      navigate("/login");
     }
+    // } else if (ready && !authenticated) {
+    //   navigate("/login");
+    // }
   }, [ready, authenticated, user]);
 
   const handleInviteCodeChange = (e) => {

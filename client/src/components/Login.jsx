@@ -19,6 +19,7 @@ const Login = () => {
 
   const fetchUserAndNavigate = async () => {
     try {
+      console.log("user wallet is: ", user.wallet);
       const embeddedWalletAddress = user.wallet.address;
 
       const response = await axios.get(
@@ -30,12 +31,14 @@ const Login = () => {
       } else if (response.data.invited && response.data.username.length === 0) {
         navigate("/login/username");
       } else if (!response.data.invited) {
-        navigate("/login/invite");
+        // navigate("/login/invite");
+        window.location.href = "/login/invite";
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
         // User not found, handle the 404 error
-        navigate("/login/invite");
+        // navigate("/login/invite");
+        window.location.href = "/login/invite";
       } else {
         // Other errors (e.g., network errors, server errors)
         console.error("Error fetching user:", error.message);
@@ -62,6 +65,7 @@ const Login = () => {
 
   useEffect(() => {
     if (ready && authenticated && user) {
+      console.log("In login page address is: ", address);
       fetchUserAndNavigate();
     }
   }, [user]);
