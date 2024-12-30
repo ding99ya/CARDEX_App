@@ -133,13 +133,18 @@ function Profile() {
     // Fetch users positions (card ids and corresponding shares)
     const fetchUserPosition = async () => {
       try {
-        const response = await axios.get(`/api/users/${address.toString()}`);
+        const response = await axios.get(
+          `/api/users/${embeddedWalletAddress.toString()}`
+        );
 
         setCurrentInviteCode(response.data.inviteCode);
         setCurrentUsername(response.data.username);
         setInventory(response.data.cardInventory);
       } catch (error) {
-        console.error(`Error fetching user ${address} card inventory`, error);
+        console.error(
+          `Error fetching user ${embeddedWalletAddress} card inventory`,
+          error
+        );
       }
     };
     fetchUserPosition();
