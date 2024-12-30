@@ -30,6 +30,7 @@ const Username = () => {
     try {
       if (!user) {
         navigate("/login");
+        // window.location.href = "/login";
       }
       const embeddedWalletAddress = user.wallet.address;
 
@@ -38,15 +39,19 @@ const Username = () => {
       );
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
+        // window.location.href = "/market";
       } else if (response.data.invited && response.data.username.length === 0) {
         navigate("/login/username");
+        // window.location.href = "/login/username";
       } else if (!response.data.invited) {
         navigate("/login/invite");
+        // window.location.href = "/login/invite";
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
         // User not found, handle the 404 error
         navigate("/login/invite");
+        // window.location.href = "/login/invite";
       } else {
         // Other errors (e.g., network errors, server errors)
         console.error("Error fetching user:", error.message);
@@ -60,6 +65,7 @@ const Username = () => {
       fetchUserAndNavigate();
     } else if (ready && !authenticated) {
       navigate("/login");
+      // window.location.href = "/login";
     }
   }, [ready, authenticated, user]);
 
@@ -134,6 +140,7 @@ const Username = () => {
           );
 
           navigate("/login/userdeposit");
+          // window.location.href = "/login/userdeposit";
         }
       } catch (error) {
         console.log(error);

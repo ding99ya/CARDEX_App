@@ -27,9 +27,11 @@ const Login = () => {
       );
 
       if (response.data.invited && response.data.username.length > 0) {
-        navigate("/market");
+        // navigate("/market");
+        window.location.href = "/market";
       } else if (response.data.invited && response.data.username.length === 0) {
-        navigate("/login/username");
+        // navigate("/login/username");
+        window.location.href = "/login/username";
       } else if (!response.data.invited) {
         // navigate("/login/invite");
         window.location.href = "/login/invite";

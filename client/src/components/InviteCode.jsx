@@ -30,6 +30,7 @@ const InviteCode = () => {
     try {
       if (!user) {
         navigate("/login");
+        // window.location.href = "/login";
       }
       const embeddedWalletAddress = user.wallet.address;
 
@@ -38,10 +39,13 @@ const InviteCode = () => {
       );
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
+        // window.location.href = "/market";
       } else if (response.data.invited && response.data.username.length === 0) {
         navigate("/login/username");
+        // window.location.href = "/login/username";
       } else if (!response.data.invited) {
         navigate("/login/invite");
+        // window.location.href = "/login/invite";
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -135,6 +139,7 @@ const InviteCode = () => {
           cardInventory: [],
         });
         navigate("/login/username");
+        // window.location.href = "/login/username";
       } catch (error) {
         console.log(error);
       }
@@ -149,6 +154,7 @@ const InviteCode = () => {
     try {
       await logout();
       navigate("/login");
+      // window.location.href = "/login";
     } catch (error) {
       console.error("Failed to log out", error);
     }
