@@ -180,7 +180,8 @@ app.get("/api/users/check-username/:username", async (req, res) => {
 });
 
 app.post("/api/users", async (req, res) => {
-  const { DID, walletAddress, username, invited, cardInventory } = req.body;
+  const { DID, walletAddress, AGWAddress, username, invited, cardInventory } =
+    req.body;
 
   // Basic validation
   // if (!DID || !walletAddress || !username) {
@@ -190,7 +191,7 @@ app.post("/api/users", async (req, res) => {
   // }
 
   try {
-    let user = await UserModel.findOne({ walletAddress });
+    let user = await UserModel.findOne({ walletAddress: walletAddress });
 
     if (user) {
       // If user exists, update the 'invited' field
@@ -202,6 +203,7 @@ app.post("/api/users", async (req, res) => {
       user = new UserModel({
         DID: DID,
         walletAddress: walletAddress,
+        AGWAddress: AGWAddress,
         username: username,
         invited: invited,
         inviteCode: "",
@@ -250,7 +252,7 @@ app.patch("/api/users/nameandcode", async (req, res) => {
 
   try {
     const user = await UserModel.findOneAndUpdate(
-      { walletAddress },
+      { walletAddress: walletAddress },
       { $set: { username: username, inviteCode: inviteCode } },
       { new: true }
     );
@@ -277,7 +279,7 @@ app.patch("/api/users/username", async (req, res) => {
 
   try {
     const user = await UserModel.findOneAndUpdate(
-      { walletAddress },
+      { walletAddress: walletAddress },
       { $set: { username } },
       { new: true }
     );
@@ -304,7 +306,7 @@ app.patch("/api/users/invitecode", async (req, res) => {
 
   try {
     const user = await UserModel.findOneAndUpdate(
-      { walletAddress },
+      { walletAddress: walletAddress },
       { $set: { inviteCode } },
       { new: true }
     );

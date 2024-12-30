@@ -8,6 +8,7 @@ const cardInventorySchema = new mongoose.Schema({
 const usersSchema = new mongoose.Schema({
   DID: { type: String, required: true, unique: true },
   walletAddress: { type: String, required: true, unique: true },
+  AGWAddress: { type: String, required: true, unique: true },
   username: { type: String, required: false },
   invited: { type: Boolean, default: false },
   inviteCode: { type: String, required: false },

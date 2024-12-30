@@ -127,6 +127,7 @@ const InviteCode = () => {
         const userResponse = await axios.post(`/api/users`, {
           DID: user.id,
           walletAddress: user.wallet.address.toString(),
+          AGWAddress: address,
           username: "",
           invited: true,
           cardInventory: [],
