@@ -12,26 +12,23 @@ const ProtectedRoute = ({ children }) => {
 
   const { address, status } = useAccount();
   const { ready, authenticated, user } = usePrivy();
-
   // const { wallets } = useWallets();
 
   useEffect(() => {
-    if (ready && address) {
+    if (ready) {
       setIsReady(true);
       // const wallet = user.wallet.address;
-      setValidWallet(address ? true : false);
-    } else if (ready && !user) {
-      setIsReady(true);
-      // const wallet = user.wallet.address;
-      setValidWallet(false);
+      setValidWallet(user ? true : false);
     }
-  }, [ready, address]);
+  }, [ready, user]);
 
   useEffect(() => {
     const validateInvitedAndUsername = async () => {
       if (validWallet) {
         try {
-          const response = await axios.get(`/api/users/${address.toString()}`);
+          const response = await axios.get(
+            `/api/users/${user.wallet.address.toString()}`
+          );
 
           setValidInvited(response.data.invited);
 

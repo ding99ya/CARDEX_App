@@ -20,16 +20,20 @@ const UserDeposit = () => {
   const [depositCopied, setDepositCopied] = useState(false);
 
   useEffect(() => {
-    if (ready && authenticated && address) {
-      setEmbeddedWalletAddress(address);
+    if (ready && authenticated) {
+      setEmbeddedWalletAddress(user.wallet.address);
       setShortAddress(
-        !!address ? `${address.slice(0, 10)}...${address.slice(-8)}` : "0x0"
+        !!user.wallet.address
+          ? `${user.wallet.address.slice(0, 10)}...${user.wallet.address.slice(
+              -8
+            )}`
+          : "0x0"
       );
     }
-  }, [ready, authenticated, user, address]);
+  }, [ready, authenticated, user]);
 
   const handleDepositCopy = () => {
-    navigator.clipboard.writeText(address).then(() => {
+    navigator.clipboard.writeText(embeddedWalletAddress).then(() => {
       setDepositCopied(true);
       setTimeout(() => setDepositCopied(false), 2000);
     });
@@ -79,7 +83,9 @@ const UserDeposit = () => {
         <div className="flex flex-col items-start space-y-2 mt-4">
           <p className="text-gray-400">Transfer ETH on Base network to </p>
           <div className="flex items-center">
-            <p className="text-xs lg:text-sm text-gray-400">{address}</p>
+            <p className="text-xs lg:text-sm text-gray-400">
+              {embeddedWalletAddress}
+            </p>
             <span
               className="relative cursor-pointer"
               onMouseEnter={() => setDepositHover(true)}
@@ -128,7 +134,7 @@ const UserDeposit = () => {
         <div className="flex flex-col items-center space-y-2 mt-4 w-full max-w-xs mx-auto">
           <button
             className="w-full px-4 py-2 font-semibold rounded-full flex items-center justify-center bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
-            onClick={() => fundWallet(address.toString())}
+            onClick={() => fundWallet(embeddedWalletAddress.toString())}
           >
             <span className="font-semibold">Transfer</span>
           </button>

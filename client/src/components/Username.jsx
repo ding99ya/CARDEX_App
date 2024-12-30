@@ -33,7 +33,9 @@ const Username = () => {
       }
       const embeddedWalletAddress = user.wallet.address;
 
-      const response = await axios.get(`/api/users/${address.toString()}`);
+      const response = await axios.get(
+        `/api/users/${embeddedWalletAddress.toString()}`
+      );
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
       } else if (response.data.invited && response.data.username.length === 0) {
@@ -53,12 +55,12 @@ const Username = () => {
   };
 
   useEffect(() => {
-    if (ready && authenticated && address) {
+    if (ready && authenticated) {
       fetchUserAndNavigate();
     } else if (ready && !authenticated) {
       navigate("/login");
     }
-  }, [ready, authenticated, user, address]);
+  }, [ready, authenticated, user]);
 
   const handleUsernameChange = (e) => {
     const name = e.target.value;
@@ -97,7 +99,7 @@ const Username = () => {
         } else {
           const leaderboardResponse = await axios.post("/api/leaderboard", {
             DID: user.id,
-            walletAddress: address.toString(),
+            walletAddress: user.wallet.address.toString(),
             name: "",
             userName: username,
             profilePhoto: "",
@@ -110,7 +112,7 @@ const Username = () => {
           const inviteCodeResponse = await axios.patch(
             `/api/users/nameandcode`,
             {
-              walletAddress: address.toString(),
+              walletAddress: user.wallet.address.toString(),
               username: username.toString(),
               inviteCode: generatedCode,
             }

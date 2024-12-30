@@ -19,9 +19,11 @@ const Login = () => {
 
   const fetchUserAndNavigate = async () => {
     try {
-      // const embeddedWalletAddress = user.wallet.address;
+      const embeddedWalletAddress = user.wallet.address;
 
-      const response = await axios.get(`/api/users/${address.toString()}`);
+      const response = await axios.get(
+        `/api/users/${embeddedWalletAddress.toString()}`
+      );
 
       if (response.data.invited && response.data.username.length > 0) {
         navigate("/market");
@@ -59,10 +61,10 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if (ready && authenticated && address) {
+    if (ready && authenticated && user) {
       fetchUserAndNavigate();
     }
-  }, [address]);
+  }, [user]);
 
   const handleLogin = () => {
     try {
