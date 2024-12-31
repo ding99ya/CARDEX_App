@@ -1318,7 +1318,7 @@ const updateCardHoldersAndActivity = async (
   ethAmount
 ) => {
   try {
-    const user = await UserModel.findOne({ walletAddress });
+    const user = await UserModel.findOne({ AGWAddress: walletAddress });
 
     if (user && user.DID !== "0") {
       const username = user.username;
@@ -1401,7 +1401,7 @@ const updateOrCreateCardActivity = async (
 const updateUsersWhenIPO = async (walletAddress, uniqueId, shares) => {
   try {
     // Find the user document corresponding to the walletAddress
-    const user = await UserModel.findOne({ walletAddress });
+    const user = await UserModel.findOne({ AGWAddress: walletAddress });
 
     if (!user) {
       console.log("This user should already exist", walletAddress);
@@ -1424,7 +1424,7 @@ const updateUsersWhenIPO = async (walletAddress, uniqueId, shares) => {
 const updateUsersWhenBuy = async (walletAddress, uniqueId, shares) => {
   try {
     // Find the user document corresponding to the walletAddress
-    const user = await UserModel.findOne({ walletAddress });
+    const user = await UserModel.findOne({ AGWAddress: walletAddress });
 
     if (user) {
       // Find the card inventory corresponding to the uniqueId
@@ -1461,7 +1461,7 @@ const updateUsersWhenBuy = async (walletAddress, uniqueId, shares) => {
 const updateUsersWhenSell = async (walletAddress, uniqueId, shares) => {
   try {
     // Find the user document corresponding to the walletAddress
-    const user = await UserModel.findOne({ walletAddress });
+    const user = await UserModel.findOne({ AGWAddress: walletAddress });
 
     if (user) {
       // Find the card inventory corresponding to the uniqueId

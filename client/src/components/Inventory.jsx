@@ -152,12 +152,17 @@ function Inventory() {
     const fetchUserPosition = async () => {
       try {
         setLoadInventory(true);
-        const response = await axios.get(`/api/users/${address.toString()}`);
+        const response = await axios.get(
+          `/api/users/${embeddedWalletAddress.toString()}`
+        );
 
         setInventory(response.data.cardInventory);
         setLoadInventory(false);
       } catch (error) {
-        console.error(`Error fetching user ${address} card inventory`, error);
+        console.error(
+          `Error fetching user ${embeddedWalletAddress} card inventory`,
+          error
+        );
       }
     };
     fetchUserPosition();
